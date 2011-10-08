@@ -1,0 +1,64 @@
+; -*- Lisp -*-
+(load "lib.unls")
+(load "churchnum.unls")
+
+(defsyntax (defword num)
+  (receive (m n)
+           (quotient&remainder num 1000)
+     `(cons (lambda (f0 f1 f2 f3)
+              ,(string->symbol (string-append "f" (number->string m))))
+            ,(string->symbol (string-append "c" (number->string n))))))
+
+(defmacro (word? word) (word (lambda (_ _) I)))
+(defmacro (motion? word) ((car word) I V V V))
+(defmacro (noun? word) ((car word) V I V V))
+(defmacro (verb? word) ((car word) V V I V))
+(defmacro (special-word? word) ((car word) V V V I))
+(defmacro (word-id-of word) (cdr word))
+
+(load "parser.g.unls")
+
+(defrecmacro parse-lineend
+  (lambda (q)
+    (K parse-lineend
+       (((?space I) q space-id)
+        ((?newline I) q newline-id)))))
+
+(defmacro skip-spaces
+  ((call/cc I)
+   (call/cc (?space I @ I))))
+
+(defmacro getin
+  ((lambda (parser)
+     (call/cc
+      (lambda (return)
+        ((@ I)
+         skip-spaces
+         ((?newline I) return V)  ; empty input
+         (let ((word1 (call/cc parser)))
+           (if (word? word1)
+               (skip-spaces
+                ((?newline I) return (cons word1 V))
+                (let ((word2 (call/cc parser)))
+                  (if (word? word2)
+                      (skip-spaces
+                       ((?newline I) return (cons word1 word2))
+                       (return V))  ; more than 2 words
+                    (return V))))  ; unknown word
+             (return V)))))))  ; unknown word
+   generated-parser))
+
+(defmacro main
+  (call/cc
+   (lambda (q)
+     ((getin
+      (lambda (w1 w2)
+        ((print-digit (word-id-of w1) I)
+         (#\space I)
+         (if (word? w2)
+             (print-digit (word-id-of w2) I)
+           ((string "none") I))
+         (q I))))
+      ((string "what?") I)))))
+
+main
