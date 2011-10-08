@@ -1,0 +1,1025 @@
+(defmacro c0 (K I))  ; (lambda (f) (lambda (x) x)) 3B
+(defmacro c1 I)  ; (lambda (f) f) 1B
+(defmacro c2 ((S ((S (K S)) K)) I))  ; (|1+| 1) 11B
+(defmacro c3 (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))  ; (|1+| 2) 19B
+(defmacro c4 (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))  ; ((call/cc i) 2) 15B
+(defmacro c5 ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (|1+| 4) 25B
+(defmacro c6 (unsafe (((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 5) 33B
+(defmacro c7 (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 6) 37B
+(defmacro c8 (unsafe (((S ((S (K S)) K)) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (* 2 4) 25B
+(defmacro c9 (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))  ; (^ 3 2) 23B
+(defmacro c10 (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 9) 27B
+(defmacro c11 (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 10) 31B
+(defmacro c12 (unsafe (((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 11) 35B
+(defmacro c13 (unsafe (((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 12) 39B
+(defmacro c14 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 13) 43B
+(defmacro c15 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 14) 47B
+(defmacro c16 (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))  ; (((s (call/cc i)) i) 2) 19B
+(defmacro c17 ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 16) 29B
+(defmacro c18 (unsafe (((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 17) 37B
+(defmacro c19 (unsafe (((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 18) 41B
+(defmacro c20 (unsafe ((((S S) S) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (* 4 5) 29B
+(defmacro c21 (unsafe (((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 20) 37B
+(defmacro c22 (unsafe (((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 21) 41B
+(defmacro c23 (unsafe (((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 22) 45B
+(defmacro c24 (unsafe (((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I))))  ; (+ 8 16) 43B
+(defmacro c25 (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (^ 5 2) 33B
+(defmacro c26 ((S ((S (K S)) K)) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (|1+| 25) 43B
+(defmacro c27 (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))  ; ((call/cc i) 3) 23B
+(defmacro c28 (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 27) 31B
+(defmacro c29 (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 28) 35B
+(defmacro c30 (unsafe (((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 29) 39B
+(defmacro c31 (unsafe (((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 30) 43B
+(defmacro c32 (unsafe (((S ((S (K S)) K)) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I))))  ; (* 2 16) 29B
+(defmacro c33 (unsafe (((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 32) 35B
+(defmacro c34 (unsafe (((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 33) 39B
+(defmacro c35 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 34) 43B
+(defmacro c36 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K)))))  ; (* 4 9) 43B
+(defmacro c37 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))) I)))  ; (+ 36 1) 45B
+(defmacro c38 (unsafe (((S ((S (call/cc I)) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 36 2) 51B
+(defmacro c39 ((S ((S (K S)) K)) (unsafe (((S ((S (call/cc I)) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 38) 61B
+(defmacro c40 (unsafe (((S ((S (K S)) K)) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 20) 43B
+(defmacro c41 (unsafe (((S S) ((S ((S S) (K ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 40) 49B
+(defmacro c42 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)))))  ; (* 2 21) 53B
+(defmacro c43 (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 27 16) 51B
+(defmacro c44 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 4 11) 51B
+(defmacro c45 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K)))))  ; (* 5 9) 53B
+(defmacro c46 (unsafe (((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))) (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K)))))  ; (+ 9 37) 53B
+(defmacro c47 (unsafe (((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 27 20) 59B
+(defmacro c48 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (* 3 16) 43B
+(defmacro c49 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (^ 7 2) 47B
+(defmacro c50 (unsafe (((S ((S (K S)) K)) ((S I) ((S (K (S ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (* 2 25) 43B
+(defmacro c51 (unsafe (((S S) ((S ((S S) (K ((S I) ((S (K (S ((S (K S)) K)))) (call/cc I)))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 50) 49B
+(defmacro c52 (unsafe (((S ((S I) ((S (K ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))) K))) ((S I) (K I))) (S ((S (K S)) K)))))  ; (* 2 26) 51B
+(defmacro c53 (unsafe (((S I) ((S ((S I) ((S (K ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))) K))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 52) 55B
+(defmacro c54 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 2 27) 39B
+(defmacro c55 (unsafe ((((S ((S S) (K I))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 54 1) 43B
+(defmacro c56 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 2 28) 47B
+(defmacro c57 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 56 1) 47B
+(defmacro c58 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 2 29) 51B
+(defmacro c59 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S)) ((S (K S)) K)) I)))  ; (+ 58 1) 51B
+(defmacro c60 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) S) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 20) 53B
+(defmacro c61 (unsafe ((((S ((S S) ((S S) (K I)))) (((S S) ((S ((S (K S)) (S S))) (K S))) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)) I)))  ; (+ 60 1) 61B
+(defmacro c62 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K)))))  ; (* 2 31) 59B
+(defmacro c63 (unsafe (((S ((S ((S S) (K I))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 54 9) 59B
+(defmacro c64 (unsafe (((S (S ((S (K S)) K))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (^ 4 3) 27B
+(defmacro c65 (unsafe (((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 64) 33B
+(defmacro c66 (unsafe (((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 65) 37B
+(defmacro c67 (unsafe (((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 66) 41B
+(defmacro c68 (unsafe (((S I) ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))))) (S ((S (K S)) K)))))  ; (|1+| 67) 45B
+(defmacro c69 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))))) (S ((S (K S)) K)))))  ; (|1+| 68) 49B
+(defmacro c70 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))))))) (S ((S (K S)) K)))))  ; (|1+| 69) 53B
+(defmacro c71 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))))))) (S ((S (K S)) K)))))  ; (|1+| 70) 57B
+(defmacro c72 (unsafe (((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S (S ((S (K S)) K))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (+ 8 64) 51B
+(defmacro c73 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K)) (((S (S ((S (K S)) K))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (+ 9 64) 55B
+(defmacro c74 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) S)) ((S (K S)) K))))  ; (+ 9 65) 59B
+(defmacro c75 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (* 3 25) 57B
+(defmacro c76 (unsafe (((S ((S (K S)) K)) ((S ((S (call/cc I)) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) I)) ((S ((S (K S)) K)) I))))  ; (* 2 38) 61B
+(defmacro c77 (unsafe (((S S) ((S ((S S) (K ((S ((S (call/cc I)) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 76) 67B
+(defmacro c78 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) ((S ((S (K S)) K)) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))))  ; (* 3 26) 67B
+(defmacro c79 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I)))  ; (+ 78 1) 67B
+(defmacro c80 (unsafe ((((S S) ((S S) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (* 4 20) 33B
+(defmacro c81 (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K)))))  ; (^ 3 4) 25B
+(defmacro c82 (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 81) 29B
+(defmacro c83 (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 82) 33B
+(defmacro c84 (unsafe (((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 83) 37B
+(defmacro c85 (unsafe (((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))) (S ((S (K S)) K)))))  ; (|1+| 84) 41B
+(defmacro c86 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))) (S ((S (K S)) K)))))  ; (|1+| 85) 45B
+(defmacro c87 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))))) (S ((S (K S)) K)))))  ; (|1+| 86) 49B
+(defmacro c88 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))))) (S ((S (K S)) K)))))  ; (|1+| 87) 53B
+(defmacro c89 (unsafe (((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 81 8) 51B
+(defmacro c90 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S)) ((S (K S)) K))))  ; (+ 9 81) 51B
+(defmacro c91 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S))) ((S (K S)) K))))  ; (|1+| 90) 55B
+(defmacro c92 (unsafe (((S S) ((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S)))) ((S (K S)) K))))  ; (|1+| 91) 59B
+(defmacro c93 (unsafe (((S S) ((S S) ((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S))))) ((S (K S)) K))))  ; (|1+| 92) 63B
+(defmacro c94 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S)))))) ((S (K S)) K))))  ; (|1+| 93) 67B
+(defmacro c95 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 5 19) 71B
+(defmacro c96 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S (K S)) K)) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I)))))  ; (* 3 32) 53B
+(defmacro c97 (unsafe (((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 16 81) 47B
+(defmacro c98 (unsafe (((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 97) 51B
+(defmacro c99 (unsafe (((S I) ((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 98) 55B
+(defmacro c100 (unsafe ((((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))) ((S (K S)) K))))  ; (^ 10 2) 35B
+(defmacro c101 (unsafe (((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 100) 39B
+(defmacro c102 (unsafe (((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 101) 43B
+(defmacro c103 (unsafe (((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 102) 47B
+(defmacro c104 (unsafe (((S S) ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 103) 51B
+(defmacro c105 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 104) 55B
+(defmacro c106 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 105) 59B
+(defmacro c107 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 106) 63B
+(defmacro c108 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 4 27) 43B
+(defmacro c109 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))) I)))  ; (+ 108 1) 49B
+(defmacro c110 (unsafe (((S ((S (call/cc I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 108 2) 55B
+(defmacro c111 ((S ((S (K S)) K)) (unsafe (((S ((S (call/cc I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 110) 65B
+(defmacro c112 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 4 28) 51B
+(defmacro c113 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))) I)))  ; (+ 112 1) 53B
+(defmacro c114 (unsafe (((S ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) ((S ((S I) (K ((S (call/cc I)) I)))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 82 32) 59B
+(defmacro c115 (unsafe (((S I) ((S ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) ((S ((S I) (K ((S (call/cc I)) I)))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 114) 63B
+(defmacro c116 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 4 29) 55B
+(defmacro c117 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))) I)))  ; (+ 116 1) 57B
+(defmacro c118 (unsafe (((S ((S (call/cc I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 116 2) 63B
+(defmacro c119 ((S (K (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))) ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 7 17) 71B
+(defmacro c120 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K)))))  ; (* 4 30) 59B
+(defmacro c121 (unsafe (((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))  ; (^ 11 2) 41B
+(defmacro c122 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 121) 45B
+(defmacro c123 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 122) 49B
+(defmacro c124 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 123) 53B
+(defmacro c125 (unsafe (((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (^ 5 3) 43B
+(defmacro c126 (unsafe (((S S) ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 125) 47B
+(defmacro c127 (unsafe (((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 126) 51B
+(defmacro c128 (unsafe (((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))) (S ((S (K S)) K)))))  ; (* 2 64) 33B
+(defmacro c129 (unsafe (((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 128) 37B
+(defmacro c130 (unsafe (((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 129) 41B
+(defmacro c131 (unsafe (((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 130) 45B
+(defmacro c132 (unsafe (((S I) ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) (S ((S (K S)) K)))))  ; (|1+| 131) 49B
+(defmacro c133 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))))) (S ((S (K S)) K)))))  ; (|1+| 132) 53B
+(defmacro c134 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 2 67) 57B
+(defmacro c135 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 5 27) 53B
+(defmacro c136 (unsafe (((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 27 109) 57B
+(defmacro c137 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) S)) ((S (K S)) K))))  ; (+ 9 128) 59B
+(defmacro c138 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) S))) ((S (K S)) K))))  ; (|1+| 137) 63B
+(defmacro c139 (unsafe (((S S) ((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) S)))) ((S (K S)) K))))  ; (|1+| 138) 67B
+(defmacro c140 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 5 28) 61B
+(defmacro c141 (unsafe (((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K)))))  ; (+ 28 113) 61B
+(defmacro c142 (unsafe (((S S) ((S (K ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S))) ((S (K S)) K))))  ; (|1+| 141) 69B
+(defmacro c143 (unsafe (((S S) ((S S) ((S (K ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)))) ((S (K S)) K))))  ; (|1+| 142) 73B
+(defmacro c144 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))  ; (^ 12 2) 45B
+(defmacro c145 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 144) 49B
+(defmacro c146 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 145) 53B
+(defmacro c147 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 146) 57B
+(defmacro c148 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 147) 61B
+(defmacro c149 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 148) 65B
+(defmacro c150 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S (K S)) K)) ((S I) ((S (K (S ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I)))))  ; (* 3 50) 67B
+(defmacro c151 (unsafe (((((S S) ((S S) (K I))) ((S (K S)) K)) (((S I) ((S ((S I) ((S (K (S ((S (K S)) K)))) (call/cc I)))) (K (S ((S (K S)) K))))) ((S ((S (K S)) K)) I))) I)))  ; (+ 150 1) 73B
+(defmacro c152 (unsafe (((S ((S S) ((S S) (K ((S ((S (call/cc I)) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) I))))) ((S S) (K I))) ((S (K S)) K))))  ; (* 2 76) 67B
+(defmacro c153 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 9 17) 57B
+(defmacro c154 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I)))  ; (+ 153 1) 57B
+(defmacro c155 (unsafe (((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) S)) ((S (K S)) K))))  ; (+ 27 128) 63B
+(defmacro c156 (unsafe ((((S ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) I) (S ((S (K S)) K))) ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (+ 129 27) 65B
+(defmacro c157 (unsafe ((((S ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) I) (S ((S (K S)) K))) ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (+ 130 27) 69B
+(defmacro c158 (unsafe ((((S ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) I) (S ((S (K S)) K))) ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (+ 131 27) 73B
+(defmacro c159 (unsafe ((((S ((S I) ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))))) I) (S ((S (K S)) K))) ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (+ 132 27) 77B
+(defmacro c160 (unsafe (((S ((S (K S)) K)) ((S (K (((S S) ((S S) S)) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 80) 47B
+(defmacro c161 (unsafe (((S S) ((S ((S S) (K ((S (K (((S S) ((S S) S)) ((S (K S)) K)))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 160) 53B
+(defmacro c162 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K))))))  ; (* 2 81) 41B
+(defmacro c163 (unsafe ((((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) (S ((S (K S)) K))) I)))  ; (+ 162 1) 41B
+(defmacro c164 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 2 82) 45B
+(defmacro c165 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) (S ((S (K S)) K))) I)))  ; (+ 164 1) 45B
+(defmacro c166 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 2 83) 49B
+(defmacro c167 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I)) (S ((S (K S)) K))) I)))  ; (+ 166 1) 49B
+(defmacro c168 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 2 84) 53B
+(defmacro c169 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (^ 13 2) 49B
+(defmacro c170 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 169) 53B
+(defmacro c171 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 170) 57B
+(defmacro c172 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))) (S ((S (K S)) K))))))  ; (* 2 86) 61B
+(defmacro c173 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))))) I)) (S ((S (K S)) K))) I)))  ; (+ 172 1) 61B
+(defmacro c174 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))))) (S ((S (K S)) K))))))  ; (* 2 87) 65B
+(defmacro c175 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))))) I)) (S ((S (K S)) K))) I)))  ; (+ 174 1) 65B
+(defmacro c176 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (* 11 16) 55B
+(defmacro c177 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))) S)) ((S (K S)) K)) I)))  ; (+ 176 1) 61B
+(defmacro c178 (unsafe ((((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) (S ((S (K S)) K))) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 162 16) 59B
+(defmacro c179 (unsafe (((S I) ((S ((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 178) 67B
+(defmacro c180 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) S) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 9 20) 57B
+(defmacro c181 (unsafe (((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 81 100) 63B
+(defmacro c182 (unsafe (((S S) ((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 181) 67B
+(defmacro c183 (unsafe (((S S) ((S S) ((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 182) 71B
+(defmacro c184 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))) I)) (S ((S (K S)) K))) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 168 16) 71B
+(defmacro c185 (unsafe (((S ((S (K ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I))) S)) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))  ; (+ 64 121) 73B
+(defmacro c186 (unsafe (((S S) ((S ((S (K ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I))) S)) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 185) 77B
+(defmacro c187 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 11 17) 65B
+(defmacro c188 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I)))  ; (+ 187 1) 65B
+(defmacro c189 (unsafe ((((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) (S ((S (K S)) K))) ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (+ 162 27) 63B
+(defmacro c190 (unsafe (((S S) ((S ((S (K ((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I)))) S)) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 189) 69B
+(defmacro c191 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) (S ((S (K S)) K))) ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (+ 164 27) 67B
+(defmacro c192 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S (S ((S (K S)) K))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (* 3 64) 51B
+(defmacro c193 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I))) S)) ((S (K S)) K)) I)))  ; (+ 192 1) 53B
+(defmacro c194 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 193) 61B
+(defmacro c195 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 3 65) 57B
+(defmacro c196 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K))))  ; (^ 14 2) 53B
+(defmacro c197 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 196) 57B
+(defmacro c198 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 3 66) 61B
+(defmacro c199 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 198 1) 61B
+(defmacro c200 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))) ((S (K S)) K)))))  ; (* 2 100) 51B
+(defmacro c201 (unsafe ((((S ((S S) (K I))) ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S (K S)) K)) I)))  ; (+ 200 1) 51B
+(defmacro c202 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 2 101) 55B
+(defmacro c203 (unsafe ((((S ((S S) (K I))) ((S ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 202 1) 55B
+(defmacro c204 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 2 102) 59B
+(defmacro c205 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 204 1) 59B
+(defmacro c206 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 2 103) 63B
+(defmacro c207 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))))) S)) ((S (K S)) K)) I)))  ; (+ 206 1) 63B
+(defmacro c208 ((S (K (unsafe (((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (* 13 16) 63B
+(defmacro c209 (unsafe (((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 81 128) 55B
+(defmacro c210 (unsafe (((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 209) 59B
+(defmacro c211 (unsafe (((S I) ((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 210) 63B
+(defmacro c212 (unsafe (((S I) ((S I) ((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) (S ((S (K S)) K)))))  ; (|1+| 211) 67B
+(defmacro c213 (unsafe (((S I) ((S I) ((S I) ((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))))) (S ((S (K S)) K)))))  ; (|1+| 212) 71B
+(defmacro c214 (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))))) (S ((S (K S)) K)))))  ; (|1+| 213) 75B
+(defmacro c215 (unsafe (((S ((S ((S I) (K I))) ((S ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))))) I))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 134 81) 73B
+(defmacro c216 (unsafe (((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (^ 6 3) 47B
+(defmacro c217 (unsafe (((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 216) 51B
+(defmacro c218 (unsafe (((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (|1+| 217) 55B
+(defmacro c219 (unsafe (((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K))))  ; (|1+| 218) 59B
+(defmacro c220 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe ((((S ((S S) (K I))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I))))  ; (* 4 55) 63B
+(defmacro c221 (unsafe ((((S (((S S) (S S)) (K S))) ((S (K (S ((S S) ((S S) (K I)))))) (S S))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 5 216) 65B
+(defmacro c222 (unsafe (((S S) (((S (((S S) (S S)) (K S))) ((S (K (S ((S S) ((S S) (K I)))))) (S S))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 221) 69B
+(defmacro c223 (unsafe (((S S) ((S S) (((S (((S S) (S S)) (K S))) ((S (K (S ((S S) ((S S) (K I)))))) (S S))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 222) 73B
+(defmacro c224 ((S (K (unsafe (((S ((S (K S)) K)) (call/cc I)) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 8 28) 61B
+(defmacro c225 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (^ 15 2) 57B
+(defmacro c226 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 225) 61B
+(defmacro c227 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 226) 65B
+(defmacro c228 (unsafe (((S ((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 164 64) 65B
+(defmacro c229 (unsafe (((S I) ((S ((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 228) 69B
+(defmacro c230 (unsafe (((S ((S ((S I) (K I))) ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 166 64) 69B
+(defmacro c231 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)))))  ; (* 11 21) 73B
+(defmacro c232 ((S (K (unsafe (((S ((S (K S)) K)) (call/cc I)) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 8 29) 65B
+(defmacro c233 (unsafe ((((S I) ((S (call/cc I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) ((S ((S (K S)) K)) I)) I)))  ; (+ 232 1) 65B
+(defmacro c234 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I))))  ; (+ 232 2) 67B
+(defmacro c235 ((S ((S (K S)) K)) (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 234) 77B
+(defmacro c236 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 232 4) 69B
+(defmacro c237 ((S ((S (K S)) K)) (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)))))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (|1+| 236) 79B
+(defmacro c238 ((S (K (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))) ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 14 17) 77B
+(defmacro c239 (unsafe ((((S ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I)))  ; (+ 238 1) 77B
+(defmacro c240 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S S) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 80) 57B
+(defmacro c241 ((S ((S (K S)) K)) ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S S) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (|1+| 240) 67B
+(defmacro c242 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 2 121) 57B
+(defmacro c243 (unsafe (((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))) ((S (K S)) K))))  ; (^ 3 5) 43B
+(defmacro c244 (unsafe (((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 243) 47B
+(defmacro c245 (unsafe (((S S) ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 244) 51B
+(defmacro c246 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 3 82) 53B
+(defmacro c247 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 246 1) 53B
+(defmacro c248 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 247) 61B
+(defmacro c249 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 3 83) 57B
+(defmacro c250 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 249 1) 57B
+(defmacro c251 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 250) 65B
+(defmacro c252 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 9 28) 59B
+(defmacro c253 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 252 1) 55B
+(defmacro c254 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 253) 63B
+(defmacro c255 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))) (S ((S (K S)) K))))))  ; (* 3 85) 65B
+(defmacro c256 (unsafe ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; ((call/cc i) 4) 19B
+(defmacro c257 ((S ((S (K S)) K)) (unsafe ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 256) 29B
+(defmacro c258 (unsafe (((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 257) 37B
+(defmacro c259 (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 258) 41B
+(defmacro c260 (unsafe (((S ((S I) (K (S ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 256) 37B
+(defmacro c261 (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (S ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 5) 45B
+(defmacro c262 (unsafe (((S I) ((S (S ((S (call/cc I)) (K (S ((S (K S)) K)))))) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 261) 53B
+(defmacro c263 (unsafe (((S I) ((S I) ((S (S ((S (call/cc I)) (K (S ((S (K S)) K)))))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 262) 57B
+(defmacro c264 (unsafe ((((S S) ((S S) (K (call/cc I)))) ((S I) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 260) 45B
+(defmacro c265 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 9 256) 47B
+(defmacro c266 (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 10 256) 51B
+(defmacro c267 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 11 256) 55B
+(defmacro c268 (unsafe ((((S S) ((S S) ((S S) (K (call/cc I))))) ((S I) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 264) 49B
+(defmacro c269 ((S ((S (K S)) K)) (unsafe ((((S S) ((S S) ((S S) (K (call/cc I))))) ((S I) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 268) 59B
+(defmacro c270 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 10 27) 55B
+(defmacro c271 (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 270 1) 55B
+(defmacro c272 (unsafe ((((S S) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (* 16 17) 33B
+(defmacro c273 (unsafe (((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 272) 41B
+(defmacro c274 (unsafe (((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 273) 45B
+(defmacro c275 (unsafe (((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 274) 49B
+(defmacro c276 (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) S) ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 20) 49B
+(defmacro c277 ((S ((S (K S)) K)) (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) S) ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 276) 59B
+(defmacro c278 (unsafe (((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) S) ((S (K S)) K)))))  ; (+ 11 267) 65B
+(defmacro c279 (unsafe ((((S ((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 23 256) 69B
+(defmacro c280 (unsafe (((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S (K (((S S) S) ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))))  ; (+ 8 272) 61B
+(defmacro c281 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 9 272) 59B
+(defmacro c282 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 281) 63B
+(defmacro c283 (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 27 256) 51B
+(defmacro c284 (unsafe ((((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 28 256) 55B
+(defmacro c285 (unsafe ((((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 29 256) 59B
+(defmacro c286 (unsafe ((((S ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 30 256) 63B
+(defmacro c287 (unsafe ((((S ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 31 256) 67B
+(defmacro c288 (unsafe (((S S) ((S ((S (K (S S))) (S S))) (K ((S (K S)) K)))) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 16 18) 49B
+(defmacro c289 (unsafe (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))))  ; (^ 17 2) 37B
+(defmacro c290 ((S ((S (K S)) K)) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I)))))  ; (|1+| 289) 47B
+(defmacro c291 (unsafe (((S S) ((S S) (K (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 290) 55B
+(defmacro c292 (unsafe (((S ((S I) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 36 256) 55B
+(defmacro c293 (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) ((S ((S (K S)) K)) I))))  ; (+ 4 289) 57B
+(defmacro c294 (unsafe ((((S ((S (K S)) (S (call/cc I)))) ((S S) ((S (K (S I))) ((S S) (K ((S (call/cc I)) I)))))) (K (S ((S (K S)) K)))) ((S ((S (K S)) K)) I))))  ; (+ 4 290) 63B
+(defmacro c295 (unsafe (((S I) ((S ((S (K ((S ((S (K S)) (S (call/cc I)))) ((S S) ((S (K (S I))) ((S S) (K ((S (call/cc I)) I)))))))) K)) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 294) 69B
+(defmacro c296 (unsafe (((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S ((S I) (K ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 256 40) 69B
+(defmacro c297 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 11 27) 59B
+(defmacro c298 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 297 1) 59B
+(defmacro c299 (unsafe (((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 27 272) 63B
+(defmacro c300 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))) ((S (K S)) K)))))  ; (* 3 100) 59B
+(defmacro c301 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S (K S)) K)) I)))  ; (+ 300 1) 55B
+(defmacro c302 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 301) 63B
+(defmacro c303 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 3 101) 63B
+(defmacro c304 (unsafe (((S S) ((S ((S (K (S S))) ((S (K (S S))) (S S)))) (K ((S (K S)) K)))) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 16 19) 57B
+(defmacro c305 (unsafe (((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) ((S ((S (K S)) K)) I))))  ; (+ 16 289) 61B
+(defmacro c306 (unsafe (((S ((S I) ((S ((S I) ((S (K (S ((S (K S)) K)))) (call/cc I)))) (K (S ((S (K S)) K)))))) ((S (K (call/cc I))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (+ 50 256) 65B
+(defmacro c307 (unsafe (((S I) ((S I) (K I))) (((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)))))  ; (+ 153 154) 67B
+(defmacro c308 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 11 28) 67B
+(defmacro c309 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 308 1) 63B
+(defmacro c310 (unsafe (((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 27 283) 61B
+(defmacro c311 (unsafe (((S S) ((S (K ((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S))) ((S (K S)) K))))  ; (|1+| 310) 69B
+(defmacro c312 (unsafe (((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K)))))  ; (+ 28 284) 65B
+(defmacro c313 (unsafe (((S S) ((S (K ((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S))) ((S (K S)) K))))  ; (|1+| 312) 73B
+(defmacro c314 (unsafe (((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)))))  ; (+ 29 285) 69B
+(defmacro c315 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 9 35) 71B
+(defmacro c316 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))))) S)) ((S (K S)) K)) I)))  ; (+ 315 1) 67B
+(defmacro c317 (unsafe ((((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K)) (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I)))))  ; (+ 28 289) 73B
+(defmacro c318 (unsafe ((((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)) (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I)))))  ; (+ 29 289) 77B
+(defmacro c319 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 11 29) 71B
+(defmacro c320 (unsafe ((((S S) ((S S) ((S S) S))) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (* 4 80) 37B
+(defmacro c321 (unsafe (((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 320) 45B
+(defmacro c322 (unsafe (((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 321) 49B
+(defmacro c323 (unsafe (((S S) ((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 322) 53B
+(defmacro c324 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K))))))  ; (* 4 81) 45B
+(defmacro c325 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))) I)))  ; (+ 324 1) 47B
+(defmacro c326 (unsafe (((S ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I))))  ; (+ 324 2) 53B
+(defmacro c327 ((S ((S (K S)) K)) (unsafe (((S ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 326) 63B
+(defmacro c328 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 4 82) 49B
+(defmacro c329 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K)))) I)))  ; (+ 328 1) 51B
+(defmacro c330 (unsafe (((S ((S (call/cc I)) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I))))  ; (+ 328 2) 57B
+(defmacro c331 ((S ((S (K S)) K)) (unsafe (((S ((S (call/cc I)) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 330) 67B
+(defmacro c332 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 4 83) 53B
+(defmacro c333 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))) I)))  ; (+ 332 1) 55B
+(defmacro c334 (unsafe (((S ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))))) I) ((S ((S (K S)) K)) I))))  ; (+ 332 2) 61B
+(defmacro c335 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 5 67) 71B
+(defmacro c336 (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) ((S S) S)) ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 80) 53B
+(defmacro c337 (unsafe (((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 256 81) 47B
+(defmacro c338 (unsafe (((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 337) 51B
+(defmacro c339 (unsafe (((S I) ((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 338) 55B
+(defmacro c340 (unsafe (((S I) ((S I) ((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I))))))) (S ((S (K S)) K)))))  ; (|1+| 339) 59B
+(defmacro c341 (unsafe ((((S S) ((S ((S (K S)) (call/cc I))) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 337) 59B
+(defmacro c342 (unsafe (((S I) (((S S) ((S ((S (K S)) (call/cc I))) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 341) 63B
+(defmacro c343 (unsafe (((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (^ 7 3) 51B
+(defmacro c344 (unsafe (((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (|1+| 343) 55B
+(defmacro c345 (unsafe (((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K))))  ; (|1+| 344) 59B
+(defmacro c346 (unsafe (((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))))) ((S (K S)) K))))  ; (|1+| 345) 63B
+(defmacro c347 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))))) ((S (K S)) K))))  ; (|1+| 346) 67B
+(defmacro c348 (unsafe (((S ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))))) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I))))  ; (+ 332 16) 67B
+(defmacro c349 (unsafe (((S ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))))) ((S I) ((S (K (S ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 324 25) 73B
+(defmacro c350 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S (S ((S S) ((S S) (K I)))))) (K ((S (K S)) K))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))))  ; (+ 7 343) 73B
+(defmacro c351 ((S (K (unsafe (((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 13 27) 67B
+(defmacro c352 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S ((S (K S)) K)) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I)))))  ; (* 11 32) 65B
+(defmacro c353 (unsafe ((((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K))) ((((S S) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (+ 81 272) 63B
+(defmacro c354 (unsafe ((((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))) ((((S S) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (+ 82 272) 67B
+(defmacro c355 (unsafe ((((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K))) ((((S S) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (+ 83 272) 71B
+(defmacro c356 (unsafe ((((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 100 256) 59B
+(defmacro c357 (unsafe ((((S ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 101 256) 63B
+(defmacro c358 (unsafe ((((S ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 102 256) 67B
+(defmacro c359 (unsafe ((((S ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 103 256) 71B
+(defmacro c360 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S)) ((S (K S)) K)))))  ; (* 4 90) 71B
+(defmacro c361 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (^ 19 2) 51B
+(defmacro c362 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (|1+| 361) 55B
+(defmacro c363 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K))))  ; (|1+| 362) 59B
+(defmacro c364 (unsafe (((S ((S I) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 108 256) 59B
+(defmacro c365 ((S ((S (K S)) K)) (unsafe (((S ((S I) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 364) 69B
+(defmacro c366 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K)))))  ; (* 3 122) 69B
+(defmacro c367 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 366 1) 65B
+(defmacro c368 (unsafe (((S ((S I) (K (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 112 256) 63B
+(defmacro c369 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K)))))  ; (* 3 123) 73B
+(defmacro c370 (unsafe (((S (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 289 81) 65B
+(defmacro c371 (unsafe (((S I) ((S (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 370) 69B
+(defmacro c372 (unsafe (((S ((S I) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 116 256) 67B
+(defmacro c373 (unsafe (((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (+ 100 273) 75B
+(defmacro c374 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 11 34) 75B
+(defmacro c375 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)))))  ; (* 3 125) 67B
+(defmacro c376 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) S)) ((S (K S)) K)) I)))  ; (+ 375 1) 63B
+(defmacro c377 (unsafe ((((S ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 121 256) 65B
+(defmacro c378 (unsafe ((((S ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 122 256) 69B
+(defmacro c379 (unsafe ((((S ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 123 256) 73B
+(defmacro c380 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S (S ((S S) (K I))))) (K ((S (K S)) K))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))))  ; (+ 19 361) 73B
+(defmacro c381 (unsafe ((((S ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 125 256) 67B
+(defmacro c382 (unsafe ((((S ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 126 256) 71B
+(defmacro c383 (unsafe ((((S ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 127 256) 75B
+(defmacro c384 (unsafe (((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 256 128) 55B
+(defmacro c385 (unsafe (((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 384) 59B
+(defmacro c386 (unsafe (((S I) ((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 385) 63B
+(defmacro c387 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 3 129) 61B
+(defmacro c388 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 387 1) 61B
+(defmacro c389 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 388) 69B
+(defmacro c390 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 3 130) 65B
+(defmacro c391 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 390 1) 65B
+(defmacro c392 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K)))))  ; (* 2 196) 69B
+(defmacro c393 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 3 131) 69B
+(defmacro c394 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 393 1) 69B
+(defmacro c395 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 394) 77B
+(defmacro c396 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) (S ((S (K S)) K))))))  ; (* 3 132) 73B
+(defmacro c397 (unsafe (((S I) ((S I) (K I))) (((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)))))  ; (+ 198 199) 71B
+(defmacro c398 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I))))  ; (* 2 199) 77B
+(defmacro c399 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))))) (S ((S (K S)) K))))))  ; (* 3 133) 77B
+(defmacro c400 (unsafe (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (^ 20 2) 37B
+(defmacro c401 ((S ((S (K S)) K)) (unsafe (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (|1+| 400) 47B
+(defmacro c402 (unsafe (((S S) ((S S) (K (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 401) 55B
+(defmacro c403 (unsafe (((S S) ((S S) ((S S) (K (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 402) 59B
+(defmacro c404 (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 4 400) 57B
+(defmacro c405 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K))))))  ; (* 5 81) 55B
+(defmacro c406 (unsafe (((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))) (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K))))))  ; (+ 81 325) 55B
+(defmacro c407 (unsafe (((S I) ((S (K ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) (S ((S (K S)) K)))))  ; (|1+| 406) 63B
+(defmacro c408 (unsafe (((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 8 400) 61B
+(defmacro c409 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K)) (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (+ 9 400) 65B
+(defmacro c410 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 5 82) 59B
+(defmacro c411 (unsafe (((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))) (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))))))  ; (+ 82 329) 59B
+(defmacro c412 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 4 103) 67B
+(defmacro c413 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))))) S) ((S (K S)) K))) I)))  ; (+ 412 1) 69B
+(defmacro c414 (unsafe ((((S ((S I) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) (S ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 410 4) 73B
+(defmacro c415 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 5 83) 63B
+(defmacro c416 (unsafe (((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 16 400) 61B
+(defmacro c417 ((S ((S (K S)) K)) (unsafe (((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I)))))  ; (|1+| 416) 71B
+(defmacro c418 (unsafe ((((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) (S ((S (K S)) K))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 162 256) 59B
+(defmacro c419 (unsafe (((S I) ((S ((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 418) 67B
+(defmacro c420 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) (S ((S (K S)) K))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 164 256) 63B
+(defmacro c421 (unsafe (((S I) ((S ((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 420) 71B
+(defmacro c422 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I)) (S ((S (K S)) K))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 166 256) 67B
+(defmacro c423 (unsafe (((S I) ((S ((S ((S I) (K I))) ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 422) 75B
+(defmacro c424 (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))) I)) (S ((S (K S)) K))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 168 256) 71B
+(defmacro c425 ((S (K ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (* 17 25) 67B
+(defmacro c426 (unsafe ((((S ((S I) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))) (S ((S (K S)) K))) I)))  ; (+ 425 1) 73B
+(defmacro c427 (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)) (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (+ 27 400) 69B
+(defmacro c428 (unsafe ((((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K)) (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (+ 28 400) 73B
+(defmacro c429 (unsafe ((((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)) (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (+ 29 400) 77B
+(defmacro c430 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))) (S ((S (K S)) K))))))  ; (* 5 86) 75B
+(defmacro c431 (unsafe ((((S ((S I) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))))) I)) (S ((S (K S)) K))) I)))  ; (+ 430 1) 75B
+(defmacro c432 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 16 27) 47B
+(defmacro c433 (unsafe (((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))) I)))  ; (+ 432 1) 53B
+(defmacro c434 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 432 2) 59B
+(defmacro c435 ((S ((S (K S)) K)) (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 434) 69B
+(defmacro c436 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 432 4) 61B
+(defmacro c437 ((S ((S (K S)) K)) (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (|1+| 436) 71B
+(defmacro c438 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K)))))  ; (* 2 219) 75B
+(defmacro c439 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))))) S)) ((S (K S)) K)) I)))  ; (+ 438 1) 75B
+(defmacro c440 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) ((S ((S (K S)) K)) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (+ 432 8) 71B
+(defmacro c441 (unsafe (((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (^ 21 2) 47B
+(defmacro c442 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 441) 51B
+(defmacro c443 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (|1+| 442) 55B
+(defmacro c444 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K))))  ; (|1+| 443) 59B
+(defmacro c445 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))))) ((S (K S)) K))))  ; (|1+| 444) 63B
+(defmacro c446 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))))) ((S (K S)) K))))  ; (|1+| 445) 67B
+(defmacro c447 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))))))) ((S (K S)) K))))  ; (|1+| 446) 71B
+(defmacro c448 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 16 28) 55B
+(defmacro c449 (unsafe (((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))) I)))  ; (+ 448 1) 57B
+(defmacro c450 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 448 2) 63B
+(defmacro c451 ((S ((S (K S)) K)) (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 450) 73B
+(defmacro c452 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 448 4) 65B
+(defmacro c453 ((S ((S (K S)) K)) (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (|1+| 452) 75B
+(defmacro c454 (unsafe (((S I) ((S I) (K (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 27 427) 79B
+(defmacro c455 ((S (K (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))) (unsafe (((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 7 65) 75B
+(defmacro c456 (unsafe (((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S) ((S (K S)) K)))))  ; (+ 100 356) 69B
+(defmacro c457 (unsafe ((((S ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 441 16) 71B
+(defmacro c458 (unsafe (((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (((S ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 101 357) 73B
+(defmacro c459 ((S (K ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 17 27) 57B
+(defmacro c460 (unsafe (((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (K I))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 27 433) 61B
+(defmacro c461 (unsafe (((S S) ((S (K ((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (K I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S))) ((S (K S)) K))))  ; (|1+| 460) 69B
+(defmacro c462 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S (S ((S S) (K I))))) (K ((S (K S)) K))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))  ; (+ 21 441) 69B
+(defmacro c463 (unsafe ((((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 459 4) 75B
+(defmacro c464 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 16 29) 59B
+(defmacro c465 (unsafe (((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))) I)))  ; (+ 464 1) 61B
+(defmacro c466 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 464 2) 67B
+(defmacro c467 ((S ((S (K S)) K)) (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 466) 77B
+(defmacro c468 (unsafe (((S ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 464 4) 69B
+(defmacro c469 (unsafe (((S ((S ((S I) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 405 64) 75B
+(defmacro c470 (unsafe (((S I) ((S ((S ((S I) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 469) 79B
+(defmacro c471 (unsafe (((S ((S S) (K ((S (K (((S ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) I) (S ((S (K S)) K))))) (call/cc I))))) ((S S) ((S S) (K I)))) ((S (K S)) K))))  ; (* 3 157) 81B
+(defmacro c472 (unsafe ((((S ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 216 256) 71B
+(defmacro c473 (unsafe ((((S ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 217 256) 75B
+(defmacro c474 (unsafe ((((S ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 218 256) 79B
+(defmacro c475 (unsafe ((((S S) ((S (K (S I))) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 432 43) 65B
+(defmacro c476 ((S (K ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 17 28) 65B
+(defmacro c477 (unsafe (((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (K I))) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K)))))  ; (+ 28 449) 65B
+(defmacro c478 (unsafe (((S S) ((S (K ((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (K I))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S))) ((S (K S)) K))))  ; (|1+| 477) 73B
+(defmacro c479 (unsafe (((S S) ((S S) ((S (K ((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (K I))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)))) ((S (K S)) K))))  ; (|1+| 478) 77B
+(defmacro c480 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K)))))  ; (* 16 30) 63B
+(defmacro c481 (unsafe (((S (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 400 81) 65B
+(defmacro c482 (unsafe (((S I) ((S (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 481) 69B
+(defmacro c483 (unsafe (((S I) ((S I) ((S (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 482) 73B
+(defmacro c484 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (^ 22 2) 51B
+(defmacro c485 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (|1+| 484) 55B
+(defmacro c486 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 2 243) 59B
+(defmacro c487 (unsafe (((S I) ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I)))) (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K))))))  ; (+ 81 406) 59B
+(defmacro c488 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 2 244) 63B
+(defmacro c489 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 488 1) 63B
+(defmacro c490 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 2 245) 67B
+(defmacro c491 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))))) S)) ((S (K S)) K)) I)))  ; (+ 490 1) 67B
+(defmacro c492 ((S (K (unsafe (((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 6 82) 67B
+(defmacro c493 (unsafe (((S I) ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I)))) (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))))))  ; (+ 82 411) 63B
+(defmacro c494 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I))))  ; (* 2 247) 69B
+(defmacro c495 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S ((S I) (K I))) ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)) (S ((S (K S)) K))) I))))  ; (* 3 165) 69B
+(defmacro c496 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K)))))  ; (* 16 31) 67B
+(defmacro c497 (unsafe (((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S) ((S (K S)) K))) I)))  ; (+ 496 1) 69B
+(defmacro c498 ((S (K (unsafe (((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 6 83) 71B
+(defmacro c499 (unsafe ((((S ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 243 256) 67B
+(defmacro c500 (unsafe (((S S) ((S ((S (K (S ((S S) ((S S) (K I)))))) (S S))) (K ((S (K S)) K)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 4 125) 55B
+(defmacro c501 ((S ((S (K S)) K)) (unsafe (((S S) ((S ((S (K (S ((S S) ((S S) (K I)))))) (S S))) (K ((S (K S)) K)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (|1+| 500) 65B
+(defmacro c502 (unsafe (((S I) (((S S) ((S (K (S I))) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 27 475) 69B
+(defmacro c503 (unsafe (((S S) ((S (K ((S I) (((S S) ((S (K (S I))) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S))) ((S (K S)) K))))  ; (|1+| 502) 77B
+(defmacro c504 (unsafe (((S S) ((S ((S (K (S S))) ((S (K (S ((S S) ((S S) (K I)))))) (S S)))) (K ((S (K S)) K)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 4 126) 63B
+(defmacro c505 (unsafe (((S I) ((S I) (K I))) (((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)))))  ; (+ 252 253) 65B
+(defmacro c506 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I))))  ; (* 2 253) 71B
+(defmacro c507 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K)))))  ; (* 3 169) 73B
+(defmacro c508 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) S)) ((S (K S)) K)) I)))  ; (+ 507 1) 69B
+(defmacro c509 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 508) 77B
+(defmacro c510 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 5 102) 73B
+(defmacro c511 (unsafe ((((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 510 1) 73B
+(defmacro c512 (unsafe (((S ((S (K S)) K)) ((S (K (call/cc I))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 256) 33B
+(defmacro c513 (unsafe (((S S) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 512) 39B
+(defmacro c514 (unsafe (((S S) ((S S) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 513) 43B
+(defmacro c515 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 514) 47B
+(defmacro c516 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 515) 51B
+(defmacro c517 (unsafe ((((S ((S (K (S S))) (S S))) (S (call/cc I))) (K (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 261) 47B
+(defmacro c518 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 2 259) 57B
+(defmacro c519 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 518 1) 57B
+(defmacro c520 (unsafe (((S ((S (K S)) K)) ((S (K ((S ((S I) (K (S ((S (K S)) K))))) (call/cc I)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 260) 51B
+(defmacro c521 (unsafe (((S S) ((S ((S S) (K ((S (K ((S ((S I) (K (S ((S (K S)) K))))) (call/cc I)))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 520) 57B
+(defmacro c522 (unsafe (((S ((S (K S)) K)) ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (S ((S (K S)) K))))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 261) 59B
+(defmacro c523 (unsafe (((S S) ((S ((S S) (K ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (S ((S (K S)) K))))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 522) 65B
+(defmacro c524 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 4 131) 65B
+(defmacro c525 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S I) ((S I) ((S I) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))))) I) (S ((S (K S)) K)))) I)))  ; (+ 524 1) 67B
+(defmacro c526 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S I) ((S I) ((S (S ((S (call/cc I)) (K (S ((S (K S)) K)))))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K))))))  ; (* 2 263) 73B
+(defmacro c527 (unsafe (((S ((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))) S))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 518 9) 73B
+(defmacro c528 (unsafe (((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S ((S (K S)) K)) ((S (K (call/cc I))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 16 512) 57B
+(defmacro c529 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (^ 23 2) 55B
+(defmacro c530 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K))))  ; (|1+| 529) 59B
+(defmacro c531 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))))) ((S (K S)) K))))  ; (|1+| 530) 63B
+(defmacro c532 (unsafe ((((S S) ((S S) (K (((S S) S) ((S (K S)) K))))) ((S (call/cc I)) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 276) 57B
+(defmacro c533 ((S ((S (K S)) K)) (unsafe ((((S S) ((S S) (K (((S S) S) ((S (K S)) K))))) ((S (call/cc I)) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 532) 67B
+(defmacro c534 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 2 267) 71B
+(defmacro c535 (unsafe ((((S ((S S) (K I))) ((S ((S ((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) S)) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) S)) ((S (K S)) K)) I)))  ; (+ 534 1) 75B
+(defmacro c536 (unsafe (((S ((S (K S)) K)) ((S (K (((S S) ((S S) ((S S) (K (call/cc I))))) ((S I) (K (S ((S (K S)) K))))))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 268) 63B
+(defmacro c537 (unsafe (((S S) ((S ((S S) (K ((S (K (((S S) ((S S) ((S S) (K (call/cc I))))) ((S I) (K (S ((S (K S)) K))))))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 536) 69B
+(defmacro c538 (unsafe (((S S) ((S S) ((S ((S S) (K ((S (K (((S S) ((S S) ((S S) (K (call/cc I))))) ((S I) (K (S ((S (K S)) K))))))) (call/cc I))))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 537) 73B
+(defmacro c539 (unsafe (((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 27 512) 61B
+(defmacro c540 ((S (K (unsafe ((((S S) S) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 20 27) 57B
+(defmacro c541 (unsafe (((S I) ((S I) (K I))) (((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)))))  ; (+ 270 271) 65B
+(defmacro c542 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I))))  ; (* 2 271) 71B
+(defmacro c543 (unsafe ((((S ((S S) (K I))) ((S ((S ((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S))) (K I))) S)) ((S (K S)) K)) I)))  ; (+ 542 1) 75B
+(defmacro c544 (unsafe (((S ((S (K S)) K)) ((S (K (((S S) S) ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))))  ; (* 2 272) 47B
+(defmacro c545 (unsafe (((S S) ((S ((S S) (K ((S (K (((S S) S) ((S (K S)) K)))) ((S (call/cc I)) I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 544) 53B
+(defmacro c546 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)))))  ; (* 2 273) 57B
+(defmacro c547 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) S)) ((S (K S)) K)) I)))  ; (+ 546 1) 57B
+(defmacro c548 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 2 274) 61B
+(defmacro c549 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) S)) ((S (K S)) K)) I)))  ; (+ 548 1) 61B
+(defmacro c550 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 2 275) 65B
+(defmacro c551 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 550 1) 65B
+(defmacro c552 (unsafe (((S ((S (K S)) K)) ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) S) ((S (K S)) K))))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 276) 63B
+(defmacro c553 (unsafe (((S S) ((S ((S S) (K ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) S) ((S (K S)) K))))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 552) 69B
+(defmacro c554 (unsafe (((S S) ((S S) ((S ((S S) (K ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) S) ((S (K S)) K))))) (call/cc I))))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 553) 73B
+(defmacro c555 (unsafe (((S ((S ((S S) (K I))) ((S ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) S))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 546 9) 73B
+(defmacro c556 (unsafe (((S I) ((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) (((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S) ((S (K S)) K)))))  ; (+ 100 456) 73B
+(defmacro c557 (unsafe (((S ((S ((S S) (K I))) ((S ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) S))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 548 9) 77B
+(defmacro c558 (unsafe (((S S) ((S ((S ((S S) (K I))) ((S ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) S))) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 557) 81B
+(defmacro c559 (unsafe (((S I) ((S I) ((S I) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) (((S ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 101 458) 77B
+(defmacro c560 ((S (K (unsafe ((((S S) S) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 20 28) 65B
+(defmacro c561 ((S (K ((S ((S (K S)) K)) (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 17 33) 69B
+(defmacro c562 (unsafe ((((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 561 1) 69B
+(defmacro c563 (unsafe (((S S) ((S ((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 562) 77B
+(defmacro c564 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 2 282) 79B
+(defmacro c565 (unsafe (((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (+ 81 484) 79B
+(defmacro c566 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 2 283) 67B
+(defmacro c567 ((S (K (unsafe (((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 21 27) 65B
+(defmacro c568 (unsafe (((S I) ((S I) ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))))) (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K))))))  ; (+ 81 487) 63B
+(defmacro c569 (unsafe (((S I) ((S (K ((S I) ((S I) ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))))))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) (S ((S (K S)) K)))))  ; (|1+| 568) 71B
+(defmacro c570 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 2 285) 75B
+(defmacro c571 (unsafe (((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S ((S S) (K ((S (K (((S S) S) ((S (K S)) K)))) ((S (call/cc I)) I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 27 544) 75B
+(defmacro c572 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 2 286) 79B
+(defmacro c573 (unsafe (((S ((S ((S S) (K I))) ((S ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) S))) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (+ 546 27) 77B
+(defmacro c574 ((S (K (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 7 82) 71B
+(defmacro c575 (unsafe (((S I) ((S I) ((S I) ((S ((call/cc I) ((S ((S (K S)) K)) I))) (K I))))) (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))))))  ; (+ 82 493) 67B
+(defmacro c576 (unsafe (((S I) ((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))))  ; (^ 24 2) 47B
+(defmacro c577 ((S ((S (K S)) K)) (unsafe (((S I) ((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I)))))  ; (|1+| 576) 57B
+(defmacro c578 (unsafe (((S ((S (K S)) K)) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) ((S ((S (K S)) K)) I))))  ; (* 2 289) 47B
+(defmacro c579 (unsafe (((S S) ((S ((S S) (K ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 578) 53B
+(defmacro c580 (unsafe (((S ((S I) ((S (K ((S S) ((S (K (S I))) ((S S) (K ((S (call/cc I)) I))))))) K))) ((S I) (K I))) (S ((S (K S)) K)))))  ; (* 2 290) 55B
+(defmacro c581 (unsafe (((S I) ((S ((S I) ((S (K ((S S) ((S (K (S I))) ((S S) (K ((S (call/cc I)) I))))))) K))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 580) 59B
+(defmacro c582 (unsafe (((S ((S I) ((S ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) (K (S ((S (K S)) K)))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 578 4) 61B
+(defmacro c583 ((S ((S (K S)) K)) (unsafe (((S ((S I) ((S ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) (K (S ((S (K S)) K)))))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (|1+| 582) 71B
+(defmacro c584 (unsafe ((((S S) ((S (K (S I))) ((S S) (K ((S (call/cc I)) I))))) ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S ((S (K S)) K)) I))))  ; (+ 8 576) 59B
+(defmacro c585 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 9 65) 61B
+(defmacro c586 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 585 1) 61B
+(defmacro c587 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 586) 69B
+(defmacro c588 (unsafe (((S ((S I) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 332 256) 65B
+(defmacro c589 ((S ((S (K S)) K)) (unsafe (((S ((S I) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 588) 75B
+(defmacro c590 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S)) ((S (K S)) K)) I))))  ; (* 10 59) 83B
+(defmacro c591 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))))) ((S (K S)) K)))))  ; (* 3 197) 81B
+(defmacro c592 (unsafe ((((S S) ((S S) (K (((S S) ((S S) S)) ((S (K S)) K))))) ((S (call/cc I)) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 336) 61B
+(defmacro c593 (unsafe ((((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (+ 256 337) 55B
+(defmacro c594 (unsafe (((S I) (((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 593) 59B
+(defmacro c595 (unsafe (((S I) ((S I) (((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 594) 63B
+(defmacro c596 (unsafe (((S I) ((S I) ((S I) (((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) (S ((S (K S)) K)))))  ; (|1+| 595) 67B
+(defmacro c597 (unsafe ((((S S) ((S (K ((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))))) (call/cc I))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 593) 63B
+(defmacro c598 (unsafe (((S I) (((S S) ((S (K ((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))))) (call/cc I))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 597) 67B
+(defmacro c599 (unsafe (((S I) ((S I) (((S S) ((S (K ((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))))) (call/cc I))) ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 598) 71B
+(defmacro c600 ((S (K (unsafe (((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))) (unsafe ((((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))) ((S (K S)) K)))))  ; (* 6 100) 73B
+(defmacro c601 (unsafe (((S I) ((S I) (K I))) (((S ((S S) ((S S) (K I)))) ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S (K S)) K)))))  ; (+ 300 301) 65B
+(defmacro c602 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) (K I)))) ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S (K S)) K)) I))))  ; (* 2 301) 71B
+(defmacro c603 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 9 67) 69B
+(defmacro c604 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 603 1) 69B
+(defmacro c605 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 5 121) 71B
+(defmacro c606 (unsafe ((((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) S)) ((S (K S)) K)) I)))  ; (+ 605 1) 71B
+(defmacro c607 (unsafe (((S S) ((S ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 606) 79B
+(defmacro c608 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S (K (S S))) ((S (K (S S))) (S S)))) (K ((S (K S)) K)))) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))  ; (* 2 304) 73B
+(defmacro c609 (unsafe ((((S I) ((S ((S (call/cc I)) I)) (K (((S ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) S) ((S (K S)) K))))) ((S ((S (K S)) K)) I)) I)))  ; (+ 608 1) 75B
+(defmacro c610 (unsafe (((S ((S (K S)) K)) ((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))))) ((S ((S (K S)) K)) I))))  ; (* 2 305) 71B
+(defmacro c611 (unsafe (((S S) ((S ((S S) (K ((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 610) 77B
+(defmacro c612 (unsafe (((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 100 512) 69B
+(defmacro c613 (unsafe (((S S) ((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 612) 73B
+(defmacro c614 (unsafe (((S S) ((S S) ((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S ((S S) (K ((S (K (call/cc I))) (call/cc I))))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 613) 77B
+(defmacro c615 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K)))))  ; (* 5 123) 79B
+(defmacro c616 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I))))  ; (* 4 154) 77B
+(defmacro c617 (unsafe (((S I) ((S I) (K I))) (((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)))))  ; (+ 308 309) 73B
+(defmacro c618 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I))))  ; (* 2 309) 79B
+(defmacro c619 (unsafe ((((S ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 363 256) 83B
+(defmacro c620 (unsafe (((S ((S (call/cc I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) ((S ((S (K S)) K)) ((S (K (call/cc I))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 108 512) 75B
+(defmacro c621 ((S (K (unsafe (((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 23 27) 73B
+(defmacro c622 (unsafe ((((S ((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 621 1) 73B
+(defmacro c623 (unsafe (((S S) ((S ((S ((S S) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 622) 81B
+(defmacro c624 (unsafe (((S ((S (call/cc I)) (K (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) ((S ((S (K S)) K)) ((S (K (call/cc I))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 112 512) 79B
+(defmacro c625 (unsafe (((S I) (S ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (^ 5 4) 29B
+(defmacro c626 (unsafe (((S I) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 625) 37B
+(defmacro c627 (unsafe (((S I) ((S I) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 626) 41B
+(defmacro c628 (unsafe (((S I) ((S I) ((S I) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) (S ((S (K S)) K)))))  ; (|1+| 627) 45B
+(defmacro c629 (unsafe (((S ((S I) (K (S ((S (K S)) K))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 625) 47B
+(defmacro c630 (unsafe ((((S S) ((S (K (S I))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 626) 49B
+(defmacro c631 (unsafe (((S I) (((S S) ((S (K (S I))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 630) 53B
+(defmacro c632 (unsafe (((S I) ((S I) (((S S) ((S (K (S I))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 631) 57B
+(defmacro c633 (unsafe ((((S S) ((S S) (K ((S I) (S ((S (K S)) K)))))) ((S I) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 629) 55B
+(defmacro c634 (unsafe ((((S S) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 630) 53B
+(defmacro c635 (unsafe (((S I) (((S S) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 634) 57B
+(defmacro c636 (unsafe (((S I) ((S I) (((S S) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 635) 61B
+(defmacro c637 (unsafe ((((S S) ((S S) ((S S) (K ((S I) (S ((S (K S)) K))))))) ((S I) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 633) 59B
+(defmacro c638 (unsafe ((((S S) ((S S) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 634) 57B
+(defmacro c639 (unsafe (((S I) (((S S) ((S S) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 638) 61B
+(defmacro c640 (unsafe (((S ((S (K S)) K)) ((S (K (((S S) ((S S) ((S S) S))) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 320) 51B
+(defmacro c641 (unsafe (((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (+ 16 625) 55B
+(defmacro c642 (unsafe (((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 641) 59B
+(defmacro c643 (unsafe (((S I) ((S I) ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) (S ((S (K S)) K)))))  ; (|1+| 642) 63B
+(defmacro c644 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 2 322) 65B
+(defmacro c645 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) S)) ((S (K S)) K)) I)))  ; (+ 644 1) 65B
+(defmacro c646 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 2 323) 69B
+(defmacro c647 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 646 1) 69B
+(defmacro c648 ((S (K (unsafe (((S ((S (K S)) K)) (call/cc I)) ((S ((S (K S)) K)) I))))) (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K))))))  ; (* 8 81) 55B
+(defmacro c649 (unsafe ((((S I) ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))))) ((S ((S (K S)) K)) I)) I)))  ; (+ 648 1) 55B
+(defmacro c650 (unsafe ((((S S) S) ((S (K S)) K)) (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))  ; (* 25 26) 47B
+(defmacro c651 (unsafe (((S S) ((S ((S S) S)) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (|1+| 650) 55B
+(defmacro c652 (unsafe (((S S) ((S S) ((S ((S S) S)) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 651) 59B
+(defmacro c653 (unsafe (((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 652) 63B
+(defmacro c654 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K))))  ; (|1+| 653) 67B
+(defmacro c655 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))))))) ((S (K S)) K))))  ; (|1+| 654) 71B
+(defmacro c656 ((S (K (unsafe (((S ((S (K S)) K)) (call/cc I)) ((S ((S (K S)) K)) I))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 8 82) 59B
+(defmacro c657 (unsafe ((((S I) ((S (call/cc I)) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K)))))) ((S ((S (K S)) K)) I)) I)))  ; (+ 656 1) 59B
+(defmacro c658 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))))))) I) ((S ((S (K S)) K)) I))))  ; (+ 656 2) 61B
+(defmacro c659 ((S ((S (K S)) K)) (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 658) 71B
+(defmacro c660 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K))))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 656 4) 63B
+(defmacro c661 (unsafe (((S ((S I) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 36 625) 65B
+(defmacro c662 ((S ((S (K S)) K)) (unsafe (((S ((S I) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (|1+| 661) 75B
+(defmacro c663 (unsafe (((S I) ((S I) ((S ((S (K (S ((S I) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))))) (S I))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 662) 81B
+(defmacro c664 ((S (K (unsafe (((S ((S (K S)) K)) (call/cc I)) ((S ((S (K S)) K)) I))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 8 83) 63B
+(defmacro c665 (unsafe ((((S I) ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))))) ((S ((S (K S)) K)) I)) I)))  ; (+ 664 1) 63B
+(defmacro c666 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K))))))) I) ((S ((S (K S)) K)) I))))  ; (+ 664 2) 65B
+(defmacro c667 ((S ((S (K S)) K)) (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K))))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 666) 75B
+(defmacro c668 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K))))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 664 4) 67B
+(defmacro c669 (unsafe (((S ((S I) (K (((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) S) ((S (K S)) K))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 44 625) 73B
+(defmacro c670 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 10 67) 73B
+(defmacro c671 (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K ((S ((S I) ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 670 1) 73B
+(defmacro c672 (unsafe (((S ((S (K S)) K)) ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) ((S S) S)) ((S (K S)) K))))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 336) 67B
+(defmacro c673 (unsafe (((S S) ((S ((S S) (K ((S (K ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) ((S S) S)) ((S (K S)) K))))) (call/cc I))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 672) 73B
+(defmacro c674 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 2 337) 63B
+(defmacro c675 (unsafe (((S S) ((S S) (K ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (K ((S ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 5 135) 61B
+(defmacro c676 (unsafe (((S I) (((S S) ((S (K (S I))) ((S S) (K (call/cc I))))) (K (S ((S (K S)) K))))) ((S ((S (K S)) K)) I))))  ; (^ 26 2) 49B
+(defmacro c677 ((S ((S (K S)) K)) (unsafe (((S I) (((S S) ((S (K (S I))) ((S S) (K (call/cc I))))) (K (S ((S (K S)) K))))) ((S ((S (K S)) K)) I)))))  ; (|1+| 676) 59B
+(defmacro c678 (unsafe (((S I) ((S I) ((S ((S (K (S I))) ((S (K ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))) K))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 677) 63B
+(defmacro c679 (unsafe (((S I) ((S I) ((S I) ((S ((S (K (S I))) ((S (K ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))) K))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 678) 67B
+(defmacro c680 (unsafe ((((S ((S (K S)) (S (call/cc I)))) ((S (K (S I))) ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))) (K (S ((S (K S)) K)))) ((S ((S (K S)) K)) I))))  ; (+ 4 676) 67B
+(defmacro c681 (unsafe (((S I) ((S ((S (K ((S ((S (K S)) (S (call/cc I)))) ((S (K (S I))) ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))))) K)) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 680) 73B
+(defmacro c682 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S S) ((S ((S (K S)) (call/cc I))) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K))))))  ; (* 2 341) 75B
+(defmacro c683 (unsafe ((((S ((S I) (K I))) ((S (((S S) ((S ((S (K S)) (call/cc I))) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((S ((S (K S)) K)) I)))) I)) (S ((S (K S)) K))) I)))  ; (+ 682 1) 75B
+(defmacro c684 (unsafe (((S ((S I) ((S (call/cc I)) (K (S ((S (K S)) K)))))) ((S I) (((S S) ((S (K (S I))) ((S S) (K (call/cc I))))) (K (S ((S (K S)) K)))))) ((S ((S (K S)) K)) I))))  ; (+ 8 676) 73B
+(defmacro c685 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K)) (((S I) (((S S) ((S (K (S I))) ((S S) (K (call/cc I))))) (K (S ((S (K S)) K))))) ((S ((S (K S)) K)) I)))))  ; (+ 9 676) 77B
+(defmacro c686 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 2 343) 67B
+(defmacro c687 (unsafe ((((S ((S S) (K I))) ((S ((S ((S S) ((S S) (K I)))) ((S S) ((S S) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 686 1) 67B
+(defmacro c688 (unsafe ((((S S) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (* 16 43) 55B
+(defmacro c689 (unsafe (((S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (+ 64 625) 59B
+(defmacro c690 (unsafe (((S I) ((S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 689) 63B
+(defmacro c691 (unsafe (((S I) ((S I) ((S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) (S ((S (K S)) K)))))  ; (|1+| 690) 67B
+(defmacro c692 (unsafe (((S I) ((S I) ((S I) ((S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) (S ((S (K S)) K)))))  ; (|1+| 691) 71B
+(defmacro c693 (unsafe ((((S S) ((S (K (S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 689) 71B
+(defmacro c694 (unsafe (((S I) (((S S) ((S (K (S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 693) 75B
+(defmacro c695 (unsafe (((S I) ((S I) (((S S) ((S (K (S ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 694) 79B
+(defmacro c696 (unsafe (((S ((S (K S)) K)) ((S ((S (call/cc I)) (K (((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I) (S ((S (K S)) K)))))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I))))  ; (* 2 348) 77B
+(defmacro c697 (unsafe ((((S ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 441 256) 71B
+(defmacro c698 (unsafe ((((S ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 442 256) 75B
+(defmacro c699 (unsafe ((((S ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 443 256) 79B
+(defmacro c700 (unsafe (((S S) ((S S) (K (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))) (K ((S ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 5 140) 69B
+(defmacro c701 (unsafe (((((S S) ((S S) (K ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)) I)))  ; (+ 700 1) 69B
+(defmacro c702 ((S (K ((S ((S (K S)) K)) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))) (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K))))))  ; (* 26 27) 71B
+(defmacro c703 (unsafe ((((S ((S S) (K (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 702 1) 75B
+(defmacro c704 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S (S ((S (K S)) K))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (* 11 64) 63B
+(defmacro c705 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) I))) S)) ((S (K S)) K)) I)))  ; (+ 704 1) 65B
+(defmacro c706 (unsafe (((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (+ 81 625) 55B
+(defmacro c707 (unsafe (((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 706) 59B
+(defmacro c708 (unsafe (((S I) ((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) (S ((S (K S)) K)))))  ; (|1+| 707) 63B
+(defmacro c709 (unsafe (((S I) ((S I) ((S I) ((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) (S ((S (K S)) K)))))  ; (|1+| 708) 67B
+(defmacro c710 (unsafe ((((S S) ((S (K (S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 706) 67B
+(defmacro c711 (unsafe (((S I) (((S S) ((S (K (S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 710) 71B
+(defmacro c712 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K))))))) ((S (S ((S (K S)) K))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (+ 648 64) 71B
+(defmacro c713 (unsafe (((S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) ((S I) ((S I) (((S S) ((S (K (S I))) ((S (K (S (S I)))) K))) ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (+ 81 632) 79B
+(defmacro c714 (unsafe ((((S S) ((S S) ((S (K (S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 710) 71B
+(defmacro c715 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 11 65) 69B
+(defmacro c716 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 715 1) 69B
+(defmacro c717 (unsafe (((S S) ((S ((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 716) 77B
+(defmacro c718 (unsafe ((((S S) ((S S) ((S S) ((S (K (S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 714) 75B
+(defmacro c719 (unsafe (((S I) (((S S) ((S S) ((S S) ((S (K (S ((S ((S (S (call/cc I))) ((S I) (K I)))) I)))) ((S (K (S (S I)))) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 718) 79B
+(defmacro c720 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S S) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 9 80) 61B
+(defmacro c721 ((S ((S (K S)) K)) ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S S) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (|1+| 720) 71B
+(defmacro c722 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 2 361) 67B
+(defmacro c723 (unsafe ((((S ((S S) (K I))) ((S ((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 722 1) 67B
+(defmacro c724 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K)))))  ; (* 2 362) 71B
+(defmacro c725 (unsafe ((((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S) ((S (K S)) K)) (((S I) (S ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 100 625) 69B
+(defmacro c726 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 11 66) 73B
+(defmacro c727 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S I) ((S I) ((S ((S S) (K (call/cc I)))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 726 1) 73B
+(defmacro c728 (unsafe (((S ((S (K S)) K)) ((S (K ((S ((S I) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) (call/cc I)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 364) 73B
+(defmacro c729 (unsafe ((((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))) ((S (K S)) K))))  ; (^ 9 3) 35B
+(defmacro c730 (unsafe (((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 729) 39B
+(defmacro c731 (unsafe (((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 730) 43B
+(defmacro c732 (unsafe (((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 731) 47B
+(defmacro c733 (unsafe (((S S) ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 732) 51B
+(defmacro c734 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 733) 55B
+(defmacro c735 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 734) 59B
+(defmacro c736 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 735) 63B
+(defmacro c737 (unsafe (((S ((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S)) ((S ((S S) (K (call/cc I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 729 8) 61B
+(defmacro c738 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 9 82) 57B
+(defmacro c739 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 738 1) 57B
+(defmacro c740 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 739) 65B
+(defmacro c741 (unsafe (((S S) ((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S))) (K I)))) ((S (K S)) K))))  ; (|1+| 740) 69B
+(defmacro c742 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 738 4) 71B
+(defmacro c743 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S S) ((S S) ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))))))) ((S (K S)) K))))  ; (+ 9 734) 77B
+(defmacro c744 (unsafe (((S ((S (K S)) K)) ((S (K ((S ((S I) (K (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) (call/cc I)))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 372) 81B
+(defmacro c745 (unsafe ((((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 729 16) 59B
+(defmacro c746 (unsafe ((((S ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 730 16) 63B
+(defmacro c747 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 9 83) 61B
+(defmacro c748 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 747 1) 61B
+(defmacro c749 (unsafe (((S ((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 729 20) 67B
+(defmacro c750 (unsafe (((S S) ((S ((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 749) 71B
+(defmacro c751 (unsafe (((S I) ((S I) (K I))) (((S ((S S) ((S S) (K I)))) ((S ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) S)) ((S (K S)) K)))))  ; (+ 375 376) 73B
+(defmacro c752 ((S (K ((S ((S (K S)) K)) I))) (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) S)) ((S (K S)) K)) I))))  ; (* 2 376) 79B
+(defmacro c753 (unsafe (((S ((S ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (+ 625 128) 63B
+(defmacro c754 (unsafe (((S I) ((S ((S ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) (S ((S (K S)) K)))))  ; (|1+| 753) 67B
+(defmacro c755 (unsafe (((S I) ((S I) ((S ((S ((S (S I)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) I)) ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I)))))) (S ((S (K S)) K)))))  ; (|1+| 754) 71B
+(defmacro c756 ((S (K (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 27 28) 59B
+(defmacro c757 (unsafe (((((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)) I)))  ; (+ 756 1) 49B
+(defmacro c758 (unsafe (((S S) ((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) (K I))) ((S (K S)) K))))  ; (|1+| 757) 57B
+(defmacro c759 (unsafe (((S S) ((S S) ((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) (K I)))) ((S (K S)) K))))  ; (|1+| 758) 61B
+(defmacro c760 (unsafe (((((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 756 4) 63B
+(defmacro c761 (unsafe (((S ((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S)) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 729 32) 65B
+(defmacro c762 (unsafe (((S S) ((S ((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S)) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 761) 69B
+(defmacro c763 (unsafe (((S S) ((S S) ((S ((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S)) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 762) 73B
+(defmacro c764 (unsafe (((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S ((S S) (K (call/cc I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 756 8) 69B
+(defmacro c765 (unsafe (((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 756 9) 65B
+(defmacro c766 (unsafe (((S S) ((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 765) 69B
+(defmacro c767 (unsafe (((S S) ((S S) ((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 766) 73B
+(defmacro c768 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 256) 43B
+(defmacro c769 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I)))  ; (+ 768 1) 49B
+(defmacro c770 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 769) 57B
+(defmacro c771 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) ((S ((S (K S)) K)) (unsafe ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (* 3 257) 53B
+(defmacro c772 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) S)) ((S (K S)) K)) I)))  ; (+ 771 1) 53B
+(defmacro c773 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 772) 61B
+(defmacro c774 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 3 258) 61B
+(defmacro c775 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) S)) ((S (K S)) K)) I)))  ; (+ 774 1) 57B
+(defmacro c776 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 775) 65B
+(defmacro c777 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 3 259) 65B
+(defmacro c778 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 777 1) 61B
+(defmacro c779 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 778) 69B
+(defmacro c780 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S I) (K (S ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 260) 61B
+(defmacro c781 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K (((S ((S I) (K (S ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I))))) S)) ((S (K S)) K)) I)))  ; (+ 780 1) 67B
+(defmacro c782 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) ((S (K (((S ((S I) (K (S ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 781) 75B
+(defmacro c783 (unsafe ((((S ((S (K S)) ((S S) ((S ((S (K S)) (S S))) (K S))))) I) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (+ 756 27) 57B
+(defmacro c784 (unsafe (((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (^ 28 2) 41B
+(defmacro c785 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 784) 45B
+(defmacro c786 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 785) 49B
+(defmacro c787 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 786) 53B
+(defmacro c788 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 787) 57B
+(defmacro c789 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 788) 61B
+(defmacro c790 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 789) 65B
+(defmacro c791 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))))) ((S (K S)) K))))  ; (|1+| 790) 69B
+(defmacro c792 (unsafe (((S ((S ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S)) ((S ((S S) (K (call/cc I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 784 8) 67B
+(defmacro c793 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K))))  ; (+ 9 784) 63B
+(defmacro c794 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 793) 67B
+(defmacro c795 (unsafe ((((S ((S (K S)) ((S S) (K ((S (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))) S))))) (S (K (call/cc I)))) ((S S) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 768 27) 67B
+(defmacro c796 (unsafe (((S S) (((S ((S (K S)) ((S S) (K ((S (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))) S))))) (S (K (call/cc I)))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 795) 71B
+(defmacro c797 (unsafe (((S S) ((S S) (((S ((S (K S)) ((S S) (K ((S (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))) S))))) (S (K (call/cc I)))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 796) 75B
+(defmacro c798 (unsafe ((((S ((S (K S)) ((S S) (K ((S ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) S))))) (S (K (call/cc I)))) ((S S) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 771 27) 71B
+(defmacro c799 (unsafe (((S S) (((S ((S (K S)) ((S S) (K ((S ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) S))))) (S (K (call/cc I)))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 798) 75B
+(defmacro c800 (unsafe (((S ((S (K S)) K)) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (* 2 400) 47B
+(defmacro c801 (unsafe (((S S) ((S ((S S) (K ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 800) 53B
+(defmacro c802 (unsafe (((S S) ((S S) ((S ((S S) (K ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))))) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 801) 57B
+(defmacro c803 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))))) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 802) 61B
+(defmacro c804 (unsafe (((S ((S I) ((S ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) (K (S ((S (K S)) K)))))) (call/cc I)) ((S ((S (K S)) K)) I))))  ; (+ 800 4) 61B
+(defmacro c805 ((S ((S (K S)) K)) (unsafe (((S ((S I) ((S ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))) (K (S ((S (K S)) K)))))) (call/cc I)) ((S ((S (K S)) K)) I)))))  ; (|1+| 804) 71B
+(defmacro c806 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S S) ((S S) (K (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 2 403) 75B
+(defmacro c807 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S S) (K (((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))))) S)) ((S (K S)) K)) I)))  ; (+ 806 1) 75B
+(defmacro c808 (unsafe (((S ((S (K S)) K)) ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))))) ((S ((S (K S)) K)) I))))  ; (* 2 404) 67B
+(defmacro c809 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) (K ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 9 800) 71B
+(defmacro c810 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K))))))  ; (* 10 81) 57B
+(defmacro c811 (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) ((S (K S)) K)) I)))  ; (+ 810 1) 57B
+(defmacro c812 (unsafe ((((S (((S S) (S ((S (K S)) (S ((S S) (K I)))))) (K S))) I) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (+ 784 28) 61B
+(defmacro c813 (unsafe (((S S) (((S (((S S) (S ((S (K S)) (S ((S S) (K I)))))) (K S))) I) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 812) 65B
+(defmacro c814 (unsafe (((S S) ((S S) (((S (((S S) (S ((S (K S)) (S ((S S) (K I)))))) (K S))) I) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 813) 69B
+(defmacro c815 ((S (K ((S ((S (K S)) K)) (unsafe ((call/cc I) ((S ((S (K S)) K)) I)))))) (unsafe ((((S ((S I) (K I))) ((S ((S (S (call/cc I))) ((S I) (K I)))) I)) (S ((S (K S)) K))) I))))  ; (* 5 163) 71B
+(defmacro c816 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))  ; (* 3 272) 57B
+(defmacro c817 (unsafe ((((S ((S S) ((S S) (K I)))) (((S S) ((S ((S (K S)) (S S))) (K S))) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)) I)))  ; (+ 816 1) 65B
+(defmacro c818 (unsafe (((S S) ((S ((S ((S S) ((S S) (K I)))) (((S S) ((S ((S (K S)) (S S))) (K S))) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) (K I))) ((S (K S)) K))))  ; (|1+| 817) 73B
+(defmacro c819 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) ((S (K S)) K)))))  ; (* 3 273) 65B
+(defmacro c820 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 10 82) 61B
+(defmacro c821 (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 820 1) 61B
+(defmacro c822 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 3 274) 69B
+(defmacro c823 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) S)) ((S (K S)) K)) I)))  ; (+ 822 1) 65B
+(defmacro c824 (unsafe (((S (S I)) ((S ((S S) (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I)))) (K (S ((S (K S)) K))))) ((S I) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))  ; (+ 410 414) 71B
+(defmacro c825 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 3 275) 73B
+(defmacro c826 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) ((S S) ((S ((S S) S)) (K (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 825 1) 69B
+(defmacro c827 (unsafe (((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S ((S S) (K ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I)))))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 27 800) 75B
+(defmacro c828 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) (((S S) S) ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 276) 73B
+(defmacro c829 (unsafe (((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 100 729) 69B
+(defmacro c830 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 10 83) 65B
+(defmacro c831 (unsafe ((((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 830 1) 65B
+(defmacro c832 (unsafe (((S ((S (K S)) K)) ((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))))) ((S ((S (K S)) K)) I))))  ; (* 2 416) 71B
+(defmacro c833 (unsafe (((S S) ((S ((S S) (K ((S ((S ((S (call/cc I)) I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (((S S) S) ((S (K S)) K)))) (call/cc I))))))) ((S S) (K I)))) ((S (K S)) K))))  ; (|1+| 832) 77B
+(defmacro c834 (unsafe (((S ((S I) ((S ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) (K (S ((S (K S)) K)))))) ((S (K (call/cc I))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (+ 578 256) 69B
+(defmacro c835 (unsafe ((((S ((S S) ((S ((S S) (K ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))))) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 579 256) 77B
+(defmacro c836 (unsafe (((S ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))))) ((S ((S (K S)) K)) ((S (K (call/cc I))) (call/cc I)))) ((S ((S (K S)) K)) I))))  ; (+ 324 512) 73B
+(defmacro c837 ((S (K (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (unsafe (((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K)))))  ; (* 27 31) 71B
+(defmacro c838 (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S)) ((S (K S)) K)) I)))  ; (+ 837 1) 71B
+(defmacro c839 (unsafe (((S S) ((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 838) 79B
+(defmacro c840 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) (S ((S (K S)) K))))))  ; (* 10 84) 69B
+(defmacro c841 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K))))  ; (^ 29 2) 45B
+(defmacro c842 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 841) 49B
+(defmacro c843 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 842) 53B
+(defmacro c844 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 843) 57B
+(defmacro c845 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 844) 61B
+(defmacro c846 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 845) 65B
+(defmacro c847 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))))) ((S (K S)) K))))  ; (|1+| 846) 69B
+(defmacro c848 (unsafe ((((S S) ((S S) ((S S) (K (((S S) ((S S) S)) ((S (K S)) K)))))) ((S (call/cc I)) (K (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 592) 65B
+(defmacro c849 (unsafe ((((S ((S (K S)) (S ((S I) (K I))))) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (+ 512 337) 69B
+(defmacro c850 (unsafe (((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (+ 9 841) 67B
+(defmacro c851 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 850) 71B
+(defmacro c852 (unsafe (((S S) ((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 851) 75B
+(defmacro c853 (unsafe ((((S ((S (K S)) (call/cc I))) ((S S) ((S (K ((S S) ((S S) (K ((S (S (call/cc I))) ((S I) (K I)))))))) (call/cc I)))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 256 597) 75B
+(defmacro c854 (unsafe (((S ((S ((S ((S S) ((S S) (K I)))) ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) S)) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 125 729) 77B
+(defmacro c855 (unsafe (((S ((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))) S))) ((S (K ((S (S (call/cc I))) ((S I) (K I))))) S)) ((S (K S)) K))))  ; (+ 774 81) 79B
+(defmacro c856 (unsafe (((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 756 100) 77B
+(defmacro c857 (unsafe ((((S ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 841 16) 69B
+(defmacro c858 (unsafe ((((S ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 842 16) 73B
+(defmacro c859 (unsafe ((((S S) ((S S) (K ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (((S S) (S S)) ((S S) (K I)))) S)) ((S (K S)) K))))  ; (+ 9 850) 75B
+(defmacro c860 ((S (K (unsafe (((S S) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))) (S ((S (K S)) K))))))  ; (* 10 86) 77B
+(defmacro c861 (unsafe (((S ((S ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 841 20) 77B
+(defmacro c862 (unsafe (((S S) ((S ((S ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 861) 81B
+(defmacro c863 (unsafe (((S S) ((S S) ((S ((S ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 862) 85B
+(defmacro c864 ((S (K (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (unsafe (((S ((S (K S)) K)) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I)))))  ; (* 27 32) 57B
+(defmacro c865 (unsafe (((S I) ((S I) (K I))) ((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))))  ; (+ 432 433) 63B
+(defmacro c866 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))) I))))  ; (* 2 433) 69B
+(defmacro c867 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I))) ((S ((S (K S)) K)) I)))))  ; (* 3 289) 61B
+(defmacro c868 (unsafe ((((S (((S S) (S S)) (K S))) ((S (K (S ((S S) (K I))))) ((S (K (S S))) (S S)))) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))  ; (+ 27 841) 67B
+(defmacro c869 (unsafe ((((S (((S S) (S ((S (K S)) ((S (K (S ((S S) (K I))))) (S S))))) (K S))) I) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))  ; (+ 841 28) 69B
+(defmacro c870 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S (S ((S S) (K I))))) (K ((S (K S)) K))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))  ; (+ 29 841) 67B
+(defmacro c871 (unsafe ((((S S) ((S ((S (K S)) (S I))) (K (call/cc I)))) ((S ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) (K (S ((S (K S)) K))))) ((S ((S (K S)) K)) I))))  ; (+ 289 582) 73B
+(defmacro c872 (unsafe (((S ((S (K S)) K)) ((S ((S ((S (call/cc I)) I)) (K (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) (call/cc I))) ((S ((S (K S)) K)) I))))  ; (* 2 436) 71B
+(defmacro c873 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 9 97) 75B
+(defmacro c874 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 873 1) 75B
+(defmacro c875 ((S (K (unsafe (((S I) ((S (K (S ((S (K S)) K)))) (call/cc I))) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 25 35) 81B
+(defmacro c876 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S I) (K (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 292) 79B
+(defmacro c877 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) (((S I) (S ((S (K S)) K))) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 252 625) 83B
+(defmacro c878 (unsafe (((S (((S S) ((S ((S (K S)) (S S))) (K S))) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S S) ((S ((S S) (K I))) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (+ 756 122) 87B
+(defmacro c879 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) ((S ((S (K S)) K)) I)))))  ; (* 3 293) 81B
+(defmacro c880 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe ((((S ((S S) (K I))) ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S)) ((S (K S)) K)) I))))  ; (* 16 55) 67B
+(defmacro c881 (unsafe (((S ((S (call/cc I)) (K (S ((S (K S)) K))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 256 625) 49B
+(defmacro c882 (unsafe (((S I) ((S ((S ((S (K S)) ((S (K (S (call/cc I)))) K))) (S I))) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 881) 57B
+(defmacro c883 (unsafe (((S I) ((S I) ((S ((S ((S (K S)) ((S (K (S (call/cc I)))) K))) (S I))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 882) 61B
+(defmacro c884 (unsafe (((S I) ((S I) ((S I) ((S ((S ((S (K S)) ((S (K (S (call/cc I)))) K))) (S I))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) (S ((S (K S)) K)))))  ; (|1+| 883) 65B
+(defmacro c885 (unsafe (((S ((S I) (K (S ((S (K S)) K))))) ((S ((S (call/cc I)) (K (S ((S (K S)) K))))) ((S I) (S ((S (K S)) K))))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 4 881) 67B
+(defmacro c886 (unsafe ((((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 256 630) 61B
+(defmacro c887 (unsafe (((S I) (((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 886) 65B
+(defmacro c888 (unsafe (((S I) ((S I) (((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 887) 69B
+(defmacro c889 (unsafe (((S I) ((S I) ((S I) (((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))) (S ((S (K S)) K)))))  ; (|1+| 888) 73B
+(defmacro c890 (unsafe ((((S S) ((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 886) 65B
+(defmacro c891 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S (S (call/cc I))) ((S I) (K I))) (S ((S (K S)) K))))))  ; (* 11 81) 61B
+(defmacro c892 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) ((S (K S)) K)) I)))  ; (+ 891 1) 61B
+(defmacro c893 (unsafe (((S S) ((S ((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 892) 69B
+(defmacro c894 (unsafe ((((S S) ((S S) ((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K)))))  ; (+ 4 890) 69B
+(defmacro c895 (unsafe (((S I) (((S S) ((S S) ((S ((S (K S)) (call/cc I))) ((S S) ((S (K (S I))) ((S (K (S (S I)))) K)))))) ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (|1+| 894) 73B
+(defmacro c896 ((S (K (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S ((S (K S)) K)) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I)))))  ; (* 28 32) 65B
+(defmacro c897 (unsafe (((S I) ((S I) (K I))) ((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))))  ; (+ 448 449) 67B
+(defmacro c898 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))) I))))  ; (* 2 449) 73B
+(defmacro c899 (unsafe (((((S S) ((S S) (K (S (S ((S S) (K I))))))) ((S (K S)) (S ((S S) (K S))))) (K ((S (K S)) K))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))  ; (+ 29 870) 75B
+(defmacro c900 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (^ 30 2) 49B
+(defmacro c901 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 900) 53B
+(defmacro c902 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 901) 57B
+(defmacro c903 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 902) 61B
+(defmacro c904 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 903) 65B
+(defmacro c905 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))))) ((S (K S)) K))))  ; (|1+| 904) 69B
+(defmacro c906 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))))))) ((S (K S)) K))))  ; (|1+| 905) 73B
+(defmacro c907 (unsafe ((((S S) ((S S) ((S (K (S I))) K))) (((S (call/cc I)) I) ((S ((S (K S)) K)) I))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 432 475) 69B
+(defmacro c908 (unsafe (((S ((S ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S)) ((S ((S S) (K (call/cc I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 900 8) 75B
+(defmacro c909 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 9 101) 67B
+(defmacro c910 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 909 1) 63B
+(defmacro c911 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) ((S ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 910) 71B
+(defmacro c912 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)) ((S (K S)) K)) I))))  ; (* 16 57) 71B
+(defmacro c913 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 11 83) 69B
+(defmacro c914 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 913 1) 69B
+(defmacro c915 (unsafe (((S S) ((S ((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 914) 77B
+(defmacro c916 (unsafe ((((S ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 900 16) 73B
+(defmacro c917 (unsafe ((((S ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 901 16) 77B
+(defmacro c918 ((S (K (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (unsafe (((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 27 34) 67B
+(defmacro c919 (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) S)) ((S (K S)) K)) I)))  ; (+ 918 1) 67B
+(defmacro c920 (unsafe (((S S) ((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 919) 75B
+(defmacro c921 (unsafe (((S S) ((S S) ((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) S))) (K I)))) ((S (K S)) K))))  ; (|1+| 920) 79B
+(defmacro c922 (unsafe (((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (+ 81 841) 73B
+(defmacro c923 (unsafe (((S S) ((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 922) 77B
+(defmacro c924 ((S (K (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 28 33) 71B
+(defmacro c925 (unsafe ((((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 924 1) 67B
+(defmacro c926 (unsafe (((S S) ((S ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 925) 75B
+(defmacro c927 ((S (K (unsafe ((((S S) (S S)) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S S) (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 9 103) 75B
+(defmacro c928 ((S (K (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))) (unsafe (((S ((S (K S)) K)) ((S (call/cc I)) I)) ((S ((S (K S)) K)) I)))))  ; (* 29 32) 69B
+(defmacro c929 (unsafe (((S I) ((S I) (K I))) ((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))))  ; (+ 464 465) 71B
+(defmacro c930 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S (S ((S S) (K I))))) (K ((S (K S)) K))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))  ; (+ 30 900) 71B
+(defmacro c931 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S ((S (K (S S))) (S ((S S) (K I)))))) (K ((S (K S)) K))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))  ; (+ 30 901) 79B
+(defmacro c932 (unsafe ((((S ((S (K S)) (S ((S (K (call/cc I))) (call/cc I))))) ((S (K (S I))) ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))) (K (S ((S (K S)) K)))) ((S ((S (K S)) K)) I))))  ; (+ 256 676) 75B
+(defmacro c933 (unsafe (((S I) ((S ((S (K ((S ((S (K S)) (S ((S (K (call/cc I))) (call/cc I))))) ((S (K (S I))) ((S S) ((S (K (S I))) ((S S) (K (call/cc I))))))))) K)) ((S I) (K I)))) (S ((S (K S)) K)))))  ; (|1+| 932) 81B
+(defmacro c934 (unsafe (((S I) (((S S) ((S S) ((S (K (S I))) K))) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))) (((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) S) ((S (K S)) K)))))  ; (+ 27 907) 73B
+(defmacro c935 ((S (K (unsafe (((S S) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))))) (S ((S (K S)) K))))))  ; (* 11 85) 77B
+(defmacro c936 (unsafe ((((S ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K ((S ((S I) ((S I) ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 935 1) 77B
+(defmacro c937 (unsafe (((S ((S I) ((S (call/cc I)) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K))))))) ((S I) ((S (K (S ((S (K S)) K)))) ((S (call/cc I)) I)))) ((S ((S (K S)) K)) I))))  ; (+ 648 289) 81B
+(defmacro c938 (unsafe (((S ((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S))) ((S (K ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) S)) ((S (K S)) K))))  ; (+ 810 128) 87B
+(defmacro c939 (unsafe (((S S) ((S ((S ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S))) ((S (K ((S ((S I) ((S S) (K (call/cc I))))) ((S I) (K I))))) S))) ((S (K S)) K))))  ; (|1+| 938) 91B
+(defmacro c940 (unsafe ((((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S)) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 924 16) 85B
+(defmacro c941 (unsafe (((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S (K S)) K))))  ; (+ 100 841) 79B
+(defmacro c942 (unsafe (((S S) ((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 941) 83B
+(defmacro c943 (unsafe (((S S) ((S S) ((S ((S (((S S) ((S (K (S S))) ((S S) (S S)))) ((S S) (K I)))) S)) ((S ((S S) (K I))) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 942) 87B
+(defmacro c944 ((S (K (unsafe (((S (call/cc I)) I) ((S ((S (K S)) K)) I))))) (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) S)) ((S (K S)) K)) I))))  ; (* 16 59) 75B
+(defmacro c945 ((S (K (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 27 35) 71B
+(defmacro c946 (unsafe ((((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))))) S)) ((S (K S)) K)) I)))  ; (+ 945 1) 71B
+(defmacro c947 (unsafe (((S S) ((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 946) 79B
+(defmacro c948 (unsafe (((S S) ((S S) ((S ((S ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S ((S S) ((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))))) S))) (K I)))) ((S (K S)) K))))  ; (|1+| 947) 83B
+(defmacro c949 (unsafe (((S ((S I) (K (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 324 625) 67B
+(defmacro c950 (unsafe ((((S ((S (K S)) ((S S) (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))))) ((S (K (S I))) (S (S I)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (+ 324 626) 75B
+(defmacro c951 (unsafe (((S I) (((S ((S (K S)) ((S S) (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))))) ((S (K (S I))) (S (S I)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 950) 79B
+(defmacro c952 ((S (K (unsafe (((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 28 34) 75B
+(defmacro c953 (unsafe (((S ((S I) (K (((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I) (S ((S (K S)) K)))))) ((S I) (S ((S (K S)) K)))) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 328 625) 71B
+(defmacro c954 (unsafe ((((S ((S (K S)) ((S S) (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))))) ((S (K (S I))) (S (S I)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))) (S ((S (K S)) K)))))  ; (+ 328 626) 79B
+(defmacro c955 (unsafe (((S I) (((S ((S (K S)) ((S S) (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))))) ((S (K (S I))) (S (S I)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))) (S ((S (K S)) K)))))  ; (|1+| 954) 83B
+(defmacro c956 (unsafe (((S ((S ((S (K ((S S) ((S S) (K ((S ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) S)))))) ((S (K (S S))) K))) (K ((S (K S)) K)))) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (+ 700 256) 85B
+(defmacro c957 ((S (K (unsafe (((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 29 33) 75B
+(defmacro c958 (unsafe ((((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 957 1) 71B
+(defmacro c959 (unsafe (((S S) ((S ((S ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 958) 79B
+(defmacro c960 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S S) ((S S) S))) ((S (K S)) K)) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 3 320) 61B
+(defmacro c961 (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) ((S (K S)) K))))  ; (^ 31 2) 53B
+(defmacro c962 (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 961) 57B
+(defmacro c963 (unsafe (((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 962) 61B
+(defmacro c964 (unsafe (((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 963) 65B
+(defmacro c965 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))))) ((S (K S)) K))))  ; (|1+| 964) 69B
+(defmacro c966 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K)))))  ; (* 3 322) 73B
+(defmacro c967 (unsafe ((((S ((S S) ((S S) (K I)))) ((S ((S S) ((S S) ((S ((S S) ((S S) ((S S) S)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) S)) ((S (K S)) K)) I)))  ; (+ 966 1) 69B
+(defmacro c968 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K)))))  ; (* 2 484) 67B
+(defmacro c969 (unsafe ((((S ((S S) (K I))) ((S ((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) S)) ((S (K S)) K)) I)))  ; (+ 968 1) 67B
+(defmacro c970 ((S (K ((S ((S (K S)) K)) I))) (unsafe (((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))))) ((S (K S)) K)))))  ; (* 2 485) 71B
+(defmacro c971 (unsafe ((((S ((S S) (K I))) ((S ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))))) S)) ((S (K S)) K)) I)))  ; (+ 970 1) 71B
+(defmacro c972 (unsafe (((S S) ((S ((S ((S (K S)) (S S))) (K ((S S) ((S S) (K I)))))) (K ((S (K S)) K)))) (K ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (* 4 243) 59B
+(defmacro c973 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))) I)))  ; (+ 972 1) 65B
+(defmacro c974 (unsafe (((S ((S (call/cc I)) (K (((S ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 972 2) 71B
+(defmacro c975 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S (S (call/cc I))) ((S I) (K I)))) I) (S ((S (K S)) K)))) I))))  ; (* 3 325) 71B
+(defmacro c976 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))) ((S (K S)) K)))))  ; (* 4 244) 67B
+(defmacro c977 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))) I)))  ; (+ 976 1) 69B
+(defmacro c978 (unsafe (((S ((S (call/cc I)) (K (((S ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 976 2) 75B
+(defmacro c979 ((S ((S (K S)) K)) (unsafe (((S ((S (call/cc I)) (K (((S ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I)))))  ; (|1+| 978) 85B
+(defmacro c980 ((S (K (unsafe ((call/cc I) ((S ((S (K S)) K)) I))))) (unsafe (((S S) ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I)))))) ((S (K S)) K)))))  ; (* 4 245) 71B
+(defmacro c981 (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))) I)))  ; (+ 980 1) 73B
+(defmacro c982 (unsafe (((S ((S (call/cc I)) (K (((S ((S S) ((S S) ((S ((S S) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S S) ((S S) (K I))))))) S) ((S (K S)) K))))) I) ((S ((S (K S)) K)) I))))  ; (+ 980 2) 79B
+(defmacro c983 (unsafe (((S ((S (K ((S ((S (S (call/cc I))) ((S I) (K I)))) I))) S)) ((S S) ((S S) ((S ((S S) (K I))) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (+ 81 902) 85B
+(defmacro c984 ((S (K (unsafe (((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))) (unsafe (((S I) ((S (S (call/cc I))) ((S I) (K I)))) (S ((S (K S)) K))))))  ; (* 12 82) 69B
+(defmacro c985 (unsafe ((((S (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 729 256) 59B
+(defmacro c986 (unsafe ((((S ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 730 256) 63B
+(defmacro c987 (unsafe ((((S ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 731 256) 67B
+(defmacro c988 (unsafe ((((S ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 732 256) 71B
+(defmacro c989 (unsafe ((((S ((S S) ((S S) ((S S) ((S S) (((S ((S (K S)) (S S))) ((S S) (S S))) ((S S) (K I)))))))) S) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 733 256) 75B
+(defmacro c990 ((S (K (unsafe (((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))) ((S (K S)) K))))) (unsafe (((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I)))) ((S (K S)) K)))))  ; (* 30 33) 79B
+(defmacro c991 (unsafe ((((S ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))) ((S ((S S) ((S ((S S) (K ((S (call/cc I)) I)))) ((S S) (K I))))) S)) ((S (K S)) K)) I)))  ; (+ 990 1) 75B
+(defmacro c992 (unsafe ((((S ((S (K S)) (S ((S S) (K S))))) (S (S ((S S) (K I))))) (K ((S (K S)) K))) ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I)))))))))))  ; (+ 31 961) 75B
+(defmacro c993 (unsafe (((S I) ((S I) (K I))) ((((S (call/cc I)) I) ((S ((S (K S)) K)) I)) (((S ((S S) ((S S) ((S S) ((S S) ((S (K (call/cc I))) ((S S) ((S S) (K I))))))))) S) ((S (K S)) K))))))  ; (+ 496 497) 79B
+(defmacro c994 (unsafe ((((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S)) ((S (K S)) K)) ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I))))))  ; (+ 738 256) 75B
+(defmacro c995 (unsafe (((S S) ((S ((S (((S S) (S S)) ((S S) (K I)))) ((S (K ((S ((S I) ((S (S (call/cc I))) ((S I) (K I))))) I))) S))) (K ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 994) 83B
+(defmacro c996 ((S (K (unsafe (((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))) (unsafe (((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 12 83) 73B
+(defmacro c997 (unsafe ((((S ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 996 1) 73B
+(defmacro c998 (unsafe (((S S) ((S ((S ((S S) ((S S) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K ((S ((S I) ((S I) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S))) (K I))) ((S (K S)) K))))  ; (|1+| 997) 81B
+(defmacro c999 ((S (K (unsafe ((call/cc I) (((S S) ((S S) (K I))) ((S (K S)) K)))))) (unsafe ((((call/cc I) ((S ((S (K S)) K)) I)) (((S (((S S) (S S)) ((S S) (K I)))) S) ((S (K S)) K))) I))))  ; (* 27 37) 73B
+(defmacro c1000 (unsafe (((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (^ 10 3) 41B
+(defmacro c1001 (unsafe (((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 1000) 45B
+(defmacro c1002 (unsafe (((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 1001) 49B
+(defmacro c1003 (unsafe (((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))))) ((S (K S)) K))))  ; (|1+| 1002) 53B
+(defmacro c1004 (unsafe (((S S) ((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I))))))))) ((S (K S)) K))))  ; (|1+| 1003) 57B
+(defmacro c1005 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))))))) ((S (K S)) K))))  ; (|1+| 1004) 61B
+(defmacro c1006 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I))))))))))) ((S (K S)) K))))  ; (|1+| 1005) 65B
+(defmacro c1007 (unsafe (((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))))))))) ((S (K S)) K))))  ; (|1+| 1006) 69B
+(defmacro c1008 (unsafe (((S ((S ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))) S)) ((S ((S S) (K (call/cc I)))) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 1000 8) 67B
+(defmacro c1009 (unsafe ((((S (((S S) (S S)) (K S))) ((S (K (S ((S S) ((S S) (K I)))))) (S S))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 9 1000) 59B
+(defmacro c1010 (unsafe ((((S (((S S) (S ((S (K S)) (S ((S S) ((S S) (K I))))))) (K S))) I) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (+ 1000 10) 61B
+(defmacro c1011 (unsafe ((((S (((S S) (S S)) (K S))) ((S (K (S S))) (S ((S S) ((S S) (K I)))))) ((S S) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (+ 10 1001) 63B
+(defmacro c1012 (unsafe (((S S) (((S (((S S) (S S)) (K S))) ((S (K (S S))) (S ((S S) ((S S) (K I)))))) ((S S) (((S S) (S S)) ((S S) (K I)))))) ((S (K S)) K))))  ; (|1+| 1011) 67B
+(defmacro c1013 (unsafe (((S S) ((S S) (((S (((S S) (S S)) (K S))) ((S (K (S S))) (S ((S S) ((S S) (K I)))))) ((S S) (((S S) (S S)) ((S S) (K I))))))) ((S (K S)) K))))  ; (|1+| 1012) 71B
+(defmacro c1014 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe (((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I))))) (S ((S (K S)) K))))))  ; (* 3 338) 75B
+(defmacro c1015 (unsafe ((((S ((S S) ((S S) (K I)))) ((S (K ((S ((S I) ((S ((call/cc I) ((call/cc I) ((S ((S (K S)) K)) I)))) ((S (S (call/cc I))) ((S I) (K I)))))) I))) S)) ((S (K S)) K)) I)))  ; (+ 1014 1) 75B
+(defmacro c1016 (unsafe ((((S ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 1000 16) 65B
+(defmacro c1017 (unsafe ((((S ((S S) ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I))))))) S) ((S (K S)) K)) (((S (call/cc I)) I) ((S ((S (K S)) K)) I)))))  ; (+ 1001 16) 69B
+(defmacro c1018 (unsafe (((((S S) ((S S) (K ((S (K (S ((S S) ((S S) (K I)))))) (S S))))) (((S S) (S S)) (K S))) (((S S) (S S)) ((S S) (K I)))) ((S (K S)) K))))  ; (+ 9 1009) 67B
+(defmacro c1019 (unsafe (((S S) ((((S S) ((S S) (K ((S (K (S ((S S) ((S S) (K I)))))) (S S))))) (((S S) (S S)) (K S))) (((S S) (S S)) ((S S) (K I))))) ((S (K S)) K))))  ; (|1+| 1018) 71B
+(defmacro c1020 (unsafe (((S ((S ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))) ((S (K S)) K))))  ; (+ 1000 20) 73B
+(defmacro c1021 (unsafe (((S S) ((S ((S ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I)))))) ((S (K S)) K))))  ; (|1+| 1020) 77B
+(defmacro c1022 (unsafe (((S S) ((S S) ((S ((S ((S ((S S) ((S S) (K I)))) ((S S) (((S S) (S S)) ((S S) (K I)))))) S)) ((S ((S S) S)) (K ((call/cc I) ((S ((S (K S)) K)) I))))))) ((S (K S)) K))))  ; (|1+| 1021) 81B
+(defmacro c1023 ((S (K (unsafe (((S S) ((S S) (K I))) ((S (K S)) K))))) (unsafe ((((S S) ((S ((S (K S)) (call/cc I))) (K ((S (S (call/cc I))) ((S I) (K I)))))) ((call/cc I) ((S ((S (K S)) K)) I))) (S ((S (K S)) K))))))  ; (* 3 341) 83B
+(defmacro c1024 (unsafe (((S ((S (K S)) K)) (call/cc I)) ((call/cc I) ((S ((S (K S)) K)) I)))))  ; (* 4 256) 29B
