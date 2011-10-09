@@ -293,7 +293,7 @@
 (define compile
   (compose optimize-ski eliminate-lambda curried))
 
-(define (scheme->unlambda x)
+(define (lambda->unlambda x)
   (unlambdify (compile x)))
 
 (define (eliminate-names macros names)
@@ -351,12 +351,12 @@
 			bindings)
 	   ,(macroexpand macros body))))
       ((func . args)
-       (if (and (atom? func) (member func (map car macros)))
-	   (let ((macro (cdr (assoc func macros))))
-	     (macro (map (lambda (arg) (macroexpand macros arg)) args)))
-	   (cons (macroexpand macros func) (map (lambda (arg) (macroexpand macros arg)) args))))
+       (let ((macro (and (atom? func) (assq func macros))))
+         (if macro
+	     ((cdr macro) (map (lambda (arg) (macroexpand macros arg)) args))
+             (cons (macroexpand macros func) (map (lambda (arg) (macroexpand macros arg)) args)))))
       (-
-       (let ((macro (assoc expr macros)))
+       (let ((macro (assq expr macros)))
 	 (if macro
 	     ((cdr macro) '())
 	     expr)))))
@@ -397,4 +397,4 @@
   #t)
 
 (define (print-as-unl expr)
-  (write-tree (scheme->unlambda (macroexpand unl-macros expr))))
+  (write-tree (lambda->unlambda (macroexpand unl-macros expr))))

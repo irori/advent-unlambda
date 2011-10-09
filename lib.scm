@@ -2,16 +2,6 @@
 ;; character predicates
 (defmacro ?space (? #\space))
 (defmacro ?newline (? #\newline))
-(defmacro ?0 (? #\0))
-(defmacro ?1 (? #\1))
-(defmacro ?2 (? #\2))
-(defmacro ?3 (? #\3))
-(defmacro ?4 (? #\4))
-(defmacro ?5 (? #\5))
-(defmacro ?6 (? #\6))
-(defmacro ?7 (? #\7))
-(defmacro ?8 (? #\8))
-(defmacro ?9 (? #\9))
 
 ;; control structures
 (defmacro *if*
