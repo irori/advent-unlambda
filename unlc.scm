@@ -370,24 +370,22 @@
 
 (define unl-macros '())
 
+(define (add-unl-macro! name args body)
+  (set! unl-macros
+        (acons name
+               (macroexpand-application args body unl-macros)
+               unl-macros)))
+
 (define-macro (defmacro name-args body)
   (let ((name (if (pair? name-args) (car name-args) name-args))
         (args (if (pair? name-args) (cdr name-args) '())))
-    (set!
-     unl-macros
-     (acons name
-            (macroexpand-application args body unl-macros)
-            unl-macros)))
+    (add-unl-macro! name args body))
   #t)
 
 (define-macro (defrecmacro name-args body)
   (let ((name (if (pair? name-args) (car name-args) name-args))
         (args (if (pair? name-args) (cdr name-args) '())))
-    (set!
-     unl-macros
-     (acons name
-            (macroexpand-application '() `(lambda* ,name ,args ,body) unl-macros)
-            unl-macros)))
+    (add-unl-macro! name '() `(lambda* ,name ,args ,body)))
   #t)
 
 (define-macro (defsyntax name-args body)

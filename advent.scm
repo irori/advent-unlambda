@@ -1,10 +1,10 @@
 #!/usr/local/bin/gosh -I.
 (load "unlc.scm")
-(load "lib.unls")
-(load "churchnum.unls")
+(load "lib.scm")
+(load "churchnum.scm")
 
-(load "room.unls")
-(load "parser.unls")
+(load "room.scm")
+(load "parser.scm")
 
 (defmacro variable-table-of car)
 (defmacro room-table-of cadr)
