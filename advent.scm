@@ -1,4 +1,5 @@
-; -*- Lisp -*-
+#!/usr/local/bin/gosh -I.
+(load "unlc.scm")
 (load "lib.unls")
 (load "churchnum.unls")
 
@@ -90,4 +91,4 @@
 (defmacro main
   (turn initial-world))
 
-main
+(print-as-unl 'main)

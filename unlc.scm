@@ -7,17 +7,9 @@
 (use gauche.parseopt)
 
 (define *optimize* #f)
-(define *optimize-interactive* #f)
-
-(define (warn . args)
-  (for-each
-   (lambda (x)
-     ((if (string? x) display write) x (current-error-port)))
-   args)
-  (newline (current-error-port)))
 
 (define (atom? x)
-    (not (list? x)))
+  (not (list? x)))
 
 (define (make-letrec-env bindings)
   (let ((fs (map car bindings)))
@@ -118,7 +110,7 @@
 	((or (atom? body)
 	     (pass-through? body))
 	 (if (eq? body 'D)
-	     (warn "kurd"))
+	     (error "kurd"))
 	 (make-k body))
 	((eq? (car body) 'lambda)
 	 (eliminate-abstruction var (eliminate-lambda body)))
@@ -134,7 +126,7 @@
 	   (if (eq? g 'D)
 	       (begin
 		 (if (contains-free-variables? h)
-		     (warn "heusl" h))
+		     (error "heusl" h))
 		 (make-k body))
 	       (make-s (eliminate-abstruction var g)
 		       (eliminate-abstruction var h)))))))
@@ -175,14 +167,9 @@
 	#t)))
 
 (define (functional? e)
-  (if (not *optimize*)
-      (normalform? e)
-      (or (functional-test e)
-	  (and *optimize-interactive*
-	       (begin (format (current-error-port)
-			      "treat ~s as functional? [y/N]" e)
-		      (let ((line (read-line)))
-			(and (string? line) (#/^y/i line))))))))
+  (if *optimize*
+      (functional-test e)
+      (normalform? e)))
 
 (define (eliminate-lambda x)
   (cond ((or (atom? x) (pass-through? x))
@@ -310,7 +297,7 @@
   (unlambdify (compile x)))
 
 (define (eliminate-names macros names)
-    (filter (lambda (macro) (not (member (car macro) names))) macros))
+  (filter (lambda (macro) (not (member (car macro) names))) macros))
 
 (define (macroexpand-arg arg)
     (lambda (arg-args)
@@ -327,22 +314,21 @@
 		  rest-args rest-arg-names))))
 
 (define (macroexpand-application arg-names body macros)
-    (lambda (args)
-      (let-values (((arg-macros args arg-names)
-		    (make-macros args arg-names)))
-	(let ((macros (append arg-macros macros)))
-	  (cond ((and (null? args) (null? arg-names))
-		 (macroexpand macros body))
-		((null? args)
-		 (macroexpand macros `(lambda ,arg-names ,body)))
-		((null? arg-names)
-		 (cons (macroexpand macros body) args))
-		(else
-		 (error "macroexpand-application" "make-macros does not work" (cons args arg-names))))))))
+  (lambda (args)
+    (let-values (((arg-macros args arg-names)
+                  (make-macros args arg-names)))
+      (let ((macros (append arg-macros macros)))
+        (cond ((and (null? args) (null? arg-names))
+               (macroexpand macros body))
+              ((null? args)
+               (macroexpand macros `(lambda ,arg-names ,body)))
+              ((null? arg-names)
+               (cons (macroexpand macros body) args))
+              (else
+               (error "macroexpand-application" "make-macros does not work" (cons args arg-names))))))))
 
 ;; a macro is a (name . (lambda (macro-args) *body*))
 (define (macroexpand macros expr)
-    ;(printf "macroexpand called for ~a with macros ~a~%" expr (map car macros))
     (match expr
       (('lambda args body)
        `(lambda ,args ,(macroexpand (eliminate-names macros args) body)))
@@ -381,68 +367,36 @@
     (lambda (args)
       (macroexpand macros (apply cl args)))))
 
-;;; program input
 
-(define (macroexpand-program prog)
-  (let loop ((prog prog) (macros '()))
-    (let ((next (lambda (name macro-body)
-		  (loop (cdr prog)
-			(cons (cons name macro-body) macros)))))
-      (match (car prog)
-	(('defmacro (name . args) body)
-	 (next name (macroexpand-application args body macros)))
-	(('defmacro name body)
-	 (next name (macroexpand-application '() body macros)))
-	(('defrecmacro (name . args) body)
-	 (next name
-	       (macroexpand-application '()
-					`(lambda* ,name ,args ,body)
-					macros)))
-	(('defrecmacro name body)
-	 (next name (macroexpand-application '()
-					     `(lambda* ,name () ,body)
-					     macros)))
-	(('defsyntax (name . args) body)
-	 (next name (make-syntax name args body macros)))
-	(e
-	 (macroexpand macros e))))))
+(define unl-macros '())
 
-(define (read-program)
-  (let ((loaded '()))
-    (port-fold-right
-     (lambda (e prog)
-       (match e
-	 (('load file)
-	  (if (member file loaded)
-	      prog
-	      (begin
-		(push! loaded file)
-		(append (with-input-from-file (cadr e) read-program) prog))))
-	 (-
-	   (cons e prog))))
-     '()
-     read)))
+(define-macro (defmacro name-args body)
+  (let ((name (if (pair? name-args) (car name-args) name-args))
+        (args (if (pair? name-args) (cdr name-args) '())))
+    (set!
+     unl-macros
+     (acons name
+            (macroexpand-application args body unl-macros)
+            unl-macros)))
+  #t)
 
-;;; command line handling
+(define-macro (defrecmacro name-args body)
+  (let ((name (if (pair? name-args) (car name-args) name-args))
+        (args (if (pair? name-args) (cdr name-args) '())))
+    (set!
+     unl-macros
+     (acons name
+            (macroexpand-application '() `(lambda* ,name ,args ,body) unl-macros)
+            unl-macros)))
+  #t)
 
-(define (main args)
-  (let* ((mode #f)
-	 (args (parse-options (cdr args)
-		 (("m" () (set! mode 'm))
-		  ("l" () (set! mode 'l))
-		  ("O" () (set! *optimize* #t))
-		  ("Oi" () (set! *optimize* #t)
-		           (set! *optimize-interactive* #t))
-		  ("c" () (set! mode 'c))
-		  ("S" () (set! mode 'S)))))
-	 (program (if (null? args)
-		      (read-program)
-		      (with-input-from-file (car args) read-program)))
-	 (expr (macroexpand-program program)))
-    (case mode
-      ((m) (write expr) (newline))
-      ((l) (write (eliminate-lets expr)) (newline))
-      ((c) (write (curried expr)) (newline))
-      ((S) (write (compile expr)) (newline))
-      (else (write-tree (scheme->unlambda expr)))))
-  0)
+(define-macro (defsyntax name-args body)
+  (set!
+   unl-macros
+   (acons (car name-args)
+          (make-syntax (car name-args) (cdr name-args) body unl-macros)
+          unl-macros))
+  #t)
+
+(define (print-as-unl expr)
+  (write-tree (scheme->unlambda (macroexpand unl-macros expr))))
