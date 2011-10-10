@@ -1,314 +1,10 @@
 #!/usr/bin/env gosh
+(require "enum.scm")
 
 (define ignore-case #f)
 
-(define words
-  '(("spelunker today" . 1016)
-    ("?" . 3051)
-    ("above" . 29)
-    ("abra" . 3050)
-    ("abracadabra" . 3050)
-    ("across" . 42)
-    ("ascend" . 29)
-    ("attack" . 2012)
-    ("awkward" . 26)
-    ("axe" . 1028)
-    ("back" . 8)
-    ("barren" . 40)
-    ("bars" . 1052)
-    ("batteries" . 1039)
-    ("battery" . 1039)
-    ("beans" . 1024)
-    ("bear" . 1035)
-    ("bed" . 16)
-    ("bedquilt" . 70)
-    ("bird" . 1008)
-    ("blast" . 2023)
-    ("blowup" . 2023)
-    ("bottle" . 1020)
-    ("box" . 1055)
-    ("break" . 2028)
-    ("brief" . 2026)
-    ("broken" . 54)
-    ("building" . 12)
-    ("cage" . 1004)
-    ("calm" . 2010)
-    ("canyon" . 25)
-    ("capture" . 2001)
-    ("carpet" . 1040)
-    ("carry" . 2001)
-    ("catch" . 2001)
-    ("cave" . 67)
-    ("cavern" . 73)
-    ("chain" . 1064)
-    ("chant" . 2003)
-    ("chasm" . 1032)
-    ("chest" . 1055)
-    ("clam" . 1014)
-    ("climb" . 56)
-    ("close" . 2006)
-    ("cobblestone" . 18)
-    ("coins" . 1054)
-    ("continue" . 2011)
-    ("crack" . 33)
-    ("crawl" . 17)
-    ("cross" . 69)
-    ("d" . 30)
-    ("dark" . 22)
-    ("debris" . 51)
-    ("depression" . 63)
-    ("descend" . 30)
-    ("describe" . 57)
-    ("detonate" . 2023)
-    ("devour" . 2014)
-    ("diamonds" . 1051)
-    ("dig" . 3066)
-    ("discard" . 2002)
-    ("disturb" . 2029)
-    ("dome" . 35)
-    ("door" . 1009)
-    ("down" . 30)
-    ("downstream" . 5)
-    ("downward" . 30)
-    ("dragon" . 1031)
-    ("drawing" . 1029)
-    ("drink" . 2015)
-    ("drop" . 2002)
-    ("dump" . 2002)
-    ("dwarf" . 1017)
-    ("dwarves" . 1017)
-    ("e" . 43)
-    ("east" . 43)
-    ("eat" . 2014)
-    ("egg" . 1056)
-    ("eggs" . 1056)
-    ("emerald" . 1059)
-    ("enter" . 3)
-    ("entrance" . 64)
-    ("examine" . 57)
-    ("excavate" . 3066)
-    ("exit" . 11)
-    ("explore" . 2011)
-    ("extinguish" . 2008)
-    ("fee" . 2025)
-    ("fee" . 3001)
-    ("feed" . 2021)
-    ("fie" . 2025)
-    ("fie" . 3002)
-    ("fight" . 2012)
-    ("figure" . 1027)
-    ("fill" . 2022)
-    ("find" . 2019)
-    ("fissure" . 1012)
-    ("floor" . 58)
-    ("foe" . 2025)
-    ("foe" . 3003)
-    ("follow" . 2011)
-    ("foo" . 2025)
-    ("foo" . 3004)
-    ("food" . 1019)
-    ("forest" . 6)
-    ("fork" . 77)
-    ("forward" . 7)
-    ("free" . 2002)
-    ("fuck" . 3079)
-    ("fum" . 2025)
-    ("fum" . 3005)
-    ("get" . 2001)
-    ("geyser" . 1037)
-    ("giant" . 27)
-    ("go" . 2011)
-    ("gold" . 1050)
-    ("goto" . 2011)
-    ("grate" . 1003)
-    ("gully" . 13)
-    ("h2o" . 1021)
-    ("hall" . 38)
-    ("headlamp" . 1002)
-    ("help" . 3051)
-    ("hill" . 2)
-    ("hit" . 2012)
-    ("hocus" . 3050)
-    ("hole" . 52)
-    ("hours" . 2031)
-    ("house" . 12)
-    ("i" . 2020)
-    ("ignite" . 2023)
-    ("in" . 19)
-    ("info" . 3142)
-    ("information" . 3142)
-    ("inside" . 19)
-    ("inventory" . 2020)
-    ("inward" . 19)
-    ("issue" . 1016)
-    ("jar" . 1020)
-    ("jewel" . 1053)
-    ("jewelry" . 1053)
-    ("jewels" . 1053)
-    ("jump" . 39)
-    ("keep" . 2001)
-    ("key" . 1001)
-    ("keys" . 1001)
-    ("kill" . 2012)
-    ("knife" . 1018)
-    ("knives" . 1018)
-    ("l" . 57)
-    ("lamp" . 1002)
-    ("lantern" . 1002)
-    ("leave" . 11)
-    ("left" . 36)
-    ("light" . 2007)
-    ("lock" . 2006)
-    ("look" . 57)
-    ("lost" . 3068)
-    ("low" . 24)
-    ("machine" . 1038)
-    ("magazine" . 1016)
-    ("main" . 76)
-    ("message" . 1036)
-    ("ming" . 1058)
-    ("mirror" . 1023)
-    ("mist" . 3069)
-    ("moss" . 1040)
-    ("mumble" . 2003)
-    ("n" . 45)
-    ("ne" . 47)
-    ("nest" . 1056)
-    ("north" . 45)
-    ("nothing" . 2005)
-    ("nowhere" . 21)
-    ("nugget" . 1050)
-    ("null" . 21)
-    ("nw" . 50)
-    ("off" . 2008)
-    ("office" . 76)
-    ("oil" . 1022)
-    ("on" . 2007)
-    ("onward" . 7)
-    ("open" . 2004)
-    ("opensesame" . 3050)
-    ("oriental" . 72)
-    ("out" . 11)
-    ("outdoors" . 32)
-    ("outside" . 11)
-    ("over" . 41)
-    ("oyster" . 1015)
-    ("passage" . 23)
-    ("pause" . 2030)
-    ("pearl" . 1061)
-    ("persian" . 1062)
-    ("peruse" . 2027)
-    ("pillow" . 1010)
-    ("pirate" . 1030)
-    ("pit" . 31)
-    ("placate" . 2010)
-    ("plant" . 1024)
-    ("plant" . 1025)
-    ("platinum" . 1060)
-    ("plover" . 71)
-    ("plugh" . 65)
-    ("pocus" . 3050)
-    ("pottery" . 1058)
-    ("pour" . 2013)
-    ("proceed" . 2011)
-    ("pyramid" . 1060)
-    ("quit" . 2018)
-    ("rations" . 1019)
-    ("read" . 2027)
-    ("release" . 2002)
-    ("reservoir" . 75)
-    ("retreat" . 8)
-    ("return" . 8)
-    ("right" . 37)
-    ("road" . 2)
-    ("rock" . 15)
-    ("rod" . 1005)
-    ("rod" . 1006)
-    ("room" . 59)
-    ("rub" . 2016)
-    ("rug" . 1062)
-    ("run" . 2011)
-    ("s" . 46)
-    ("save" . 2030)
-    ("say" . 2003)
-    ("score" . 2024)
-    ("se" . 48)
-    ("secret" . 66)
-    ("sesame" . 3050)
-    ("shadow" . 1027)
-    ("shake" . 2009)
-    ("shard" . 1058)
-    ("shatter" . 2028)
-    ("shazam" . 3050)
-    ("shell" . 74)
-    ("silver" . 1052)
-    ("sing" . 2003)
-    ("slab" . 61)
-    ("slit" . 60)
-    ("smash" . 2028)
-    ("snake" . 1011)
-    ("south" . 46)
-    ("spelunker" . 1016)
-    ("spice" . 1063)
-    ("spices" . 1063)
-    ("stairs" . 10)
-    ("stalactite" . 1026)
-    ("steal" . 2001)
-    ("steps" . 1007)
-    ("steps" . 34)
-    ("stop" . 3139)
-    ("stream" . 14)
-    ("strike" . 2012)
-    ("surface" . 20)
-    ("suspend" . 2030)
-    ("sw" . 49)
-    ("swim" . 3147)
-    ("swing" . 2009)
-    ("tablet" . 1013)
-    ("take" . 2001)
-    ("tame" . 2010)
-    ("throw" . 2017)
-    ("toss" . 2017)
-    ("tote" . 2001)
-    ("touch" . 57)
-    ("travel" . 2011)
-    ("treasure" . 1055)
-    ("tree" . 3064)
-    ("trees" . 3064)
-    ("trident" . 1057)
-    ("troll" . 1033)
-    ("troll" . 1034)
-    ("tunnel" . 23)
-    ("turn" . 2011)
-    ("u" . 29)
-    ("unlock" . 2004)
-    ("up" . 29)
-    ("upstream" . 4)
-    ("upward" . 29)
-    ("utter" . 2003)
-    ("valley" . 9)
-    ("vase" . 1058)
-    ("velvet" . 1010)
-    ("vending" . 1038)
-    ("view" . 28)
-    ("volcano" . 1037)
-    ("w" . 44)
-    ("wake" . 2029)
-    ("walk" . 2011)
-    ("wall" . 53)
-    ("water" . 1021)
-    ("wave" . 2009)
-    ("west" . 44)
-    ("where" . 2019)
-    ("xyzzy" . 62)
-    ("y2" . 55)
-    ))
+(define parser-trie (make-hash-table))
 
-(define test-words
-  '(("nw" . 10)
-    ("ne" . 11)))
-
-(define (make-trie) (make-hash-table))
 (define (trie-put! trie chars value)
   (if (null? chars)
       (hash-table-put! trie 'eow value)
@@ -321,6 +17,329 @@
            t))
        #f)))
 
+(define motion-type 0)
+(define object-type 1)
+(define action-type 2)
+(define message-type 3)
+
+(define (define-word type meaning . words)
+  (let ((m (if (number? meaning) meaning (lookup-enum meaning))))
+    (for-each
+     (lambda (w)
+       (trie-put! parser-trie (string->list w) (cons type m)))
+     words)))
+
+;; motion vocabulary
+(define-word motion-type 'N "n" "north")
+(define-word motion-type 'S "s" "south")
+(define-word motion-type 'E "e" "east")
+(define-word motion-type 'W "w" "west")
+(define-word motion-type 'NE "ne" "northeast")
+(define-word motion-type 'SE "se" "southeast")
+(define-word motion-type 'NW "nw" "northwest")
+(define-word motion-type 'SW "sw" "southwest")
+(define-word motion-type 'U "upward" "up" "u" "above" "ascend")
+(define-word motion-type 'D "downward" "down" "d" "descend")
+(define-word motion-type 'L "left")
+(define-word motion-type 'R "right")
+(define-word motion-type 'IN "inward" "inside" "in")
+(define-word motion-type 'OUT "out" "outside" "exit" "leave")
+(define-word motion-type 'FORWARD "forward" "onward")  ; TODO: add "continue"?
+(define-word motion-type 'BACK "back" "return" "retreat")
+(define-word motion-type 'OVER "over")
+(define-word motion-type 'ACROSS "across")
+(define-word motion-type 'UPSTREAM "upstream")
+(define-word motion-type 'DOWNSTREAM "downstream")
+(define-word motion-type 'ENTER "enter")
+(define-word motion-type 'CRAWL "crawl")
+(define-word motion-type 'JUMP "jump")
+(define-word motion-type 'CLIMB "climb")
+(define-word motion-type 'LOOK "look" "examine" "touch" "describe" "l")
+(define-word motion-type 'CROSS "cross")
+(define-word motion-type 'ROAD "road" "hill")
+(define-word motion-type 'WOODS "forest")
+(define-word motion-type 'VALLEY "valley")
+(define-word motion-type 'HOUSE "building" "house")
+(define-word motion-type 'GULLY "gully")
+(define-word motion-type 'STREAM "stream")
+(define-word motion-type 'DEPRESSION "depression")
+(define-word motion-type 'ENTRANCE "entrance")
+(define-word motion-type 'CAVE "cave")
+(define-word motion-type 'ROCK "rock")
+(define-word motion-type 'SLAB "slab")  ; TODO: "slabr"?
+(define-word motion-type 'BED "bed")
+(define-word motion-type 'PASSAGE "passage" "tunnel")
+(define-word motion-type 'CAVERN "cavern")
+(define-word motion-type 'CANYON "canyon")
+(define-word motion-type 'AWKWARD "awkward")
+(define-word motion-type 'SECRET "secret")
+(define-word motion-type 'BEDQUILT "bedquilt")
+(define-word motion-type 'RESERVOIR "reservoir")
+(define-word motion-type 'GIANT "giant")
+(define-word motion-type 'ORIENTAL "oriental")
+(define-word motion-type 'SHELL "shell")
+(define-word motion-type 'BARREN "barren")
+(define-word motion-type 'BROKEN "broken")
+(define-word motion-type 'DEBRIS "debris")
+(define-word motion-type 'VIEW "view")
+(define-word motion-type 'FORK "fork")
+(define-word motion-type 'PIT "pit")
+(define-word motion-type 'SLIT "slit")
+(define-word motion-type 'CRACK "crack")
+(define-word motion-type 'DOME "dome")
+(define-word motion-type 'HOLE "hole")
+(define-word motion-type 'WALL "wall")
+(define-word motion-type 'HALL "hall")
+(define-word motion-type 'ROOM "room")
+(define-word motion-type 'FLOOR "floor")
+(define-word motion-type 'STAIRS "stairs")
+(define-word motion-type 'STEPS "steps")
+(define-word motion-type 'COBBLES "cobbles" "cobblestone" "cobblestones")  ; TODO: "cobble" too?
+(define-word motion-type 'SURFACE "surface")
+(define-word motion-type 'DARK "dark")
+(define-word motion-type 'LOW "low")
+(define-word motion-type 'OUTDOORS "outdoors")
+(define-word motion-type 'Y2 "y2")
+(define-word motion-type 'XYZZY "xyzzy")
+(define-word motion-type 'PLUGH "plugh")
+(define-word motion-type 'PLOVER "plover")
+(define-word motion-type 'OFFICE "main" "office")
+(define-word motion-type 'NOWHERE "nowhere" "null")
+
+;; object vocabulary
+(define-word object-type 'KEYS "key" "keys")
+(define-word object-type 'LAMP "lamp" "lantern" "headlamp")
+(define-word object-type 'GRATE "grate")
+(define-word object-type 'CAGE "cage")
+(define-word object-type 'ROD "rod")
+(define-word object-type 'BIRD "bird")
+(define-word object-type 'DOOR "door")
+(define-word object-type 'PILLOW "velvet" "pillow")
+(define-word object-type 'SNAKE "snake")
+(define-word object-type 'CRYSTAL "fissure")
+(define-word object-type 'TABLET "tablet")
+(define-word object-type 'CLAM "clam")
+(define-word object-type 'OYSTER "oyster")
+(define-word object-type 'MAG "magazine" "issue" "spelunker" "\"spelunker today\"")
+(define-word object-type 'DWARF "dwarf" "dwarves")
+(define-word object-type 'KNIFE "knife" "knives")
+(define-word object-type 'FOOD "food" "rations")
+(define-word object-type 'BOTTLE "bottle" "jar")
+(define-word object-type 'WATER "water" "h2o")
+(define-word object-type 'OIL "oil")
+(define-word object-type 'MIRROR "mirror")
+(define-word object-type 'PLANT "plant" "beans")
+(define-word object-type 'STALACTITE "stalactite")
+(define-word object-type 'SHADOW "shadow" "figure")
+(define-word object-type 'AXE "axe")
+(define-word object-type 'ART "drawing")
+(define-word object-type 'PIRATE "pirate")
+(define-word object-type 'DRAGON "dragon")
+(define-word object-type 'BRIDGE "chasm")
+(define-word object-type 'TROLL "troll")
+(define-word object-type 'BEAR "bear")
+(define-word object-type 'MESSAGE "message")
+(define-word object-type 'GEYSER "volcano" "geyser")
+(define-word object-type 'PONY "vending" "machine")
+(define-word object-type 'BATTERIES "battery" "batteries")
+(define-word object-type 'MOSS "moss" "carpet")
+(define-word object-type 'GOLD "gold" "nugget")
+(define-word object-type 'DIAMONDS "diamonds")
+(define-word object-type 'SILVER "silver" "bars")
+(define-word object-type 'JEWELS "jewel" "jewelry" "jewels")
+(define-word object-type 'COINS "coins")
+(define-word object-type 'CHEST "chest" "box" "treasure")
+(define-word object-type 'EGGS "egg" "eggs" "nest")
+(define-word object-type 'TRIDENT "trident")
+(define-word object-type 'VASE "ming" "vase" "shard" "pottery")
+(define-word object-type 'EMERALD "emerald")
+(define-word object-type 'PYRAMID "platinum" "pyramid")
+(define-word object-type 'PEARL "pearl")
+(define-word object-type 'RUG "persian" "rug")
+(define-word object-type 'SPICES "spice" "spices")
+(define-word object-type 'CHAIN "chain")
+
+;; action vocabulary
+(define-word action-type 'TAKE "capture" "carry" "catch" "get" "keep" "steal" "take" "tote")
+(define-word action-type 'DROP "discard" "drop" "dump" "free" "release")
+(define-word action-type 'OPEN "open" "unlock")
+(define-word action-type 'CLOSE "close" "lock")
+(define-word action-type 'ON "light" "on")
+(define-word action-type 'OFF "extinguish" "off")
+(define-word action-type 'WAVE "shake" "swing" "wave")
+(define-word action-type 'CALM "calm" "placate" "tame")
+(define-word action-type 'GO "explore" "follow" "go" "goto" "proceed" "run" "travel" "turn" "walk")  ; TODO: "continue" too?
+(define-word action-type 'RELAX "nothing")
+(define-word action-type 'POUR "pour")
+(define-word action-type 'EAT "devour" "eat")
+(define-word action-type 'DRINK "drink")
+(define-word action-type 'RUB "rub")
+(define-word action-type 'TOSS "throw" "toss")
+(define-word action-type 'WAKE "disturb" "wake")
+(define-word action-type 'FEED "feed")
+(define-word action-type 'FILL "fill")
+(define-word action-type 'BREAK "break" "shatter" "smash")
+(define-word action-type 'BLAST "blast" "blowup" "detonate" "ignite")
+(define-word action-type 'KILL "attack" "fight" "hit" "kill" "strike" "slay")
+(define-word action-type 'SAY "chant" "mumble" "say" "sing" "utter")
+(define-word action-type 'READ "peruse" "read")
+(define-word action-type 'FEEFIE "fee" "fie" "foe" "foo" "fum")
+(define-word action-type 'BRIEF "brief")
+(define-word action-type 'FIND "find" "where")
+(define-word action-type 'INVENTORY "inventory" "i")
+(define-word action-type 'SCORE "score")
+(define-word action-type 'QUIT "quit")
+
+(define default-msg (make-vector 30))
+
+(define (set-default-msg verb msg)
+  (vector-set! default-msg (lookup-enum verb) msg))
+
+(set-default-msg 'TAKE "You are already carrying it!")
+(set-default-msg 'DROP "You aren't carrying it!")
+(set-default-msg 'OPEN "I don't know how to lock or unlock such a thing.")
+(set-default-msg 'CLOSE "I don't know how to lock or unlock such a thing.")
+(set-default-msg 'ON "You have no source of light.")
+(set-default-msg 'OFF "You have no source of light.")
+(set-default-msg 'WAVE "Nothing happens.")
+(set-default-msg 'CALM "I'm game.  Would you care to explain how?")
+(set-default-msg 'GO "Where?")
+(set-default-msg 'RELAX "OK.")
+(set-default-msg 'POUR "You aren't carrying it!")
+(set-default-msg 'EAT "Don't be ridiculous!")
+(set-default-msg 'DRINK "You have taken a drink from the stream.  \
+The water tastes strongly of\n\
+minerals, but is not unpleasant.  It is extremely cold.")
+(set-default-msg 'RUB "Rubbing the electric lamp \
+is not particularly rewarding.  Anyway,\n\
+nothing exciting happens.")
+(set-default-msg 'TOSS "Peculiar.  Nothing unexpected happens.")
+(set-default-msg 'WAKE "Don't be ridiculous!")
+(set-default-msg 'FEED "There is nothing here to eat.")
+(set-default-msg 'FILL "You can't fill that.")
+(set-default-msg 'BREAK "It is beyond your power to do that.")
+(set-default-msg 'BLAST "Blasting requires dynamite.")
+(set-default-msg 'KILL "Don't be ridiculous!")
+(set-default-msg 'READ "I'm afraid I don't understand.")
+(set-default-msg 'FEEFIE "I don't know how.")
+(set-default-msg 'BRIEF "On what?")
+(set-default-msg 'FIND "I can only tell you what you see \
+as you move about and manipulate\n\
+things.  I cannot tell you where remote things are.")
+(set-default-msg 'INVENTORY "I can only tell you what you see \
+as you move about and manipulate\n\
+things.  I cannot tell you where remote things are.")
+(set-default-msg 'SCORE "Eh?")
+(set-default-msg 'QUIT "Eh?")
+
+(add-unl-macro!
+ 'def-default-msg '()
+ `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+               (vector->list default-msg))))
+
+(define messages '())
+
+(define (define-message-word words message)
+  (apply define-word (cons* message-type (length messages) words))
+  (push! messages message))
+
+(define-message-word
+  '("abra" "abracadabra" "hocus" "opensesame" "pocus" "sesame" "shazam")
+  "Good try, but that is an old worn-out magic word.")
+
+(define-message-word
+  '("?" "help")
+  "I know of places, actions, and things.  Most of my vocabulary\n\
+describes places and is used to move you there.  To move, try words\n\
+like forest, building, downstream, enter, east, west, north, south,\n\
+up, or down.  I know about a few special objects, like a black rod\n\
+hidden in the cave.  These objects can be manipulated using some of\n\
+the action words that I know.  Usually you will need to give both the\n\
+object and action words (in either order), but sometimes I can infer\n\
+the object from the verb alone.  Some objects also imply verbs; in\n\
+particular, \"inventory\" implies \"take inventory\", which causes me to\n\
+give you a list of what you're carrying.  The objects have side\n\
+effects; for instance, the rod scares the bird.  Usually people having\n\
+trouble moving just need to try a few more words.  Usually people\n\
+trying unsuccessfully to manipulate an object are attempting something\n\
+beyond their (or my!) capabilities and should try a completely\n\
+different tack.  To speed the game you can sometimes move long\n\
+distances with a single word.  For example, \"building\" usually gets\n\
+you to the building from anywhere above ground except when lost in the\n\
+forest.  Also, note that cave passages turn a lot, and that leaving a\n\
+room to the north does not guarantee entering the next from the south.\n\
+Good luck!")
+
+(define-message-word
+  '("tree" "trees")
+  "The trees of the forest are large hardwood oak and maple, with an\n\
+occasional grove of pine or spruce.  There is quite a bit of under-\n\
+growth, largely birch and ash saplings plus nondescript bushes of\n\
+various sorts.  This time of year visibility is quite restricted by\n\
+all the leaves, but travel is quite easy if you detour around the\n\
+spruce and berry bushes.")
+
+(define-message-word
+  '("dig" "excavate")
+  "Digging without a shovel is quite impractical.  Even with a shovel\n\
+progress is unlikely.")
+
+(define-message-word
+  '("lost")
+  "I'm as confused as you are.")
+
+(define-message-word
+  '("mist")
+  "Mist is a white vapor, usually water, seen from time to time in\n\
+caverns.  It can be found anywhere but is frequently a sign of a deep\n\
+pit leading down to water.")
+
+(define-message-word
+  '("fuck")
+  "Watch it!")
+
+(define-message-word
+  '("stop")
+  "I don't know the word \"stop\".  Use \"quit\" if \
+you want to give up.")
+
+(define-message-word
+  '("info" "information")
+  "If you want to end your adventure early, say \"quit\".  To get full\n\
+credit for a treasure, you must have left it safely in the building,\n\
+though you get partial credit just for locating it.  You lose points\n\
+for getting killed, or for quitting, though the former costs you more.\n\
+There are also points based on how much (if any) of the cave you've\n\
+managed to explore; in particular, there is a large bonus just for\n\
+getting in (to distinguish the beginners from the rest of the pack),\n\
+and there are other ways to determine whether you've been through some\n\
+of the more harrowing sections.  If you think you've found all the\n\
+treasures, just keep exploring for a while.  If nothing interesting\n\
+happens, you haven't found them all yet.  If something interesting\n\
+DOES happen, it means you're getting a bonus and have an opportunity\n\
+to garner many more points in the master's section.\n\
+I may occasionally offer hints if you seem to be having trouble.\n\
+If I do, I'll warn you in advance how much it will affect your score\n\
+to accept the hints.  Finally, to save paper, you may specify \"brief\",\n\
+which tells me never to repeat the full description of a place\n\
+unless you explicitly ask me to.")
+
+(define-message-word
+  '("swim")
+  "I don't know how.")
+
+(add-unl-macro!
+ 'def-message '()
+ `(list ,@(map (lambda (x) (list 'string x))
+               (reverse messages))))
+
+(define (defword pair)
+  (let ((type (car pair))
+        (meaning (cdr pair)))
+    `(cons (lambda (f0 f1 f2 f3)
+             ,(string->symbol (string-append "f" (number->string type))))
+           ,(string->symbol (string-append "c" (number->string meaning))))))
+
 (define (generate-parser-rec read trie)
   `(lambda (return)
      (,(if read '(@ I) 'I)
@@ -328,7 +347,7 @@
          trie
          (lambda (ch t)
            (if (eq? ch 'eow)
-               `((read-char=? #\space #\newline) return (defword ,t))
+               `((read-char=? #\space #\newline) return ,(defword t))
                `(,(if (and ignore-case (char-alphabetic? ch))
                       `(read-char=? ,(char-downcase ch) ,(char-upcase ch))
                       `(read-char=? ,ch))
@@ -337,30 +356,16 @@
       (return V))))
 
 (define (generate-parser)
-  (let ((trie (make-trie)))
-    (for-each (lambda (w)
-                (trie-put! trie (string->list (car w)) (cdr w)))
-              words)
-    (generate-parser-rec #f trie)))
+  (generate-parser-rec #f parser-trie))
 
 
 ;;; parser macros
-
-(load "lib.scm")
-(load "churchnum.scm")
-
-(defsyntax (defword num)
-  (receive (m n)
-           (quotient&remainder num 1000)
-     `(cons (lambda (f0 f1 f2 f3)
-              ,(string->symbol (string-append "f" (number->string m))))
-            ,(string->symbol (string-append "c" (number->string n))))))
 
 (defmacro (word? word) (word (lambda (_ _) I)))
 (defmacro (motion? word) ((car word) I V V V))
 (defmacro (noun? word) ((car word) V I V V))
 (defmacro (verb? word) ((car word) V V I V))
-(defmacro (special-word? word) ((car word) V V V I))
+(defmacro (message-word? word) ((car word) V V V I))
 (defmacro (word-id-of word) (cdr word))
 
 (add-unl-macro!
@@ -383,169 +388,6 @@
                 (K I (?newline I q V))))
              @ I))))
 
-(defmacro (word-data wordtbl word)
-  (car ((word-id-of word) cdr (wordtbl (car word)))))
-
-(defmacro def-motion-table V)
-(defmacro def-noun-table V)
-(defmacro def-verb-table V)
-(defmacro def-special-word-table
-  (list V  ; 0
-        V  ; 1
-        V  ; 2
-        V  ; 3
-        V  ; 4
-        V  ; 5
-        V  ; 6
-        V  ; 7
-        V  ; 8
-        V  ; 9
-        V  ; 10
-        V  ; 11
-        V  ; 12
-        V  ; 13
-        V  ; 14
-        V  ; 15
-        V  ; 16
-        V  ; 17
-        V  ; 18
-        V  ; 19
-        V  ; 20
-        V  ; 21
-        V  ; 22
-        V  ; 23
-        V  ; 24
-        V  ; 25
-        V  ; 26
-        V  ; 27
-        V  ; 28
-        V  ; 29
-        V  ; 30
-        V  ; 31
-        V  ; 32
-        V  ; 33
-        V  ; 34
-        V  ; 35
-        V  ; 36
-        V  ; 37
-        V  ; 38
-        V  ; 39
-        V  ; 40
-        V  ; 41
-        V  ; 42
-        V  ; 43
-        V  ; 44
-        V  ; 45
-        V  ; 46
-        V  ; 47
-        V  ; 48
-        V  ; 49
-        (string "GOOD TRY, BUT THAT IS AN OLD WORN-OUT MAGIC WORD.\n")  ; 50
-        (string "help-string\n")  ; 51
-        V  ; 52
-        V  ; 53
-        V  ; 54
-        V  ; 55
-        V  ; 56
-        V  ; 57
-        V  ; 58
-        V  ; 59
-        V  ; 60
-        V  ; 61
-        V  ; 62
-        V  ; 63
-        (string "tree-string\n")  ; 64
-        V  ; 65
-        (string "DDIGGING WITHOUT A SHOVEL IS QUITE IMPRACTICAL.  EVEN WITH A SHOVEL\nPROGRESS IS UNLIKELY.\n")  ; 66
-        V  ; 67
-        (string "I'M AS CONFUSED AS YOU ARE.\n")  ; 68
-        (string "MIST IS A WHITE VAPOR, USUALLY WATER, SEEN FROM TIME TO TIME IN\nCAVERNS.  IT CAN BE FOUND ANYWHERE BUT IS FREQUENTLY A SIGN OF A DEEP\nPIT LEADING DOWN TO WATER.\n")  ; 69
-        V  ; 70
-        V  ; 71
-        V  ; 72
-        V  ; 73
-        V  ; 74
-        V  ; 75
-        V  ; 76
-        V  ; 77
-        V  ; 78
-        (string "WATCH IT!\n")  ; 79
-        V  ; 80
-        V  ; 81
-        V  ; 82
-        V  ; 83
-        V  ; 84
-        V  ; 85
-        V  ; 86
-        V  ; 87
-        V  ; 88
-        V  ; 89
-        V  ; 90
-        V  ; 91
-        V  ; 92
-        V  ; 93
-        V  ; 94
-        V  ; 95
-        V  ; 96
-        V  ; 97
-        V  ; 98
-        V  ; 99
-        V  ; 100
-        V  ; 101
-        V  ; 102
-        V  ; 103
-        V  ; 104
-        V  ; 105
-        V  ; 106
-        V  ; 107
-        V  ; 108
-        V  ; 109
-        V  ; 110
-        V  ; 111
-        V  ; 112
-        V  ; 113
-        V  ; 114
-        V  ; 115
-        V  ; 116
-        V  ; 117
-        V  ; 118
-        V  ; 119
-        V  ; 120
-        V  ; 121
-        V  ; 122
-        V  ; 123
-        V  ; 124
-        V  ; 125
-        V  ; 126
-        V  ; 127
-        V  ; 128
-        V  ; 129
-        V  ; 130
-        V  ; 131
-        V  ; 132
-        V  ; 133
-        V  ; 134
-        V  ; 135
-        V  ; 136
-        V  ; 137
-        V  ; 138
-        (string "I DON'T KNOW THE WORD \"STOP\".  USE \"QUIT\" IF YOU WANT TO GIVE UP.\n")  ; 139
-        V  ; 140
-        V  ; 141
-        (string "info-string\n")  ; 142
-        V  ; 143
-        V  ; 144
-        V  ; 145
-        V  ; 146
-        (string "I DON'T KNOW HOW.\n")  ; 147
-        ))
-
-(defmacro def-word-table
-  (lambda (f)
-    (f def-motion-table
-       def-noun-table
-       def-verb-table
-       def-special-word-table)))
 
 (defmacro getin
   ((lambda (parser)
@@ -568,7 +410,7 @@
              ((skip-until-newline) (return (cons V V)))))))))  ; unknown word
    generated-parser))
 
-(defmacro getin-loop
+(defmacro listen
   (call/cc
    (lambda (return)
      ((lambda (x) (x x))
@@ -581,14 +423,18 @@
 (defmacro main
   (call/cc
    (lambda (q)
-     ((getin-loop
+     ((listen
       (lambda (w1 w2)
         ((print-digit (word-id-of w1) I)
          (#\space I)
+         ((message-word? w1)
+          (nth (word-id-of w1) def-message) I
+          #\space I)
          (if (word? w2)
              (print-digit (word-id-of w2) I)
            ((string "none") I))
          (q I))))
       ((string "what?") I)))))
 
-;main
+(define (main args)
+  (print-as-unl 'main))

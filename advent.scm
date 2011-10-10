@@ -6,16 +6,11 @@
 (load "room.scm")
 (load "parser.scm")
 
+;; accessor of world
 (defmacro variable-table-of car)
 (defmacro room-table-of cadr)
 (defmacro (func-table-of world) (car (cddr world)))
 (defmacro (word-table-of world) (cadr (cddr world)))
-
-;; functions
-(defmacro def-func-table
-  (cons print-digit
-        I))
-(defmacro (Print-digit world) (car (func-table-of world)))
 
 
 ;; variables
@@ -52,6 +47,14 @@
 (defmacro (score world) (access-vtbl "01" world))
 (defmacro (set-score world modifier) (modify-vtbl "01" modifier world))
 
+
+;; functions
+(defmacro def-func-table
+  (cons print-digit
+        I))
+(defmacro (Print-digit world) (car (func-table-of world)))
+
+
 ;; global environment
 (defmacro initial-world
   (list initial-variable-table
@@ -66,7 +69,7 @@
 (defmacro (command world)
   (call/cc
    (lambda (return)
-     (getin-loop
+     (listen
       (lambda (w1 w2)
         (if (word? w1)
             (if (special-word? w1)
