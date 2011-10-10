@@ -366,7 +366,7 @@ unless you explicitly ask me to.")
 (defmacro (noun? word) ((car word) V I V V))
 (defmacro (verb? word) ((car word) V V I V))
 (defmacro (message-word? word) ((car word) V V V I))
-(defmacro (word-id-of word) (cdr word))
+(defmacro (word-meaning word) (cdr word))
 
 (add-unl-macro!
  'generated-parser '() (generate-parser))
@@ -395,7 +395,7 @@ unless you explicitly ask me to.")
       (lambda (return)
         ((@ I)
          skip-spaces
-         ((?newline I) return V)  ; empty input
+         ((?newline I) (string " Tell me to do something.\n") return V)  ; empty input
          (let ((word1 (call/cc parser)))
            (if (word? word1)
                (skip-spaces
@@ -425,13 +425,13 @@ unless you explicitly ask me to.")
    (lambda (q)
      ((listen
       (lambda (w1 w2)
-        ((print-digit (word-id-of w1) I)
+        ((print-digit (word-meaning w1) I)
          (#\space I)
          ((message-word? w1)
-          (nth (word-id-of w1) initial-message) I
+          (nth (word-meaning w1) initial-message) I
           #\space I)
          (if (word? w2)
-             (print-digit (word-id-of w2) I)
+             (print-digit (word-meaning w2) I)
            ((string "none") I))
          (q I))))
       ((string "what?") I)))))

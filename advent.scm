@@ -9,7 +9,7 @@
 ;; mapping of the "world" data structure
 (define memory-map
   (cons (cons 'location
-              'score)
+              'word12)
         (cons (cons 'default-msg
                     'message)
               (cons 'long-desc
@@ -44,9 +44,14 @@
 (generate-accessors '() memory-map)
 
 
+
+(require "proc.scm")
+
+
 ;; initial environment
 (defmacro initial-location road)
-(defmacro initial-score c32)
+(defmacro initial-word12 V)
+(defmacro initial-dummy V)
 
 (define (make-initial-map tree)
   (if (pair? tree)
@@ -58,39 +63,13 @@
                 (make-initial-map memory-map))
 
 
-(defmacro (unknown-word world)
-  (print$ "I DON'T KNOW THAT WORD.\n" world))
-
-(defmacro (command world)
-  (call/cc
-   (lambda (return)
-     (listen
-      (lambda (w1 w2)
-        (if (word? w1)
-            (if (special-word? w1)
-                ((word-data (word-table-of world) w1 I) (return world))
-              (if (special-word? w2)
-                  ((word-data (word-table-of world) w2 I) (return world))
-                (return world)))
-          (return (unknown-word world))))))))
-
-(defrecmacro (turn world)
-  (begin
-   ; describe his situation
-   ((room-ldesc (lookup-room (room-table-of world) (location world))) I)
-   (let ((world2 (command world)))
-     (turn world2))))
-
-(defmacro test-room
-  ((nth road (short-desc initial-world)) I))
-
-(defmacro test-score
-  (let ((world initial-world))
-    (let ((world2 (set-score world (add c100))))
-      (print-digit (score world2) I))))
+;; main loop
+(defrecmacro (mainloop pc world)
+  (((nth pc program-table) world) mainloop))
 
 (defmacro main
-  (turn initial-world))
+  (mainloop initial-pc initial-world))
+
 
 (define (main args)
-  (print-as-unl 'test-room))
+  (print-as-unl 'main))
