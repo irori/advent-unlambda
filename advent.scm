@@ -10,8 +10,10 @@
 (define memory-map
   (cons (cons 'location
               'score)
-        (cons 'default-msg
-              'message)))
+        (cons (cons 'default-msg
+                    'message)
+              (cons 'long-desc
+                    'short-desc))))
 
 (define (getter-name sym) sym)
 (define (setter-name sym)
@@ -41,16 +43,9 @@
 
 (generate-accessors '() memory-map)
 
-   
-;; functions
-(defmacro def-func-table
-  (cons print-digit
-        I))
-(defmacro (Print-digit world) (car (func-table-of world)))
-
 
 ;; initial environment
-(defmacro initial-location c1)
+(defmacro initial-location road)
 (defmacro initial-score c32)
 
 (define (make-initial-map tree)
@@ -86,7 +81,10 @@
    (let ((world2 (command world)))
      (turn world2))))
 
-(defmacro main-old
+(defmacro test-room
+  ((nth road (short-desc initial-world)) I))
+
+(defmacro test-score
   (let ((world initial-world))
     (let ((world2 (set-score world (add c100))))
       (print-digit (score world2) I))))
@@ -95,4 +93,4 @@
   (turn initial-world))
 
 (define (main args)
-  (print-as-unl 'main-old))
+  (print-as-unl 'test-room))

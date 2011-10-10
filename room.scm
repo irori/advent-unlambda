@@ -1,53 +1,109 @@
-; -*- Lisp -*-
-;; rooms
-(defmacro room-sdesc car)
-(defmacro room-ldesc cadr)
-(defmacro room-travel caddr)
+#!/usr/bin/env gosh
+(require "enum.scm")
 
-(defmacro def-room1
-  (list (string "AT END OF ROAD AGAIN")
-        (string "YOU ARE STANDING AT THE END OF A ROAD BEFORE A SMALL BRICK BUILDING.\nAROUND YOU IS A FOREST.  A SMALL STREAM FLOWS OUT OF THE BUILDING AND\nDOWN A GULLY.\n")))
+(define max-loc (lookup-enum 'didit))
 
-(defmacro def-room2
-  (list (string "AT HILL IN ROAD")
-        (string "YOU HAVE WALKED UP A HILL, STILL IN THE FOREST.  THE ROAD SLOPES BACK\nDOWN THE OTHER SIDE OF THE HILL.  THERE IS A BUILDING IN THE DISTANCE.\n")))
+(define long-desc (make-vector (+ 1 max-loc)))
+(define short-desc (make-vector (+ 1 max-loc)))
+(define loc-flags (make-vector (+ 1 max-loc)))
 
-(defmacro def-room3
-  (list (string "INSIDE BUILDING")
-        (string "YOU ARE INSIDE A BUILDING, A WELL HOUSE FOR A LARGE SPRING.\n")))
+(define (define-location name ldesc sdesc flags)
+  (let ((n (lookup-enum name)))
+    (vector-set! long-desc n ldesc)
+    (vector-set! short-desc n sdesc)
+    (vector-set! loc-flags n flags)))
 
-(defmacro def-room4
-  (list (string "IN VALLEY")
-        (string "YOU ARE IN A VALLEY IN THE FOREST BESIDE A STREAM TUMBLING ALONG A\nROCKY BED.\n")))
+(define-location 'road
+  "You are standing at the end of a road before a small brick building.\n\
+Around you is a forest.  A small stream flows out of the building and\n\
+down a gully."
+  "You're at end of road again."
+  '(lighted liquid))
+;make_inst(W,0,hill);ditto(U);ditto(ROAD);
+;make_inst(E,0,house);ditto(IN);ditto(HOUSE);ditto(ENTER);
+;make_inst(S,0,valley);ditto(D);ditto(GULLY);ditto(STREAM);
+;ditto(DOWNSTREAM);
+;make_inst(N,0,forest);ditto(WOODS);
+;make_inst(DEPRESSION,0,outside);
 
-(defmacro def-room5
-  (list (string "IN FOREST")
-        (string "YOU ARE IN OPEN FOREST, WITH A DEEP VALLEY TO ONE SIDE.\n")))
+(define-location 'hill
+  "You have walked up a hill, still in the forest.  The road slopes back\n\
+down the other side of the hill.  There is a building in the distance."
+  "You're at hill in road."
+  '(lighted))
+;make_inst(ROAD,0,road);ditto(HOUSE);ditto(FORWARD);ditto(E);ditto(D);
+;make_inst(WOODS,0,forest);ditto(N);ditto(S);
 
-(defmacro def-room6
-  (list (string "IN FOREST")
-        (string "YOU ARE IN OPEN FOREST NEAR BOTH A VALLEY AND A ROAD.\n")))
+(define-location 'house
+  "You are inside a building, a well house for a large spring."
+  "You're inside building."
+  '(lighted liquid))
+;make_inst(ENTER,0,road);ditto(OUT);ditto(OUTDOORS);ditto(W);
+;make_inst(XYZZY,0,debris);
+;make_inst(PLUGH,0,y2);
+;make_inst(DOWNSTREAM,0,sewer);ditto(STREAM);
 
-(defmacro def-room7
-  (list (string "AT SLIT IN STREAMBED")
-        (string "AT YOUR FEET ALL THE WATER OF THE STREAM SPLASHES INTO A 2-INCH SLIT\nIN THE ROCK.  DOWNSTREAM THE STREAMBED IS BARE ROCK.\n")))
+(define-location 'valley
+  "You are in a valley in the forest beside a stream tumbling along a\n\
+rocky bed."
+  "You're in valley."
+  '(lighted liquid))
+;make_inst(UPSTREAM,0,road);ditto(HOUSE);ditto(N);
+;make_inst(WOODS,0,forest);ditto(E);ditto(W);ditto(U);
+;make_inst(DOWNSTREAM,0,slit);ditto(S);ditto(D);
+;make_inst(DEPRESSION,0,outside);
 
-(defmacro def-room8
-  (list (string "OUTSIDE GRATE")
-        (string "YOU ARE IN A 20-FOOT DEPRESSION FLOORED WITH BARE DIRT.  SET INTO THE\nDIRT IS A STRONG STEEL GRATE MOUNTED IN CONCRETE.  A DRY STREAMBED\nLEADS INTO THE DEPRESSION.\n")))
+(define-location 'forest
+  "You are in open forest, with a deep valley to one side."
+  "You're in forest."
+  '(lighted))
+;make_inst(VALLEY,0,valley);ditto(E);ditto(D);
+;make_inst(WOODS,50,forest);ditto(FORWARD);ditto(N);
+;make_inst(WOODS,0,woods);
+;make_inst(W,0,forest);ditto(S);
 
-(defmacro def-room-table
-  (list V
-	def-room1
-        def-room2
-        def-room3
-        def-room4
-        def-room5
-        def-room6
-        def-room7
-        def-room8
-	))
-(defmacro (lookup-room tbl roomid)
-  (car (roomid cdr tbl)))
-(defmacro room1 c1)
-(defmacro room2 c2)
+(define-location 'woods
+  "You are in open forest near both a valley and a road."
+  "You're in forest."
+  '(lighted))
+;make_inst(ROAD,0,road);ditto(N);
+;make_inst(VALLEY,0,valley);ditto(E);ditto(W);ditto(D);
+;make_inst(WOODS,0,forest);ditto(S);
+
+(define-location 'slit
+  "At your feet all the water of the stream splashes into a 2-inch slit\n\
+in the rock.  Downstream the streambed is bare rock."
+  "You're at slit in streambed."
+  '(lighted liquid))
+;make_inst(HOUSE,0,road);
+;make_inst(UPSTREAM,0,valley);ditto(N);
+;make_inst(WOODS,0,forest);ditto(E);ditto(W);
+;make_inst(DOWNSTREAM,0,outside);ditto(ROCK);ditto(BED);ditto(S);
+;remark("You don't fit through a two-inch slit!");
+;make_inst(SLIT,0,sayit);ditto(STREAM);ditto(D);
+;slit_rmk= sayit;
+
+(define-location 'outside
+  "You are in a 20-foot depression floored with bare dirt.  Set into the\n\
+dirt is a strong steel grate mounted in concrete.  A dry streambed\n\
+leads into the depression."
+  "You're outside grate."
+  '(lighted cave_hint))
+;make_inst(WOODS,0,forest);ditto(E);ditto(W);ditto(S);
+;make_inst(HOUSE,0,road);
+;make_inst(UPSTREAM,0,slit);ditto(GULLY);ditto(N);
+;make_inst(ENTER,not(GRATE,0),inside);ditto(ENTER);ditto(IN);ditto(D);
+;remark("You can't go through a locked steel grate!");
+;grate_rmk= sayit;
+;make_inst(ENTER,0,sayit);
+
+
+(add-unl-macro!
+ 'initial-long-desc '()
+ `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+               (vector->list long-desc))))
+
+(add-unl-macro!
+ 'initial-short-desc '()
+ `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+               (vector->list short-desc))))
