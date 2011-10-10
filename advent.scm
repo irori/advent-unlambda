@@ -1,53 +1,47 @@
 #!/usr/local/bin/gosh -I.
-(load "unlc.scm")
-(load "lib.scm")
-(load "churchnum.scm")
+(require "unlc.scm")
+(require "lib.scm")
+(require "churchnum.scm")
 
-(load "room.scm")
-(load "parser.scm")
+(require "room.scm")
+(require "parser.scm")
 
-;; accessor of world
-(defmacro variable-table-of car)
-(defmacro room-table-of cadr)
-(defmacro (func-table-of world) (car (cddr world)))
-(defmacro (word-table-of world) (cadr (cddr world)))
+;; mapping of the "world" data structure
+(define memory-map
+  (cons (cons 'location
+              'score)
+        (cons 'default-msg
+              'message)))
 
+(define (getter-name sym) sym)
+(define (setter-name sym)
+  (string->symbol (string-append "set-" (symbol->string sym))))
 
-;; variables
-(defmacro initial-location c1)
-(defmacro initial-score c32)
+(define (modifier-body plist)
+  (list 'world
+        (fold
+         (lambda (p e)
+           `(lambda (_hd _tl)
+              (cons
+               ,(if (eq? p 'car) (if e `(_hd ,e) '(modifier _hd)) '_hd)
+               ,(if (eq? p 'cdr) (if e `(_tl ,e) '(modifier _tl)) '_tl))))
+         #f plist)))
 
-(defmacro initial-variable-table
-  (cons initial-location
-	initial-score))
+;; generates accessor macros for the memory map
+(define (generate-accessors plist tree)
+  (if (pair? tree)
+      (begin
+        (generate-accessors (cons 'car plist) (car tree))
+        (generate-accessors (cons 'cdr plist) (cdr tree)))
+      (begin
+        (add-unl-macro! (getter-name tree) '(world)
+                        (fold-right list 'world plist))
+        (add-unl-macro! (setter-name tree) '(world modifier)
+                        (modifier-body plist)))))
 
-(defsyntax (access-vtbl pos vtbl)
-  (fold
-   (lambda (p e)
-     (list (if p 'cdr 'car)
-	   e))
-   vtbl
-   (map (lambda (x) (eq? x #\1)) (string->list pos))))
+(generate-accessors '() memory-map)
 
-(defsyntax (modify-vtbl pos f vtbl)
-  (list
-   vtbl
-   (fold-right
-    (lambda (p e)
-      `(lambda (_hd _tl)
-	 (cons
-	  ,(if p '_hd (if e `(_hd ,e) `(,f _hd)))
-	  ,(if p (if e `(_tl ,e) `(,f _tl)) '_tl))))
-    #f
-    (map (lambda (x) (eq? x #\1)) (string->list pos)))))
-
-(defmacro (location world) (access-vtbl "00" world))
-(defmacro (set-location world modifier) (modify-vtbl "00" modifier world))
-
-(defmacro (score world) (access-vtbl "01" world))
-(defmacro (set-score world modifier) (modify-vtbl "01" modifier world))
-
-
+   
 ;; functions
 (defmacro def-func-table
   (cons print-digit
@@ -55,12 +49,18 @@
 (defmacro (Print-digit world) (car (func-table-of world)))
 
 
-;; global environment
-(defmacro initial-world
-  (list initial-variable-table
-        def-room-table
-        def-func-table
-        def-word-table))
+;; initial environment
+(defmacro initial-location c1)
+(defmacro initial-score c32)
+
+(define (make-initial-map tree)
+  (if (pair? tree)
+      `(cons ,(make-initial-map (car tree))
+             ,(make-initial-map (cdr tree)))
+      (string->symbol (string-append "initial-" (symbol->string tree)))))
+
+(add-unl-macro! 'initial-world '()
+                (make-initial-map memory-map))
 
 
 (defmacro (unknown-word world)
@@ -87,11 +87,12 @@
      (turn world2))))
 
 (defmacro main-old
-  (lambda (world)
+  (let ((world initial-world))
     (let ((world2 (set-score world (add c100))))
-      (Print-digit world2 (score world2) I))))
+      (print-digit (score world2) I))))
 
 (defmacro main
   (turn initial-world))
 
-(print-as-unl 'main)
+(define (main args)
+  (print-as-unl 'main-old))

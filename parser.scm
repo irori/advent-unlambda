@@ -233,7 +233,7 @@ things.  I cannot tell you where remote things are.")
 (set-default-msg 'QUIT "Eh?")
 
 (add-unl-macro!
- 'def-default-msg '()
+ 'initial-default-msg '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
                (vector->list default-msg))))
 
@@ -329,7 +329,7 @@ unless you explicitly ask me to.")
   "I don't know how.")
 
 (add-unl-macro!
- 'def-message '()
+ 'initial-message '()
  `(list ,@(map (lambda (x) (list 'string x))
                (reverse messages))))
 
@@ -428,7 +428,7 @@ unless you explicitly ask me to.")
         ((print-digit (word-id-of w1) I)
          (#\space I)
          ((message-word? w1)
-          (nth (word-id-of w1) def-message) I
+          (nth (word-id-of w1) initial-message) I
           #\space I)
          (if (word? w2)
              (print-digit (word-id-of w2) I)
@@ -436,5 +436,5 @@ unless you explicitly ask me to.")
          (q I))))
       ((string "what?") I)))))
 
-(define (main args)
-  (print-as-unl 'main))
+;(define (main args)
+;  (print-as-unl 'main))

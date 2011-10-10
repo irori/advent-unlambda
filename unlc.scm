@@ -371,6 +371,7 @@
 (define unl-macros '())
 
 (define (add-unl-macro! name args body)
+  ; (print name args body)
   (set! unl-macros
         (acons name
                (macroexpand-application args body unl-macros)
