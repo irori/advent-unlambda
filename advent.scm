@@ -28,7 +28,7 @@
         (fold
          (lambda (p e)
            `(lambda (_hd _tl)
-              (cons
+              ((cons)
                ,(if (eq? p 'car) (if e `(_hd ,e) '(modifier _hd)) '_hd)
                ,(if (eq? p 'cdr) (if e `(_tl ,e) '(modifier _tl)) '_tl))))
          #f plist)))
