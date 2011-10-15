@@ -3,15 +3,18 @@
 
 ;; labels
 (define-enum
-  '(get-user-input
+  '(mainloop
+    try-move
+    get-user-input
     cycle-label
     look-at-word1
-    report-the-current-state
+    commence
+    go-for-it
     quit
     max-procedure
     ))
 
-(defmacro initial-pc report-the-current-state)
+(defmacro initial-pc mainloop)
 
 (defmacro goto (cons))
 
@@ -19,6 +22,22 @@
 
 (define (define-proc name body)
   (vector-set! procedures (lookup-enum name) body))
+
+; 75 Simulate an adventure, going to quit when finished
+(define-proc 'mainloop
+  '(lambda (world)
+     (let ((world2 (set-location world (lambda (_) (newloc world)))))
+       (goto commence world2))))
+
+; 75 try-move:
+(define-proc 'try-move
+  '(lambda (world)
+     (let ((world1 (set-newloc world (lambda (_) (location world)))))
+       ;; TODO: handle special motion words 140
+       (goto go-for-it
+             (set-oldlocs world1 (lambda (p)
+                                   (p (lambda (ol ool)
+                                        (cons (location world1) ol)))))))))
 
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input
@@ -37,20 +56,38 @@
      ((word12 world)
       (lambda (word1 word2)
         (if (word? word1)
-            (if (message-word? word1)
-                (begin ((nth (word-meaning word1) (message world)) #\newline I)
-                       (goto cycle-label world))
-                (print$ "wtf??"
-                        (goto quit world)))
+            ((word-type word1)
+             (lambda (_)  ; motion
+               (goto try-move (set-mot world (lambda (_) (word-meaning word1)))))
+             (lambda (_)  ; object
+               (print$ "object"
+                       (goto quit world)))
+             (lambda (_)  ; verb
+               (print$ "verb"
+                       (goto quit world)))
+             (lambda (_)  ; message
+               (begin ((nth (word-meaning word1) (message world)) #\newline I)
+                      (goto cycle-label world)))
+             I)
             (print$ "I don't know that word.\n"  ; TODO: choose msg randomly
                     (goto cycle-label world)))))))
 
 ; 86 Report the current state
-(define-proc 'report-the-current-state
+(define-proc 'commence
   '(lambda (world)
      (begin
        ((nth (location world) (long-desc world)) #\newline I)
        (goto cycle-label world))))
+
+; 146 Determine the next location, newloc
+(define-proc 'go-for-it
+  '(lambda (world)
+     (let ((q (find-inst (mot world)
+                         (nth (location world) travels))))
+       (if (not (pair? q))
+           ((string "There is no way to ...\n")
+            (goto mainloop world))
+           (goto mainloop (apply-inst q world))))))
 
 (define-proc 'quit
   '(lambda (world)

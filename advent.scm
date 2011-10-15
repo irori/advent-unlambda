@@ -3,13 +3,17 @@
 (require "lib.scm")
 (require "churchnum.scm")
 
-(require "room.scm")
 (require "parser.scm")
 
 ;; mapping of the "world" data structure
 (define memory-map
-  (cons (cons 'location
-              'word12)
+  (cons (cons (cons (cons 'location
+                          'newloc)
+                    (cons 'oldlocs
+                          'dummy))
+              (cons 'word12
+                    (cons 'mot
+                          'verb)))
         (cons (cons 'default-msg
                     'message)
               (cons 'long-desc
@@ -45,12 +49,17 @@
 
 
 
+(require "room.scm")
 (require "proc.scm")
 
 
 ;; initial environment
 (defmacro initial-location road)
+(defmacro initial-newloc road)
+(defmacro initial-oldlocs (cons road road))
 (defmacro initial-word12 V)
+(defmacro initial-mot V)
+(defmacro initial-verb V)
 (defmacro initial-dummy V)
 
 (define (make-initial-map tree)

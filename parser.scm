@@ -362,10 +362,11 @@ unless you explicitly ask me to.")
 ;;; parser macros
 
 (defmacro (word? word) (word (lambda (_ _) I)))
-(defmacro (motion? word) ((car word) I V V V))
-(defmacro (noun? word) ((car word) V I V V))
-(defmacro (verb? word) ((car word) V V I V))
-(defmacro (message-word? word) ((car word) V V V I))
+(defmacro (word-type word) (car word))
+(defmacro (motion? word) ((word-type word) I V V V))
+(defmacro (noun? word) ((word-type word) V I V V))
+(defmacro (verb? word) ((word-type word) V V I V))
+(defmacro (message-word? word) ((word-type word) V V V I))
 (defmacro (word-meaning word) (cdr word))
 
 (add-unl-macro!

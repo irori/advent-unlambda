@@ -22,20 +22,25 @@
      (if (null? (cdr lis))
          'V
          (let ((d (- (cadr lis) (car lis) 1)))
-           (if (= d 1)
-               `(cons I ,e)
-               `(,(churchnum d) (cons V) (cons I ,e))))))
+           (cond ((< d 0) (error "duplicate motion" words))
+                 ((= d 0) `(cons I ,e))
+                 (else `(,(churchnum d) (cons V) (cons I ,e)))))))
    'V
    (cons -1 (sort (map lookup-enum words)))))
 
 ;; env -> env
 (define (motion-code cond dest)
-  `(lambda (world)
-     (set-newloc world (lambda (_) ,dest))))
+  (if (string? dest)
+      `(lambda (world) ((string ,dest) world))
+      `(lambda (world)
+         (set-newloc world (lambda (_) ,dest)))))
 
 (define (make-inst dest cond words)
   `(cons ,(motion-match words)
          ,(motion-code cond dest)))
+
+(defmacro (inst-match inst) (car inst))
+(defmacro (inst-code inst) (cdr inst))
 
 (define (cond-not obj prop)
   (+ 300 (lookup-enum obj) (* 100 prop)))
@@ -123,7 +128,7 @@ leads into the depression."
   (make-inst 'forest 0 '(WOODS E W S))
   (make-inst 'road 0 '(HOUSE))
   (make-inst 'slit 0 '(UPSTREAM GULLY N))
-  (make-inst 'inside (cond-not 'GRATE 0) '(ENTER ENTER IN D))
+  (make-inst 'inside (cond-not 'GRATE 0) '(ENTER IN D))
   (make-inst "You can't go through a locked steel grate!" 0 '(ENTER))
   )
 
@@ -137,3 +142,23 @@ leads into the depression."
  'initial-short-desc '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
                (vector->list short-desc))))
+
+(add-unl-macro!
+ 'travels '()
+ `(list ,@(map (lambda (x) (if (undefined? x) 'V `(list ,@x)))
+               (vector->list travels))))
+
+(defrecmacro (find-inst motion table)
+  (table
+   (lambda (hd tl)
+     (if (nth motion (inst-match hd))
+         table
+         (find-inst motion tl)))))
+
+(defrecmacro (apply-inst table world)
+  (table
+   (lambda (hd tl)
+     (let ((world2 ((inst-code hd) world)))
+       (if ((newloc world2) I I)
+           world2
+           (apply-inst tl world2))))))

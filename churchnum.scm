@@ -1,7 +1,9 @@
 (require "lib.scm")
 
 (define (churchnum n)
-  (string->symbol (string-append "c" (number->string n))))
+  (if (< n 0)
+      (error "negative argument" n)
+      (string->symbol (string-append "c" (number->string n)))))
 
 (defmacro (T x y) (y x))
 
