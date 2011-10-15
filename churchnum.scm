@@ -73,7 +73,7 @@
 (defmacro (>  m n) (if>  m n #t #f))
 (defmacro (<= m n) (if<= m n #t #f))
 (defmacro (>= m n) (if>= m n #t #f))
-(defmacro (= m n) (nth n (m (cons #f) (cons #t nil))))
+(defmacro (= m n) (nth n (m (icons #f) (icons #t nil))))
 
 (defmacro (div x y)
   (let rec ((xs (cons1 (x cons1 V))))
@@ -99,7 +99,7 @@
     (let ((xs2 ((y 1-of-1) xs)))
       (if (cons1? xs2)
 	  (rec xs2 (succ q))
-	  (cons q (cons1-length (1-of-1 xs)))))))
+	  (icons q (cons1-length (1-of-1 xs)))))))
 
 ;(defrecmacro (mod x y)
 ;  (if (< x y)

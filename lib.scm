@@ -16,9 +16,9 @@
 
 (defsyntax (begin . es)
   (reduce-right (lambda (e rest)
-		  `((lambda (*dummy*) ,rest) ,e))
-		'I
-		es))
+                  (if rest `(K I ,e ,rest) e))
+                #f
+                es))
 
 (defsyntax (when condition consequent)
   `((,condition
@@ -81,10 +81,8 @@
 
 ;; list functions
 (defmacro nil V)
-(defmacro (cons a b) (lambda (_f) (_f a b)))
-(defmacro (snoc a b) (lambda (f) (f b a)))
-(defmacro ncons (cons)) ; non-inlined cons
-(defmacro nsnoc (snoc)) ; non-inlined snoc
+(defmacro cons (lambda (a b f) (f a b)))
+(defmacro (icons a b) (lambda (_f) (_f a b)))  ; inlined cons
 (defmacro (pair? x) (x (lambda (a b) #t)))
 (defmacro (null? x) (not (pair? x)))
 (defmacro (car x) (x (lambda (a b) a)))
@@ -97,7 +95,7 @@
 (defmacro (cddr x) (cdr (cdr x)))
 
 (defsyntax (list . es)
-  (fold-right (lambda (hd tl) `(cons ,hd ,tl))
+  (fold-right (lambda (hd tl) `(icons ,hd ,tl))
 	      'nil
 	      es))
 
@@ -105,8 +103,8 @@
 (defsyntax (cons* . args)
   (let rec ((args args))
     (if (null? (cddr args))
-	`(cons ,(car args) ,(cdr args))
-	`(cons ,(car args) ,(rec (cdr args))))))
+	`(icons ,(car args) ,(cdr args))
+	`(icons ,(car args) ,(rec (cdr args))))))
 
 (defmacro (cons1 x)
   (lambda (f) (f x)))

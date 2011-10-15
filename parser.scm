@@ -336,9 +336,9 @@ unless you explicitly ask me to.")
 (define (defword pair)
   (let ((type (car pair))
         (meaning (cdr pair)))
-    `(cons (lambda (f0 f1 f2 f3)
-             ,(string->symbol (string-append "f" (number->string type))))
-           ,(churchnum meaning))))
+    `(icons (lambda (f0 f1 f2 f3)
+              ,(string->symbol (string-append "f" (number->string type))))
+            ,(churchnum meaning))))
 
 (define (generate-parser-rec read trie)
   `(lambda (return)
@@ -400,15 +400,15 @@ unless you explicitly ask me to.")
          (let ((word1 (call/cc parser)))
            (if (word? word1)
                (skip-spaces
-                ((?newline I) return (cons word1 V))
+                ((?newline I) return (icons word1 V))
                 (let ((word2 (call/cc parser)))
                   (if (word? word2)
                       (skip-spaces
-                       ((?newline I) return (cons word1 word2))
+                       ((?newline I) return (icons word1 word2))
                        (skip-until-newline)
                        (return (print$ "Please stick to 1- and 2-word commands.\n" V)))  ; more than 2 words
-                    ((skip-until-newline) (return (cons V V))))))  ; unknown word
-             ((skip-until-newline) (return (cons V V)))))))))  ; unknown word
+                    ((skip-until-newline) (return (icons V V))))))  ; unknown word
+             ((skip-until-newline) (return (icons V V)))))))))  ; unknown word
    generated-parser))
 
 (defmacro listen

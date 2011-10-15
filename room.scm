@@ -23,8 +23,8 @@
          'V
          (let ((d (- (cadr lis) (car lis) 1)))
            (cond ((< d 0) (error "duplicate motion" words))
-                 ((= d 0) `(cons I ,e))
-                 (else `(,(churchnum d) (cons V) (cons I ,e)))))))
+                 ((= d 0) `(icons I ,e))
+                 (else `(,(churchnum d) (icons V) (icons I ,e)))))))
    'V
    (cons -1 (sort (map lookup-enum words)))))
 
@@ -36,8 +36,8 @@
          (set-newloc world (lambda (_) ,dest)))))
 
 (define (make-inst dest cond words)
-  `(cons ,(motion-match words)
-         ,(motion-code cond dest)))
+  `(icons ,(motion-match words)
+          ,(motion-code cond dest)))
 
 (defmacro (inst-match inst) (car inst))
 (defmacro (inst-code inst) (cdr inst))

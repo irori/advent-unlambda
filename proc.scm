@@ -35,9 +35,8 @@
      (let ((world1 (set-newloc world (lambda (_) (location world)))))
        ;; TODO: handle special motion words 140
        (goto go-for-it
-             (set-oldlocs world1 (lambda (p)
-                                   (p (lambda (ol ool)
-                                        (cons (location world1) ol)))))))))
+             (set-oldlocs world1 (lambda (ol-ool)
+                                   (cons (location world1) (car ol-ool))))))))
 
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input

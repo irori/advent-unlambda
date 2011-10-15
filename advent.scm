@@ -56,7 +56,7 @@
 ;; initial environment
 (defmacro initial-location road)
 (defmacro initial-newloc road)
-(defmacro initial-oldlocs (cons road road))
+(defmacro initial-oldlocs (icons road road))
 (defmacro initial-word12 V)
 (defmacro initial-mot V)
 (defmacro initial-verb V)
@@ -64,8 +64,8 @@
 
 (define (make-initial-map tree)
   (if (pair? tree)
-      `(cons ,(make-initial-map (car tree))
-             ,(make-initial-map (cdr tree)))
+      `(icons ,(make-initial-map (car tree))
+              ,(make-initial-map (cdr tree)))
       (string->symbol (string-append "initial-" (symbol->string tree)))))
 
 (add-unl-macro! 'initial-world '()
