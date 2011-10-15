@@ -1,5 +1,8 @@
 (require "lib.scm")
 
+(define (churchnum n)
+  (string->symbol (string-append "c" (number->string n))))
+
 (defmacro (T x y) (y x))
 
 (defsyntax (churchnum n)

@@ -338,7 +338,7 @@ unless you explicitly ask me to.")
         (meaning (cdr pair)))
     `(cons (lambda (f0 f1 f2 f3)
              ,(string->symbol (string-append "f" (number->string type))))
-           ,(string->symbol (string-append "c" (number->string meaning))))))
+           ,(churchnum meaning))))
 
 (define (generate-parser-rec read trie)
   `(lambda (return)

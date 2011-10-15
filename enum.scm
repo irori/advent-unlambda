@@ -8,8 +8,7 @@
 (define (define-enum symbols)
   (for-each-with-index
    (lambda (i sym)
-     (add-unl-macro! sym '()
-                     (string->symbol (string-append "c" (number->string i))))
+     (add-unl-macro! sym '() (churchnum i))
      (hash-table-put! enum-table sym i))
    symbols))
 
