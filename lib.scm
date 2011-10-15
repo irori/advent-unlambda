@@ -110,6 +110,14 @@
   (lambda (f) (f x)))
 (defmacro (cons1? x) (x (lambda (a) #t)))
 (defmacro (1-of-1 o) (o I))
+(defmacro (to-cons1 churchnum) (churchnum cons1 V))
+
+(defrecmacro (modify-nth n f lst)
+  (if (cons1? n)
+      (lst (lambda (hd tl)
+             (cons hd (modify-nth (1-of-1 n) f tl))))
+      (lst (lambda (hd tl)
+             (cons (f hd) tl)))))
 
 ;; utilities
 (defmacro (compose f g)

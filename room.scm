@@ -2,6 +2,7 @@
 (require "enum.scm")
 
 (define max-loc (lookup-enum 'didit))
+(defmacro max-loc didit)
 
 (define long-desc (make-vector (+ 1 max-loc)))
 (define short-desc (make-vector (+ 1 max-loc)))
@@ -162,3 +163,6 @@ leads into the depression."
        (if ((newloc world2) I I)
            world2
            (apply-inst tl world2))))))
+
+(defmacro initial-visits
+  (max-loc (cons V) (cons V V)))

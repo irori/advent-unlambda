@@ -61,10 +61,27 @@
 ; 86 Report the current state
 (define-proc 'commence
   '(lambda (world)
-     (begin
-       (#\newline I)
-       ((nth (location world) (long-desc world)) #\newline I)
-       (goto cycle-label world))))
+     (let ((desc (if (cons1? (nth (location world) (visits world)))
+                     (short-desc world)
+                     (long-desc world))))
+       (begin
+         (#\newline I)
+         ((nth (location world) desc) #\newline I)
+         (goto describe-objects world)))))
+
+(defmacro (increment-visits world)
+  (set-visits
+   world
+   (modify-nth (to-cons1 (location world))
+               (lambda (x)
+                 (if (cons1? x)
+                     (1-of-1 x)
+                     (cons1 (cons1 (cons1 (cons1 V)))))))))
+
+; 88 Describe the objects at this location
+(define-proc 'describe-objects
+  '(lambda (world)
+     (goto cycle-label (increment-visits world))))
 
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it

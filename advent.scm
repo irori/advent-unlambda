@@ -10,7 +10,7 @@
   (cons (cons (cons (cons 'location
                           'newloc)
                     (cons 'oldlocs
-                          'dummy))
+                          'visits))
               (cons 'word12
                     (cons 'mot
                           'verb)))
