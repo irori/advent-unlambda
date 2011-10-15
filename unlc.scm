@@ -244,9 +244,9 @@
     ((f a) (list #\` (unlambdify f) (unlambdify a)))
     (#\newline #\r)
     (-
-     (if (char? x)
-	 (list #\. x)
-	 (error "unlambdify" "illegal unlambda" x)))))
+     (cond ((char? x) (list #\. x))
+           ((string? x) x)
+           (error "unlambdify" "illegal unlambda" x)))))
 
 (define (optimize-curried x)
   (cond ((or (atom? x) (pass-through? x))

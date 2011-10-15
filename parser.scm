@@ -1,4 +1,5 @@
 #!/usr/bin/env gosh
+(use file.util)
 (require "enum.scm")
 
 (define ignore-case #f)
@@ -358,6 +359,12 @@ unless you explicitly ask me to.")
 (define (generate-parser)
   (generate-parser-rec #f parser-trie))
 
+(add-unl-macro!
+ 'generated-parser '() (generate-parser))
+
+(add-unl-macro!
+ 'generated-parser-precompiled '()
+ (file->string "parser.g.unl" :if-does-not-exist #f))
 
 ;;; parser macros
 
@@ -368,9 +375,6 @@ unless you explicitly ask me to.")
 (defmacro (verb? word) ((word-type word) V V I V))
 (defmacro (message-word? word) ((word-type word) V V V I))
 (defmacro (word-meaning word) (cdr word))
-
-(add-unl-macro!
- 'generated-parser '() (generate-parser))
 
 (defrecmacro parse-lineend
   (lambda (q)
@@ -409,7 +413,7 @@ unless you explicitly ask me to.")
                        (return (print$ "Please stick to 1- and 2-word commands.\n" V)))  ; more than 2 words
                     ((skip-until-newline) (return (icons V V))))))  ; unknown word
              ((skip-until-newline) (return (icons V V)))))))))  ; unknown word
-   generated-parser))
+   generated-parser-precompiled))
 
 (defmacro listen
   (call/cc
@@ -421,7 +425,7 @@ unless you explicitly ask me to.")
            (((words (lambda (hd tl) I)) return words)
             (rec rec)))))))))
 
-(defmacro main
+(defmacro parser-main
   (call/cc
    (lambda (q)
      ((listen
@@ -437,5 +441,6 @@ unless you explicitly ask me to.")
          (q I))))
       ((string "what?") I)))))
 
-;(define (main args)
-;  (print-as-unl 'main))
+(define (main args)
+  (print-as-unl 'generated-parser)
+  0)

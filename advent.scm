@@ -81,4 +81,5 @@
 
 
 (define (main args)
-  (print-as-unl 'main))
+  (print-as-unl 'main)
+  0)
