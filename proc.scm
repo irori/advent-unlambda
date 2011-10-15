@@ -36,6 +36,20 @@
      (let ((words listen))
        (goto look-at-word1 (set-word12 world (lambda (_) words))))))
 
+; Gee, I don't understand
+(defmacro (unknown-word world)
+  (set-rand
+   world
+   (lambda (bits)
+     (bits
+      (lambda (b)
+        (b (string "I don't know that word.\n")
+           (lambda (bits2)
+             (bits2
+              (lambda (b2)
+                (b2 (string "What?\n")
+                    (string "I don't understand that!\n")))))))))))
+
 ; 78 Look at word1 and exit to the right place if it completes a command
 (define-proc 'look-at-word1
   '(lambda (world)
@@ -55,8 +69,7 @@
                (begin ((nth (word-meaning word1) (message world)) #\newline I)
                       (goto cycle-label world)))
              I)
-            (print$ "I don't know that word.\n"  ; TODO: choose msg randomly
-                    (goto cycle-label world)))))))
+            (goto cycle-label (unknown-word world)))))))
 
 ; 86 Report the current state
 (define-proc 'commence

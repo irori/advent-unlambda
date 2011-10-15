@@ -4,6 +4,7 @@
 (require "churchnum.scm")
 
 (require "parser.scm")
+(require "rand.scm")
 
 ;; mapping of the "world" data structure
 (define memory-map
@@ -11,7 +12,8 @@
                           'newloc)
                     (cons 'oldlocs
                           'visits))
-              (cons 'word12
+              (cons (cons 'rand
+                          'word12)
                     (cons 'mot
                           'verb)))
         (cons (cons 'default-msg
@@ -46,7 +48,6 @@
                         (modifier-body plist)))))
 
 (generate-accessors '() memory-map)
-
 
 
 (require "room.scm")
