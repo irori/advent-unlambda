@@ -1,27 +1,14 @@
 #!/usr/bin/env gosh
 (require "enum.scm")
 
-;; labels
-(define-enum
-  '(mainloop
-    try-move
-    get-user-input
-    cycle-label
-    look-at-word1
-    commence
-    go-for-it
-    quit
-    max-procedure
-    ))
+(defmacro goto cons)
 
-(defmacro initial-pc mainloop)
-
-(defmacro goto (cons))
-
-(define procedures (make-vector (lookup-enum 'max-procedure)))
+(define proc-labels '())
+(define procedures '())
 
 (define (define-proc name body)
-  (vector-set! procedures (lookup-enum name) body))
+  (set! proc-labels (cons name proc-labels))
+  (set! procedures (cons body procedures)))
 
 ; 75 Simulate an adventure, going to quit when finished
 (define-proc 'mainloop
@@ -75,6 +62,7 @@
 (define-proc 'commence
   '(lambda (world)
      (begin
+       (#\newline I)
        ((nth (location world) (long-desc world)) #\newline I)
        (goto cycle-label world))))
 
@@ -92,7 +80,11 @@
   '(lambda (world)
      ((string "\nquitting...\n") exit I)))
 
+(define-enum (reverse proc-labels))
+
 (add-unl-macro!
  'program-table '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V x))
-               (vector->list procedures))))
+               (reverse procedures))))
+
+(defmacro initial-pc mainloop)

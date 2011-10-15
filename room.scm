@@ -31,7 +31,7 @@
 ;; env -> env
 (define (motion-code cond dest)
   (if (string? dest)
-      `(lambda (world) ((string ,dest) world))
+      `(lambda (world) ((string ,(string-append dest "\n")) world))
       `(lambda (world)
          (set-newloc world (lambda (_) ,dest)))))
 
