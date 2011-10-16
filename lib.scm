@@ -25,7 +25,7 @@
      (lambda (**when-dummy**) ,consequent)) I))
 
 (defmacro (unless condition alternative)
-  (if condition #f alternative))
+  (if condition V alternative))
 
 ; (cond (c1 b1) (c2 b2) ... (cn bn) [(else b)])
 ; c1..cn-1 ‚ª false, cn ‚ª true ‚Ì‚Æ‚«A b1..bn-1 ‚à•]‰¿‚³‚ê‚é‚Ì‚Å’ˆÓ
@@ -68,14 +68,14 @@
   (fold list e (string->list s)))
 
 ;; boolean functions
-(defmacro (not b) (if b #f #t))
+(defmacro (not b) (if b V I))
 ;(defmacro (and a b) (a b))
-;(defmacro (or a b) (if a #t b))
+;(defmacro (or a b) (if a I b))
 (defsyntax (or . es)
   (let rec ((es es))
     (if (null? (cdr es))
 	(car es)
-	`(if ,(car es) #t ,(rec (cdr es))))))
+	`(if ,(car es) I ,(rec (cdr es))))))
 (defsyntax (and . es)
   es)
 
@@ -83,7 +83,7 @@
 (defmacro nil V)
 (defmacro cons (lambda (a b f) (f a b)))
 (defmacro (icons a b) (lambda (_f) (_f a b)))  ; inlined cons
-(defmacro (pair? x) (x (lambda (a b) #t)))
+(defmacro (pair? x) (x (lambda (a b) I)))
 (defmacro (null? x) (not (pair? x)))
 (defmacro (car x) (x (lambda (a b) a)))
 (defmacro (cdr x) (x (lambda (a b) b)))
@@ -108,7 +108,7 @@
 
 (defmacro (cons1 x)
   (lambda (f) (f x)))
-(defmacro (cons1? x) (x (lambda (a) #t)))
+(defmacro (cons1? x) (x (lambda (a) I)))
 (defmacro (1-of-1 o) (o I))
 (defmacro (to-cons1 churchnum) (churchnum cons1 V))
 

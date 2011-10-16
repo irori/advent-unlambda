@@ -80,7 +80,7 @@
   (eliminate-letrec (eliminate-let (eliminate-lambda* x))))
 
 (define (make-k arg)
-  (if (or (eq? arg #f) (eq? arg 'V))
+  (if (eq? arg 'V)
       'V
       `(K ,arg)))
 
@@ -170,7 +170,7 @@
 (define (pass-through? x)
   (if (pair? x)
       (eq? (car x) '?)
-      (or (memq x '(#f #t I K V D S call/cc **if** unsafe @ !))
+      (or (memq x '(I K V D S call/cc **if** unsafe @ !))
 	  (char? x))))
 
 (define (optimize-ski e)
@@ -194,8 +194,6 @@
     ('S #\s)
     ('D #\d)
     ('V #\v)
-    (#t #\i)
-    (#f #\v)
     ('**if** "``s`kc``s`k`s`k`k`ki``ss`k`kk")
     ('@ #\@)
     ('! #\|)

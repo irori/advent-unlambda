@@ -69,11 +69,11 @@
 (defmacro (if>= m n x y) (if<= n m x y))
 (defmacro (if<  m n x y) (if<= n m y x))
 
-(defmacro (<  m n) (if<  m n #t #f))
-(defmacro (>  m n) (if>  m n #t #f))
-(defmacro (<= m n) (if<= m n #t #f))
-(defmacro (>= m n) (if>= m n #t #f))
-(defmacro (= m n) (nth n (m (icons #f) (icons #t nil))))
+(defmacro (<  m n) (if<  m n I V))
+(defmacro (>  m n) (if>  m n I V))
+(defmacro (<= m n) (if<= m n I V))
+(defmacro (>= m n) (if>= m n I V))
+(defmacro (= m n) (nth n (m (icons V) (icons I nil))))
 
 (defmacro (div x y)
   (let rec ((xs (cons1 (x cons1 V))))
