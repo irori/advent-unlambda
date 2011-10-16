@@ -30,11 +30,19 @@
    (cons -1 (sort (map lookup-enum words)))))
 
 ;; env -> env
-(define (motion-code cond dest)
-  (if (string? dest)
-      `(lambda (world) ((string ,(string-append dest "\n")) world))
-      `(lambda (world)
-         (set-newloc world (lambda (_) ,dest)))))
+(define (motion-code condition dest)
+  (cond ((string? dest)
+         `(lambda (world) ((string ,(string-append dest "\n")) world)))
+        ((zero? condition)
+         `(lambda (world)
+            (set-newloc world (lambda (_) ,dest))))
+        ((= 50 condition)
+         `(lambda (world)
+            (let ((world2 (set-rand world (lambda (r) (cdr r)))))
+              (set-newloc world2 (lambda (_) ((car (rand world)) V ,dest))))))
+        (else
+         `(lambda (world)
+            (set-newloc world (lambda (_) V))))))
 
 (define (make-inst dest cond words)
   `(icons ,(motion-match words)
@@ -162,7 +170,7 @@ leads into the depression."
      (let ((world2 ((inst-code hd) world)))
        (if ((newloc world2) I I)
            world2
-           (apply-inst tl world2))))))
+           (apply-inst tl (set-newloc world2 (lambda (_) (newloc world)))))))))
 
 (defmacro initial-visits
   (max-loc (cons V) (cons V V)))
