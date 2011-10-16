@@ -58,6 +58,9 @@
 (define (cond-not obj prop)
   (+ 300 (lookup-enum obj) (* 100 prop)))
 
+(define all-alike "You are in a maze of twisty little passages, all alike.")
+(define dead-end "Dead end.")
+
 (define-location 'road
   "You are standing at the end of a road before a small brick building.\n\
 Around you is a forest.  A small stream flows out of the building and\n\
@@ -245,6 +248,217 @@ staircase.  There is a passage at the top of a dome behind you."
   '()
   (make-inst 'emist 0 '(HALL OUT N))
   )
+
+(define bridge-rmk
+  "I respectfully suggest you go across the bridge instead of jumping.")
+(define-location 'efiss
+  "You are on the east bank of a fissure slicing clear across the hall.\n\
+The mist is quite thick here, and the fissure is too wide to jump."
+  "You're on east bank of fissure."
+  '()
+  (make-inst 'emist 0 '(HALL E))
+  (make-inst bridge-rmk (cond-not 'CRYSTAL 0) '(JUMP))
+  (make-inst 'lose (cond-not 'CRYSTAL 1) '(FORWARD))
+  (make-inst "There is no way across the fissure." (cond-not 'CRYSTAL 1) '(OVER ACROSS W CROSS))
+  (make-inst 'wfiss 0 '(OVER))
+  )
+
+(define-location 'wfiss
+  "You are on the west side of the fissure in the Hall of Mists."
+  "You are on the west side of the fissure in the Hall of Mists."
+  '()
+  (make-inst bridge-rmk (cond-not 'CRYSTAL 0) '(JUMP))
+  (make-inst 'lose (cond-not 'CRYSTAL 1) '(FORWARD))
+  (make-inst "There is no way across the fissure." (cond-not 'CRYSTAL 1) '(OVER ACROSS E CROSS))
+  (make-inst 'efiss 0 '(OVER))
+  (make-inst 'thru 0 '(N))
+  (make-inst 'wmist 0 '(W))
+  )
+
+(define-location 'wmist
+  "You are at the west end of the Hall of Mists.  A low wide crawl\n\
+continues west and another goes north.  To the south is a little\n\
+passage 6 feet off the floor."
+  "You're at west end of Hall of Mists."
+  '()
+  (make-inst 'like1 0 '(S U PASSAGE CLIMB))
+  (make-inst 'wfiss 0 '(E))
+  (make-inst 'duck 0 '(N))
+  (make-inst 'elong 0 '(W CRAWL))
+  )
+
+(define-location 'like1 all-alike all-alike '(twist_hint)
+  (make-inst 'wmist 0 '(U))
+  (make-inst 'like1 0 '(N))
+  (make-inst 'like2 0 '(E))
+  (make-inst 'like4 0 '(S))
+  (make-inst 'like11 0 '(W))
+  )
+
+(define-location 'like2 all-alike all-alike '(twist_hint)
+  (make-inst 'like1 0 '(W))
+  (make-inst 'like3 0 '(S))
+  (make-inst 'like4 0 '(E))
+  )
+
+(define-location 'like3 all-alike all-alike '(twist_hint)
+  (make-inst 'like2 0 '(E))
+  (make-inst 'dead5 0 '(D))
+  (make-inst 'like6 0 '(S))
+  (make-inst 'dead9 0 '(N))
+  )
+
+(define-location 'like4 all-alike all-alike '(twist_hint)
+  (make-inst 'like1 0 '(W))
+  (make-inst 'like2 0 '(N))
+  (make-inst 'dead3 0 '(E))
+  (make-inst 'dead4 0 '(S))
+  (make-inst 'like14 0 '(U D))
+  )
+
+(define-location 'like5 all-alike all-alike '(twist_hint)
+  (make-inst 'like6 0 '(E))
+  (make-inst 'like7 0 '(W))
+  )
+
+(define-location 'like6 all-alike all-alike '(twist_hint)
+  (make-inst 'like3 0 '(E))
+  (make-inst 'like5 0 '(W))
+  (make-inst 'like7 0 '(D))
+  (make-inst 'like8 0 '(S))
+  )
+
+(define-location 'like7 all-alike all-alike '(twist_hint)
+  (make-inst 'like5 0 '(W))
+  (make-inst 'like6 0 '(U))
+  (make-inst 'like8 0 '(E))
+  (make-inst 'like9 0 '(S))
+  )
+
+(define-location 'like8 all-alike all-alike '(twist_hint)
+  (make-inst 'like6 0 '(W))
+  (make-inst 'like7 0 '(E))
+  (make-inst 'like8 0 '(S))
+  (make-inst 'like9 0 '(U))
+  (make-inst 'like10 0 '(N))
+  (make-inst 'dead11 0 '(D))
+  )
+
+(define-location 'like9 all-alike all-alike '(twist_hint)
+  (make-inst 'like7 0 '(W))
+  (make-inst 'like8 0 '(N))
+  (make-inst 'dead6 0 '(S))
+  )
+
+(define-location 'like10 all-alike all-alike '(twist_hint)
+  (make-inst 'like8 0 '(W))
+  (make-inst 'like10 0 '(N))
+  (make-inst 'dead7 0 '(D))
+  (make-inst 'brink 0 '(E))
+  )
+
+(define-location 'like11 all-alike all-alike '(twist_hint)
+  (make-inst 'like1 0 '(N))
+  (make-inst 'like11 0 '(W S))
+  (make-inst 'dead1 0 '(E))
+  )
+
+(define-location 'like12 all-alike all-alike '(twist_hint)
+  (make-inst 'brink 0 '(S))
+  (make-inst 'like13 0 '(E))
+  (make-inst 'dead10 0 '(W))
+  )
+
+(define-location 'like13 all-alike all-alike '(twist_hint)
+  (make-inst 'brink 0 '(N))
+  (make-inst 'like12 0 '(W))
+  (make-inst 'dead2 0 '(NW))
+  )
+
+(define-location 'like14 all-alike all-alike '(twist_hint)
+  (make-inst 'like4 0 '(U D))
+  )
+
+(define-location 'brink
+  "You are on the brink of a thirty-foot pit with a massive orange column\n\
+down one wall.  You could climb down here but you could not get back\n\
+up.  The maze continues at this level."
+  "You're at brink of pit."
+  '()
+  (make-inst 'bird 0 '(D CLIMB))
+  (make-inst 'like10 0 '(W))
+  (make-inst 'dead8 0 '(S))
+  (make-inst 'like12 0 '(N))
+  (make-inst 'like13 0 '(E))
+  )
+
+(define-location 'elong
+  "You are at the east end of a very long hall apparently without side\n\
+chambers.  To the east a low wide crawl slants up.  To the north a\n\
+round two-foot hole slants down."
+  "You're at east end of long hall."
+  '()
+  (make-inst 'wmist 0 '(E U CRAWL))
+  (make-inst 'wlong 0 '(W))
+  (make-inst 'cross 0 '(N D HOLE))
+  )
+
+(define-location 'wlong
+  "You are at the west end of a very long featureless hall.  The hall\n\
+joins up with a narrow north/south passage."
+  "You're at west end of long hall."
+  '()
+  (make-inst 'elong 0 '(E))
+  (make-inst 'cross 0 '(N))
+  (make-inst 'diff0 100 '(S))
+  )
+
+(define (define-twist l n s e w ne se nw sw u d m)
+  (define-location l m m '()
+    (make-inst n 0 '(N))
+    (make-inst s 0 '(S))
+    (make-inst e 0 '(E))
+    (make-inst w 0 '(W))
+    (make-inst ne 0 '(NE))
+    (make-inst se 0 '(SE))
+    (make-inst nw 0 '(NW))
+    (make-inst sw 0 '(SW))
+    (make-inst u 0 '(U))
+    (make-inst d 0 '(D))
+    ))
+
+(define-twist 'diff0 'diff9 'diff1 'diff7 'diff8 'diff3 'diff4 'diff6 'diff2 'diff5 'wlong
+  "You are in a maze of twisty little passages, all different.")
+
+(define-twist 'diff1 'diff8 'diff9 'diff10 'diff0 'diff5 'diff2 'diff3 'diff4 'diff6 'diff7
+  "You are in a maze of twisting little passages, all different.")
+
+(define-twist 'diff2 'diff3 'diff4 'diff8 'diff5 'diff7 'diff10 'diff0 'diff6 'diff1 'diff9
+  "You are in a little maze of twisty passages, all different.")
+
+(define-twist 'diff3 'diff7 'diff10 'diff6 'diff2 'diff4 'diff9 'diff8 'diff5 'diff0 'diff1
+  "You are in a twisting maze of little passages, all different.")
+
+(define-twist 'diff4 'diff1 'diff7 'diff5 'diff9 'diff0 'diff3 'diff2 'diff10 'diff8 'diff6
+  "You are in a twisting little maze of passages, all different.")
+
+(define-twist 'diff5 'diff0 'diff3 'diff4 'diff6 'diff8 'diff1 'diff9 'diff7 'diff10 'diff2
+  "You are in a twisty little maze of passages, all different.")
+
+(define-twist 'diff6 'diff10 'diff5 'diff0 'diff1 'diff9 'diff8 'diff7 'diff3 'diff2 'diff4
+  "You are in a twisty maze of little passages, all different.")
+
+(define-twist 'diff7 'diff6 'diff2 'diff9 'diff10 'diff1 'diff0 'diff5 'diff8 'diff4 'diff3
+  "You are in a little twisty maze of passages, all different.")
+
+(define-twist 'diff8 'diff5 'diff6 'diff1 'diff4 'diff2 'diff7 'diff10 'diff9 'diff3 'diff0
+  "You are in a maze of little twisting passages, all different.")
+
+(define-twist 'diff9 'diff4 'diff8 'diff2 'diff3 'diff10 'diff6 'diff1 'diff0 'diff7 'diff5
+  "You are in a maze of little twisty passages, all different.")
+
+(define-twist 'diff10 'diff2 'pony 'diff3 'diff7 'diff6 'diff5 'diff4 'diff1 'diff9 'diff8
+  "You are in a little maze of twisting passages, all different.")
 
 (add-unl-macro!
  'initial-long-desc '()
