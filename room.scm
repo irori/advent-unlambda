@@ -4,8 +4,8 @@
 (define max-loc (lookup-enum 'didit))
 (defmacro max-loc didit)
 
-(define long-desc (make-vector (+ 1 max-loc)))
-(define short-desc (make-vector (+ 1 max-loc)))
+(define long-desc (make-vector (+ 1 max-loc) #f))
+(define short-desc (make-vector (+ 1 max-loc) #f))
 (define loc-flags (make-vector (+ 1 max-loc)))
 (define travels (make-vector (+ 1 max-loc)))
 
@@ -857,14 +857,490 @@ having done so you would be unable to reach it to climb back up."
   (make-inst 'low 0 '(S CRAWL OUT))
   )
 
+(define-location 'window
+  "You're at a low window overlooking a huge pit, which extends up out of\n\
+sight.  A floor is indistinctly visible over 50 feet below.  Traces of\n\
+white mist cover the floor of the pit, becoming thicker to the left.\n\
+Marks in the dust around the window would seem to indicate that\n\
+someone has been here recently.  Directly across the pit from you and\n\
+25 feet away there is a similar window looking into a lighted room.\n\
+A shadowy figure can be seen there peering back at you."
+  "You're at window on pit."
+  '()
+  (make-inst 'sjunc 0 '(W))
+  (make-inst 'neck 0 '(JUMP))
+  )
+
+(define-location 'oriental
+  "This is the Oriental Room.  Ancient oriental cave drawings cover the\n\
+walls.  A gently sloping passage leads upward to the north, another\n\
+passage leads SE, and a hands-and-knees crawl leads west."
+  "You're in Oriental Room."
+  '()
+  (make-inst 'cheese 0 '(SE))
+  (make-inst 'low 0 '(W CRAWL))
+  (make-inst 'misty 0 '(U N CAVERN))
+  )
+
+(define-location 'misty
+  "You are following a wide path around the outer edge of a large cavern.\n\
+Far below, through a heavy white mist, strange splashing noises can be\n\
+heard.  The mist rises up through a fissure in the ceiling.  The path\n\
+exits to the south and west."
+  "You're in misty cavern."
+  '()
+  (make-inst 'oriental 0 '(S ORIENTAL))
+  (make-inst 'alcove 0 '(W))
+  )
+
+(define-location 'alcove
+  "You are in an alcove.  A small NW path seems to widen after a short\n\
+distance.  An extremely tight tunnel leads east.  It looks like a very\n\
+tight squeeze.  An eerie light can be seen at the other end."
+  "You're in alcove."
+  '(dark_hint)
+  (make-inst 'misty 0 '(NW CAVERN))
+  (make-inst 'ppass 0 '(E PASSAGE))
+  (make-inst 'proom 0 '(E))
+  )
+
+(define-location 'proom
+  "You're in a small chamber lit by an eerie green light.  An extremely\n\
+narrow tunnel exits to the west.  A dark corridor leads NE."
+  "You're in Plover Room."
+  '(lighted dark_hint)
+  (make-inst 'ppass 0 '(W PASSAGE OUT))
+  (make-inst 'alcove 0 '(W))
+  (make-inst 'pdrop (cond-holds 'EMERALD) '(PLOVER))
+  (make-inst 'y2 0 '(PLOVER))
+  (make-inst 'droom 0 '(NE DARK))
+  )
+
+(define-location 'droom
+  "You're in the Dark-Room.  A corridor leading south is the only exit."
+  "You're in Dark-Room."
+  '(dark_hint)
+  (make-inst 'proom 0 '(S PLOVER OUT))
+  )
+
+(define-location 'slab
+  "You are in a large low circular chamber whose floor is an immense slab\n\
+fallen from the ceiling (Slab Room).  There once were large passages\n\
+to the east and west, but they are now filled with boulders.  Low\n\
+small passages go north and south, and the south one quickly bends\n\
+east around the boulders."
+  "You're in Slab Room."
+  '()
+  (make-inst 'w2pit 0 '(S))
+  (make-inst 'abover 0 '(U CLIMB))
+  (make-inst 'bedquilt 0 '(N))
+  )
+
+(define-location 'abover
+  "You are in a secret N/S canyon above a large room."
+  #f
+  '()
+  (make-inst 'slab 0 '(D SLAB))
+  (make-inst 'scan2 (cond-not 'DRAGON 0) '(S))
+  (make-inst 'scan1 0 '(S))
+  (make-inst 'mirror 0 '(N))
+  (make-inst 'res 0 '(RESERVOIR))
+  )
+
+(define-location 'mirror
+  "You are in a north/south canyon about 25 feet across.  The floor is\n\
+covered by white mist seeping in from the north.  The walls extend\n\
+upward for well over 100 feet.  Suspended from some unseen point far\n\
+above you, an enormous two-sided mirror is hanging parallel to and\n\
+midway between the canyon walls.  (The mirror is obviously provided\n\
+for the use of the dwarves, who as you know are extremely vain.)\n\
+A small window can be seen in either wall, some fifty feet up."
+  "You're in mirror canyon."
+  '()
+  (make-inst 'abover 0 '(S))
+  (make-inst 'res 0 '(N RESERVOIR))
+  )
+
+(define-location 'res
+  "You are at the edge of a large underground reservoir.  An opaque cloud\n\
+of white mist fills the room and rises rapidly upward.  The lake is\n\
+fed by a stream, which tumbles out of a hole in the wall about 10 feet\n\
+overhead and splashes noisily into the water somewhere within the\n\
+mist.  The only passage goes back toward the south."
+  "You're at reservoir."
+  '(liquid)
+  (make-inst 'mirror 0 '(S OUT))
+  )
+
+(define-location 'scan1
+  "You are in a secret canyon that exits to the north and east."
+  #f
+  '()
+  (make-inst 'abover 0 '(N OUT))
+  (make-inst "The dragon looks rather nasty.  You'd best not try to get by." 0 '(E FORWARD))
+  )
+
+(define-location 'scan2
+  "You are in a secret canyon that exits to the north and east."
+  #f
+  '()
+  (make-inst 'abover 0 '(N))
+  (make-inst 'secret 0 '(E))
+  )
+
+(define-location 'scan3
+  "You are in a secret canyon that exits to the north and east."
+  #f
+  '()
+  (make-inst 'secret 0 '(E OUT))
+  (make-inst "The dragon looks rather nasty.  You'd best not try to get by." 0 '(N FORWARD))
+  )
+
+(define-location 'secret
+  "You are in a secret canyon, which here runs E/W.  It crosses over a\n\
+very tight canyon 15 feet below.  If you go down you may not be able\n\
+to get back up."
+  "You're in secret E/W canyon above tight canyon."
+  '()
+  (make-inst 'hmk 0 '(E))
+  (make-inst 'scan2 (cond-not 'DRAGON 0) '(W))
+  (make-inst 'scan3 0 '(W))
+  (make-inst 'wide 0 '(D))
+  )
+
+(define-location 'wide
+  "You are at a wide place in a very tight N/S canyon."
+  #f
+  '()
+  (make-inst 'tight 0 '(S))
+  (make-inst 'tall 0 '(N))
+  )
+
+(define-location 'tight
+  "The canyon here becomes too tight to go further south."
+  #f
+  '()
+  (make-inst 'wide 0 '(N))
+  )
+
+(define-location 'tall
+  "You are in a tall E/W canyon.  A low tight crawl goes 3 feet north and\n\
+seems to open up."
+  "You're in tall E/W canyon."
+  '()
+  (make-inst 'wide 0 '(E))
+  (make-inst 'boulders 0 '(W))
+  (make-inst 'cheese 0 '(N CRAWL))
+  )
+
+(define-location 'boulders
+  "The canyon runs into a mass of boulders --- dead end."
+  #f
+  '()
+  (make-inst 'tall 0 '(S))
+  )
+
+(define-location 'scorr
+  "You are in a long winding corridor sloping out of sight in both\n\
+directions."
+  "You're in sloping corridor."
+  '()
+  (make-inst 'low 0 '(D))
+  (make-inst 'swside 0 '(U))
+  )
+
+(define-location 'swside
+  "You are on one side of a large, deep chasm.  A heavy white mist rising\n\
+up from below obscures all view of the far side.  A SW path leads away\n\
+from the chasm into a winding corridor."
+  "You're on SW side of chasm."
+  '()
+  (make-inst 'scorr 0 '(SW))
+  (make-inst "The troll refuses to let you cross." (cond-sees 'TROLL) '(OVER ACROSS CROSS NE))
+  (make-inst "There is no longer any way across the chasm." (cond-not 'BRIDGE 0) '(OVER))
+  (make-inst 'troll 0 '(OVER))
+  (make-inst 'lose (cond-not 'BRIDGE 0) '(JUMP))
+  (make-inst bridge-rmk 0 '(JUMP))
+  )
+
+(define-location 'dead0 dead-end #f '()
+  (make-inst 'cross 0 '(S OUT)))
+
+(define-location 'dead1 dead-end #f '(twist_hint)
+  (make-inst 'like11 0 '(W OUT)))
+
+(define-location 'dead2 dead-end #f '()
+  (make-inst 'like13 0 '(SE)))
+
+(define-location 'dead3 dead-end #f '(twist_hint)
+  (make-inst 'like4 0 '(W OUT)))
+
+(define-location 'dead4 dead-end #f '(twist_hint)
+  (make-inst 'like4 0 '(E OUT)))
+
+(define-location 'dead5 dead-end #f '(twist_hint)
+  (make-inst 'like3 0 '(U OUT)))
+
+(define-location 'dead6 dead-end #f '(twist_hint)
+  (make-inst 'like9 0 '(W OUT)))
+
+(define-location 'dead7 dead-end #f '(twist_hint)
+  (make-inst 'like10 0 '(U OUT)))
+
+(define-location 'dead8 dead-end #f '()
+  (make-inst 'brink 0 '(E OUT)))
+
+(define-location 'dead9 dead-end #f '(twist_hint)
+  (make-inst 'like3 0 '(S OUT)))
+
+(define-location 'dead10 dead-end #f '(twist_hint)
+  (make-inst 'like12 0 '(E OUT)))
+
+(define-location 'dead11 dead-end #f '(twist_hint)
+  (make-inst 'like8 0 '(U OUT)))
+
+
+(define-location 'neside
+  "You are on the far side of the chasm.  A NE path leads away from the\n\
+chasm on this side."
+  "You're on NE side of chasm."
+  '()
+  (make-inst 'corr 0 '(NE))
+  (make-inst "The troll refuses to let you cross." (cond-sees 'TROLL) '(OVER ACROSS CROSS SW))
+  (make-inst 'troll 0 '(OVER))
+  (make-inst bridge-rmk 0 '(JUMP))
+  (make-inst 'fork 0 '(FORK))
+  (make-inst 'view 0 '(VIEW))
+  (make-inst 'fbarr 0 '(BARREN))
+  )
+
+(define-location 'corr
+  "You're in a long east/west corridor.  A faint rumbling noise can be\n\
+heard in the distance."
+  "You're in corridor."
+  '()
+  (make-inst 'neside 0 '(W))
+  (make-inst 'fork 0 '(E FORK))
+  (make-inst 'view 0 '(VIEW))
+  (make-inst 'fbarr 0 '(BARREN))
+  )
+
+(define-location 'fork
+  "The path forks here.  The left fork leads northeast.  A dull rumbling\n\
+seems to get louder in that direction.  The right fork leads southeast\n\
+down a gentle slope.  The main corridor enters from the west."
+  "You're at fork in path."
+  '()
+  (make-inst 'corr 0 '(W))
+  (make-inst 'warm 0 '(NE L))
+  (make-inst 'lime 0 '(SE R D))
+  (make-inst 'view 0 '(VIEW))
+  (make-inst 'fbarr 0 '(BARREN))
+  )
+
+(define-location 'warm
+  "The walls are quite warm here.  From the north can be heard a steady\n\
+roar, so loud that the entire cave seems to be trembling.  Another\n\
+passage leads south, and a low crawl goes east."
+  "You're at junction with warm walls."
+  '()
+  (make-inst 'fork 0 '(S FORK))
+  (make-inst 'view 0 '(N VIEW))
+  (make-inst 'chamber 0 '(E CRAWL))
+  )
+
+(define-location 'view
+  "You are on the edge of a breath-taking view.  Far below you is an\n\
+active volcano, from which great gouts of molten lava come surging\n\
+out, cascading back down into the depths.  The glowing rock fills the\n\
+farthest reaches of the cavern with a blood-red glare, giving every-\n\
+thing an eerie, macabre appearance.  The air is filled with flickering\n\
+sparks of ash and a heavy smell of brimstone.  The walls are hot to\n\
+the touch, and the thundering of the volcano drowns out all other\n\
+sounds.  Embedded in the jagged roof far overhead are myriad twisted\n\
+formations, composed of pure white alabaster, which scatter the murky\n\
+light into sinister apparitions upon the walls.  To one side is a deep\n\
+gorge, filled with a bizarre chaos of tortured rock that seems to have\n\
+been crafted by the Devil himself.  An immense river of fire crashes\n\
+out from the depths of the volcano, burns its way through the gorge,\n\
+and plummets into a bottomless pit far off to your left.  To the\n\
+right, an immense geyser of blistering steam erupts continuously\n\
+from a barren island in the center of a sulfurous lake, which bubbles\n\
+ominously.  The far right wall is aflame with an incandescence of its\n\
+own, which lends an additional infernal splendor to the already\n\
+hellish scene.  A dark, foreboding passage exits to the south."
+  "You're at breath-taking view."
+  '(lighted)
+  (make-inst 'warm 0 '(S PASSAGE OUT))
+  (make-inst 'fork 0 '(FORK))
+  (make-inst "Don't be ridiculous!" 0 '(D JUMP))
+  )
+
+(define-location 'chamber
+  "You are in a small chamber filled with large boulders.  The walls are\n\
+very warm, causing the air in the room to be almost stifling from the\n\
+heat.  The only exit is a crawl heading west, through which a low\n\
+rumbling noise is coming."
+  "You're in chamber of boulders."
+  '()
+  (make-inst 'warm 0 '(W OUT CRAWL))
+  (make-inst 'fork 0 '(FORK))
+  (make-inst 'view 0 '(VIEW))
+  )
+
+(define-location 'lime
+  "You are walking along a gently sloping north/south passage lined with\n\
+oddly shaped limestone formations."
+  "You're in limestone passage."
+  '()
+  (make-inst 'fork 0 '(N U FORK))
+  (make-inst 'fbarr 0 '(S D BARREN))
+  (make-inst 'view 0 '(VIEW))
+  )
+
+(define-location 'fbarr
+  "You are standing at the entrance to a large, barren room.  A sign\n\
+posted above the entrance reads:  \"CAUTION!  BEAR IN ROOM!\""
+  "You're in front of barren room."
+  '()
+  (make-inst 'lime 0 '(W U))
+  (make-inst 'fork 0 '(FORK))
+  (make-inst 'barr 0 '(E IN BARREN ENTER))
+  (make-inst 'view 0 '(VIEW))
+  )
+
+(define-location 'barr
+  "You are inside a barren room.  The center of the room is completely\n\
+empty except for some dust.  Marks in the dust lead away toward the\n\
+far end of the room.  The only exit is the way you came in."
+  "You're in barren room."
+  '()
+  (make-inst 'fbarr 0 '(W OUT))
+  (make-inst 'fork 0 '(FORK))
+  (make-inst 'view 0 '(VIEW))
+  )
+
+(define-location 'neend
+  "You are at the northeast end of an immense room, even larger than the\n\
+Giant Room.  It appears to be a repository for the \"Adventure\"\n\
+program.  Massive torches far overhead bathe the room with smoky\n\
+yellow light.  Scattered about you can be seen a pile of bottles (all\n\
+of them empty), a nursery of young beanstalks murmuring quietly, a bed\n\
+of oysters, a bundle of black rods with rusty stars on their ends, and\n\
+a collection of brass lanterns.  Off to one side a great many dwarves\n\
+are sleeping on the floor, snoring loudly.  A sign nearby reads:  \"DO\n\
+NOT DISTURB THE DWARVES!\"  An immense mirror is hanging against one\n\
+wall, and stretches to the other end of the room, where various other\n\
+sundry objects can be glimpsed dimly in the distance."
+  "You're at NE end."
+  '(lighted)
+  (make-inst 'swend 0 '(SW))
+  )
+
+(define-location 'swend
+  "You are at the southwest end of the repository.  To one side is a pit\n\
+full of fierce green snakes.  On the other side is a row of small\n\
+wicker cages, each of which contains a little sulking bird.  In one\n\
+corner is a bundle of black rods with rusty marks on their ends.\n\
+A large number of velvet pillows are scattered about on the floor.\n\
+A vast mirror stretches off to the northeast.  At your feet is a\n\
+large steel grate, next to which is a sign that reads, \"TREASURE\n\
+VAULT.  KEYS IN MAIN OFFICE.\""
+  "You're at SW end."
+  '(lighted)
+  (make-inst 'neend 0 '(NE))
+  (make-inst grate-rmk 0 '(D))
+  )
+
+(define-location 'crack
+  "The crack is far too small for you to follow."
+  #f
+  '()
+  (make-inst 'spit 0 '())
+  )
+
+(define-location 'neck
+  "You are at the bottom of the pit with a broken neck."
+  #f
+  '()
+  (make-inst 'limbo 0 '())
+  )
+
+(define-location 'lose "You didn't make it." #f '()
+  (make-inst 'limbo 0 '()))
+
+(define-location 'cant
+  "The dome is unclimbable."
+  #f
+  '()
+  (make-inst 'emist 0 '())
+  )
+
+(define-location 'climb
+  "You clamber up the plant and scurry through the hole at the top."
+  #f
+  '()
+  (make-inst 'narrow 0 '())
+  )
+
+(define-location 'check #f #f '()
+  (make-inst 'upnout (cond-not 'PLANT 2) '())
+  (make-inst 'didit 0 '())
+  )
+
+(define-location 'snaked
+  "You can't get by the snake."
+  #f
+  '()
+  (make-inst 'hmk 0 '())
+  )
+
+(define-location 'thru
+  "You have crawled through a very low wide passage parallel to and north\n\
+of the Hall of Mists."
+  #f
+  '()
+  (make-inst 'wmist 0 '())
+  )
+
+(define-location 'duck
+  "You have crawled through a very low wide passage parallel to and north\n\
+of the Hall of Mists."
+  #f
+  '()
+  (make-inst 'wfiss 0 '())
+  )
+
+(define-location 'sewer
+  "The stream flows out through a pair of 1-foot-diameter sewer pipes.\n\
+It would be advisable to use the exit."
+  #f
+  '()
+  (make-inst 'house 0 '())
+  )
+
+(define-location 'upnout
+  "There is nothing here to climb.  Use \"up\" or \"out\" to leave the pit."
+  #f
+  '()
+  (make-inst 'wpit 0 '())
+  )
+
+(define-location 'didit
+  "You have climbed up the plant and out of the pit."
+  #f
+  '()
+  (make-inst 'w2pit 0 '())
+  )
+
 (add-unl-macro!
  'initial-long-desc '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+ `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
                (vector->list long-desc))))
 
 (add-unl-macro!
  'initial-short-desc '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+ `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
                (vector->list short-desc))))
 
 (add-unl-macro!
