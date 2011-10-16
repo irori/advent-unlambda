@@ -12,7 +12,7 @@
 (define (define-location name ldesc sdesc flags . insts)
   (let ((n (lookup-enum name)))
     (vector-set! long-desc n ldesc)
-    (vector-set! short-desc n sdesc)
+    (vector-set! short-desc n (or sdesc ldesc))
     (vector-set! loc-flags n flags)
     (vector-set! travels n insts)
     ))
@@ -36,7 +36,7 @@
             ,(if (string? dest)
                  `((string ,(string-append dest "\n")) world)
                  `(set-newloc world (lambda (_) ,dest)))))
-        ((= 50 condition)
+        ((and (= 50 condition) (not (string? dest)))
          `(lambda (world)
             (let ((world2 (set-rand world (lambda (r) (cdr r)))))
               (set-newloc world2 (lambda (_) ((car (rand world)) V ,dest))))))
@@ -189,7 +189,7 @@ says \"MAGIC WORD XYZZY\"."
 
 (define-location 'awk
   "You are in an awkward sloping east/west canyon."
-  "You are in an awkward sloping east/west canyon."
+  #f
   '()
   (make-inst 'outside (cond-not 'GRATE 0) '(DEPRESSION))
   (make-inst 'inside 0 '(ENTRANCE))
@@ -265,7 +265,7 @@ The mist is quite thick here, and the fissure is too wide to jump."
 
 (define-location 'wfiss
   "You are on the west side of the fissure in the Hall of Mists."
-  "You are on the west side of the fissure in the Hall of Mists."
+  #f
   '()
   (make-inst bridge-rmk (cond-not 'CRYSTAL 0) '(JUMP))
   (make-inst 'lose (cond-not 'CRYSTAL 1) '(FORWARD))
@@ -287,7 +287,7 @@ passage 6 feet off the floor."
   (make-inst 'elong 0 '(W CRAWL))
   )
 
-(define-location 'like1 all-alike all-alike '(twist_hint)
+(define-location 'like1 all-alike #f '(twist_hint)
   (make-inst 'wmist 0 '(U))
   (make-inst 'like1 0 '(N))
   (make-inst 'like2 0 '(E))
@@ -295,20 +295,20 @@ passage 6 feet off the floor."
   (make-inst 'like11 0 '(W))
   )
 
-(define-location 'like2 all-alike all-alike '(twist_hint)
+(define-location 'like2 all-alike #f '(twist_hint)
   (make-inst 'like1 0 '(W))
   (make-inst 'like3 0 '(S))
   (make-inst 'like4 0 '(E))
   )
 
-(define-location 'like3 all-alike all-alike '(twist_hint)
+(define-location 'like3 all-alike #f '(twist_hint)
   (make-inst 'like2 0 '(E))
   (make-inst 'dead5 0 '(D))
   (make-inst 'like6 0 '(S))
   (make-inst 'dead9 0 '(N))
   )
 
-(define-location 'like4 all-alike all-alike '(twist_hint)
+(define-location 'like4 all-alike #f '(twist_hint)
   (make-inst 'like1 0 '(W))
   (make-inst 'like2 0 '(N))
   (make-inst 'dead3 0 '(E))
@@ -316,26 +316,26 @@ passage 6 feet off the floor."
   (make-inst 'like14 0 '(U D))
   )
 
-(define-location 'like5 all-alike all-alike '(twist_hint)
+(define-location 'like5 all-alike #f '(twist_hint)
   (make-inst 'like6 0 '(E))
   (make-inst 'like7 0 '(W))
   )
 
-(define-location 'like6 all-alike all-alike '(twist_hint)
+(define-location 'like6 all-alike #f '(twist_hint)
   (make-inst 'like3 0 '(E))
   (make-inst 'like5 0 '(W))
   (make-inst 'like7 0 '(D))
   (make-inst 'like8 0 '(S))
   )
 
-(define-location 'like7 all-alike all-alike '(twist_hint)
+(define-location 'like7 all-alike #f '(twist_hint)
   (make-inst 'like5 0 '(W))
   (make-inst 'like6 0 '(U))
   (make-inst 'like8 0 '(E))
   (make-inst 'like9 0 '(S))
   )
 
-(define-location 'like8 all-alike all-alike '(twist_hint)
+(define-location 'like8 all-alike #f '(twist_hint)
   (make-inst 'like6 0 '(W))
   (make-inst 'like7 0 '(E))
   (make-inst 'like8 0 '(S))
@@ -344,38 +344,38 @@ passage 6 feet off the floor."
   (make-inst 'dead11 0 '(D))
   )
 
-(define-location 'like9 all-alike all-alike '(twist_hint)
+(define-location 'like9 all-alike #f '(twist_hint)
   (make-inst 'like7 0 '(W))
   (make-inst 'like8 0 '(N))
   (make-inst 'dead6 0 '(S))
   )
 
-(define-location 'like10 all-alike all-alike '(twist_hint)
+(define-location 'like10 all-alike #f '(twist_hint)
   (make-inst 'like8 0 '(W))
   (make-inst 'like10 0 '(N))
   (make-inst 'dead7 0 '(D))
   (make-inst 'brink 0 '(E))
   )
 
-(define-location 'like11 all-alike all-alike '(twist_hint)
+(define-location 'like11 all-alike #f '(twist_hint)
   (make-inst 'like1 0 '(N))
   (make-inst 'like11 0 '(W S))
   (make-inst 'dead1 0 '(E))
   )
 
-(define-location 'like12 all-alike all-alike '(twist_hint)
+(define-location 'like12 all-alike #f '(twist_hint)
   (make-inst 'brink 0 '(S))
   (make-inst 'like13 0 '(E))
   (make-inst 'dead10 0 '(W))
   )
 
-(define-location 'like13 all-alike all-alike '(twist_hint)
+(define-location 'like13 all-alike #f '(twist_hint)
   (make-inst 'brink 0 '(N))
   (make-inst 'like12 0 '(W))
   (make-inst 'dead2 0 '(NW))
   )
 
-(define-location 'like14 all-alike all-alike '(twist_hint)
+(define-location 'like14 all-alike #f '(twist_hint)
   (make-inst 'like4 0 '(U D))
   )
 
@@ -414,7 +414,7 @@ joins up with a narrow north/south passage."
   )
 
 (define (define-twist l n s e w ne se nw sw u d m)
-  (define-location l m m '()
+  (define-location l m #f '()
     (make-inst n 0 '(N))
     (make-inst s 0 '(S))
     (make-inst e 0 '(E))
@@ -459,6 +459,403 @@ joins up with a narrow north/south passage."
 
 (define-twist 'diff10 'diff2 'pony 'diff3 'diff7 'diff6 'diff5 'diff4 'diff1 'diff9 'diff8
   "You are in a little maze of twisting passages, all different.")
+
+(define-location 'pony dead-end #f '()
+  (make-inst 'diff10 0 '(N OUT)))
+
+(define-location 'cross
+  "You are at a crossover of a high N/S passage and a low E/W one."
+  "You are at a crossover of a high N/S passage and a low E/W one."
+  '()
+  (make-inst 'elong 0 '(W))
+  (make-inst 'dead0 0 '(N))
+  (make-inst 'west 0 '(E))
+  (make-inst 'wlong 0 '(S))
+  )
+
+(define-location 'hmk
+  "You are in the Hall of the Mountain King, with passages off in all\n\
+directions."
+  "You're in Hall of Mt King."
+  '(snake_hint)
+  (make-inst 'emist 0 '(STAIRS U E))
+  (make-inst 'ns (cond-not 'SNAKE 0) '(N L))
+  (make-inst 'south (cond-not 'SNAKE 0) '(S R))
+  (make-inst 'west (cond-not 'SNAKE 0) '(W FORWARD))
+  (make-inst 'snaked 0 '(N))
+  (make-inst 'secret 35 '(SW))
+  (make-inst 'snaked (cond-sees 'SNAKE) '(SW))
+  (make-inst 'secret 0 '(SECRET))
+  )
+
+(define-location 'west
+  "You are in the west side chamber of the Hall of the Mountain King.\n\
+A passage continues west and up here."
+  "You're in west side chamber."
+  '()
+  (make-inst 'hmk 0 '(HALL OUT E))
+  (make-inst 'cross 0 '(W U))
+  )
+
+(define-location 'south
+  "You are in the south side chamber."
+  "You are in the south side chamber."
+  '()
+  (make-inst 'hmk 0 '(HALL OUT N))
+  )
+
+(define-location 'ns
+  "You are in a low N/S passage at a hole in the floor.  The hole goes\n\
+down to an E/W passage."
+  "You're in N/S passage."
+  '()
+  (make-inst 'hmk 0 '(HALL OUT S))
+  (make-inst 'y2 0 '(N Y2))
+  (make-inst 'dirty 0 '(D HOLE))
+  )
+
+(define-location 'y2
+  "You are in a large room, with a passage to the south, a passage to the\n\
+west, and a wall of broken rock to the east.  There is a large \"Y2\" on\n\
+a rock in the room's center."
+  "You're at \"Y2\"."
+  '()
+  (make-inst 'house 0 '(PLUGH))
+  (make-inst 'ns 0 '(S))
+  (make-inst 'jumble 0 '(E WALL BROKEN))
+  (make-inst 'windoe 0 '(W))
+  (make-inst 'pdrop (cond-holds 'EMERALD) '(PLOVER))
+  (make-inst 'proom 0 '(PLOVER))
+  )
+
+(define-location 'jumble
+  "You are in a jumble of rock, with cracks everywhere."
+  #f
+  '()
+  (make-inst 'y2 0 '(D Y2))
+  (make-inst 'emist 0 '(U))
+  )
+
+(define-location 'windoe
+  "You're at a low window overlooking a huge pit, which extends up out of\n\
+sight.  A floor is indistinctly visible over 50 feet below.  Traces of\n\
+white mist cover the floor of the pit, becoming thicker to the right.\n\
+Marks in the dust around the window would seem to indicate that\n\
+someone has been here recently.  Directly across the pit from you and\n\
+25 feet away there is a similar window looking into a lighted room.\n\
+A shadowy figure can be seen there peering back at you."
+  "You're at window on pit."
+  '()
+  (make-inst 'y2 0 '(E Y2))
+  (make-inst 'neck 0 '(JUMP))
+  )
+
+(define-location 'dirty
+  "You are in a dirty broken passage.  To the east is a crawl.  To the\n\
+west is a large passage.  Above you is a hole to another passage."
+  "You're in dirty passage."
+  '()
+  (make-inst 'clean 0 '(E CRAWL))
+  (make-inst 'ns 0 '(U HOLE))
+  (make-inst 'dusty 0 '(W))
+  (make-inst 'bedquilt 0 '(BEDQUILT))
+  )
+
+(define-location 'clean
+  "You are on the brink of a small clean climbable pit.  A crawl leads\n\
+west."
+  "You're by a clean pit."
+  '()
+  (make-inst 'dirty 0 '(W CRAWL))
+  (make-inst 'wet 0 '(D PIT CLIMB))
+  )
+
+(define-location 'wet
+  "You are in the bottom of a small pit with a little stream, which\n\
+enters and exits through tiny slits."
+  "You're in pit by stream."
+  '(liquid)
+  (make-inst 'clean 0 '(CLIMB U OUT))
+  (make-inst slit-rmk 0 '(SLIT STREAM D UPSTREAM DOWNSTREAM))
+  )
+
+(define-location 'dusty
+  "You are in a large room full of dusty rocks.  There is a big hole in\n\
+the floor.  There are cracks everywhere, and a passage leading east."
+  "You're in dusty rock room."
+  '()
+  (make-inst 'dirty 0 '(E PASSAGE))
+  (make-inst 'complex 0 '(D HOLE FLOOR))
+  (make-inst 'bedquilt 0 '(BEDQUILT))
+  )
+
+(define-location 'complex
+  "You are at a complex junction.  A low hands-and-knees passage from the\n\
+north joins a higher crawl from the east to make a walking passage\n\
+going west.  There is also a large room above.  The air is damp here."
+  "You're at complex junction."
+  '()
+  (make-inst 'dusty 0 '(U CLIMB ROOM))
+  (make-inst 'bedquilt 0 '(W BEDQUILT))
+  (make-inst 'shell 0 '(N SHELL))
+  (make-inst 'ante 0 '(E))
+  )
+
+(define-location 'shell
+  "You're in a large room carved out of sedimentary rock.  The floor\n\
+and walls are littered with bits of shells embedded in the stone.\n\
+A shallow passage proceeds downward, and a somewhat steeper one\n\
+leads up.  A low hands-and-knees passage enters from the south."
+  "You're in Shell Room."
+  '()
+  (make-inst 'arch 0 '(U HALL))
+  (make-inst 'ragged 0 '(D))
+  (make-inst "You can't fit this five-foot clam through that little passage!" (cond-holds 'CLAM) '(S))
+  (make-inst "You can't fit this five-foot oyster through that little passage!" (cond-holds 'OYSTER) '(S))
+  (make-inst 'complex 0 '(S))
+  )
+
+(define-location 'arch
+  "You are in an arched hall.  A coral passage once continued up and east\n\
+from here, but is now blocked by debris.  The air smells of sea water."
+  "You're in arched hall."
+  '()
+  (make-inst 'shell 0 '(D SHELL OUT))
+  )
+
+(define-location 'ragged
+  "You are in a long sloping corridor with ragged sharp walls."
+  #f
+  '()
+  (make-inst 'shell 0 '(U SHELL))
+  (make-inst 'sac 0 '(D))
+  )
+
+(define-location 'sac
+  "You are in a cul-de-sac about eight feet across."
+  #f
+  '()
+  (make-inst 'ragged 0 '(U OUT))
+  (make-inst 'shell 0 '(SHELL))
+  )
+
+(define-location 'ante
+  "You are in an anteroom leading to a large passage to the east.  Small\n\
+passages go west and up.  The remnants of recent digging are evident.\n\
+A sign in midair here says \"CAVE UNDER CONSTRUCTION BEYOND THIS POINT.\n\
+PROCEED AT OWN RISK.  [WITT CONSTRUCTION COMPANY]\""
+  "You're in anteroom."
+  '()
+  (make-inst 'complex 0 '(U))
+  (make-inst 'bedquilt 0 '(W))
+  (make-inst 'witt 0 '(E))
+  )
+
+(define loop-rmk
+  "You have crawled around in some little holes and wound up back in the\n\
+main passage.")
+
+(define-location 'witt
+  "You are at Witt's End.  Passages lead off in \"all\" directions."
+  "You're at Witt's End."
+  '(witt_hint)
+  (make-inst loop-rmk 95 '(E N S NE SE SW NW U D))
+  (make-inst 'ante 0 '(E))
+  (make-inst "You have crawled around in some little holes and found your way\n\
+blocked by a recent cave-in.  You are now back in the main passage." 0 '(W))
+  )
+
+(define-location 'bedquilt
+  "You are in Bedquilt, a long east/west passage with holes everywhere.\n\
+To explore at random select north, south, up, or down."
+  "You're in Bedquilt."
+  '()
+  (make-inst 'complex 0 '(E))
+  (make-inst 'cheese 0 '(W))
+  (make-inst loop-rmk 80 '(S))
+  (make-inst 'slab 0 '(SLAB))
+  (make-inst loop-rmk 80 '(U))
+  (make-inst 'abovep 50 '(U))
+  (make-inst 'dusty 0 '(U))
+  (make-inst loop-rmk 60 '(N))
+  (make-inst 'low 75 '(N))
+  (make-inst 'sjunc 0 '(N))
+  (make-inst loop-rmk 80 '(D))
+  (make-inst 'ante 0 '(D))
+  )
+
+(define-location 'cheese
+  "You are in a room whose walls resemble Swiss cheese.  Obvious passages\n\
+go west, east, NE, and NW.  Part of the room is occupied by a large\n\
+bedrock block."
+  "You're in Swiss cheese room."
+  '()
+  (make-inst 'bedquilt 0 '(NE))
+  (make-inst 'e2pit 0 '(W))
+  (make-inst loop-rmk 80 '(S))
+  (make-inst 'tall 0 '(CANYON))
+  (make-inst 'soft 0 '(E))
+  (make-inst loop-rmk 50 '(NW))
+  (make-inst 'oriental 0 '(ORIENTAL))
+  )
+
+(define-location 'soft
+  "You are in the Soft Room.  The walls are covered with heavy curtains,\n\
+the floor with a thick pile carpet.  Moss covers the ceiling."
+  "You're in Soft Room."
+  '()
+  (make-inst 'cheese 0 '(W OUT))
+  )
+
+(define-location 'e2pit
+  "You are at the east end of the Twopit Room.  The floor here is\n\
+littered with thin rock slabs, which make it easy to descend the pits.\n\
+There is a path here bypassing the pits to connect passages from east\n\
+and west.  There are holes all over, but the only big one is on the\n\
+wall directly over the west pit where you can't get to it."
+  "You're at east end of Twopit Room."
+  '()
+  (make-inst 'cheese 0 '(E))
+  (make-inst 'w2pit 0 '(W ACROSS))
+  (make-inst 'epit 0 '(D PIT))
+  )
+
+(define-location 'w2pit
+  "You are at the west end of the Twopit Room.  There is a large hole in\n\
+the wall above the pit at this end of the room."
+  "You're at west end of Twopit Room."
+  '()
+  (make-inst 'e2pit 0 '(E ACROSS))
+  (make-inst 'slab 0 '(W SLAB))
+  (make-inst 'wpit 0 '(D PIT))
+  (make-inst "It is too far up for you to reach." 0 '(HOLE))
+  )
+
+(define-location 'epit
+  "You are at the bottom of the eastern pit in the Twopit Room.  There is\n\
+a small pool of oil in one corner of the pit."
+  "You're in east pit."
+  '(liquid oil)
+  (make-inst 'e2pit 0 '(U OUT))
+  )
+
+(define-location 'wpit
+  "You are at the bottom of the western pit in the Twopit Room.  There is\n\
+a large hole in the wall about 25 feet above you."
+  "You're in west pit."
+  '()
+  (make-inst 'w2pit 0 '(U OUT))
+  (make-inst 'check (cond-not 'PLANT 4) '(CLIMB))
+  (make-inst 'climb 0 '(CLIMB))
+  )
+
+(define-location 'narrow
+  "You are in a long, narrow corridor stretching out of sight to the\n\
+west.  At the eastern end is a hole through which you can see a\n\
+profusion of leaves."
+  "You're in narrow corridor."
+  '()
+  (make-inst 'wpit 0 '(D CLIMB E))
+  (make-inst 'neck 0 '(JUMP))
+  (make-inst 'giant 0 '(W GIANT))
+  )
+
+(define-location 'giant
+  "You are in the Giant Room.  The ceiling here is too high up for your\n\
+lamp to show it.  Cavernous passages lead east, north, and south.  On\n\
+the west wall is scrawled the inscription, \"FEE FIE FOE FOO\" [sic]."
+  "You're in Giant Room."
+  '()
+  (make-inst 'narrow 0 '(S))
+  (make-inst 'block 0 '(E))
+  (make-inst 'immense 0 '(N))
+  )
+
+(define-location 'block
+  "The passage here is blocked by a recent cave-in."
+  #f
+  '()
+  (make-inst 'giant 0 '(S GIANT OUT))
+  )
+
+(define-location 'immense
+  "You are at one end of an immense north/south passage."
+  #f
+  '()
+  (make-inst 'giant 0 '(S GIANT PASSAGE))
+  (make-inst 'falls (cond-not 'DOOR 0) '(N ENTER CAVERN))
+  (make-inst "The door is extremely rusty and refuses to open." 0 '(N))
+  )
+
+(define-location 'falls
+  "You are in a magnificent cavern with a rushing stream, which cascades\n\
+over a sparkling waterfall into a roaring whirlpool that disappears\n\
+through a hole in the floor.  Passages exit to the south and west."
+  "You're in cavern with waterfall."
+  '(liquid)
+  (make-inst 'immense 0 '(S OUT))
+  (make-inst 'giant 0 '(GIANT))
+  (make-inst 'steep 0 '(W))
+  )
+
+(define-location 'steep
+  "You are at the top of a steep incline above a large room.  You could\n\
+climb down here, but you would not be able to climb up.  There is a\n\
+passage leading back to the north."
+  "You're at steep incline above large room."
+  '()
+  (make-inst 'falls 0 '(N CAVERN PASSAGE))
+  (make-inst 'low 0 '(D CLIMB))
+  )
+
+(define-location 'abovep
+  "You are in a secret N/S canyon above a sizable passage."
+  #f
+  '()
+  (make-inst 'sjunc 0 '(N))
+  (make-inst 'bedquilt 0 '(D PASSAGE))
+  (make-inst 'tite 0 '(S))
+  )
+
+(define-location 'sjunc
+  "You are in a secret canyon at a junction of three canyons, bearing\n\
+north, south, and SE.  The north one is as tall as the other two\n\
+combined."
+  "You're at junction of three secret canyons."
+  '()
+  (make-inst 'bedquilt 0 '(SE))
+  (make-inst 'abovep 0 '(S))
+  (make-inst 'window 0 '(N))
+  )
+
+(define-location 'tite
+  "A large stalactite extends from the roof and almost reaches the floor\n\
+below.  You could climb down it, and jump from it to the floor, but\n\
+having done so you would be unable to reach it to climb back up."
+  "You're on top of stalactite."
+  '()
+  (make-inst 'abovep 0 '(N))
+  (make-inst 'like6 40 '(D JUMP CLIMB))
+  (make-inst 'like9 50 '(D))
+  (make-inst 'like4 0 '(D))
+  )
+
+(define-location 'low
+  "You are in a large low room.  Crawls lead north, SE, and SW."
+  #f
+  '()
+  (make-inst 'bedquilt 0 '(BEDQUILT))
+  (make-inst 'scorr 0 '(SW))
+  (make-inst 'crawl 0 '(N))
+  (make-inst 'oriental 0 '(SE ORIENTAL))
+  )
+
+(define-location 'crawl
+  "Dead end crawl."
+  #f
+  '()
+  (make-inst 'low 0 '(S CRAWL OUT))
+  )
 
 (add-unl-macro!
  'initial-long-desc '()
