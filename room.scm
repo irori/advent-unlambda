@@ -34,15 +34,14 @@
   (cond ((zero? condition)
          `(lambda (world)
             ,(if (string? dest)
-                 `((string ,(string-append dest "\n")) world)
-                 `(set-newloc world (lambda (_) ,dest)))))
+                 `((string ,(string-append dest "\n")) (newloc world))
+                 dest)))
         ((and (= 50 condition) (not (string? dest)))
          `(lambda (world)
-            (let ((world2 (set-rand world (lambda (r) (cdr r)))))
-              (set-newloc world2 (lambda (_) ((car (rand world)) V ,dest))))))
+            ((car (rand world)) V ,dest)))
         (else
          `(lambda (world)
-            (set-newloc world (lambda (_) V))))))
+            V))))
 
 (define (make-inst dest cond words)
   `(icons ,(motion-match words)
@@ -1358,10 +1357,10 @@ It would be advisable to use the exit."
 (defrecmacro (apply-inst table world)
   (table
    (lambda (hd tl)
-     (let ((world2 ((inst-code hd) world)))
-       (if ((newloc world2) I I)
-           world2
-           (apply-inst tl (set-newloc world2 (lambda (_) (newloc world)))))))))
+     (let ((nl ((inst-code hd) world)))
+       (if (nl I I)
+           (set-newloc world (lambda (_) nl))
+           (apply-inst tl (set-rand world cdr)))))))
 
 (defmacro initial-visits
   (max-loc (cons V) (cons V V)))
