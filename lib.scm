@@ -112,6 +112,11 @@
 (defmacro (1-of-1 o) (o I))
 (defmacro (to-cons1 churchnum) (churchnum cons1 V))
 
+(defrecmacro (for-each f lst)
+  (lst
+   (lambda (hd tl)
+     (begin (f hd) (for-each f tl)))))
+
 (defrecmacro (modify-nth n f lst)
   (if (cons1? n)
       (lst (lambda (hd tl)

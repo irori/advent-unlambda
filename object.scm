@@ -215,3 +215,14 @@ on the underside of\nthe oyster.")
                      (cons 'list
                            (map (lambda (x) (if x (list 'string x) 'V)) lst))))
                (vector->list object-note))))
+
+(defmacro (objects-here world)
+  (let ((loc (location world)))
+    ((lambda (x) (x x))
+     (lambda (rec lst n)
+       (lst
+        (lambda (hd tl)
+          ((if (= hd loc) (cons n) I)
+           (rec rec tl (succ n))))))
+     (place world)
+     c0)))

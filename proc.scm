@@ -94,7 +94,14 @@
 ; 88 Describe the objects at this location
 (define-proc 'describe-objects
   '(lambda (world)
-     (goto cycle-label (increment-visits world))))
+     (begin
+       (for-each (lambda (obj)
+                   (let* ((bas (nth obj (base world)))
+                          (tt (if (zero? bas) obj bas)))
+                     ((nth (nth tt (prop world)) (nth tt (note world)))
+                      #\newline I)))
+                 (objects-here world))
+       (goto cycle-label (increment-visits world)))))
 
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it
