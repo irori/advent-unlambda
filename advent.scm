@@ -39,5 +39,6 @@
 
 
 (define (main args)
+  ; (compile-profile 'main)
   (print-as-unl 'main)
   0)

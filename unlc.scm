@@ -6,8 +6,8 @@
 (use gauche.collection)
 (use gauche.parseopt)
 
-(define (atom? x)
-  (not (pair? x)))
+(define-macro (atom? x)
+  `(not (pair? ,x)))
 
 (define (make-letrec-env bindings)
   (let ((fs (map car bindings)))
