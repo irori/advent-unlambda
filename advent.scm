@@ -7,19 +7,40 @@
 (require "rand.scm")
 
 ;; mapping of the "world" data structure
+(define (extend-memory-map tree lst)
+  (cond ((null? lst) '())
+        ((pair? (car tree))
+         (extend-memory-map (cdr tree)
+                            (extend-memory-map (car tree) lst)))
+        (else
+         (set-car! tree (cons (car tree) (car lst)))
+         (if (null? (cdr lst))
+             '()
+             (begin
+               (set-cdr! tree (cons (cdr tree) (cadr lst)))
+               (cddr lst))))))
+
+(define (make-memory-map lst)
+  (let loop ((tree (cons (car lst) (cadr lst)))
+             (lst (cddr lst)))
+    (if (null? lst)
+        tree
+        (loop tree (extend-memory-map tree lst)))))
+
 (define memory-map
-  (cons (cons (cons (cons 'location
-                          'newloc)
-                    (cons 'oldlocs
-                          'visits))
-              (cons (cons 'rand
-                          'word12)
-                    (cons 'mot
-                          'verb)))
-        (cons (cons 'default-msg
-                    'message)
-              (cons 'long-desc
-                    'short-desc))))
+  (make-memory-map
+   '(location
+     newloc
+     oldlocs
+     visits
+     rand
+     word12
+     mot
+     verb
+     default-msg
+     message
+     long-desc
+     short-desc)))
 
 (define (getter-name sym) sym)
 (define (setter-name sym)
