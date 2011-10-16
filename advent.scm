@@ -39,6 +39,11 @@
      verb
      default-msg
      message
+     base
+     prop
+     place
+     objname
+     note
      long-desc
      short-desc)))
 
@@ -70,7 +75,7 @@
 
 (generate-accessors '() memory-map)
 
-
+(require "object.scm")
 (require "room.scm")
 (require "proc.scm")
 
