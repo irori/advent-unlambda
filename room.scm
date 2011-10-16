@@ -31,11 +31,11 @@
 
 ;; env -> env
 (define (motion-code condition dest)
-  (cond ((string? dest)
-         `(lambda (world) ((string ,(string-append dest "\n")) world)))
-        ((zero? condition)
+  (cond ((zero? condition)
          `(lambda (world)
-            (set-newloc world (lambda (_) ,dest))))
+            ,(if (string? dest)
+                 `((string ,(string-append dest "\n")) world)
+                 `(set-newloc world (lambda (_) ,dest)))))
         ((= 50 condition)
          `(lambda (world)
             (let ((world2 (set-rand world (lambda (r) (cdr r)))))
