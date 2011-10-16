@@ -6,10 +6,8 @@
 (use gauche.collection)
 (use gauche.parseopt)
 
-(define *optimize* #f)
-
 (define (atom? x)
-  (not (list? x)))
+  (not (pair? x)))
 
 (define (make-letrec-env bindings)
   (let ((fs (map car bindings)))
@@ -89,15 +87,15 @@
 (define (make-s arg1 arg2)
   (match (list arg1 arg2)
     ((('K gg) ('K hh)) (=> fail)
-     (if (functional? (list gg hh))
+     (if (normalform? (list gg hh))
 	 `(K (,gg ,hh))
 	 (fail)))
     ((('D ('K gg)) ('K hh)) (=> fail)
-     (if (and (functional? hh) (not (contains-free-variables? hh)))
+     (if (and (normalform? hh) (not (contains-free-variables? hh)))
 	 `(D (K (,gg ,hh)))
 	 (fail)))
     ((('K gg) 'V) (=> fail)
-     (if (functional? (list gg 'V))
+     (if (normalform? (list gg 'V))
 	 `(K (,gg V))
 	 (fail)))
     ((('K gg) 'I) gg)
@@ -109,25 +107,20 @@
 	 'I)
 	((or (atom? body)
 	     (pass-through? body))
-	 (if (eq? body 'D)
-	     (error "kurd"))
 	 (make-k body))
 	((eq? (car body) 'lambda)
 	 (eliminate-abstruction var (eliminate-lambda body)))
 	((and (not (bound-in? var body))
 	      (not (contains-free-variables? body)))
 	 (let ((body (eliminate-lambda body)))
-	   (if (functional? body)
+	   (if (normalform? body)
 	       (make-k body)
 	       `(D ,(make-k body)))))
 	(else
 	 (let ((g (car body))
 	       (h (cadr body)))
 	   (if (eq? g 'D)
-	       (begin
-		 (if (contains-free-variables? h)
-		     (error "heusl" h))
-		 (make-k body))
+	       (make-k body)
 	       (make-s (eliminate-abstruction var g)
 		       (eliminate-abstruction var h)))))))
 
@@ -141,36 +134,6 @@
     (('? x) #t)
     (- (atom? e))))
 
-(define (functional-test e)
-  (or (normalform? e)
-      (let/cc return
-	(define (ev exp)
-	  (if (pair? exp)
-	      (let ((op (ev (car exp))))
-		(case op
-		  ((D) `(D1 ,(cadr exp)))
-		  ((unsafe) '*UNSAFE*)
-		  (else (ap op (ev (cadr exp))))))
-	      exp))
-	(define (ap exp arg)
-	  (match exp
-	    ('I arg)
-	    ('K `(K1 ,arg))
-	    (('K1 v) v)
-	    ('S `(S1 ,arg))
-	    (('S1 v) `(S2 ,v ,arg))
-	    (('S2 v1 v2) (ap (ap v1 arg) (ap v2 arg)))
-	    ('V 'V)
-	    (('D1 e) (ap (ev e) arg))
-	    (- (return #f))))
-	(ev e)
-	#t)))
-
-(define (functional? e)
-  (if *optimize*
-      (functional-test e)
-      (normalform? e)))
-
 (define (eliminate-lambda x)
   (cond ((or (atom? x) (pass-through? x))
 	 x)
@@ -179,7 +142,7 @@
 	((eq? (car x) 'lambda)
 	 (eliminate-abstruction (caadr x) (caddr x)))
 	(else
-	 `(,(eliminate-lambda (car x)) ,(eliminate-lambda (cadr x))))))
+	 (list (eliminate-lambda (car x)) (eliminate-lambda (cadr x))))))
 
 
 (define (bound-in? a x)
@@ -205,7 +168,7 @@
   (not (closed? x '())))
 
 (define (pass-through? x)
-  (if (list? x)
+  (if (pair? x)
       (eq? (car x) '?)
       (or (memq x '(#f #t I K V D S call/cc **if** unsafe @ !))
 	  (char? x))))
@@ -254,7 +217,7 @@
 	((eq? (car x) 'lambda)	;(lambda (a) (lambda (b) a)) -> K
 	 (let ((a (caadr x))
 	       (b (caddr x)))
-	   (if (and (list? b)
+	   (if (and (pair? b)
 		    (eq? (car b) 'lambda)
 		    (not (eq? (caadr b) a))
 		    (eq? (caddr b) a))
@@ -399,3 +362,23 @@
 
 (define (print-as-unl expr)
   (write-tree (lambda->unlambda (macroexpand unl-macros expr))))
+
+(define (warn . objs)
+  (with-output-to-port (current-error-port)
+    (lambda ()
+      (apply print objs))))
+
+(define-macro (profiling expr)
+  `(dynamic-wind
+       profiler-start
+       (lambda () ,expr)
+       profiler-stop))
+
+(define (compile-profile expr)
+  (let* ((expr2 (time (macroexpand unl-macros expr)))
+         (expr3 (time (curried expr2)))
+         (expr4 (time (eliminate-lambda expr3)))
+         (expr5 (optimize-ski expr4))
+         (expr6 (unlambdify expr5)))
+    (profiler-show)
+    expr6))
