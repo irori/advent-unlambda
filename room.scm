@@ -51,6 +51,10 @@
 (defmacro (inst-match inst) (car inst))
 (defmacro (inst-code inst) (cdr inst))
 
+(define (cond-holds obj)
+  (+ 100 (lookup-enum obj)))
+(define (cond-sees obj)
+  (+ 200 (lookup-enum obj)))
 (define (cond-not obj prop)
   (+ 300 (lookup-enum obj) (* 100 prop)))
 
@@ -116,6 +120,7 @@ rocky bed."
   (make-inst 'forest 0 '(WOODS S))
   )
 
+(define slit-rmk "You don't fit through a two-inch slit!")
 (define-location 'slit
   "At your feet all the water of the stream splashes into a 2-inch slit\n\
 in the rock.  Downstream the streambed is bare rock."
@@ -125,9 +130,10 @@ in the rock.  Downstream the streambed is bare rock."
   (make-inst 'valley 0 '(UPSTREAM N))
   (make-inst 'forest 0 '(WOODS E W))
   (make-inst 'outside 0 '(DOWNSTREAM ROCK BED S))
-  (make-inst "You don't fit through a two-inch slit!" 0 '(SLIT STREAM D))
+  (make-inst slit-rmk 0 '(SLIT STREAM D))
   )
 
+(define grate-rmk "You can't go through a locked steel grate!")
 (define-location 'outside
   "You are in a 20-foot depression floored with bare dirt.  Set into the\n\
 dirt is a strong steel grate mounted in concrete.  A dry streambed\n\
@@ -138,9 +144,107 @@ leads into the depression."
   (make-inst 'road 0 '(HOUSE))
   (make-inst 'slit 0 '(UPSTREAM GULLY N))
   (make-inst 'inside (cond-not 'GRATE 0) '(ENTER IN D))
-  (make-inst "You can't go through a locked steel grate!" 0 '(ENTER))
+  (make-inst grate-rmk 0 '(ENTER))
   )
 
+(define-location 'inside
+  "You are in a small chamber beneath a 3x3 steel grate to the surface.\n\
+A low crawl over cobbles leads inwards to the west."
+  "You're below the grate."
+  '(lighted)
+  (make-inst 'outside (cond-not 'GRATE 0) '(OUT U))
+  (make-inst grate-rmk 0 '(OUT))
+  (make-inst 'cobbles 0 '(CRAWL COBBLES IN W))
+  (make-inst 'spit 0 '(PIT))
+  (make-inst 'debris 0 '(DEBRIS))
+  )
+
+(define-location 'cobbles
+  "You are crawling over cobbles in a low passage.  There is a dim light\n\
+at the east end of the passage."
+  "You're in cobble crawl."
+  '(lighted)
+  (make-inst 'inside 0 '(OUT SURFACE NOWHERE E))
+  (make-inst 'debris 0 '(IN DARK W DEBRIS))
+  (make-inst 'spit 0 '(PIT))
+  )
+
+(define-location 'debris
+  "You are in a debris room filled with stuff washed in from the surface.\n\
+A low wide passage with cobbles becomes plugged with mud and debris\n\
+here, but an awkward canyon leads upward and west.  A note on the wall\n\
+says \"MAGIC WORD XYZZY\"."
+  "You're in debris room."
+  '()
+  (make-inst 'outside (cond-not 'GRATE 0) '(DEPRESSION))
+  (make-inst 'inside 0 '(ENTRANCE))
+  (make-inst 'cobbles 0 '(CRAWL COBBLES PASSAGE LOW E))
+  (make-inst 'awk 0 '(CANYON IN U W))
+  (make-inst 'house 0 '(XYZZY))
+  (make-inst 'spit 0 '(PIT))
+  )
+
+(define-location 'awk
+  "You are in an awkward sloping east/west canyon."
+  "You are in an awkward sloping east/west canyon."
+  '()
+  (make-inst 'outside (cond-not 'GRATE 0) '(DEPRESSION))
+  (make-inst 'inside 0 '(ENTRANCE))
+  (make-inst 'debris 0 '(D E DEBRIS))
+  (make-inst 'bird 0 '(IN U W))
+  (make-inst 'spit 0 '(PIT))
+  )
+
+(define-location 'bird
+  "You are in a splendid chamber thirty feet high.  The walls are frozen\n\
+rivers of orange stone.  An awkward canyon and a good passage exit\n\
+from east and west sides of the chamber."
+  "You're in bird chamber."
+  '(bird_hint)
+  (make-inst 'outside (cond-not 'GRATE 0) '(DEPRESSION))
+  (make-inst 'inside 0 '(ENTRANCE))
+  (make-inst 'debris 0 '(DEBRIS))
+  (make-inst 'awk 0 '(CANYON E))
+  (make-inst 'spit 0 '(PASSAGE PIT W))
+  )
+
+(define-location 'spit
+  "At your feet is a small pit breathing traces of white mist.  An east\n\
+passage ends here except for a small crack leading on."
+  "You're at top of small pit."
+  '()
+  (make-inst 'outside (cond-not 'GRATE 0) '(DEPRESSION))
+  (make-inst 'inside 0 '(ENTRANCE))
+  (make-inst 'debris 0 '(DEBRIS))
+  (make-inst 'bird 0 '(PASSAGE E))
+  (make-inst 'neck (cond-holds 'GOLD) '(D PIT STEPS))
+  (make-inst 'emist 0 '(D))
+  (make-inst 'crack 0 '(CRACK W))
+  )
+
+(define-location 'emist
+  "You are at one end of a vast hall stretching forward out of sight to\n\
+the west.  There are openings to either side.  Nearby, a wide stone\n\
+staircase leads downward.  The hall is filled with wisps of white mist\n\
+swaying to and fro almost as if alive.  A cold wind blows up the\n\
+staircase.  There is a passage at the top of a dome behind you."
+  "You're in Hall of Mists."
+  '()
+  (make-inst 'nugget 0 '(L S))
+  (make-inst 'efiss 0 '(FORWARD HALL W))
+  (make-inst 'hmk 0 '(STAIRS D N))
+  (make-inst 'cant (cond-holds 'GOLD) '(U PIT STEPS DOME PASSAGE E))
+  (make-inst 'spit 0 '(U))
+  (make-inst 'jumble 0 '(Y2))
+  )
+
+(define-location 'nugget
+  "This is a low room with a crude note on the wall.  The note says,\n\
+\"You won't get it up the steps\"."
+  "You're in nugget of gold room."
+  '()
+  (make-inst 'emist 0 '(HALL OUT N))
+  )
 
 (add-unl-macro!
  'initial-long-desc '()
