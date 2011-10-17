@@ -1335,21 +1335,21 @@ It would be advisable to use the exit."
 (add-unl-macro!
  'initial-long-desc '()
  (compile-to-file
-  "longdesc.obj"
+  "longdesc.unlo"
   `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
 		(vector->list long-desc)))))
 
 (add-unl-macro!
  'initial-short-desc '()
  (compile-to-file
-  "shortdesc.obj"
+  "shortdesc.unlo"
   `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
 		(vector->list short-desc)))))
 
 (add-unl-macro!
  'travels '()
  (compile-to-file
-  "travels.obj"
+  "travels.unlo"
   `(list ,@(map (lambda (x) (if (undefined? x) 'V `(list ,@x)))
 		(vector->list travels)))))
 

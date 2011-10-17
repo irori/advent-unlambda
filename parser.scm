@@ -361,7 +361,7 @@ unless you explicitly ask me to.")
 
 (add-unl-macro!
  'generated-parser '()
- (compile-to-file "parser.obj" (generate-parser)))
+ (compile-to-file "parser.unlo" (generate-parser)))
 
 ;;; parser macros
 

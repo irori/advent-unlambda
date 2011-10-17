@@ -210,7 +210,7 @@ on the underside of\nthe oyster.")
 (add-unl-macro!
  'initial-note '()
  (compile-to-file
-  "note.obj"
+  "note.unlo"
   `(list ,@(map (lambda (lst)
 		  (if (undefined? lst)
 		      'V
