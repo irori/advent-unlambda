@@ -1334,18 +1334,24 @@ It would be advisable to use the exit."
 
 (add-unl-macro!
  'initial-long-desc '()
- `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
-               (vector->list long-desc))))
+ (compile-to-file
+  "longdesc.obj"
+  `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
+		(vector->list long-desc)))))
 
 (add-unl-macro!
  'initial-short-desc '()
- `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
-               (vector->list short-desc))))
+ (compile-to-file
+  "shortdesc.obj"
+  `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
+		(vector->list short-desc)))))
 
 (add-unl-macro!
  'travels '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V `(list ,@x)))
-               (vector->list travels))))
+ (compile-to-file
+  "travels.obj"
+  `(list ,@(map (lambda (x) (if (undefined? x) 'V `(list ,@x)))
+		(vector->list travels)))))
 
 (defrecmacro (find-inst motion table)
   (table

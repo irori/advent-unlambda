@@ -360,11 +360,8 @@ unless you explicitly ask me to.")
   (generate-parser-rec #f parser-trie))
 
 (add-unl-macro!
- 'generated-parser '() (generate-parser))
-
-(add-unl-macro!
- 'generated-parser-precompiled '()
- (file->string "parser.g.unl" :if-does-not-exist #f))
+ 'generated-parser '()
+ (compile-to-file "parser.obj" (generate-parser)))
 
 ;;; parser macros
 
@@ -413,7 +410,7 @@ unless you explicitly ask me to.")
                        (return (print$ "Please stick to 1- and 2-word commands.\n" V)))  ; more than 2 words
                     ((skip-until-newline) (return (icons V V))))))  ; unknown word
              ((skip-until-newline) (return (icons V V)))))))))  ; unknown word
-   generated-parser-precompiled))
+   generated-parser))
 
 (defmacro listen
   (call/cc

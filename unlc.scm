@@ -1,6 +1,7 @@
 #!/usr/local/bin/gosh
 (use srfi-1)
 (use srfi-11)
+(use file.util)
 (use util.match)
 (use text.tree)
 (use gauche.collection)
@@ -380,3 +381,15 @@
          (expr6 (unlambdify expr5)))
     (profiler-show)
     expr6))
+
+(define (compile-to-file file expr)
+  (let ((expanded (macroexpand unl-macros expr))
+	(obj (file->sexp-list file :if-does-not-exist #f)))
+    (if (and obj (equal? (car obj) expanded))
+	(cadr obj)
+	(let ((compiled (tree->string (lambda->unlambda expanded))))
+	  (call-with-output-file file
+	    (lambda (port)
+	      (write expanded port)
+	      (write compiled port)))
+	  compiled))))

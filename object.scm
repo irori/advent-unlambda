@@ -209,12 +209,14 @@ on the underside of\nthe oyster.")
 
 (add-unl-macro!
  'initial-note '()
- `(list ,@(map (lambda (lst)
-                 (if (undefined? lst)
-                     'V
-                     (cons 'list
-                           (map (lambda (x) (if x (list 'string x) 'V)) lst))))
-               (vector->list object-note))))
+ (compile-to-file
+  "note.obj"
+  `(list ,@(map (lambda (lst)
+		  (if (undefined? lst)
+		      'V
+		      (cons 'list
+			    (map (lambda (x) (if x (list 'string x) 'V)) lst))))
+		(vector->list object-note)))))
 
 (defmacro (objects-here world)
   (let ((loc (location world)))
