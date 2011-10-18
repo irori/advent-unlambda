@@ -353,8 +353,8 @@
           unl-macros))
   #t)
 
-(define (print-as-unl expr)
-  (write-tree (lambda->unlambda (macroexpand unl-macros expr))))
+(define (print-as-unl expr :optional (port (current-output-port)))
+  (write-tree (lambda->unlambda (macroexpand unl-macros expr)) port))
 
 (define (warn . objs)
   (with-output-to-port (current-error-port)

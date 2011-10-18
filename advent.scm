@@ -1,4 +1,6 @@
 #!/usr/local/bin/gosh -I.
+(use gauche.parseopt)
+
 (require "unlc.scm")
 (require "lib.scm")
 (require "churchnum.scm")
@@ -44,6 +46,11 @@
 
 
 (define (main args)
+  (let-args (cdr args)
+	    ((outfile "o|outfile=s" "advent.unl"))
+    (call-with-output-file outfile
+      (lambda (port)
+	(display "#!/usr/bin/env unlambda\n" port)
   ; (compile-profile 'main)
-  (print-as-unl 'main)
+	(print-as-unl 'main port))))
   0)
