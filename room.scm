@@ -66,7 +66,7 @@ down a gully."
   '(lighted liquid)
   (make-inst 'hill 0 '(W U ROAD))
   (make-inst 'house 0 '(E IN HOUSE ENTER))
-  (make-inst 'valley 0 '(S D GULLY STREAM DOWNSTREAM))
+  (make-inst 'valley 0 '(SOUTH D GULLY STREAM DOWNSTREAM))
   (make-inst 'forest 0 '(N WOODS))
   (make-inst 'outside 0 '(DEPRESSION))
   )
@@ -77,7 +77,7 @@ down the other side of the hill.  There is a building in the distance."
   "You're at hill in road."
   '(lighted)
   (make-inst 'road 0 '(ROAD HOUSE FORWARD E D))
-  (make-inst 'forest 0 '(WOODS N S))
+  (make-inst 'forest 0 '(WOODS N SOUTH))
   )
 
 (define-location 'house
@@ -97,7 +97,7 @@ rocky bed."
   '(lighted liquid)
   (make-inst 'road 0 '(UPSTREAM HOUSE N))
   (make-inst 'forest 0 '(WOODS E W U))
-  (make-inst 'slit 0 '(DOWNSTREAM S D))
+  (make-inst 'slit 0 '(DOWNSTREAM SOUTH D))
   (make-inst 'outside 0 '(DEPRESSION))
   )
 
@@ -108,7 +108,7 @@ rocky bed."
   (make-inst 'valley 0 '(VALLEY E D))
   (make-inst 'forest 50 '(WOODS FORWARD N))
   (make-inst 'woods 0 '(WOODS))
-  (make-inst 'forest 0 '(W S))
+  (make-inst 'forest 0 '(W SOUTH))
   )
 
 (define-location 'woods
@@ -117,7 +117,7 @@ rocky bed."
   '(lighted)
   (make-inst 'road 0 '(ROAD N))
   (make-inst 'valley 0 '(VALLEY E W D))
-  (make-inst 'forest 0 '(WOODS S))
+  (make-inst 'forest 0 '(WOODS SOUTH))
   )
 
 (define slit-rmk "You don't fit through a two-inch slit!")
@@ -129,7 +129,7 @@ in the rock.  Downstream the streambed is bare rock."
   (make-inst 'road 0 '(HOUSE))
   (make-inst 'valley 0 '(UPSTREAM N))
   (make-inst 'forest 0 '(WOODS E W))
-  (make-inst 'outside 0 '(DOWNSTREAM ROCK BED S))
+  (make-inst 'outside 0 '(DOWNSTREAM ROCK BED SOUTH))
   (make-inst slit-rmk 0 '(SLIT STREAM D))
   )
 
@@ -140,7 +140,7 @@ dirt is a strong steel grate mounted in concrete.  A dry streambed\n\
 leads into the depression."
   "You're outside grate."
   '(lighted cave_hint)
-  (make-inst 'forest 0 '(WOODS E W S))
+  (make-inst 'forest 0 '(WOODS E W SOUTH))
   (make-inst 'road 0 '(HOUSE))
   (make-inst 'slit 0 '(UPSTREAM GULLY N))
   (make-inst 'inside (cond-not 'GRATE 0) '(ENTER IN D))
@@ -230,7 +230,7 @@ swaying to and fro almost as if alive.  A cold wind blows up the\n\
 staircase.  There is a passage at the top of a dome behind you."
   "You're in Hall of Mists."
   '()
-  (make-inst 'nugget 0 '(L S))
+  (make-inst 'nugget 0 '(L SOUTH))
   (make-inst 'efiss 0 '(FORWARD HALL W))
   (make-inst 'hmk 0 '(STAIRS D N))
   (make-inst 'cant (cond-holds 'GOLD) '(U PIT STEPS DOME PASSAGE E))
@@ -278,7 +278,7 @@ continues west and another goes north.  To the south is a little\n\
 passage 6 feet off the floor."
   "You're at west end of Hall of Mists."
   '()
-  (make-inst 'like1 0 '(S U PASSAGE CLIMB))
+  (make-inst 'like1 0 '(SOUTH U PASSAGE CLIMB))
   (make-inst 'wfiss 0 '(E))
   (make-inst 'duck 0 '(N))
   (make-inst 'elong 0 '(W CRAWL))
@@ -288,20 +288,20 @@ passage 6 feet off the floor."
   (make-inst 'wmist 0 '(U))
   (make-inst 'like1 0 '(N))
   (make-inst 'like2 0 '(E))
-  (make-inst 'like4 0 '(S))
+  (make-inst 'like4 0 '(SOUTH))
   (make-inst 'like11 0 '(W))
   )
 
 (define-location 'like2 all-alike #f '(twist_hint)
   (make-inst 'like1 0 '(W))
-  (make-inst 'like3 0 '(S))
+  (make-inst 'like3 0 '(SOUTH))
   (make-inst 'like4 0 '(E))
   )
 
 (define-location 'like3 all-alike #f '(twist_hint)
   (make-inst 'like2 0 '(E))
   (make-inst 'dead5 0 '(D))
-  (make-inst 'like6 0 '(S))
+  (make-inst 'like6 0 '(SOUTH))
   (make-inst 'dead9 0 '(N))
   )
 
@@ -309,7 +309,7 @@ passage 6 feet off the floor."
   (make-inst 'like1 0 '(W))
   (make-inst 'like2 0 '(N))
   (make-inst 'dead3 0 '(E))
-  (make-inst 'dead4 0 '(S))
+  (make-inst 'dead4 0 '(SOUTH))
   (make-inst 'like14 0 '(U D))
   )
 
@@ -322,20 +322,20 @@ passage 6 feet off the floor."
   (make-inst 'like3 0 '(E))
   (make-inst 'like5 0 '(W))
   (make-inst 'like7 0 '(D))
-  (make-inst 'like8 0 '(S))
+  (make-inst 'like8 0 '(SOUTH))
   )
 
 (define-location 'like7 all-alike #f '(twist_hint)
   (make-inst 'like5 0 '(W))
   (make-inst 'like6 0 '(U))
   (make-inst 'like8 0 '(E))
-  (make-inst 'like9 0 '(S))
+  (make-inst 'like9 0 '(SOUTH))
   )
 
 (define-location 'like8 all-alike #f '(twist_hint)
   (make-inst 'like6 0 '(W))
   (make-inst 'like7 0 '(E))
-  (make-inst 'like8 0 '(S))
+  (make-inst 'like8 0 '(SOUTH))
   (make-inst 'like9 0 '(U))
   (make-inst 'like10 0 '(N))
   (make-inst 'dead11 0 '(D))
@@ -344,7 +344,7 @@ passage 6 feet off the floor."
 (define-location 'like9 all-alike #f '(twist_hint)
   (make-inst 'like7 0 '(W))
   (make-inst 'like8 0 '(N))
-  (make-inst 'dead6 0 '(S))
+  (make-inst 'dead6 0 '(SOUTH))
   )
 
 (define-location 'like10 all-alike #f '(twist_hint)
@@ -356,12 +356,12 @@ passage 6 feet off the floor."
 
 (define-location 'like11 all-alike #f '(twist_hint)
   (make-inst 'like1 0 '(N))
-  (make-inst 'like11 0 '(W S))
+  (make-inst 'like11 0 '(W SOUTH))
   (make-inst 'dead1 0 '(E))
   )
 
 (define-location 'like12 all-alike #f '(twist_hint)
-  (make-inst 'brink 0 '(S))
+  (make-inst 'brink 0 '(SOUTH))
   (make-inst 'like13 0 '(E))
   (make-inst 'dead10 0 '(W))
   )
@@ -384,7 +384,7 @@ up.  The maze continues at this level."
   '()
   (make-inst 'bird 0 '(D CLIMB))
   (make-inst 'like10 0 '(W))
-  (make-inst 'dead8 0 '(S))
+  (make-inst 'dead8 0 '(SOUTH))
   (make-inst 'like12 0 '(N))
   (make-inst 'like13 0 '(E))
   )
@@ -407,13 +407,13 @@ joins up with a narrow north/south passage."
   '()
   (make-inst 'elong 0 '(E))
   (make-inst 'cross 0 '(N))
-  (make-inst 'diff0 100 '(S))
+  (make-inst 'diff0 100 '(SOUTH))
   )
 
 (define (define-twist l n s e w ne se nw sw u d m)
   (define-location l m #f '()
     (make-inst n 0 '(N))
-    (make-inst s 0 '(S))
+    (make-inst s 0 '(SOUTH))
     (make-inst e 0 '(E))
     (make-inst w 0 '(W))
     (make-inst ne 0 '(NE))
@@ -467,7 +467,7 @@ joins up with a narrow north/south passage."
   (make-inst 'elong 0 '(W))
   (make-inst 'dead0 0 '(N))
   (make-inst 'west 0 '(E))
-  (make-inst 'wlong 0 '(S))
+  (make-inst 'wlong 0 '(SOUTH))
   )
 
 (define-location 'hmk
@@ -477,7 +477,7 @@ directions."
   '(snake_hint)
   (make-inst 'emist 0 '(STAIRS U E))
   (make-inst 'ns (cond-not 'SNAKE 0) '(N L))
-  (make-inst 'south (cond-not 'SNAKE 0) '(S R))
+  (make-inst 'south (cond-not 'SNAKE 0) '(SOUTH R))
   (make-inst 'west (cond-not 'SNAKE 0) '(W FORWARD))
   (make-inst 'snaked 0 '(N))
   (make-inst 'secret 35 '(SW))
@@ -506,7 +506,7 @@ A passage continues west and up here."
 down to an E/W passage."
   "You're in N/S passage."
   '()
-  (make-inst 'hmk 0 '(HALL OUT S))
+  (make-inst 'hmk 0 '(HALL OUT SOUTH))
   (make-inst 'y2 0 '(N Y2))
   (make-inst 'dirty 0 '(D HOLE))
   )
@@ -518,7 +518,7 @@ a rock in the room's center."
   "You're at \"Y2\"."
   '()
   (make-inst 'house 0 '(PLUGH))
-  (make-inst 'ns 0 '(S))
+  (make-inst 'ns 0 '(SOUTH))
   (make-inst 'jumble 0 '(E WALL BROKEN))
   (make-inst 'windoe 0 '(W))
   (make-inst 'pdrop (cond-holds 'EMERALD) '(PLOVER))
@@ -607,9 +607,9 @@ leads up.  A low hands-and-knees passage enters from the south."
   '()
   (make-inst 'arch 0 '(U HALL))
   (make-inst 'ragged 0 '(D))
-  (make-inst "You can't fit this five-foot clam through that little passage!" (cond-holds 'CLAM) '(S))
-  (make-inst "You can't fit this five-foot oyster through that little passage!" (cond-holds 'OYSTER) '(S))
-  (make-inst 'complex 0 '(S))
+  (make-inst "You can't fit this five-foot clam through that little passage!" (cond-holds 'CLAM) '(SOUTH))
+  (make-inst "You can't fit this five-foot oyster through that little passage!" (cond-holds 'OYSTER) '(SOUTH))
+  (make-inst 'complex 0 '(SOUTH))
   )
 
 (define-location 'arch
@@ -656,7 +656,7 @@ main passage.")
   "You are at Witt's End.  Passages lead off in \"all\" directions."
   "You're at Witt's End."
   '(witt_hint)
-  (make-inst loop-rmk 95 '(E N S NE SE SW NW U D))
+  (make-inst loop-rmk 95 '(E N SOUTH NE SE SW NW U D))
   (make-inst 'ante 0 '(E))
   (make-inst "You have crawled around in some little holes and found your way\n\
 blocked by a recent cave-in.  You are now back in the main passage." 0 '(W))
@@ -669,7 +669,7 @@ To explore at random select north, south, up, or down."
   '()
   (make-inst 'complex 0 '(E))
   (make-inst 'cheese 0 '(W))
-  (make-inst loop-rmk 80 '(S))
+  (make-inst loop-rmk 80 '(SOUTH))
   (make-inst 'slab 0 '(SLAB))
   (make-inst loop-rmk 80 '(U))
   (make-inst 'abovep 50 '(U))
@@ -689,7 +689,7 @@ bedrock block."
   '()
   (make-inst 'bedquilt 0 '(NE))
   (make-inst 'e2pit 0 '(W))
-  (make-inst loop-rmk 80 '(S))
+  (make-inst loop-rmk 80 '(SOUTH))
   (make-inst 'tall 0 '(CANYON))
   (make-inst 'soft 0 '(E))
   (make-inst loop-rmk 50 '(NW))
@@ -763,7 +763,7 @@ lamp to show it.  Cavernous passages lead east, north, and south.  On\n\
 the west wall is scrawled the inscription, \"FEE FIE FOE FOO\" [sic]."
   "You're in Giant Room."
   '()
-  (make-inst 'narrow 0 '(S))
+  (make-inst 'narrow 0 '(SOUTH))
   (make-inst 'block 0 '(E))
   (make-inst 'immense 0 '(N))
   )
@@ -772,14 +772,14 @@ the west wall is scrawled the inscription, \"FEE FIE FOE FOO\" [sic]."
   "The passage here is blocked by a recent cave-in."
   #f
   '()
-  (make-inst 'giant 0 '(S GIANT OUT))
+  (make-inst 'giant 0 '(SOUTH GIANT OUT))
   )
 
 (define-location 'immense
   "You are at one end of an immense north/south passage."
   #f
   '()
-  (make-inst 'giant 0 '(S GIANT PASSAGE))
+  (make-inst 'giant 0 '(SOUTH GIANT PASSAGE))
   (make-inst 'falls (cond-not 'DOOR 0) '(N ENTER CAVERN))
   (make-inst "The door is extremely rusty and refuses to open." 0 '(N))
   )
@@ -790,7 +790,7 @@ over a sparkling waterfall into a roaring whirlpool that disappears\n\
 through a hole in the floor.  Passages exit to the south and west."
   "You're in cavern with waterfall."
   '(liquid)
-  (make-inst 'immense 0 '(S OUT))
+  (make-inst 'immense 0 '(SOUTH OUT))
   (make-inst 'giant 0 '(GIANT))
   (make-inst 'steep 0 '(W))
   )
@@ -811,7 +811,7 @@ passage leading back to the north."
   '()
   (make-inst 'sjunc 0 '(N))
   (make-inst 'bedquilt 0 '(D PASSAGE))
-  (make-inst 'tite 0 '(S))
+  (make-inst 'tite 0 '(SOUTH))
   )
 
 (define-location 'sjunc
@@ -821,7 +821,7 @@ combined."
   "You're at junction of three secret canyons."
   '()
   (make-inst 'bedquilt 0 '(SE))
-  (make-inst 'abovep 0 '(S))
+  (make-inst 'abovep 0 '(SOUTH))
   (make-inst 'window 0 '(N))
   )
 
@@ -851,7 +851,7 @@ having done so you would be unable to reach it to climb back up."
   "Dead end crawl."
   #f
   '()
-  (make-inst 'low 0 '(S CRAWL OUT))
+  (make-inst 'low 0 '(SOUTH CRAWL OUT))
   )
 
 (define-location 'window
@@ -886,7 +886,7 @@ heard.  The mist rises up through a fissure in the ceiling.  The path\n\
 exits to the south and west."
   "You're in misty cavern."
   '()
-  (make-inst 'oriental 0 '(S ORIENTAL))
+  (make-inst 'oriental 0 '(SOUTH ORIENTAL))
   (make-inst 'alcove 0 '(W))
   )
 
@@ -917,7 +917,7 @@ narrow tunnel exits to the west.  A dark corridor leads NE."
   "You're in the Dark-Room.  A corridor leading south is the only exit."
   "You're in Dark-Room."
   '(dark_hint)
-  (make-inst 'proom 0 '(S PLOVER OUT))
+  (make-inst 'proom 0 '(SOUTH PLOVER OUT))
   )
 
 (define-location 'slab
@@ -928,7 +928,7 @@ small passages go north and south, and the south one quickly bends\n\
 east around the boulders."
   "You're in Slab Room."
   '()
-  (make-inst 'w2pit 0 '(S))
+  (make-inst 'w2pit 0 '(SOUTH))
   (make-inst 'abover 0 '(U CLIMB))
   (make-inst 'bedquilt 0 '(N))
   )
@@ -938,8 +938,8 @@ east around the boulders."
   #f
   '()
   (make-inst 'slab 0 '(D SLAB))
-  (make-inst 'scan2 (cond-not 'DRAGON 0) '(S))
-  (make-inst 'scan1 0 '(S))
+  (make-inst 'scan2 (cond-not 'DRAGON 0) '(SOUTH))
+  (make-inst 'scan1 0 '(SOUTH))
   (make-inst 'mirror 0 '(N))
   (make-inst 'res 0 '(RESERVOIR))
   )
@@ -954,7 +954,7 @@ for the use of the dwarves, who as you know are extremely vain.)\n\
 A small window can be seen in either wall, some fifty feet up."
   "You're in mirror canyon."
   '()
-  (make-inst 'abover 0 '(S))
+  (make-inst 'abover 0 '(SOUTH))
   (make-inst 'res 0 '(N RESERVOIR))
   )
 
@@ -966,7 +966,7 @@ overhead and splashes noisily into the water somewhere within the\n\
 mist.  The only passage goes back toward the south."
   "You're at reservoir."
   '(liquid)
-  (make-inst 'mirror 0 '(S OUT))
+  (make-inst 'mirror 0 '(SOUTH OUT))
   )
 
 (define-location 'scan1
@@ -1009,7 +1009,7 @@ to get back up."
   "You are at a wide place in a very tight N/S canyon."
   #f
   '()
-  (make-inst 'tight 0 '(S))
+  (make-inst 'tight 0 '(SOUTH))
   (make-inst 'tall 0 '(N))
   )
 
@@ -1034,7 +1034,7 @@ seems to open up."
   "The canyon runs into a mass of boulders --- dead end."
   #f
   '()
-  (make-inst 'tall 0 '(S))
+  (make-inst 'tall 0 '(SOUTH))
   )
 
 (define-location 'scorr
@@ -1061,7 +1061,7 @@ from the chasm into a winding corridor."
   )
 
 (define-location 'dead0 dead-end #f '()
-  (make-inst 'cross 0 '(S OUT)))
+  (make-inst 'cross 0 '(SOUTH OUT)))
 
 (define-location 'dead1 dead-end #f '(twist_hint)
   (make-inst 'like11 0 '(W OUT)))
@@ -1088,7 +1088,7 @@ from the chasm into a winding corridor."
   (make-inst 'brink 0 '(E OUT)))
 
 (define-location 'dead9 dead-end #f '(twist_hint)
-  (make-inst 'like3 0 '(S OUT)))
+  (make-inst 'like3 0 '(SOUTH OUT)))
 
 (define-location 'dead10 dead-end #f '(twist_hint)
   (make-inst 'like12 0 '(E OUT)))
@@ -1141,7 +1141,7 @@ roar, so loud that the entire cave seems to be trembling.  Another\n\
 passage leads south, and a low crawl goes east."
   "You're at junction with warm walls."
   '()
-  (make-inst 'fork 0 '(S FORK))
+  (make-inst 'fork 0 '(SOUTH FORK))
   (make-inst 'view 0 '(N VIEW))
   (make-inst 'chamber 0 '(E CRAWL))
   )
@@ -1168,7 +1168,7 @@ own, which lends an additional infernal splendor to the already\n\
 hellish scene.  A dark, foreboding passage exits to the south."
   "You're at breath-taking view."
   '(lighted)
-  (make-inst 'warm 0 '(S PASSAGE OUT))
+  (make-inst 'warm 0 '(SOUTH PASSAGE OUT))
   (make-inst 'fork 0 '(FORK))
   (make-inst "Don't be ridiculous!" 0 '(D JUMP))
   )
@@ -1191,7 +1191,7 @@ oddly shaped limestone formations."
   "You're in limestone passage."
   '()
   (make-inst 'fork 0 '(N U FORK))
-  (make-inst 'fbarr 0 '(S D BARREN))
+  (make-inst 'fbarr 0 '(SOUTH D BARREN))
   (make-inst 'view 0 '(VIEW))
   )
 

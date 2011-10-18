@@ -32,7 +32,7 @@
 
 ;; motion vocabulary
 (define-word motion-type 'N "n" "north")
-(define-word motion-type 'S "s" "south")
+(define-word motion-type 'SOUTH "s" "south")
 (define-word motion-type 'E "e" "east")
 (define-word motion-type 'W "w" "west")
 (define-word motion-type 'NE "ne" "northeast")
