@@ -74,12 +74,12 @@
 ; 86 Report the current state
 (define-proc 'commence
   '(lambda (world)
-     (let ((desc (if (cons1? (nth (location world) (visits world)))
-                     short-desc
-                     long-desc)))
+     (let ((selector (if (cons1? (nth (location world) (visits world)))
+			 ->cdr
+			 ->car)))
        (begin
          (#\newline I)
-         ((nth (location world) desc) #\newline I)
+         ((nth (location world) room-desc) selector #\newline I)
          (goto describe-objects world)))))
 
 (defmacro (increment-visits world)

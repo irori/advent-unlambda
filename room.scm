@@ -4,15 +4,13 @@
 (define max-loc (lookup-enum 'didit))
 (defmacro max-loc didit)
 
-(define long-desc (make-vector (+ 1 max-loc) #f))
-(define short-desc (make-vector (+ 1 max-loc) #f))
+(define room-desc (make-vector (+ 1 max-loc) #f))
 (define loc-flags (make-vector (+ 1 max-loc)))
 (define travels (make-vector (+ 1 max-loc)))
 
 (define (define-location name ldesc sdesc flags . insts)
   (let ((n (lookup-enum name)))
-    (vector-set! long-desc n ldesc)
-    (vector-set! short-desc n (or sdesc ldesc))
+    (vector-set! room-desc n (cons ldesc sdesc))
     (vector-set! loc-flags n flags)
     (vector-set! travels n insts)
     ))
@@ -464,7 +462,7 @@ joins up with a narrow north/south passage."
 
 (define-location 'cross
   "You are at a crossover of a high N/S passage and a low E/W one."
-  "You are at a crossover of a high N/S passage and a low E/W one."
+  #f
   '()
   (make-inst 'elong 0 '(W))
   (make-inst 'dead0 0 '(N))
@@ -498,7 +496,7 @@ A passage continues west and up here."
 
 (define-location 'south
   "You are in the south side chamber."
-  "You are in the south side chamber."
+  #f
   '()
   (make-inst 'hmk 0 '(HALL OUT N))
   )
@@ -1333,18 +1331,17 @@ It would be advisable to use the exit."
   )
 
 (add-unl-macro!
- 'long-desc '()
+ 'room-desc '()
  (compile-to-file
-  "longdesc.unlo"
-  `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
-		(vector->list long-desc)))))
-
-(add-unl-macro!
- 'short-desc '()
- (compile-to-file
-  "shortdesc.unlo"
-  `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
-		(vector->list short-desc)))))
+  "roomdesc.unlo"
+  `(list ,@(map (lambda (desc)
+		  (cond ((not desc) 'V)
+			((cdr desc) `(icons (string ,(car desc))
+					    (string ,(cdr desc))))
+			((car desc) `(lambda (x)
+				       (string ,(car desc))))
+			(else 'V)))
+		(vector->list room-desc)))))
 
 (add-unl-macro!
  'travels '()
