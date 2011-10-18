@@ -1,2 +1,2 @@
 advent.unl: *.scm
-	gosh -I. advent.scm
+	gosh advent.scm

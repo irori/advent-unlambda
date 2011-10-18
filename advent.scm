@@ -1,4 +1,6 @@
-#!/usr/local/bin/gosh -I.
+#!/usr/local/bin/gosh
+(add-load-path ".")
+
 (use gauche.parseopt)
 
 (require "unlc.scm")
