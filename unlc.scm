@@ -64,21 +64,21 @@
 	(else
 	 (map eliminate-let x))))
 
-(define (eliminate-lambda* x)
+(define (eliminate-lambda-rec x)
   (match x
-    (('lambda* name args body)
+    (('lambda-rec name args body)
      `((lambda (x) (x x))
        (lambda (,name ,@args)
-	 ,(eliminate-lambda* (macroexpand (list (cons name (lambda (args)
+	 ,(eliminate-lambda-rec (macroexpand (list (cons name (lambda (args)
 							     (append (list name name) args))))
 					  body)))))
     (?-
      (if (or (atom? x) (null? x))
 	 x
-	 (map eliminate-lambda* x)))))
+	 (map eliminate-lambda-rec x)))))
 
 (define (eliminate-lets x)
-  (eliminate-letrec (eliminate-let (eliminate-lambda* x))))
+  (eliminate-letrec (eliminate-let (eliminate-lambda-rec x))))
 
 (define (make-k arg)
   (if (eq? arg 'V)
@@ -288,8 +288,8 @@
     (match expr
       (('lambda args body)
        `(lambda ,args ,(macroexpand (eliminate-names macros args) body)))
-      (('lambda* name args body)
-       `(lambda* ,name ,args ,(macroexpand (eliminate-names macros (cons name args)) body)))
+      (('lambda-rec name args body)
+       `(lambda-rec ,name ,args ,(macroexpand (eliminate-names macros (cons name args)) body)))
       (('let name args body)
        `(let ,name ,(map (lambda (arg)
 			   (list (car arg) (macroexpand macros (cadr arg))))
@@ -342,7 +342,7 @@
 (define-macro (defrecmacro name-args body)
   (let ((name (if (pair? name-args) (car name-args) name-args))
         (args (if (pair? name-args) (cdr name-args) '())))
-    (add-unl-macro! name '() `(lambda* ,name ,args ,body)))
+    (add-unl-macro! name '() `(lambda-rec ,name ,args ,body)))
   #t)
 
 (define-macro (defsyntax name-args body)
