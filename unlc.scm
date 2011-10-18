@@ -238,14 +238,8 @@
 		 (else
 		  `(lambda (,(car a)) ,(curry `(lambda ,(cdr a) ,b)))))))
 	(else
-	 (let ((f (curry (car x)))
-	       (a (map curry (cdr x))))
-	   (cond ((null? a)
-		  f)
-		 ((null? (cdr a))
-		  `(,f ,@a))
-		 (else
-		  (curry `((,f ,(car a)) ,@(cdr a)))))))))
+         (fold (lambda (ei e) (if e (list e ei) ei))
+               #f (map curry x)))))
 
 (define curried
   (compose optimize-curried
