@@ -34,9 +34,7 @@
      prop
      place
      objname
-     note
-     long-desc
-     short-desc)))
+     note)))
 
 (define (getter-name sym) sym)
 (define (setter-name sym)

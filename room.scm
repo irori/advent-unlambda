@@ -1333,14 +1333,14 @@ It would be advisable to use the exit."
   )
 
 (add-unl-macro!
- 'initial-long-desc '()
+ 'long-desc '()
  (compile-to-file
   "longdesc.unlo"
   `(list ,@(map (lambda (x) (if x (list 'string x) 'V))
 		(vector->list long-desc)))))
 
 (add-unl-macro!
- 'initial-short-desc '()
+ 'short-desc '()
  (compile-to-file
   "shortdesc.unlo"
   `(list ,@(map (lambda (x) (if x (list 'string x) 'V))

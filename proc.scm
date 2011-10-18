@@ -75,8 +75,8 @@
 (define-proc 'commence
   '(lambda (world)
      (let ((desc (if (cons1? (nth (location world) (visits world)))
-                     (short-desc world)
-                     (long-desc world))))
+                     short-desc
+                     long-desc)))
        (begin
          (#\newline I)
          ((nth (location world) desc) #\newline I)
