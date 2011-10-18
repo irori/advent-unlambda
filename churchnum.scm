@@ -33,6 +33,10 @@
   (lambda (s z)
     (x (y s) z)))
 
+(defmacro dbl
+  (lambda (x s z)
+    (x s (x s z))))
+
 (defmacro (pow x n)
   (n x))
 

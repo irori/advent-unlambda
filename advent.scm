@@ -6,6 +6,11 @@
 (require "parser.scm")
 (require "rand.scm")
 (require "variable.scm")
+
+(defsyntax (pct n world x y)
+  (let ((nn (round (/ (* n 64) 100))))
+    `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) ,x ,y)))
+
 (require "object.scm")
 (require "room.scm")
 (require "proc.scm")

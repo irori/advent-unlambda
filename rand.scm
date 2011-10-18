@@ -25,10 +25,19 @@
 
 (defmacro initial-rand rand-7)
 
+(defrecmacro (random n bits)
+  (if (cons1? n)
+      (bits
+       (lambda (b bs)
+	 ((b succ I)
+	  (dbl (random (1-of-1 n) bs)))))
+      ((car bits) c1 c0)))
+
 (defmacro rand-main
   (c100 (lambda (r)
-          (r (lambda (b next)
-               ((b #\1 #\0) next))))
+	  (begin
+	    (print-digit (rand (c5 cons1 V) r) I (#\newline I))
+	    (c6 cdr r)))
         rand-8))
 
 ;(print-as-unl 'rand-main)
