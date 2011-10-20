@@ -4,16 +4,16 @@
 
 (define ignore-case #f)
 
-(define parser-trie (make-hash-table))
+(define parser-trie (make-tree-map char=? char<?))
 
 (define (trie-put! trie chars value)
   (if (null? chars)
-      (hash-table-put! trie 'eow value)
-      (hash-table-update!
+      (tree-map-put! trie #\null value)
+      (tree-map-update!
        trie
        (car chars)
        (lambda (t)
-         (let ((t (or t (make-hash-table))))
+         (let ((t (or t (make-tree-map char=? char<?))))
            (trie-put! t (cdr chars) value)
            t))
        #f)))
@@ -344,10 +344,10 @@ unless you explicitly ask me to.")
 (define (generate-parser-rec read trie)
   `(lambda (return)
      (,(if read '(@ I) 'I)
-      ,@(hash-table-map
+      ,@(tree-map-map
          trie
          (lambda (ch t)
-           (if (eq? ch 'eow)
+           (if (eq? ch #\null)
                `((read-char=? #\space #\newline) return ,(defword t))
                `(,(if (and ignore-case (char-alphabetic? ch))
                       `(read-char=? ,(char-downcase ch) ,(char-upcase ch))
