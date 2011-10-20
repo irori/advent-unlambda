@@ -40,11 +40,11 @@
 
 
 ;; main loop
-(defrecmacro (mainloop pc world)
-  (((nth pc program-table) world) mainloop))
+(defrecmacro (advent-mainloop pc world)
+  (((nth pc program-table) world) advent-mainloop))
 
 (defmacro main
-  (mainloop initial-pc initial-world))
+  (advent-mainloop initial-pc initial-world))
 
 
 (define (main args)

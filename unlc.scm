@@ -303,6 +303,8 @@
 
 (define (add-unl-macro! name args body)
   ; (print name args body)
+  (if (assq name unl-macros)
+      (error "redefined " name))
   (set! unl-macros
         (acons name
                (macroexpand-application args body unl-macros)
@@ -321,6 +323,8 @@
   #t)
 
 (define-macro (defsyntax name-args body)
+  (if (assq (car name-args) unl-macros)
+      (error "redefined " name))
   (set!
    unl-macros
    (acons (car name-args)
