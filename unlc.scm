@@ -50,20 +50,6 @@
 (define (eliminate-letrec x)
   (eliminate-letrec-aux x '()))
 
-(define (eliminate-let x)
-  (cond ((or (atom? x) (null? x))
-	 x)
-	((eq? (car x) 'lambda)
-	 `(lambda ,(cadr x) ,(eliminate-let (caddr x))))
-	((eq? (car x) 'let)
-	 (if (symbol? (cadr x))
-	     `(letrec ((,(cadr x) (lambda ,(map car (caddr x))
-				    ,(eliminate-let (cadddr x)))))
-		(,(cadr x) ,@(map (lambda (x) (eliminate-let (cadr x))) (caddr x))))
-	     `((lambda ,(map car (cadr x)) ,(eliminate-let (caddr x))) ,@(map (lambda (x) (eliminate-let (cadr x))) (cadr x)))))
-	(else
-	 (map eliminate-let x))))
-
 (define (eliminate-lambda-rec x)
   (match x
     (('lambda-rec name args body)
@@ -78,7 +64,7 @@
 	 (map eliminate-lambda-rec x)))))
 
 (define (eliminate-lets x)
-  (eliminate-letrec (eliminate-let (eliminate-lambda-rec x))))
+  (eliminate-letrec (eliminate-lambda-rec x)))
 
 (define (make-k arg)
   (if (eq? arg 'V)
@@ -289,16 +275,6 @@
        `(lambda ,args ,(macroexpand (eliminate-names macros args) body)))
       (('lambda-rec name args body)
        `(lambda-rec ,name ,args ,(macroexpand (eliminate-names macros (cons name args)) body)))
-      (('let name args body)
-       `(let ,name ,(map (lambda (arg)
-			   (list (car arg) (macroexpand macros (cadr arg))))
-			 args)
-	 ,(macroexpand (eliminate-names macros (map car args)) body)))
-      (('let bindings body)
-       `(let ,(map (lambda (binding)
-		     (list (car binding) (macroexpand macros (cadr binding))))
-		   bindings)
-	 ,(macroexpand (eliminate-names macros (map car bindings)) body)))
       (('letrec bindings body)
        (let ((macros (eliminate-names macros (map car bindings))))
 	 `(letrec ,(map (lambda (binding)

@@ -3,6 +3,22 @@
 (defmacro ?space (? #\space))
 (defmacro ?newline (? #\newline))
 
+(defsyntax (let . forms)
+  (if (symbol? (car forms))  ; named-let?
+      (let* ((name (car forms))
+	     (bindings (cadr forms))
+	     (vars (map car bindings))
+	     (vals (map cadr bindings))
+	     (body (caddr forms)))
+	`(letrec ((,name (lambda ,vars ,body)))
+	   (,name ,@vals)))
+      (let* ((bindings (car forms))
+	     (vars (map car bindings))
+	     (vals (map cadr bindings))
+	     (body (cadr forms)))
+	`((lambda ,vars ,body)
+	  ,@vals))))
+
 ;; control structures
 (defmacro *if*
   ; (lambda (b) (call/cc (lambda (q) ((K (K I)) ((b q) K)))))
