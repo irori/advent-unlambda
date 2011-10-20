@@ -171,7 +171,7 @@
 (define (pass-through? x)
   (if (pair? x)
       (eq? (car x) '?)
-      (or (memq x '(I K V D S call/cc **if** unsafe @ !))
+      (or (memq x '(I K V D S call/cc unsafe @ !))
 	  (char? x))))
 
 (define (optimize-ski e)
@@ -195,7 +195,6 @@
     ('S #\s)
     ('D #\d)
     ('V #\v)
-    ('**if** "``s`kc``s`k`s`k`k`ki``ss`k`kk")
     ('@ #\@)
     ('! #\|)
     (('? c) (list #\? c))

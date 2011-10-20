@@ -9,7 +9,7 @@
   ((S (K call/cc)) ((S (K (S (K (K (K I)))))) ((S S) (K (K K))))))
 
 (defsyntax (if condition consequent alternative)
-  `((**if**
+  `((*if*
      ,condition
      (lambda (**if-dummy**) ,consequent)
      (lambda (**if-dummy**) ,alternative)) I))
