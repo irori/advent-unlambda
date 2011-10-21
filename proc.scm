@@ -28,7 +28,9 @@
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input
   '(lambda (world)
-     (goto cycle-label world)))
+     (let* ((world2 (set-verb world (K ABSTAIN)))
+	    (world3 (set-obj world2 (K NOTHING))))
+       (goto cycle-label world3))))
 
 ; 76 cycle:
 (define-proc 'cycle-label
@@ -63,13 +65,25 @@
                (print$ "object"
                        (goto quit world)))
              (lambda (_)  ; verb
-               (print$ "verb"
-                       (goto quit world)))
+	       (let ((world2 (set-verb world (K (word-meaning word1)))))
+		 (if (word? word2)
+		     (goto look-at-word1
+			   (set-word12 world2 (K (icons word2 V))))
+		     (goto (if (obj world2) transitive intransitive)
+			   world2))))
              (lambda (_)  ; message
                (begin ((nth (word-meaning word1) (message world)) #\newline I)
                       (goto cycle-label world)))
              I)
             (goto cycle-label (unknown-word world)))))))
+
+(define-proc 'transitive
+  '(lambda (world)
+     (exit I)))
+
+(define-proc 'intransitive
+  '(lambda (world)
+     (exit I)))
 
 ; 86 Report the current state
 (define-proc 'commence

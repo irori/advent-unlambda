@@ -193,7 +193,7 @@
     (-
      (cond ((char? x) (list #\. x))
            ((string? x) x)
-           (error "unlambdify" "illegal unlambda" x)))))
+           (else (error "unlambdify" "illegal unlambda" x))))))
 
 (define (optimize-curried x)
   (cond ((or (atom? x) (pass-through? x))

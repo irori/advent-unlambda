@@ -28,6 +28,7 @@
      word12
      mot
      verb
+     obj
      default-msg
      message
      base
