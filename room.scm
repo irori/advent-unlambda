@@ -3,6 +3,7 @@
 
 (define max-loc (lookup-enum 'didit))
 (defmacro max-loc didit)
+(defmacro min-forced-loc crack)
 
 (define room-desc (make-vector (+ 1 max-loc) #f))
 (define loc-flags (make-vector (+ 1 max-loc)))
@@ -1356,6 +1357,17 @@ It would be advisable to use the exit."
   "travels.unlo"
   `(list ,@(map (lambda (x) (if (undefined? x) 'V `(list ,@x)))
 		(vector->list travels)))))
+
+(add-unl-macro!
+ 'lighted-rooms '()
+ `(list ,@(map (lambda (flags) (if (memq 'lighted flags) 'I 'V))
+               (vector->list loc-flags))))
+
+(defmacro (lighted? loc)
+  (nth loc lighted-rooms))
+
+(defmacro (forced-move? loc)
+  (>= loc min-forced-loc))
 
 (defrecmacro (find-inst motion table)
   (table

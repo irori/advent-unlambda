@@ -80,7 +80,7 @@
 			   world2))))
              (lambda (_)  ; message
                (begin ((nth (word-meaning word1) (message world)) #\newline I)
-                      (goto cycle world)))
+                      (goto get-user-input world)))
              I)
             (goto cycle (unknown-word world)))))))
 
@@ -196,16 +196,31 @@
            ((string " here.\n") I)
            (goto get-user-input world)))))
 
+(defmacro (dark world)
+  (and (not (lighted? (location world)))
+       (or (zero? (nth LAMP (prop world)))
+           (not (here? LAMP world)))))
+
+(defmacro pitch-dark-msg
+  (string "It is now pitch dark.  If you proceed you will most likely fall into a pit."))
+
 ; 86 Report the current state
 (define-proc 'commence
   '(lambda (world)
-     (let ((selector (if (cons1? (nth (location world) (visits world)))
-			 ->cdr
-			 ->car)))
-       (begin
-         (#\newline I)
-         ((nth (location world) room-desc) selector #\newline I)
-         (goto describe-objects world)))))
+     (let ((next (lambda (p)
+                   (begin
+                     (#\newline I)
+                     (p #\newline I)
+                     (goto (if (dark world)
+                               get-user-input
+                               describe-objects)
+                           world)))))
+       (if (and (dark world) (not (forced-move? (location world))))
+           (next pitch-dark-msg)
+           (let ((selector (if (cons1? (nth (location world) (visits world)))
+                               ->cdr ->car)))
+             (next ((nth (location world) room-desc) selector)))))))
+         
 
 (defmacro (increment-visits world)
   (set-visits
@@ -226,7 +241,7 @@
                      ((nth (nth tt (prop world)) (nth tt (note world)))
                       #\newline I)))
                  (objects-here world))
-       (goto cycle (increment-visits world)))))
+       (goto get-user-input (increment-visits world)))))
 
 ; 92 case TAKE:
 (define-proc 'intransitive-take
