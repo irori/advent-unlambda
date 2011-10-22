@@ -35,8 +35,9 @@
 ; 76 cycle:
 (define-proc 'cycle
   '(lambda (world)
-     (let ((words listen))
-       (goto pre-parse (set-word12 world (lambda (_) words))))))
+     (let ((world2 (set-was-dark world (K (dark world))))
+           (words listen))
+       (goto pre-parse (set-word12 world2 (lambda (_) words))))))
 
 ; 76 pre_parse:
 (define-proc 'pre-parse
@@ -323,7 +324,9 @@
          (if (cons1? (limit world))
              (let ((world2 (set-prop world (modify-nth (to-cons1 LAMP) (K c1)))))
                ((string "Your lamp is now on.\n")
-                (goto get-user-input world2)))  ; TODO: check was_dark
+                (goto (if (was-dark world2)
+                          commence
+                          get-user-input) world2)))
              ((string "Your lamp has run out of power.\n")
               (goto get-user-input world))))))
 

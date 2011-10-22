@@ -25,6 +25,7 @@
      oldlocs
      visits
      limit
+     was-dark
      rand
      word12
      mot
