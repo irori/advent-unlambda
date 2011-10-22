@@ -24,6 +24,7 @@
      newloc
      oldlocs
      visits
+     limit
      rand
      word12
      mot

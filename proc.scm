@@ -141,8 +141,8 @@
                       transitive-drop  ;DROP
                       transitive-open  ;OPEN
                       transitive-open  ;CLOSE
-                      quit  ;ON
-                      quit  ;OFF
+                      transitive-on  ;ON
+                      transitive-off  ;OFF
                       quit  ;WAVE
                       quit  ;CALM
                       quit  ;GO
@@ -259,6 +259,7 @@
          (goto get-object world))))
 
 
+; 93 case OPEN: case CLOSE:
 (define-proc 'intransitive-open
   '(lambda (world)
      (let ((object (cond ((or (= (nth GRATE (place world)) (location world))
@@ -298,6 +299,29 @@
          ((string "Thank you, it was delicious!\n")
           (goto get-user-input (destroy FOOD world)))
          (goto report-default world))))
+
+; 102 case ON:
+(define-proc 'transitive-on
+  '(lambda (world)
+     (if (not (here? LAMP world))
+         (goto report-default world)
+         (if (cons1? (limit world))
+             (let ((world2 (set-prop world (modify-nth (to-cons1 LAMP) (K c1)))))
+               ((string "Your lamp is now on.\n")
+                (goto get-user-input world2)))  ; TODO: check was_dark
+             ((string "Your lamp has run out of power.\n")
+              (goto get-user-input world))))))
+
+; 102 case OFF:
+(define-proc 'transitive-off
+  '(lambda (world)
+     (if (not (here? LAMP world))
+         (goto report-default world)
+         (let ((world2 (set-prop world (modify-nth (to-cons1 LAMP) (K c0)))))
+           (begin
+             ((string "Your lamp is now off.\n") I)
+             ((dark world2) pitch-dark-msg #\newline I)
+             (goto get-user-input world2))))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take
