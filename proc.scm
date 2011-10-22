@@ -16,14 +16,22 @@
      (let ((world2 (set-location world (lambda (_) (newloc world)))))
        (goto commence world2))))
 
+; 141 Report the long description and continue
+(defmacro (handle-look world)
+  (let* ((world1 (set-was-dark world (K V)))
+         (world2 (set-visits world1
+                             (modify-nth (to-cons1 (location world)) (K V)))))
+    world2))
+
 ; 75 try-move:
 (define-proc 'try-move
   '(lambda (world)
      (let ((world1 (set-newloc world (lambda (_) (location world)))))
-       ;; TODO: handle special motion words 140
-       (goto go-for-it
-             (set-oldlocs world1 (lambda (ol-ool)
-                                   (cons (location world1) (car ol-ool))))))))
+       (cond ((= (mot world) NOWHERE) (goto mainloop world1))
+             ((= (mot world) LOOK) (goto mainloop (handle-look world1)))
+             (else (goto go-for-it
+                         (set-oldlocs world1 (lambda (ol-ool)
+                                               (cons (location world1) (car ol-ool))))))))))
 
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input
