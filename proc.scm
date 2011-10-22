@@ -41,7 +41,7 @@
 ; 76 shift:
 (define-proc 'shift
   '(lambda (world)
-     (goto look-at-word1 (set-word12 world (lambda (old) (icons (cdr old V)))))))
+     (goto look-at-word1 (set-word12 world (lambda (old) (icons (cdr old) V))))))
 
 ; Gee, I don't understand
 (defmacro (unknown-word world)
@@ -137,7 +137,7 @@
   '(lambda (world)
      (goto (nth (verb world)
                 (list V
-                      quit  ;TAKE
+                      transitive-take  ;TAKE
                       quit  ;DROP
                       quit  ;OPEN
                       quit  ;CLOSE
@@ -235,6 +235,16 @@
        (if (and (pair? objs) (null? (cdr objs)))  ; TODO: check dwarf
            (goto transitive (set-obj world (K (car objs))))
            (goto get-object world)))))
+
+; 112 case TAKE:
+(define-proc 'transitive-take
+  '(lambda (world)
+     (if (toting? (obj world) world)
+         (goto report-default world)
+         (let ((world2 (carry (obj world) world)))
+           (begin
+             ((string "OK.\n") I)
+             (goto get-user-input world2))))))
 
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it

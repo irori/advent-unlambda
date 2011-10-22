@@ -234,3 +234,9 @@ on the underside of\nthe oyster.")
            (rec rec tl (succ n))))))
      (place world)
      c0)))
+
+(defmacro (carry object world)
+  (set-place
+   world
+   (modify-nth (to-cons1 object)
+               (K V))))
