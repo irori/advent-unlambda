@@ -24,7 +24,7 @@
 (defmacro initial-location road)
 (defmacro initial-newloc road)
 (defmacro initial-oldlocs (icons road road))
-(defmacro initial-limit (c10 cons1 V))
+(defmacro initial-limit (to-cons1 c330))
 (defmacro initial-word12 V)
 (defmacro initial-mot V)
 (defmacro initial-verb V)

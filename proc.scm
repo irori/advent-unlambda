@@ -36,7 +36,22 @@
 (define-proc 'cycle
   '(lambda (world)
      (let ((words listen))
-       (goto look-at-word1 (set-word12 world (lambda (_) words))))))
+       (goto pre-parse (set-word12 world (lambda (_) words))))))
+
+; 76 pre_parse:
+(define-proc 'pre-parse
+  '(lambda (world)
+     ; turns++
+     (let* ((world2
+             (set-limit world (if (= (nth LAMP (prop world)) c1) 1-of-1 I)))
+            (world3
+             (if (and (cons1? (limit world)) (not (cons1? (limit world2))))
+                 (begin
+                   ((here? LAMP world)
+                    (string "Your lamp has run out of power.\n") I)
+                   (set-prop world2 (modify-nth (to-cons1 LAMP) (K c0))))
+                 world2)))
+       (goto look-at-word1 world3))))
 
 ; 76 shift:
 (define-proc 'shift
