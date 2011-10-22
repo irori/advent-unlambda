@@ -224,6 +224,11 @@ on the underside of\nthe oyster.")
 (defmacro (at-loc? object world)
   (= (nth object (place world)) (location world)))
 
+(defmacro (here? object world)
+  (let ((obj-place (nth object (place world))))
+    (or (not (obj-place I I))
+        (= obj-place (location world)))))
+
 (defmacro (objects-here world)
   (let ((loc (location world)))
     ((lambda (x) (x x))
@@ -253,3 +258,6 @@ on the underside of\nthe oyster.")
   (set-place world
              (modify-nth (to-cons1 object)
                          (K location))))
+
+(defmacro (destroy object world)
+  (drop object limbo world))

@@ -112,7 +112,7 @@
                       report-default  ;GO
                       report-default  ;RELAX
                       transitive  ;POUR
-                      quit  ;EAT
+                      intransitive-eat  ;EAT
                       transitive  ;DRINK
                       quit  ;RUB
                       quit  ;TOSS
@@ -148,7 +148,7 @@
                       quit  ;GO
                       quit  ;RELAX
                       quit  ;POUR
-                      quit  ;EAT
+                      transitive-eat  ;EAT
                       quit  ;DRINK
                       quit  ;RUB
                       quit  ;TOSS
@@ -236,6 +236,13 @@
            (goto transitive (set-obj world (K (car objs))))
            (goto get-object world)))))
 
+; 92 case EAT:
+(define-proc 'intransitive-eat
+  '(lambda (world)
+     (if (here? FOOD world)
+         (goto transitive (set-obj world (K FOOD)))
+         (goto get-object world))))
+
 ; 94 case INVENTORY:
 (define-proc 'intransitive-inventory
   '(lambda (world)
@@ -249,6 +256,14 @@
                            (#\space (nth o objname) #\newline I))
                          lst)))
          (goto get-user-input world)))))
+
+; 98 case EAT:
+(define-proc 'transitive-eat
+  '(lambda (world)
+     (if (= (obj world) FOOD)
+         ((string "Thank you, it was delicious!\n")
+          (goto get-user-input (destroy FOOD world)))
+         (goto report-default world))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take
