@@ -27,7 +27,7 @@
   (let ((m (if (number? meaning) meaning (lookup-enum meaning))))
     (for-each
      (lambda (w)
-       (trie-put! parser-trie (string->list w) (cons type m)))
+       (trie-put! parser-trie (string->list w) (list type m w)))
      words)))
 
 ;; motion vocabulary
@@ -334,12 +334,15 @@ unless you explicitly ask me to.")
  `(list ,@(map (lambda (x) (list 'string x))
                (reverse messages))))
 
-(define (defword pair)
-  (let ((type (car pair))
-        (meaning (cdr pair)))
-    `(icons (lambda (f0 f1 f2 f3)
-              ,(string->symbol (string-append "f" (number->string type))))
-            ,(churchnum meaning))))
+(define (defword word-data)
+  (let ((type (car word-data))
+        (meaning (cadr word-data))
+        (letters (caddr word-data)))
+    `(lambda (f)
+       (f (lambda (f0 f1 f2 f3)
+            ,(string->symbol (string-append "f" (number->string type))))
+          ,(churchnum meaning)
+          (string ,letters)))))
 
 (define (generate-parser-rec read trie)
   `(lambda (return)
@@ -365,13 +368,14 @@ unless you explicitly ask me to.")
 
 ;;; parser macros
 
-(defmacro (word? word) (word (lambda (_ _) I)))
-(defmacro (word-type word) (car word))
+(defmacro (word? word) (word (lambda (_ _ _) I)))
+(defmacro (word-type word) (word (lambda (t _ _) t)))
 (defmacro (motion? word) ((word-type word) I V V V))
 (defmacro (noun? word) ((word-type word) V I V V))
 (defmacro (verb? word) ((word-type word) V V I V))
 (defmacro (message-word? word) ((word-type word) V V V I))
-(defmacro (word-meaning word) (cdr word))
+(defmacro (word-meaning word) (word (lambda (_ m _) m)))
+(defmacro (word-letters word) (word (lambda (_ _ l) l)))
 
 (defrecmacro parse-lineend
   (lambda (q)

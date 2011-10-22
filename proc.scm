@@ -92,7 +92,9 @@
          (if (nonzero? (verb world))
              (goto transitive world)
              (begin
-               ((string "What do you want to do with the %s?\n") I)
+               ((string "What do you want to do with the ") I)
+               ((word-letters (car (word12 world))) I)
+               ((string "?\n") I)
                (goto cycle world))))))
 
 (define-proc 'intransitive
@@ -178,7 +180,8 @@
 (define-proc 'get-object
   '(lambda (world)
      (begin
-       ((string "%s what?\n") I)
+       ((word-letters (car (word12 world))) I)
+       ((string " what?\n") I)
        (goto cycle world))))
 
 ; 79 cant_see_it:
@@ -188,7 +191,9 @@
               (not (word? (cdr (word12 world)))))
          (goto transitive world)
          (begin
-           ((string "I see no %s here.\n") I)
+           ((string "I see no ") I)
+           ((word-letters (car (word12 world))) I)
+           ((string " here.\n") I)
            (goto get-user-input world)))))
 
 ; 86 Report the current state
