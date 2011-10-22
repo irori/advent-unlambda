@@ -103,8 +103,8 @@
                 (list V
                       intransitive-take  ;TAKE
                       get-object  ;DROP
-                      quit  ;OPEN
-                      quit  ;CLOSE
+                      intransitive-open  ;OPEN
+                      intransitive-open  ;CLOSE
                       transitive  ;ON
                       transitive  ;OFF
                       quit  ;WAVE
@@ -139,8 +139,8 @@
                 (list V
                       transitive-take  ;TAKE
                       transitive-drop  ;DROP
-                      quit  ;OPEN
-                      quit  ;CLOSE
+                      transitive-open  ;OPEN
+                      transitive-open  ;CLOSE
                       quit  ;ON
                       quit  ;OFF
                       quit  ;WAVE
@@ -243,6 +243,25 @@
          (goto transitive (set-obj world (K FOOD)))
          (goto get-object world))))
 
+
+(define-proc 'intransitive-open
+  '(lambda (world)
+     (let ((object (cond ((or (= (nth GRATE (place world)) (location world))
+                              (= (nth GRATE_ (place world)) (location world)))
+                          GRATE)
+                         ((= (nth DOOR (place world)) (location world)) DOOR)
+                         ((here? CLAM world) CLAM)
+                         ((here? OYSTER world) OYSTER)
+                         (else V))))
+       (if (here? CHAIN)
+           (if (object I I)
+               (goto get-object world)
+               (goto transitive (set-obj world (K CHAIN))))
+           (if (object I I)
+               (goto transitive (set-obj world (K object)))
+               ((string "There is nothing here with a lock!\n")
+                (goto get-user-input world)))))))
+
 ; 94 case INVENTORY:
 (define-proc 'intransitive-inventory
   '(lambda (world)
@@ -283,6 +302,27 @@
            (begin
              ((string "OK.\n") I)
              (goto get-user-input world2)))
+         (goto report-default world))))
+
+(defmacro (open-close-grate world)
+  ((nth (+ (nth GRATE (prop world)) (if (= (verb world) OPEN) c2 c0))
+        (list (string "It was already locked.")
+              (string "The grate is now locked.")
+              (string "The grate is now unlocked.")
+              (string "It was already unlocked.")))
+   #\newline
+   (set-prop
+    world
+    (modify-nth (to-cons1 GRATE) (K (if (= (verb world) OPEN) c1 c0))))))
+
+; 130 case OPEN: calse CLOSE:
+(define-proc 'transitive-open
+  '(lambda (world)
+     (if (= (obj world) GRATE)
+         (if (here? KEYS world)
+             (goto get-user-input (open-close-grate world))
+             ((string "You have no keys!\n")
+              (goto get-user-input world)))
          (goto report-default world))))
 
 ; 146 Determine the next location, newloc

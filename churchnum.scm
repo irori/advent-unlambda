@@ -25,7 +25,7 @@
 (defmacro (nonzero? n) (n (K I) V))
 (defmacro (ifnonzero n x y) ((n (K x)) y))
 
-(defmacro (add x y)
+(defmacro (+ x y)
   (lambda (s z)
     (x s (y s z))))
 
