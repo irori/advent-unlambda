@@ -30,10 +30,10 @@
   '(lambda (world)
      (let* ((world2 (set-verb world (K ABSTAIN)))
 	    (world3 (set-obj world2 (K NOTHING))))
-       (goto cycle-label world3))))
+       (goto cycle world3))))
 
 ; 76 cycle:
-(define-proc 'cycle-label
+(define-proc 'cycle
   '(lambda (world)
      (let ((words listen))
        (goto look-at-word1 (set-word12 world (lambda (_) words))))))
@@ -73,35 +73,35 @@
 			   world2))))
              (lambda (_)  ; message
                (begin ((nth (word-meaning word1) (message world)) #\newline I)
-                      (goto cycle-label world)))
+                      (goto cycle world)))
              I)
-            (goto cycle-label (unknown-word world)))))))
+            (goto cycle (unknown-word world)))))))
 
 (define-proc 'intransitive
   '(lambda (world)
      (goto (nth (verb world)
                 (list V
-                      quit  ;TAKE
+                      intransitive-take  ;TAKE
                       quit  ;DROP
                       quit  ;OPEN
                       quit  ;CLOSE
-                      quit  ;ON
-                      quit  ;OFF
+                      transitive  ;ON
+                      transitive  ;OFF
                       quit  ;WAVE
                       quit  ;CALM
                       report-default  ;GO
                       report-default  ;RELAX
-                      quit  ;POUR
+                      transitive  ;POUR
                       quit  ;EAT
-                      quit  ;DRINK
+                      transitive  ;DRINK
                       quit  ;RUB
                       quit  ;TOSS
                       quit  ;WAKE
                       quit  ;FEED
-                      quit  ;FILL
+                      transitive  ;FILL
                       quit  ;BREAK
-                      quit  ;BLAST
-                      quit  ;KILL
+                      transitive  ;BLAST
+                      transitive  ;KILL
                       quit  ;SAY
                       quit  ;READ
                       quit  ;FEEFIE
@@ -156,6 +156,13 @@
        ((nth (verb world) (default-msg world)) #\newline I)
        (goto get-user-input world))))
 
+; 79 get_object:
+(define-proc 'get-object
+  '(lambda (world)
+     (begin
+       ((string "%s what?\n") I)
+       (goto cycle world))))
+
 ; 86 Report the current state
 (define-proc 'commence
   '(lambda (world)
@@ -186,7 +193,15 @@
                      ((nth (nth tt (prop world)) (nth tt (note world)))
                       #\newline I)))
                  (objects-here world))
-       (goto cycle-label (increment-visits world)))))
+       (goto cycle (increment-visits world)))))
+
+; 92 case TAKE:
+(define-proc 'intransitive-take
+  '(lambda (world)
+     (let ((objs (objects-here world)))
+       (if (and (pair? objs) (null? (cdr objs)))  ; TODO: check dwarf
+           (goto transitive (set-obj world (K (car objs))))
+           (goto get-object world)))))
 
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it
