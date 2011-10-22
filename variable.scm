@@ -24,6 +24,7 @@
      newloc
      oldlocs
      visits
+     verbose    ; contains information for look_count and interval
      limit
      was-dark
      rand

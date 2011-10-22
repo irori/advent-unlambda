@@ -21,17 +21,25 @@
   (let* ((world1 (set-was-dark world (K V)))
          (world2 (set-visits world1
                              (modify-nth (to-cons1 (location world)) (K V)))))
-    world2))
+    ((if (cons1? (1-of-1 (verbose world2)))
+         ((string "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n")
+          (set-verbose world2 1-of-1))
+         world2))))
 
 ; 75 try-move:
 (define-proc 'try-move
   '(lambda (world)
-     (let ((world1 (set-newloc world (lambda (_) (location world)))))
-       (cond ((= (mot world) NOWHERE) (goto mainloop world1))
-             ((= (mot world) LOOK) (goto mainloop (handle-look world1)))
-             (else (goto go-for-it
-                         (set-oldlocs world1 (lambda (ol-ool)
-                                               (cons (location world1) (car ol-ool))))))))))
+     ((cond ((= (mot world) NOWHERE)
+             (lambda (world1) (goto mainloop world1)))
+            ((= (mot world) LOOK)
+             (lambda (world1) (goto mainloop (handle-look world1))))
+            (else
+             (lambda (world1)
+               (goto go-for-it
+                     (set-oldlocs world1 (lambda (ol-ool)
+                                           (cons (location world1)
+                                                 (car ol-ool))))))))
+      (set-newloc world (K (location world))))))
 
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input
@@ -149,7 +157,7 @@
                       quit  ;SAY
                       quit  ;READ
                       quit  ;FEEFIE
-                      quit  ;BRIEF
+                      intransitive-brief  ;BRIEF
                       quit  ;FIND
                       intransitive-inventory  ;INVENTORY
                       quit  ;SCORE
@@ -185,7 +193,7 @@
                       quit  ;SAY
                       quit  ;READ
                       quit  ;FEEFIE
-                      quit  ;BRIEF
+                      report-default  ;BRIEF
                       quit  ;FIND
                       quit  ;INVENTORY
                       quit  ;SCORE
@@ -252,7 +260,9 @@
    (modify-nth (to-cons1 (location world))
                (lambda (x)
                  (if (cons1? x)
-                     (1-of-1 x)
+                     (if (cons1? (verbose world))
+                         (1-of-1 x)
+                         x)
                      (cons1 (cons1 (cons1 (cons1 V)))))))))
 
 ; 88 Describe the objects at this location
@@ -315,6 +325,12 @@
                            (#\space (nth o objname) #\newline I))
                          lst)))
          (goto get-user-input world)))))
+
+; 95 case BRIEF:
+(define-proc 'intransitive-brief
+  '(lambda (world)
+     ((string "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".\n")
+      (goto get-user-input (set-verbose world (K V))))))
 
 ; 98 case EAT:
 (define-proc 'transitive-eat
