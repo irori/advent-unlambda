@@ -38,6 +38,11 @@
      (let ((words listen))
        (goto look-at-word1 (set-word12 world (lambda (_) words))))))
 
+; 76 shift:
+(define-proc 'shift
+  '(lambda (world)
+     (goto look-at-word1 (set-word12 world (lambda (old) (icons (cdr old V)))))))
+
 ; Gee, I don't understand
 (defmacro (unknown-word world)
   (set-rand
@@ -62,13 +67,15 @@
              (lambda (_)  ; motion
                (goto try-move (set-mot world (lambda (_) (word-meaning word1)))))
              (lambda (_)  ; object
-               (print$ "object"
-                       (goto quit world)))
+               (let ((world2 (set-obj world (K (word-meaning word1)))))
+                 (if (or (toting? (obj world2) world2)
+                         (at-loc? (obj world2) world2))
+                     (goto handle-object-word world2)
+                     (goto cant-see-it world2))))
              (lambda (_)  ; verb
 	       (let ((world2 (set-verb world (K (word-meaning word1)))))
 		 (if (word? word2)
-		     (goto look-at-word1
-			   (set-word12 world2 (K (icons word2 V))))
+		     (goto shift world2)
 		     (goto (if (obj world2) transitive intransitive)
 			   world2))))
              (lambda (_)  ; message
@@ -76,6 +83,17 @@
                       (goto cycle world)))
              I)
             (goto cycle (unknown-word world)))))))
+
+; 78
+(define-proc 'handle-object-word
+  '(lambda (world)
+     (if (word? (cdr (word12 world)))
+         (goto shift world)
+         (if (nonzero? (verb world))
+             (goto transitive world)
+             (begin
+               ((string "What do you want to do with the %s?\n") I)
+               (goto cycle world))))))
 
 (define-proc 'intransitive
   '(lambda (world)
@@ -162,6 +180,16 @@
      (begin
        ((string "%s what?\n") I)
        (goto cycle world))))
+
+; 79 cant_see_it:
+(define-proc 'cant-see-it
+  '(lambda (world)
+     (if (and (or (= (verb world) FIND) (= (verb world) INVENTORY))
+              (not (word? (cdr (word12 world)))))
+         (goto transitive world)
+         (begin
+           ((string "I see no %s here.\n") I)
+           (goto get-user-input world)))))
 
 ; 86 Report the current state
 (define-proc 'commence

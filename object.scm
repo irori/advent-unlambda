@@ -218,6 +218,12 @@ on the underside of\nthe oyster.")
 			    (map (lambda (x) (if x (list 'string x) 'V)) lst))))
 		(vector->list object-note)))))
 
+(defmacro (toting? object world)
+  (not ((nth object (place world)) I I)))
+
+(defmacro (at-loc? object world)
+  (= (nth object (place world)) (location world)))
+
 (defmacro (objects-here world)
   (let ((loc (location world)))
     ((lambda (x) (x x))
