@@ -248,3 +248,8 @@ on the underside of\nthe oyster.")
    world
    (modify-nth (to-cons1 object)
                (K V))))
+
+(defmacro (drop object location world)
+  (set-place world
+             (modify-nth (to-cons1 object)
+                         (K location))))

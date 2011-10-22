@@ -102,7 +102,7 @@
      (goto (nth (verb world)
                 (list V
                       intransitive-take  ;TAKE
-                      quit  ;DROP
+                      get-object  ;DROP
                       quit  ;OPEN
                       quit  ;CLOSE
                       transitive  ;ON
@@ -138,7 +138,7 @@
      (goto (nth (verb world)
                 (list V
                       transitive-take  ;TAKE
-                      quit  ;DROP
+                      transitive-drop  ;DROP
                       quit  ;OPEN
                       quit  ;CLOSE
                       quit  ;ON
@@ -259,6 +259,16 @@
            (begin
              ((string "OK.\n") I)
              (goto get-user-input world2))))))
+
+; 117 case DROP:
+(define-proc 'transitive-drop
+  '(lambda (world)
+     (if (toting? (obj world) world)
+         (let ((world2 (drop (obj world) (location world) world)))
+           (begin
+             ((string "OK.\n") I)
+             (goto get-user-input world2)))
+         (goto report-default world))))
 
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it
