@@ -127,7 +127,7 @@
                       quit  ;FEEFIE
                       quit  ;BRIEF
                       quit  ;FIND
-                      quit  ;INVENTORY
+                      intransitive-inventory  ;INVENTORY
                       quit  ;SCORE
                       quit  ;QUIT
                  ))
@@ -235,6 +235,20 @@
        (if (and (pair? objs) (null? (cdr objs)))  ; TODO: check dwarf
            (goto transitive (set-obj world (K (car objs))))
            (goto get-object world)))))
+
+; 94 case INVENTORY:
+(define-proc 'intransitive-inventory
+  '(lambda (world)
+     (let ((lst (objects-toting world)))
+       (begin
+         (if (null? lst)
+             ((string "You're not carrying anything.\n") I)
+             (begin
+               ((string "You are currently holding the following:\n") I)
+               (for-each (lambda (o)
+                           (#\space (nth o (objname world)) #\newline I))
+                         lst)))
+         (goto get-user-input world)))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take

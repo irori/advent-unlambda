@@ -235,6 +235,14 @@ on the underside of\nthe oyster.")
      (place world)
      c0)))
 
+(defmacro (objects-toting world)
+  (let loop ((lst (cdr (place world)))
+             (n c1))
+    (lst
+     (lambda (hd tl)
+       ((if (hd I I) I (cons n))
+        (loop tl (succ n)))))))
+
 (defmacro (carry object world)
   (set-place
    world
