@@ -203,7 +203,7 @@ on the underside of\nthe oyster.")
                (vector->list object-place))))
 
 (add-unl-macro!
- 'initial-objname '()
+ 'objname '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
                (vector->list object-name))))
 

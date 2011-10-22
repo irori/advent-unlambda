@@ -34,7 +34,6 @@
      base
      prop
      place
-     objname
      note)))
 
 (define (getter-name sym) sym)

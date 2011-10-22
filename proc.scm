@@ -246,7 +246,7 @@
              (begin
                ((string "You are currently holding the following:\n") I)
                (for-each (lambda (o)
-                           (#\space (nth o (objname world)) #\newline I))
+                           (#\space (nth o objname) #\newline I))
                          lst)))
          (goto get-user-input world)))))
 
