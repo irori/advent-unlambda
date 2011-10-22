@@ -77,13 +77,84 @@
              I)
             (goto cycle-label (unknown-word world)))))))
 
-(define-proc 'transitive
-  '(lambda (world)
-     (exit I)))
-
 (define-proc 'intransitive
   '(lambda (world)
-     (exit I)))
+     (goto (nth (verb world)
+                (list V
+                      quit  ;TAKE
+                      quit  ;DROP
+                      quit  ;OPEN
+                      quit  ;CLOSE
+                      quit  ;ON
+                      quit  ;OFF
+                      quit  ;WAVE
+                      quit  ;CALM
+                      report-default  ;GO
+                      report-default  ;RELAX
+                      quit  ;POUR
+                      quit  ;EAT
+                      quit  ;DRINK
+                      quit  ;RUB
+                      quit  ;TOSS
+                      quit  ;WAKE
+                      quit  ;FEED
+                      quit  ;FILL
+                      quit  ;BREAK
+                      quit  ;BLAST
+                      quit  ;KILL
+                      quit  ;SAY
+                      quit  ;READ
+                      quit  ;FEEFIE
+                      quit  ;BRIEF
+                      quit  ;FIND
+                      quit  ;INVENTORY
+                      quit  ;SCORE
+                      quit  ;QUIT
+                 ))
+           world)))
+
+(define-proc 'transitive
+  '(lambda (world)
+     (goto (nth (verb world)
+                (list V
+                      quit  ;TAKE
+                      quit  ;DROP
+                      quit  ;OPEN
+                      quit  ;CLOSE
+                      quit  ;ON
+                      quit  ;OFF
+                      quit  ;WAVE
+                      quit  ;CALM
+                      quit  ;GO
+                      quit  ;RELAX
+                      quit  ;POUR
+                      quit  ;EAT
+                      quit  ;DRINK
+                      quit  ;RUB
+                      quit  ;TOSS
+                      quit  ;WAKE
+                      quit  ;FEED
+                      quit  ;FILL
+                      quit  ;BREAK
+                      quit  ;BLAST
+                      quit  ;KILL
+                      quit  ;SAY
+                      quit  ;READ
+                      quit  ;FEEFIE
+                      quit  ;BRIEF
+                      quit  ;FIND
+                      quit  ;INVENTORY
+                      quit  ;SCORE
+                      quit  ;QUIT
+                 ))
+           world)))
+
+; 79 report_default:
+(define-proc 'report-default
+  '(lambda (world)
+     (begin
+       ((nth (verb world) (default-msg world)) #\newline I)
+       (goto get-user-input world))))
 
 ; 86 Report the current state
 (define-proc 'commence
