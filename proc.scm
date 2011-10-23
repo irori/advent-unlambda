@@ -419,7 +419,7 @@
 
 (add-unl-macro!
  'program-table '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V x))
+ `(list ,@(map (lambda (x) (compile-to-string (if (undefined? x) 'V x)))
                (reverse procedures))))
 
 (defmacro initial-pc mainloop)

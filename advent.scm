@@ -53,10 +53,13 @@
 
 (define (main args)
   (let-args (cdr args)
-	    ((outfile "o|outfile=s" "advent.unl"))
+	    ((outfile "o|outfile=s" "advent.unl")
+             (profile "p|profile")
+             )
     (call-with-output-file outfile
       (lambda (port)
 	(display "#!/usr/bin/env unlambda\n" port)
-  ; (compile-profile 'main)
-	(print-as-unl 'main port))))
+        (if profile
+            (compile-profile 'main port)
+            (print-as-unl 'main port)))))
   0)

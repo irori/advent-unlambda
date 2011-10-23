@@ -346,14 +346,17 @@
        (lambda () ,expr)
        profiler-stop))
 
-(define (compile-profile expr)
+(define (compile-profile expr :optional (port (current-output-port)))
   (let* ((expr2 (time (macroexpand unl-macros expr)))
          (expr3 (time (curried expr2)))
          (expr4 (time (eliminate-lambda expr3)))
-         (expr5 (optimize-ski expr4))
-         (expr6 (unlambdify expr5)))
+         (expr5 (time (optimize-ski expr4)))
+         (expr6 (time (unlambdify expr5))))
     (profiler-show)
-    expr6))
+    (write-tree expr6 port)))
+
+(define (compile-to-string expr)
+  (tree->string (lambda->unlambda (macroexpand unl-macros expr))))
 
 (define (compile-to-file file expr)
   (let ((expanded (macroexpand unl-macros expr))
