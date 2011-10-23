@@ -55,7 +55,11 @@
   (let-args (cdr args)
 	    ((outfile "o|outfile=s" "advent.unl")
              (profile "p|profile")
+             (mexpand "m|macroexpand")
              )
+    (if mexpand
+        (begin (write (macroexpand unl-macros 'main))
+               (exit 0)))
     (call-with-output-file outfile
       (lambda (port)
 	(display "#!/usr/bin/env unlambda\n" port)
