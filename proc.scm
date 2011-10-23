@@ -12,17 +12,17 @@
 ; 75 Simulate an adventure, going to quit when finished
 (define-proc 'mainloop
   '(lambda (world)
-     (let ((world2 (set-location world (lambda (_) (newloc world)))))
-       (goto commence world2))))
+     (let ((world (set-location world (lambda (_) (newloc world)))))
+       (goto commence world))))
 
 ; 141 Report the long description and continue
 (defmacro (handle-look world)
-  (let* ((world1 (set-was-dark world (K V)))
-         (world2 (set-nth world1 set-visits (location world) (K V))))
-    ((if (cons1? (1-of-1 (verbose world2)))
+  (let* ((world (set-was-dark world (K V)))
+         (world (set-nth world set-visits (location world) (K V))))
+    ((if (cons1? (1-of-1 (verbose world)))
          ((string "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n")
-          (set-verbose world2 1-of-1))
-         world2))))
+          (set-verbose world 1-of-1))
+         world))))
 
 ; 75 try-move:
 (define-proc 'try-move
@@ -42,16 +42,16 @@
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input
   '(lambda (world)
-     (let* ((world2 (set-verb world (K ABSTAIN)))
-	    (world3 (set-obj world2 (K NOTHING))))
-       (goto cycle world3))))
+     (let* ((world (set-verb world (K ABSTAIN)))
+	    (world (set-obj world (K NOTHING))))
+       (goto cycle world))))
 
 ; 76 cycle:
 (define-proc 'cycle
   '(lambda (world)
-     (let ((world2 (set-was-dark world (K (dark world))))
+     (let ((world (set-was-dark world (K (dark world))))
            (words listen))
-       (goto pre-parse (set-word12 world2 (lambda (_) words))))))
+       (goto pre-parse (set-word12 world (lambda (_) words))))))
 
 ; 76 pre_parse:
 (define-proc 'pre-parse
@@ -97,17 +97,17 @@
              (lambda (_)  ; motion
                (goto try-move (set-mot world (lambda (_) (word-meaning word1)))))
              (lambda (_)  ; object
-               (let ((world2 (set-obj world (K (word-meaning word1)))))
-                 (if (or (toting? (obj world2) world2)
-                         (at-loc? (obj world2) world2))
-                     (goto handle-object-word world2)
-                     (goto cant-see-it world2))))
+               (let ((world (set-obj world (K (word-meaning word1)))))
+                 (if (or (toting? (obj world) world)
+                         (at-loc? (obj world) world))
+                     (goto handle-object-word world)
+                     (goto cant-see-it world))))
              (lambda (_)  ; verb
-	       (let ((world2 (set-verb world (K (word-meaning word1)))))
+	       (let ((world (set-verb world (K (word-meaning word1)))))
 		 (if (word? word2)
-		     (goto shift world2)
-		     (goto (if (obj world2) transitive intransitive)
-			   world2))))
+		     (goto shift world)
+		     (goto (if (obj world) transitive intransitive)
+			   world))))
              (lambda (_)  ; message
                (begin ((nth (word-meaning word1) (message world)) #\newline I)
                       (goto get-user-input world)))
@@ -346,11 +346,11 @@
      (if (not (here? LAMP world))
          (goto report-default world)
          (if (cons1? (limit world))
-             (let ((world2 (set-nth world set-prop LAMP (K c1))))
+             (let ((world (set-nth world set-prop LAMP (K c1))))
                ((string "Your lamp is now on.\n")
-                (goto (if (was-dark world2)
+                (goto (if (was-dark world)
                           commence
-                          get-user-input) world2)))
+                          get-user-input) world)))
              ((string "Your lamp has run out of power.\n")
               (goto get-user-input world))))))
 
@@ -359,11 +359,11 @@
   '(lambda (world)
      (if (not (here? LAMP world))
          (goto report-default world)
-         (let ((world2 (set-nth world set-prop LAMP (K c0))))
+         (let ((world (set-nth world set-prop LAMP (K c0))))
            (begin
              ((string "Your lamp is now off.\n") I)
-             ((dark world2) pitch-dark-msg #\newline I)
-             (goto get-user-input world2))))))
+             ((dark world) pitch-dark-msg #\newline I)
+             (goto get-user-input world))))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take
@@ -376,12 +376,12 @@
           ((nonzero? (nth (obj world) (base world)))  ; it is immovable
            (string "You can't be serious!\n")
            ret (goto get-user-input world))
-         (let* ((world2 (take-bird world ret))
-                (world3 (take-cage-bird world2))
-                (world4 (carry (obj world3) world3)))
+         (let* ((world (take-bird world ret))
+                (world (take-cage-bird world))
+                (world (carry (obj world) world)))
            (begin
              ((string "OK.\n") I)
-             (goto get-user-input world4))))))))
+             (goto get-user-input world))))))))
 
 (defmacro (take-cage-bird world)
   (cond ((= (obj world) BIRD)
@@ -406,11 +406,11 @@
 ; 120 Check special cases for dropping the bird
 (defmacro (try-drop-bird world ret)
   (if (here? SNAKE world)
-      (let* ((world2 (destroy SNAKE world))
-             (world3 (set-nth world2 set-prop SNAKE (K c1)))
-             (world4 (set-nth world3 set-prop BIRD (K c0))))
+      (let* ((world (destroy SNAKE world))
+             (world (set-nth world set-prop SNAKE (K c1)))
+             (world (set-nth world set-prop BIRD (K c0))))
         ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
-         ret (goto get-user-input (drop BIRD (location world4) world4))))
+         ret (goto get-user-input (drop BIRD (location world) world))))
       I))  ; TODO: handle dragon case
 
 (defmacro (drop-cage-bird world)
@@ -430,11 +430,11 @@
            ret (goto report-default world))
           ((= (obj world) BIRD)
            try-drop-bird world ret)
-          (let* ((world2 (drop-cage-bird world))
-                 (world3 (drop (obj world2) (location world2) world2)))
+          (let* ((world (drop-cage-bird world))
+                 (world (drop (obj world) (location world) world)))
             (begin
               ((string "OK.\n") I)
-              (goto get-user-input world3))))))))
+              (goto get-user-input world))))))))
 
 (defmacro (open-close-grate world)
   ((nth (+ (nth GRATE (prop world)) (if (= (verb world) OPEN) c2 c0))

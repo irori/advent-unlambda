@@ -1386,10 +1386,10 @@ It would be advisable to use the exit."
   (table
    (lambda (hd tl)
      (let ((nl ((inst-code hd) world))
-	   (world2 (set-rand world cdr)))
+	   (world (set-rand world cdr)))
        (if (nl I I)
-           (set-newloc world2 (lambda (_) nl))
-           (apply-inst tl world2))))))
+           (set-newloc world (lambda (_) nl))
+           (apply-inst tl world))))))
 
 (defmacro initial-visits
   (max-loc (cons V) (cons V V)))
