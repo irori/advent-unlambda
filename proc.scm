@@ -236,16 +236,21 @@
   (string "It is now pitch dark.  If you proceed you will most likely fall into a pit."))
 
 ; 86 Report the current state
+(define commence-sub
+  '(lambda (world p)
+     (begin
+       (#\newline I)
+       (p #\newline I)
+       (if (forced-move? (location world))
+           (goto try-move world)
+           (goto (if (dark world)
+                     get-user-input
+                     describe-objects)
+                 world)))))
+
 (define-proc 'commence
-  '(lambda (world)
-     (let ((next (lambda (p)
-                   (begin
-                     (#\newline I)
-                     (p #\newline I)
-                     (goto (if (dark world)
-                               get-user-input
-                               describe-objects)
-                           world)))))
+  `(lambda (world)
+     (let ((next (,commence-sub world)))
        (if (and (dark world) (not (forced-move? (location world))))
            (next pitch-dark-msg)
            (let ((selector (if (cons1? (nth (location world) (visits world)))
