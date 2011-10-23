@@ -5,11 +5,11 @@
 
 (define enum-table (make-hash-table))
 
-(define (define-enum symbols)
+(define (define-enum symbols :optional (start 0))
   (for-each-with-index
    (lambda (i sym)
-     (add-unl-macro! sym '() (churchnum i))
-     (hash-table-put! enum-table sym i))
+     (add-unl-macro! sym '() (churchnum (+ start i)))
+     (hash-table-put! enum-table sym (+ start i)))
    symbols))
 
 (define (lookup-enum sym)

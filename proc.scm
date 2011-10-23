@@ -3,11 +3,10 @@
 
 (defmacro goto cons)
 
-(define proc-labels '())
 (define procedures '())
 
 (define (define-proc name body)
-  (set! proc-labels (cons name proc-labels))
+  (define-enum (list name) (length procedures))
   (set! procedures (cons body procedures)))
 
 ; 75 Simulate an adventure, going to quit when finished
@@ -236,21 +235,9 @@
   (string "It is now pitch dark.  If you proceed you will most likely fall into a pit."))
 
 ; 86 Report the current state
-(define commence-sub
-  '(lambda (world p)
-     (begin
-       (#\newline I)
-       (p #\newline I)
-       (if (forced-move? (location world))
-           (goto try-move world)
-           (goto (if (dark world)
-                     get-user-input
-                     describe-objects)
-                 world)))))
-
 (define-proc 'commence
   `(lambda (world)
-     (let ((next (,commence-sub world)))
+     (let ((next (commence-sub world)))
        (if (and (dark world) (not (forced-move? (location world))))
            (next pitch-dark-msg)
            (let ((selector (if (cons1? (nth (location world) (visits world)))
@@ -278,6 +265,17 @@
                       #\newline I)))
                  (objects-here world))
        (goto get-user-input (increment-visits world)))))
+
+(defmacro (commence-sub world p)
+  (begin
+    (#\newline I)
+    (p #\newline I)
+    (if (forced-move? (location world))
+        (goto try-move world)
+        (goto (if (dark world)
+                  get-user-input
+                  describe-objects)
+              world))))
 
 ; 92 case TAKE:
 (define-proc 'intransitive-take
@@ -370,15 +368,32 @@
 ; 112 case TAKE:
 (define-proc 'transitive-take
   '(lambda (world)
-     (if (toting? (obj world) world)  ; already carrying it
-         (goto report-default world)
-         (if (nonzero? (nth (obj world) (base world)))  ; it is immovable
-             ((string "You can't be serious!\n")
-              (goto get-user-input world))
-             (let ((world2 (carry (obj world) world)))
-               (begin
-                 ((string "OK.\n") I)
-                 (goto get-user-input world2)))))))
+     (call/cc
+      (lambda (ret)
+        (begin
+          ((toting? (obj world) world)  ; already carrying it
+           ret (goto report-default world))
+          ((nonzero? (nth (obj world) (base world)))  ; it is immovable
+           (string "You can't be serious!\n")
+           ret (goto get-user-input world))
+         (let* ((world2 (take-bird world ret))
+                (world3 (carry (obj world2) world2)))
+           (begin
+             ((string "OK.\n") I)
+             (goto get-user-input world3))))))))
+
+; 114 Check special cases for taking a bird
+(defmacro (take-bird world ret)
+  (if (and (= (obj world) BIRD) (zero? (nth BIRD (prop world))))
+      (begin
+        ((toting? ROD world)
+         (string "The bird was unafraid when you entered, but as you approach it becomes\ndisturbed and you cannot catch it.\n")
+         ret (goto get-user-input world))
+        (if (toting? CAGE world)
+            (set-nth world set-prop BIRD (K c1))
+            ((string "You can catch the bird, but you cannot carry it.\n")
+             ret (goto get-user-input world))))
+      world))
 
 ; 117 case DROP:
 (define-proc 'transitive-drop
@@ -422,8 +437,6 @@
 (define-proc 'quit
   '(lambda (world)
      ((string "\nquitting...\n") exit I)))
-
-(define-enum (reverse proc-labels))
 
 (add-unl-macro!
  'program-table '()
