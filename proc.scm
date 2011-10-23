@@ -370,12 +370,15 @@
 ; 112 case TAKE:
 (define-proc 'transitive-take
   '(lambda (world)
-     (if (toting? (obj world) world)
+     (if (toting? (obj world) world)  ; already carrying it
          (goto report-default world)
-         (let ((world2 (carry (obj world) world)))
-           (begin
-             ((string "OK.\n") I)
-             (goto get-user-input world2))))))
+         (if (nonzero? (nth (obj world) (base world)))  ; it is immovable
+             ((string "You can't be serious!\n")
+              (goto get-user-input world))
+             (let ((world2 (carry (obj world) world)))
+               (begin
+                 ((string "OK.\n") I)
+                 (goto get-user-input world2)))))))
 
 ; 117 case DROP:
 (define-proc 'transitive-drop
