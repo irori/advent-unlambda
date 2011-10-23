@@ -77,7 +77,7 @@
   (let* ((len (string-length s))
 	 (lastc (string-ref s (- len 1)))
 	 (cs (string->list (substring s 0 (- len 1)))))
-    `(D ,(fold list lastc cs))))
+    `(delay ,(fold list lastc cs))))
 
 (defsyntax (print$ s e)
   ; (print$ "abc" e) => (#\c (#\b (#\a e)))
