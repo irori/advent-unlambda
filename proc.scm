@@ -377,10 +377,18 @@
            (string "You can't be serious!\n")
            ret (goto get-user-input world))
          (let* ((world2 (take-bird world ret))
-                (world3 (carry (obj world2) world2)))
+                (world3 (take-cage-bird world2))
+                (world4 (carry (obj world3) world3)))
            (begin
              ((string "OK.\n") I)
-             (goto get-user-input world3))))))))
+             (goto get-user-input world4))))))))
+
+(defmacro (take-cage-bird world)
+  (cond ((= (obj world) BIRD)
+         (carry CAGE world))
+        ((and (= (obj world) CAGE) (nonzero? (nth BIRD (prop world))))
+         (carry BIRD world))
+        (else world)))
 
 ; 114 Check special cases for taking a bird
 (defmacro (take-bird world ret)
@@ -395,15 +403,38 @@
              ret (goto get-user-input world))))
       world))
 
+; 120 Check special cases for dropping the bird
+(defmacro (try-drop-bird world ret)
+  (if (here? SNAKE world)
+      (let* ((world2 (destroy SNAKE world))
+             (world3 (set-nth world2 set-prop SNAKE (K c1)))
+             (world4 (set-nth world3 set-prop BIRD (K c0))))
+        ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
+         ret (goto get-user-input (drop BIRD (location world4) world4))))
+      I))  ; TODO: handle dragon case
+
+(defmacro (drop-cage-bird world)
+  (cond ((= (obj world) BIRD)
+         (set-nth world set-prop BIRD (K c0)))
+        ((and (= (obj world) CAGE) (nonzero? (nth BIRD (prop world))))
+         (drop BIRD (location world) world))
+        (else world)))
+
 ; 117 case DROP:
 (define-proc 'transitive-drop
   '(lambda (world)
-     (if (toting? (obj world) world)
-         (let ((world2 (drop (obj world) (location world) world)))
-           (begin
-             ((string "OK.\n") I)
-             (goto get-user-input world2)))
-         (goto report-default world))))
+     (call/cc
+      (lambda (ret)
+        (begin
+          ((not (toting? (obj world) world))
+           ret (goto report-default world))
+          ((= (obj world) BIRD)
+           try-drop-bird world ret)
+          (let* ((world2 (drop-cage-bird world))
+                 (world3 (drop (obj world2) (location world2) world2)))
+            (begin
+              ((string "OK.\n") I)
+              (goto get-user-input world3))))))))
 
 (defmacro (open-close-grate world)
   ((nth (+ (nth GRATE (prop world)) (if (= (verb world) OPEN) c2 c0))
