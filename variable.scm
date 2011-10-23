@@ -66,3 +66,6 @@
                         (modifier-body plist)))))
 
 (generate-accessors '() memory-map)
+
+(defmacro (set-nth world setter n modifier)
+  (setter world (modify-nth (to-cons1 n) modifier)))

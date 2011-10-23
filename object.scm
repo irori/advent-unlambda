@@ -255,9 +255,7 @@ on the underside of\nthe oyster.")
                (K V))))
 
 (defmacro (drop object location world)
-  (set-place world
-             (modify-nth (to-cons1 object)
-                         (K location))))
+  (set-nth world set-place object (K location)))
 
 (defmacro (destroy object world)
   (drop object limbo world))

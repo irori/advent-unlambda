@@ -19,8 +19,7 @@
 ; 141 Report the long description and continue
 (defmacro (handle-look world)
   (let* ((world1 (set-was-dark world (K V)))
-         (world2 (set-visits world1
-                             (modify-nth (to-cons1 (location world)) (K V)))))
+         (world2 (set-nth world1 set-visits (location world) (K V))))
     ((if (cons1? (1-of-1 (verbose world2)))
          ((string "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n")
           (set-verbose world2 1-of-1))
@@ -66,7 +65,7 @@
                  (begin
                    ((here? LAMP world)
                     (string "Your lamp has run out of power.\n") I)
-                   (set-prop world2 (modify-nth (to-cons1 LAMP) (K c0))))
+                   (set-nth world2 set-prop LAMP (K c0)))
                  world2)))
        (goto look-at-word1 world3))))
 
@@ -255,15 +254,13 @@
          
 
 (defmacro (increment-visits world)
-  (set-visits
-   world
-   (modify-nth (to-cons1 (location world))
-               (lambda (x)
-                 (if (cons1? x)
-                     (if (cons1? (verbose world))
-                         (1-of-1 x)
-                         x)
-                     (cons1 (cons1 (cons1 (cons1 V)))))))))
+  (set-nth world set-visits (location world)
+           (lambda (x)
+             (if (cons1? x)
+                 (if (cons1? (verbose world))
+                     (1-of-1 x)
+                     x)
+                 (cons1 (cons1 (cons1 (cons1 V))))))))
 
 ; 88 Describe the objects at this location
 (define-proc 'describe-objects
@@ -346,7 +343,7 @@
      (if (not (here? LAMP world))
          (goto report-default world)
          (if (cons1? (limit world))
-             (let ((world2 (set-prop world (modify-nth (to-cons1 LAMP) (K c1)))))
+             (let ((world2 (set-nth world set-prop LAMP (K c1))))
                ((string "Your lamp is now on.\n")
                 (goto (if (was-dark world2)
                           commence
@@ -359,7 +356,7 @@
   '(lambda (world)
      (if (not (here? LAMP world))
          (goto report-default world)
-         (let ((world2 (set-prop world (modify-nth (to-cons1 LAMP) (K c0)))))
+         (let ((world2 (set-nth world set-prop LAMP (K c0))))
            (begin
              ((string "Your lamp is now off.\n") I)
              ((dark world2) pitch-dark-msg #\newline I)
@@ -392,9 +389,7 @@
               (string "The grate is now unlocked.")
               (string "It was already unlocked.")))
    #\newline
-   (set-prop
-    world
-    (modify-nth (to-cons1 GRATE) (K (if (= (verb world) OPEN) c1 c0))))))
+   (set-nth world set-prop GRATE (K (if (= (verb world) OPEN) c1 c0)))))
 
 ; 130 case OPEN: calse CLOSE:
 (define-proc 'transitive-open
