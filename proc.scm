@@ -300,7 +300,7 @@
                          ((here? CLAM world) CLAM)
                          ((here? OYSTER world) OYSTER)
                          (else V))))
-       (if (here? CHAIN)
+       (if (here? CHAIN world)
            (if (object I I)
                (goto get-object world)
                (goto transitive (set-obj world (K CHAIN))))
