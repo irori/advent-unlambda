@@ -30,11 +30,27 @@
 
 (test-proc 'mainloop
   '(lambda (world proc)
-     (let* ((world (set-newloc world (K like1)))
-	    (r (proc world)))
-       (begin
-	 (print-stars (car r))
-	 (print-stars (newloc (cdr r))))))
+     (let* ((world (set-newloc world (K like1))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+	    (print-stars (newloc world)))))))
   (tree->string (list
 		 (expect-enum 'commence)
 		 (expect-enum 'like1))))
+
+(test-proc 'get-user-input
+  '(lambda (world proc)
+     (let* ((world (set-verb world (K TAKE)))
+	    (world (set-obj world (K LAMP))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+	    (print-stars (verb world))
+	    (print-stars (obj world)))))))
+  (tree->string (list
+		 (expect-enum 'cycle)
+		 (expect-enum 'ABSTAIN)
+		 (expect-enum 'NOTHING))))
