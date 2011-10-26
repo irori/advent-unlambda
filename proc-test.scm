@@ -54,3 +54,6 @@
 		 (expect-enum 'cycle)
 		 (expect-enum 'ABSTAIN)
 		 (expect-enum 'NOTHING))))
+
+(define (main args)
+  0)
