@@ -220,14 +220,17 @@ on the underside of\nthe oyster.")
 
 (defmacro (toting? object world)
   (not ((nth object (place world)) I I)))
+(defmacro ($toting? object) (toting? object world))
 
 (defmacro (at-loc? object world)
   (= (nth object (place world)) (location world)))
+(defmacro ($at-loc? object) (at-loc? object world))
 
 (defmacro (here? object world)
   (let ((obj-place (nth object (place world))))
     (or (not (obj-place I I))
         (= obj-place (location world)))))
+(defmacro ($here? object) (here? object world))
 
 (defmacro (objects-here world)
   (let ((loc (location world)))
@@ -239,6 +242,7 @@ on the underside of\nthe oyster.")
            (rec rec tl (succ n))))))
      (place world)
      c0)))
+(defmacro $objects-here (objects-here world))
 
 (defmacro (objects-toting world)
   (let loop ((lst (cdr (place world)))
@@ -247,15 +251,19 @@ on the underside of\nthe oyster.")
      (lambda (hd tl)
        ((if (hd I I) I (cons n))
         (loop tl (succ n)))))))
+(defmacro $objects-toting (objects-toting world))
 
 (defmacro (carry object world)
   (set-place
    world
    (modify-nth (to-cons1 object)
                (K V))))
+(defmacro ($carry object) (carry object world))
 
 (defmacro (drop object location world)
   (set-nth world set-place object (K location)))
+(defmacro ($drop object location) (drop object location world))
 
 (defmacro (destroy object world)
   (drop object limbo world))
+(defmacro ($destroy object) (destroy object world))
