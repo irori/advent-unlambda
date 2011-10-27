@@ -71,5 +71,14 @@
 
 (generate-accessors '() memory-map)
 
+; (let-world (m1 .. mn) body)
+; -> (let* ((world m1)
+;               :
+;           (world mn))
+;      body)
+(defsyntax (let-world modifiers body)
+  `(let* ,(map (lambda (m) (list 'world m)) modifiers)
+     ,body))
+
 (defmacro (set-nth world setter n modifier)
   (setter world (modify-nth (to-cons1 n) modifier)))
