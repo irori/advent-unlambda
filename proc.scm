@@ -351,9 +351,7 @@
          (if (cons1? $limit)
              (let-world (($set-prop-of LAMP (K c1)))
                ((string "Your lamp is now on.\n")
-                ($goto (if (was-dark world)
-			   commence
-			   get-user-input))))
+                ($goto (if $was-dark commence get-user-input))))
              ((string "Your lamp has run out of power.\n")
               ($goto get-user-input))))))
 
