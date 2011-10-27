@@ -30,7 +30,7 @@
 
 (test-proc 'mainloop
   '(lambda (world proc)
-     (let* ((world (set-newloc world (K like1))))
+     (let-world ((set-newloc world (K like1)))
        ((proc world)
 	(lambda (cont world)
 	  (begin
@@ -42,8 +42,8 @@
 
 (test-proc 'get-user-input
   '(lambda (world proc)
-     (let* ((world (set-verb world (K TAKE)))
-	    (world (set-obj world (K LAMP))))
+     (let-world ((set-verb world (K TAKE))
+		 (set-obj world (K LAMP)))
        ((proc world)
 	(lambda (cont world)
 	  (begin
