@@ -52,7 +52,7 @@
 (define-proc 'cycle
   '(lambda (world)
      (let ((words listen))
-       (let-world (($set-was-dark (K (dark world)))
+       (let-world (($set-was-dark (K $dark))
 		   ($set-word12 (K words)))
 	 ($goto pre-parse)))))
 
@@ -231,6 +231,7 @@
   (and (not (lighted? $location))
        (or (zero? (nth LAMP $prop))
            (not (here? LAMP world)))))
+(defmacro $dark (dark world))
 
 (defmacro pitch-dark-msg
   (string "It is now pitch dark.  If you proceed you will most likely fall into a pit."))
@@ -239,7 +240,7 @@
 (define-proc 'commence
   `(lambda (world)
      (let ((next (commence-sub world)))
-       (if (and (dark world) (not (forced-move? $location)))
+       (if (and $dark (not (forced-move? $location)))
            (next pitch-dark-msg)
            (let ((selector (if (cons1? (nth $location $visits))
                                ->cdr ->car)))
@@ -275,7 +276,7 @@
       (p #\newline I)
       (if (forced-move? $location)
 	  ($goto try-move)
-	  ($goto (if (dark world)
+	  ($goto (if $dark
 		     get-user-input
 		     describe-objects))))))
 
@@ -364,7 +365,7 @@
          (let-world (($set-prop-of LAMP (K c0)))
            (begin
              ((string "Your lamp is now off.\n") I)
-             ((dark world) pitch-dark-msg #\newline I)
+             ($dark pitch-dark-msg #\newline I)
              ($goto get-user-input))))))
 
 ; 112 case TAKE:
