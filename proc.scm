@@ -12,17 +12,18 @@
 ; 75 Simulate an adventure, going to quit when finished
 (define-proc 'mainloop
   '(lambda (world)
-     (let ((world (set-location world (lambda (_) (newloc world)))))
+     (let-world ((set-location world (lambda (_) (newloc world))))
        (goto commence world))))
 
 ; 141 Report the long description and continue
-(defmacro (handle-look world)
-  (let* ((world (set-was-dark world (K V)))
-         (world (set-nth world set-visits (location world) (K V))))
-    ((if (cons1? (1-of-1 (verbose world)))
-         ((string "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n")
-          (set-verbose world 1-of-1))
-         world))))
+(defmacro handle-look
+  (lambda (world)
+    (let-world ((set-was-dark world (K V))
+		(set-nth world set-visits (location world) (K V)))
+      ((if (cons1? (1-of-1 (verbose world)))
+	   ((string "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n")
+	    (set-verbose world 1-of-1))
+	   world)))))
 
 ; 75 try-move:
 (define-proc 'try-move
@@ -42,31 +43,31 @@
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input
   '(lambda (world)
-     (let* ((world (set-verb world (K ABSTAIN)))
-	    (world (set-obj world (K NOTHING))))
+     (let-world ((set-verb world (K ABSTAIN))
+		 (set-obj world (K NOTHING)))
        (goto cycle world))))
 
 ; 76 cycle:
 (define-proc 'cycle
   '(lambda (world)
-     (let ((world (set-was-dark world (K (dark world))))
-           (words listen))
-       (goto pre-parse (set-word12 world (lambda (_) words))))))
+     (let ((words listen))
+       (let-world ((set-was-dark world (K (dark world)))
+		   (set-word12 world (lambda (_) words)))
+	 (goto pre-parse world)))))
 
 ; 76 pre_parse:
 (define-proc 'pre-parse
   '(lambda (world)
      ; turns++
-     (let* ((world2
-             (set-limit world (if (= (nth LAMP (prop world)) c1) 1-of-1 I)))
-            (world3
-             (if (and (cons1? (limit world)) (not (cons1? (limit world2))))
-                 (begin
-                   ((here? LAMP world)
-                    (string "Your lamp has run out of power.\n") I)
-                   (set-nth world2 set-prop LAMP (K c0)))
-                 world2)))
-       (goto look-at-word1 world3))))
+     (let ((old-limit (limit world)))
+       (let-world ((set-limit world (if (= (nth LAMP (prop world)) c1) 1-of-1 I))
+		   (if (and (cons1? old-limit) (not (cons1? (limit world))))
+		       (begin
+			 ((here? LAMP world)
+			  (string "Your lamp has run out of power.\n") I)
+			 (set-nth world set-prop LAMP (K c0)))
+		       world))
+	 (goto look-at-word1 world)))))
 
 ; 76 shift:
 (define-proc 'shift
@@ -97,13 +98,13 @@
              (lambda (_)  ; motion
                (goto try-move (set-mot world (lambda (_) (word-meaning word1)))))
              (lambda (_)  ; object
-               (let ((world (set-obj world (K (word-meaning word1)))))
+               (let-world ((set-obj world (K (word-meaning word1))))
                  (if (or (toting? (obj world) world)
                          (at-loc? (obj world) world))
                      (goto handle-object-word world)
                      (goto cant-see-it world))))
              (lambda (_)  ; verb
-	       (let ((world (set-verb world (K (word-meaning word1)))))
+	       (let-world ((set-verb world (K (word-meaning word1))))
 		 (if (word? word2)
 		     (goto shift world)
 		     (goto (if (obj world) transitive intransitive)
@@ -346,7 +347,7 @@
      (if (not (here? LAMP world))
          (goto report-default world)
          (if (cons1? (limit world))
-             (let ((world (set-nth world set-prop LAMP (K c1))))
+             (let-world ((set-nth world set-prop LAMP (K c1)))
                ((string "Your lamp is now on.\n")
                 (goto (if (was-dark world)
                           commence
@@ -359,7 +360,7 @@
   '(lambda (world)
      (if (not (here? LAMP world))
          (goto report-default world)
-         (let ((world (set-nth world set-prop LAMP (K c0))))
+         (let-world ((set-nth world set-prop LAMP (K c0)))
            (begin
              ((string "Your lamp is now off.\n") I)
              ((dark world) pitch-dark-msg #\newline I)
@@ -376,9 +377,9 @@
           ((nonzero? (nth (obj world) (base world)))  ; it is immovable
            (string "You can't be serious!\n")
            ret (goto get-user-input world))
-         (let* ((world (take-bird world ret))
-                (world (take-cage-bird world))
-                (world (carry (obj world) world)))
+         (let-world ((take-bird world ret)
+		     (take-cage-bird world)
+		     (carry (obj world) world))
            (begin
              ((string "OK.\n") I)
              (goto get-user-input world))))))))
@@ -406,9 +407,9 @@
 ; 120 Check special cases for dropping the bird
 (defmacro (try-drop-bird world ret)
   (if (here? SNAKE world)
-      (let* ((world (destroy SNAKE world))
-             (world (set-nth world set-prop SNAKE (K c1)))
-             (world (set-nth world set-prop BIRD (K c0))))
+      (let-world ((destroy SNAKE world)
+		  (set-nth world set-prop SNAKE (K c1))
+		  (set-nth world set-prop BIRD (K c0)))
         ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
          ret (goto get-user-input (drop BIRD (location world) world))))
       I))  ; TODO: handle dragon case
@@ -430,8 +431,8 @@
            ret (goto report-default world))
           ((= (obj world) BIRD)
            try-drop-bird world ret)
-          (let* ((world (drop-cage-bird world))
-                 (world (drop (obj world) (location world) world)))
+          (let-world ((drop-cage-bird world)
+		      (drop (obj world) (location world) world))
             (begin
               ((string "OK.\n") I)
               (goto get-user-input world))))))))
