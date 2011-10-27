@@ -122,9 +122,9 @@
          (if (nonzero? $verb)
              ($goto transitive)
              (begin
-               ((string "What do you want to do with the ") I)
+               (print "What do you want to do with the ")
                ((word-letters (car $word12)) I)
-               ((string "?\n") I)
+               (print "?\n")
                ($goto cycle))))))
 
 (define-proc 'intransitive
@@ -211,7 +211,7 @@
   '(lambda (world)
      (begin
        ((word-letters (car $word12)) I)
-       ((string " what?\n") I)
+       (print " what?\n")
        ($goto cycle))))
 
 ; 79 cant_see_it:
@@ -221,9 +221,9 @@
               (not (word? (cdr $word12))))
          ($goto transitive)
          (begin
-           ((string "I see no ") I)
+           (print "I see no ")
            ((word-letters (car $word12)) I)
-           ((string " here.\n") I)
+           (print " here.\n")
            ($goto get-user-input)))))
 
 (defmacro (dark world)
@@ -320,9 +320,9 @@
      (let ((lst $objects-toting))
        (begin
          (if (null? lst)
-             ((string "You're not carrying anything.\n") I)
+             (print "You're not carrying anything.\n")
              (begin
-               ((string "You are currently holding the following:\n") I)
+               (print "You are currently holding the following:\n")
                (for-each (lambda (o)
                            (#\space (nth o objname) #\newline I))
                          lst)))
@@ -361,7 +361,7 @@
          ($goto report-default)
          (let-world (($set-prop-of LAMP (K c0)))
            (begin
-             ((string "Your lamp is now off.\n") I)
+             (print "Your lamp is now off.\n")
              ($dark pitch-dark-msg #\newline I)
              ($goto get-user-input))))))
 
@@ -379,9 +379,8 @@
          (let-world ((take-bird world ret)
 		     (take-cage-bird world)
 		     ($carry $obj))
-           (begin
-             ((string "OK.\n") I)
-             ($goto get-user-input))))))))
+           ((string "OK.\n")
+	    ($goto get-user-input))))))))
 
 (defmacro take-cage-bird
   (lambda (world)
@@ -437,7 +436,7 @@
           (let-world ((drop-cage-bird world)
 		      ($drop $obj $location))
             (begin
-              ((string "OK.\n") I)
+              (print "OK.\n")
               ($goto get-user-input))))))))
 
 (defmacro open-close-grate
