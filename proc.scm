@@ -30,16 +30,15 @@
 ; 75 try-move:
 (define-proc 'try-move
   '(lambda (world)
-     ((cond ((= $mot NOWHERE)
-             (lambda (world) ($goto mainloop)))
-            ((= $mot LOOK)
-             (lambda (world) (goto mainloop (handle-look world))))
-            (else
-             (lambda (world)
-               (goto go-for-it
-                     ($set-oldlocs (lambda (ol-ool)
-				     (cons $location (car ol-ool))))))))
-      ($set-newloc (K $location)))))
+     (let-world (($set-newloc (K $location)))
+       (cond ((= $mot NOWHERE)
+	      ($goto mainloop))
+	     ((= $mot LOOK)
+	      (goto mainloop (handle-look world)))
+	     (else
+	      (goto go-for-it
+		    ($set-oldlocs (lambda (ol-ool)
+				    (cons $location (car ol-ool))))))))))
 
 ; 76 Get user input; goto try_move if motion is requested
 (define-proc 'get-user-input

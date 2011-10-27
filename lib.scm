@@ -44,15 +44,15 @@
   (if condition V alternative))
 
 ; (cond (c1 b1) (c2 b2) ... (cn bn) [(else b)])
-; c1..cn-1 ‚ª false, cn ‚ª true ‚Ì‚Æ‚«A b1..bn-1 ‚à•]‰¿‚³‚ê‚é‚Ì‚Å’ˆÓ
 (defsyntax (cond . clauses)
-  `(call/cc
-    (lambda (*q*)
-      ,(map (lambda (pair)
-	      (if (eq? (car pair) 'else)
-		  `(*q* ,(cadr pair))
-		  `(,(car pair) *q* ,(cadr pair))))
-	    clauses))))
+  `((call/cc
+     (lambda (*q*)
+       ,(map (lambda (pair)
+	       (if (eq? (car pair) 'else)
+		   `(*q* (lambda (**cond-dummy**) ,(cadr pair)))
+		   `(,(car pair) *q* (lambda (**cond-dummy**) ,(cadr pair)))))
+	     clauses)))
+    V))
 
 (defsyntax (let* binds body)
   (fold-right
