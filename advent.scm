@@ -39,8 +39,11 @@
               ,(make-initial-map (cdr tree)))
       (string->symbol (string-append "initial-" (symbol->string tree)))))
 
-(add-unl-macro! 'initial-world '()
-                (make-initial-map memory-map))
+(add-unl-macro!
+ 'initial-world '()
+ (compile-to-file
+  "world.unlo"
+  (make-initial-map memory-map)))
 
 
 ;; main loop
