@@ -44,6 +44,8 @@
   (string->symbol (string-append "set-" (symbol->string sym))))
 (define (getter-with-implicit-world-name sym)
   (string->symbol (string-append "$" (symbol->string sym))))
+(define (setter-with-implicit-world-name sym)
+  (string->symbol (string-append "$set-" (symbol->string sym))))
 
 (define (modifier-body plist)
   (list 'world
@@ -67,7 +69,10 @@
         (add-unl-macro! (getter-with-implicit-world-name tree) '()
 			(list (getter-name tree) 'world))
         (add-unl-macro! (setter-name tree) '(world modifier)
-                        (modifier-body plist)))))
+                        (modifier-body plist))
+        (add-unl-macro! (setter-with-implicit-world-name tree) '(modifier)
+			(list (setter-name tree) 'world 'modifier))
+	)))
 
 (generate-accessors '() memory-map)
 
