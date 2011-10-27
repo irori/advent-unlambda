@@ -21,7 +21,7 @@
 (defmacro handle-look
   (lambda (world)
     (let-world (($set-was-dark (K V))
-		(set-nth world set-visits $location (K V)))
+		(set-nth$ set-visits $location (K V)))
       ((if (cons1? (1-of-1 $verbose))
 	   ((string "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n")
 	    ($set-verbose 1-of-1))
@@ -66,7 +66,7 @@
 		       (begin
 			 ((here? LAMP world)
 			  (string "Your lamp has run out of power.\n") I)
-			 (set-nth world set-prop LAMP (K c0)))
+			 (set-prop-of$ LAMP (K c0)))
 		       world))
 	 (goto$ look-at-word1)))))
 
@@ -248,7 +248,7 @@
 
 (defmacro increment-visits
   (lambda (world)
-    (set-nth world set-visits $location
+    (set-nth$ set-visits $location
 	     (lambda (x)
 	       (if (cons1? x)
 		   (if (cons1? $verbose)
@@ -346,9 +346,9 @@
 (define-proc 'transitive-on
   '(lambda (world)
      (if (not (here? LAMP world))
-         (goto report-default world)
+         (goto$ report-default)
          (if (cons1? $limit)
-             (let-world ((set-nth world set-prop LAMP (K c1)))
+             (let-world ((set-prop-of$ LAMP (K c1)))
                ((string "Your lamp is now on.\n")
                 (goto$ (if (was-dark world)
 			   commence
@@ -361,7 +361,7 @@
   '(lambda (world)
      (if (not (here? LAMP world))
          (goto$ report-default)
-         (let-world ((set-nth world set-prop LAMP (K c0)))
+         (let-world ((set-prop-of$ LAMP (K c0)))
            (begin
              ((string "Your lamp is now off.\n") I)
              ((dark world) pitch-dark-msg #\newline I)
@@ -402,7 +402,7 @@
 	   (string "The bird was unafraid when you entered, but as you approach it becomes\ndisturbed and you cannot catch it.\n")
 	   ret (goto$ get-user-input))
 	  (if (toting? CAGE world)
-	      (set-nth world set-prop BIRD (K c1))
+	      (set-prop-of$ BIRD (K c1))
 	      ((string "You can catch the bird, but you cannot carry it.\n")
 	       ret (goto$ get-user-input))))
 	world)))
@@ -412,8 +412,8 @@
   (lambda (world ret)
     (if (here? SNAKE world)
 	(let-world ((destroy SNAKE world)
-		    (set-nth world set-prop SNAKE (K c1))
-		    (set-nth world set-prop BIRD (K c0)))
+		    (set-prop-of$ SNAKE (K c1))
+		    (set-prop-of$ BIRD (K c0)))
 	  ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
 	   ret (goto get-user-input (drop BIRD $location world))))
 	I)))  ; TODO: handle dragon case
@@ -421,7 +421,7 @@
 (defmacro drop-cage-bird
   (lambda (world)
     (cond ((= $obj BIRD)
-	   (set-nth world set-prop BIRD (K c0)))
+	   (set-prop-of$ BIRD (K c0)))
 	  ((and (= $obj CAGE) (nonzero? (nth BIRD $prop)))
 	   (drop BIRD $location world))
 	  (else world))))
@@ -450,7 +450,7 @@
 		(string "The grate is now unlocked.")
 		(string "It was already unlocked.")))
      #\newline
-     (set-nth world set-prop GRATE (K (if (= $verb OPEN) c1 c0))))))
+     (set-prop-of$ GRATE (K (if (= $verb OPEN) c1 c0))))))
 
 ; 130 case OPEN: calse CLOSE:
 (define-proc 'transitive-open

@@ -87,3 +87,9 @@
 
 (defmacro (set-nth world setter n modifier)
   (setter world (modify-nth (to-cons1 n) modifier)))
+
+(defmacro (set-nth$ setter n modifier)
+  (set-nth world setter n modifier))
+
+(defmacro (set-prop-of$ obj modifier)
+  (set-nth world set-prop obj modifier))
