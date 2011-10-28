@@ -150,6 +150,33 @@
   (list "The grate is locked.\n"
         (expect-enum 'get-user-input)))
 
+(test-proc 'describe-objects "treads-gold"
+  '(lambda (world proc)
+     (let-world (($set-location (K spit))
+                 ($carry GOLD))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list (expect-enum 'get-user-input)))
+
+(test-proc 'describe-objects "treads-spit"
+  '(lambda (world proc)
+     (let-world (($set-location (K spit)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "Rough stone steps lead down the pit.\n"
+        (expect-enum 'get-user-input)))
+
+(test-proc 'describe-objects "treads-emist"
+  '(lambda (world proc)
+     (let-world (($set-location (K emist)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "Rough stone steps lead up the dome.\n"
+        (expect-enum 'get-user-input)))
+
 (test-proc 'get-user-input ""
   '(lambda (world proc)
      (let-world (($set-verb (K TAKE))

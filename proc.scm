@@ -278,12 +278,19 @@
 (define-proc 'describe-objects
   '(lambda (world)
      (begin
-       (for-each (lambda (obj)
-                   (let* ((bas (nth obj $base))
-                          (tt (if (zero? bas) obj bas)))
-                     ((nth (nth tt $prop) (nth tt $note))
-                      #\newline I)))
-                 $objects-here)
+       (for-each
+        (lambda (obj)
+          (let* ((bas (nth obj $base))
+                 (tt (if (zero? bas) obj bas)))
+            ((if (= tt TREADS)
+                 (cond (($toting? GOLD) V)
+                       ((= $location emist) cdr)
+                       (else I))
+                 I)
+             ((nth tt $prop) cdr (nth tt $note))
+             ->car
+             #\newline I)))
+        $objects-here)
        (goto get-user-input (increment-visits world)))))
 
 ; 92 case TAKE:
