@@ -274,24 +274,34 @@
 			x)
 		    (cons1 (cons1 (cons1 (cons1 V)))))))))
 
+(defmacro ($describe-single-object tt)
+  ((if (= tt TREADS)
+       (cond (($toting? GOLD) V)
+             ((= $location emist) cdr)
+             (else I))
+       I)
+   ((nth tt $prop) cdr (nth tt $note))
+   ->car
+   #\newline I))
+
 ; 88 Describe the objects at this location
 (define-proc 'describe-objects
   '(lambda (world)
-     (begin
-       (for-each
-        (lambda (obj)
-          (let* ((bas (nth obj $base))
-                 (tt (if (zero? bas) obj bas)))
-            ((if (= tt TREADS)
-                 (cond (($toting? GOLD) V)
-                       ((= $location emist) cdr)
-                       (else I))
-                 I)
-             ((nth tt $prop) cdr (nth tt $note))
-             ->car
-             #\newline I)))
-        $objects-here)
-       (goto get-user-input (increment-visits world)))))
+     (let loop ((world world)
+                (lst $objects-here))
+       (if (null? lst)
+           (goto get-user-input (increment-visits world))
+           (let* ((bas (nth (car lst) $base))
+                  (tt (if (zero? bas) (car lst) bas)))
+             (let-world ((if ((nth tt $prop) I I)  ; TODO: check !closed
+                             world
+                             ($set-prop-of tt (K (cond ((= tt RUG) c1)
+                                                       ((= tt CHAIN) c1)
+                                                       (else c0))))))
+                                        ; TODO: tally--, 183
+               (begin
+                 ($describe-single-object tt)
+                 (loop world (cdr lst)))))))))
 
 ; 92 case TAKE:
 (define-proc 'intransitive-take

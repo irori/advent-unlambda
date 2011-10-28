@@ -177,6 +177,35 @@
   (list "Rough stone steps lead up the dome.\n"
         (expect-enum 'get-user-input)))
 
+(test-proc 'describe-objects "treasure"
+  '(lambda (world proc)
+     (let-world (($set-location (K west)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars (nth COINS $prop))))))
+  (list "There are many coins here!\n"
+        "{}"))
+
+(test-proc 'describe-objects "rug"
+  '(lambda (world proc)
+     (let-world (($set-location (K scan3)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars (nth RUG $prop))))))
+  (list "A huge green fierce dragon bars the way!\n"
+        "The dragon is sprawled out on a Persian rug!!\n"
+        "{*}"))
+
+(test-proc 'describe-objects "chain"
+  '(lambda (world proc)
+     (let-world (($set-location (K barr)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars (nth CHAIN $prop))))))
+  (list "There is a ferocious cave bear eying you from the far end of the room!\n"
+        "The bear is locked to the wall with a golden chain!\n"
+        "{*}"))
+
 (test-proc 'get-user-input ""
   '(lambda (world proc)
      (let-world (($set-verb (K TAKE))
