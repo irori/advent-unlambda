@@ -256,8 +256,7 @@
             (begin
               (($toting? BEAR)
                (string "You are being followed by a very large, tame bear.\n") I)
-              (#\newline I)
-              (p #\newline I)
+              (#\newline p #\newline I)
               (if (forced-move? $location)
                   ($goto try-move)
                   ; TODO: give optinal plugh hint 157

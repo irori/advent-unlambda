@@ -107,6 +107,49 @@
   (list "\nThe crack is far too small for you to follow.\n"
         (expect-enum 'try-move)))
 
+(test-proc 'describe-objects "count-visits"
+  '(lambda (world proc)
+     ((proc world)
+      (lambda (cont world)
+        (begin
+          (print-stars (cons1-length (nth initial-location $visits)))
+          (print-stars cont)))))
+  (list "{****}"
+        (expect-enum 'get-user-input)))
+
+(test-proc 'describe-objects "count-visits2"
+  '(lambda (world proc)
+     (let-world (($set-nth set-visits initial-location (K (cons1 (cons1 V)))))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars (cons1-length (nth initial-location $visits)))
+            (print-stars cont))))))
+  (list "{*}"
+        (expect-enum 'get-user-input)))
+
+(test-proc 'describe-objects "describe"
+  '(lambda (world proc)
+     (let-world (($set-location (K house))
+                 ($set-prop-of LAMP (K c1)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "There are some keys on the ground here.\n"
+        "There is a lamp shining nearby.\n"
+        "There is food here.\n"
+        "There is a bottle of water here.\n"
+        (expect-enum 'get-user-input)))
+
+(test-proc 'describe-objects "based"
+  '(lambda (world proc)
+     (let-world (($set-location (K inside)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "The grate is locked.\n"
+        (expect-enum 'get-user-input)))
+
 (test-proc 'get-user-input ""
   '(lambda (world proc)
      (let-world (($set-verb (K TAKE))
