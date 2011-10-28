@@ -144,6 +144,7 @@
              (cons (f hd) tl)))))
 
 ;; utilities
+(defmacro KI (K I))
 (defmacro (compose f g)
   (lambda (x) (f (g x))))
 (defmacro (M x) (x x))

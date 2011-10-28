@@ -14,7 +14,9 @@
 ; 75 Simulate an adventure, going to quit when finished
 (define-proc 'mainloop
   '(lambda (world)
+     ; TODO: Check for interference with the proposed move to newloc 153
      (let-world (($set-location (K $newloc)))
+       ; TODO: Possibly move dwarves and the pirate 161
        ($goto commence))))
 
 ; 141 Report the long description and continue
@@ -238,13 +240,30 @@
 ; 86 Report the current state
 (define-proc 'commence
   `(lambda (world)
-     (let ((next (commence-sub world)))
-       (if (and $dark (not (forced-move? $location)))
-           (next pitch-dark-msg)
-           (let ((selector (if (cons1? (nth $location $visits))
-                               ->cdr ->car)))
-             (next ((nth $location room-desc) selector)))))))
-         
+     (if (= $location limbo)
+         ($goto death)
+         ((lambda (next)
+            (if (and $dark (not (forced-move? $location)))
+                (let-rand r 35
+                  (if (and $was-dark r)
+                      ($goto pitch-dark)
+                      (next pitch-dark-msg world)))
+                (next ((nth $location room-desc)
+                       (if (cons1? (nth $location $visits))
+                           ->cdr ->car))
+                      world)))
+          (lambda (p world)
+            (begin
+              (($toting? BEAR)
+               (string "You are being followed by a very large, tame bear.\n") I)
+              (#\newline I)
+              (p #\newline I)
+              (if (forced-move? $location)
+                  ($goto try-move)
+                  ; TODO: give optinal plugh hint 157
+                  ($goto (if $dark
+                             get-user-input
+                             describe-objects)))))))))
 
 (defmacro increment-visits
   (lambda (world)
@@ -267,17 +286,6 @@
                       #\newline I)))
                  $objects-here)
        (goto get-user-input (increment-visits world)))))
-
-(defmacro commence-sub
-  (lambda (world p)
-    (begin
-      (#\newline I)
-      (p #\newline I)
-      (if (forced-move? $location)
-	  ($goto try-move)
-	  ($goto (if $dark
-		     get-user-input
-		     describe-objects))))))
 
 ; 92 case TAKE:
 (define-proc 'intransitive-take
@@ -472,6 +480,15 @@
 (define-proc 'quit
   '(lambda (world)
      ((string "\nquitting...\n") exit I)))
+
+(define-proc 'death
+  `(lambda (world)
+     (exit (print "death: not implemented"))))
+
+(define-proc 'pitch-dark
+  `(lambda (world)
+     (exit (print "'pitch-dark: not implemented"))))
+
 
 (add-unl-macro!
  'program-table '()

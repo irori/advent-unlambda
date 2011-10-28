@@ -14,6 +14,10 @@
 (defsyntax (pct n world x y)
   (let ((nn (round (/ (* n 64) 100))))
     `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) ,x ,y)))
+(defsyntax (let-rand var n body)
+  `(let ((,var (pct ,n world I V))
+         (world (set-rand world (c5 cdr))))
+     ,body))
 
 (require "object.scm")
 (require "room.scm")
