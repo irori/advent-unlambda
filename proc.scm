@@ -46,6 +46,8 @@
 (define-proc 'get-user-input
   '(lambda (world)
      (let-world (($set-verb (K ABSTAIN))
+                 ($set-oldverb (K ABSTAIN))
+                 ($set-oldobj (K $obj))
 		 ($set-obj (K NOTHING)))
        ($goto cycle))))
 

@@ -34,7 +34,9 @@
 (defmacro initial-word12 V)
 (defmacro initial-mot V)
 (defmacro initial-verb V)
+(defmacro initial-oldverb V)
 (defmacro initial-obj V)
+(defmacro initial-oldobj V)
 (defmacro initial-dummy V)
 
 (define (make-initial-map tree)

@@ -215,10 +215,14 @@
 	  (begin
 	    (print-stars cont)
 	    (print-stars $verb)
-	    (print-stars $obj))))))
+	    (print-stars $oldverb)
+	    (print-stars $obj)
+            (print-stars $oldobj))))))
   (list (expect-enum 'cycle)
         (expect-enum 'ABSTAIN)
-        (expect-enum 'NOTHING)))
+        (expect-enum 'ABSTAIN)
+        (expect-enum 'NOTHING)
+        (expect-enum 'LAMP)))
 
 (define (main args)
   0)

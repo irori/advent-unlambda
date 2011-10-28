@@ -31,7 +31,9 @@
      word12
      mot
      verb
+     oldverb
      obj
+     oldobj
      default-msg
      message
      base
