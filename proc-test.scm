@@ -8,6 +8,10 @@
     (process-wait process)
     (string-incomplete->complete out)))
 
+(define tests '())
+(define (define-test proc-id testname testcode expect)
+  (push! tests (list proc-id testname testcode expect)))
+
 (define (test-proc proc-id testname testcode expect)
   (let* ((unl (compile-to-string
 	      (list testcode 'initial-world
@@ -39,7 +43,7 @@
   (#\{ (if b #\t #\f) #\} I))
 
 
-(test-proc 'mainloop ""
+(define-test 'mainloop ""
   '(lambda (world proc)
      (let-world (($set-newloc (K like1)))
        ((proc world)
@@ -50,7 +54,7 @@
   (list (expect-enum 'commence)
         (expect-enum 'like1)))
 
-(test-proc 'commence "goto-death"
+(define-test 'commence "goto-death"
   '(lambda (world proc)
      (let-world (($set-location (K limbo)))
        ((proc world)
@@ -58,7 +62,7 @@
           (print-stars cont)))))
   (expect-enum 'death))
 
-(test-proc 'commence "pitch-dark-death"
+(define-test 'commence "pitch-dark-death"
   '(lambda (world proc)
      (let-world (($set-location (K bird))
                  ($set-was-dark (K I))
@@ -68,7 +72,7 @@
           (print-stars cont)))))
   (expect-enum 'pitch-dark))
 
-(test-proc 'commence "pitch-dark-msg"
+(define-test 'commence "pitch-dark-msg"
   '(lambda (world proc)
      (let-world (($set-location (K bird)))
        ((proc world)
@@ -77,7 +81,7 @@
   (list "\nIt is now pitch dark.  If you proceed you will most likely fall into a pit.\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'commence "longdesc"
+(define-test 'commence "longdesc"
   '(lambda (world proc)
      (let-world (($set-location (K house)))
        ((proc world)
@@ -86,7 +90,7 @@
   (list "\nYou are inside a building, a well house for a large spring.\n"
         (expect-enum 'describe-objects)))
 
-(test-proc 'commence "shortdesc"
+(define-test 'commence "shortdesc"
   '(lambda (world proc)
      (let-world (($set-location (K house))
                  ($set-nth set-visits house (K (cons1 V))))
@@ -96,7 +100,7 @@
   (list "\nYou're inside building.\n"
         (expect-enum 'describe-objects)))
 
-(test-proc 'commence "bear"
+(define-test 'commence "bear"
   '(lambda (world proc)
      (let-world (($set-location (K house))
                  ($carry BEAR))
@@ -107,7 +111,7 @@
         "\nYou are inside a building, a well house for a large spring.\n"
         (expect-enum 'describe-objects)))
 
-(test-proc 'commence "forced-move"
+(define-test 'commence "forced-move"
   '(lambda (world proc)
      (let-world (($set-location (K crack)))
        ((proc world)
@@ -116,7 +120,7 @@
   (list "\nThe crack is far too small for you to follow.\n"
         (expect-enum 'try-move)))
 
-(test-proc 'describe-objects "count-visits"
+(define-test 'describe-objects "count-visits"
   '(lambda (world proc)
      ((proc world)
       (lambda (cont world)
@@ -126,7 +130,7 @@
   (list "{****}"
         (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "count-visits2"
+(define-test 'describe-objects "count-visits2"
   '(lambda (world proc)
      (let-world (($set-nth set-visits initial-location (K (cons1 (cons1 V)))))
        ((proc world)
@@ -137,7 +141,7 @@
   (list "{*}"
         (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "describe"
+(define-test 'describe-objects "describe"
   '(lambda (world proc)
      (let-world (($set-location (K house))
                  ($set-prop-of LAMP (K c1)))
@@ -150,7 +154,7 @@
         "There is a bottle of water here.\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "based"
+(define-test 'describe-objects "based"
   '(lambda (world proc)
      (let-world (($set-location (K inside)))
        ((proc world)
@@ -159,7 +163,7 @@
   (list "The grate is locked.\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "treads-gold"
+(define-test 'describe-objects "treads-gold"
   '(lambda (world proc)
      (let-world (($set-location (K spit))
                  ($carry GOLD))
@@ -168,7 +172,7 @@
           (print-stars cont)))))
   (list (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "treads-spit"
+(define-test 'describe-objects "treads-spit"
   '(lambda (world proc)
      (let-world (($set-location (K spit)))
        ((proc world)
@@ -177,7 +181,7 @@
   (list "Rough stone steps lead down the pit.\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "treads-emist"
+(define-test 'describe-objects "treads-emist"
   '(lambda (world proc)
      (let-world (($set-location (K emist)))
        ((proc world)
@@ -186,7 +190,7 @@
   (list "Rough stone steps lead up the dome.\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'describe-objects "treasure"
+(define-test 'describe-objects "treasure"
   '(lambda (world proc)
      (let-world (($set-location (K west)))
        ((proc world)
@@ -195,7 +199,7 @@
   (list "There are many coins here!\n"
         "{}"))
 
-(test-proc 'describe-objects "rug"
+(define-test 'describe-objects "rug"
   '(lambda (world proc)
      (let-world (($set-location (K scan3)))
        ((proc world)
@@ -205,7 +209,7 @@
         "The dragon is sprawled out on a Persian rug!!\n"
         "{*}"))
 
-(test-proc 'describe-objects "chain"
+(define-test 'describe-objects "chain"
   '(lambda (world proc)
      (let-world (($set-location (K barr)))
        ((proc world)
@@ -215,7 +219,7 @@
         "The bear is locked to the wall with a golden chain!\n"
         "{*}"))
 
-(test-proc 'get-user-input ""
+(define-test 'get-user-input ""
   '(lambda (world proc)
      (let-world (($set-verb (K TAKE))
 		 ($set-obj (K LAMP)))
@@ -233,7 +237,7 @@
         (expect-enum 'NOTHING)
         (expect-enum 'LAMP)))
 
-(test-proc 'pre-parse "increment-turns"
+(define-test 'pre-parse "increment-turns"
   '(lambda (world proc)
      (let-world (($set-turns (K (cons1 (cons1 V)))))
        ((proc world)
@@ -246,7 +250,7 @@
 
 (defmacro dummy-word (lambda (f) (f I I I)))
 
-(test-proc 'pre-parse "say-something"
+(define-test 'pre-parse "say-something"
   '(lambda (world proc)
      (let-world (($set-verb (K SAY))
                  ($set-word12 (K (cons dummy-word dummy-word))))
@@ -258,7 +262,7 @@
   (list (expect-enum 'clocks-and-lamp)
         (expect-enum 'ABSTAIN)))
 
-(test-proc 'pre-parse "say-nothing"
+(define-test 'pre-parse "say-nothing"
   '(lambda (world proc)
      (let-world (($set-verb (K SAY))
                  ($set-word12 (K (cons dummy-word V))))
@@ -270,7 +274,7 @@
   (list (expect-enum 'transitive)
         (expect-enum 'SAY)))
 
-(test-proc 'check-the-lamp "lamp-off"
+(define-test 'check-the-lamp "lamp-off"
   '(lambda (world proc)
      (let-world (($set-limit (K (cons1 (cons1 V)))))
        ((proc world)
@@ -281,7 +285,7 @@
   (list (expect-enum 'handle-special-inputs)
         "{**}"))
 
-(test-proc 'check-the-lamp "lamp-on"
+(define-test 'check-the-lamp "lamp-on"
   '(lambda (world proc)
      (let-world (($set-prop-of LAMP (K c1))
                  ($set-limit (K (cons1 (cons1 V)))))
@@ -293,7 +297,7 @@
   (list (expect-enum 'handle-special-inputs)
         "{*}"))
 
-(test-proc 'check-the-lamp "lamp-extinguish"
+(define-test 'check-the-lamp "lamp-extinguish"
   '(lambda (world proc)
      (let-world (($carry LAMP)
                  ($set-prop-of LAMP (K c1))
@@ -311,7 +315,7 @@
         "{}"
         ))
 
-(test-proc 'check-the-lamp "replace-batteries"
+(define-test 'check-the-lamp "replace-batteries"
   '(lambda (world proc)
      (let-world (($carry LAMP)
                  ($carry BATTERIES)
@@ -332,7 +336,7 @@
         "{" (make-string 2500 #\*) "}"
         ))
 
-(test-proc 'check-the-lamp "giveup"
+(define-test 'check-the-lamp "giveup"
   '(lambda (world proc)
      (let-world (($set-limit (K V)))
        ((proc world)
@@ -341,7 +345,7 @@
   (list "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n"
         (expect-enum 'give-up)))
 
-(test-proc 'check-the-lamp "warn-lamp"
+(define-test 'check-the-lamp "warn-lamp"
   '(lambda (world proc)
      (let-world (($carry LAMP)
                  ($set-limit (K (to-cons1 c30))))
@@ -354,7 +358,7 @@
         (expect-enum 'handle-special-inputs)
         (expect-bool #f)))
 
-(test-proc 'check-the-lamp "warn-lamp-out-of-batteries"
+(define-test 'check-the-lamp "warn-lamp-out-of-batteries"
   '(lambda (world proc)
      (let-world (($carry LAMP)
                  ($set-limit (K (to-cons1 c30)))
@@ -368,7 +372,7 @@
         (expect-enum 'handle-special-inputs)
         (expect-bool #f)))
 
-(test-proc 'check-the-lamp "warn-lamp-batteries-left"
+(define-test 'check-the-lamp "warn-lamp-batteries-left"
   '(lambda (world proc)
      (let-world (($carry LAMP)
                  ($set-limit (K (to-cons1 c30)))
@@ -382,7 +386,7 @@
         (expect-enum 'handle-special-inputs)
         (expect-bool #f)))
 
-(test-proc 'handle-special-inputs "wet"
+(define-test 'handle-special-inputs "wet"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (motion-word ENTER)
                                        (motion-word STREAM)))))
@@ -392,7 +396,7 @@
   (list "Your feet are now wet.\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'handle-special-inputs "not-wet"
+(define-test 'handle-special-inputs "not-wet"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (motion-word ENTER) (object-word WATER))))
                  ($set-location (K hill)))
@@ -402,7 +406,7 @@
   (list "Where?\n"
         (expect-enum 'get-user-input)))
 
-(test-proc 'handle-special-inputs "enter-house"
+(define-test 'handle-special-inputs "enter-house"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (motion-word ENTER) (motion-word HOUSE)))))
        ((proc world)
@@ -410,7 +414,7 @@
           (print-stars cont)))))
   (expect-enum 'shift))
 
-(test-proc 'handle-special-inputs "enter"
+(define-test 'handle-special-inputs "enter"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (motion-word ENTER) V))))
        ((proc world)
@@ -418,7 +422,7 @@
           (print-stars cont)))))
   (expect-enum 'parse-label))
 
-(test-proc 'handle-special-inputs "water-plant"
+(define-test 'handle-special-inputs "water-plant"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (object-word WATER) (object-word PLANT))))
                  ($set-location (K wpit)))
@@ -432,7 +436,7 @@
         (expect-bool #t)
         (expect-enum 'POUR)))
 
-(test-proc 'handle-special-inputs "normal"
+(define-test 'handle-special-inputs "normal"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (object-word WATER) (object-word PLANT)))))
        ((proc world)
@@ -445,7 +449,7 @@
         (expect-bool #t)
         (expect-enum 'PLANT)))
 
-(test-proc 'shift ""
+(define-test 'shift ""
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (action-word EAT) (object-word FOOD)))))
        ((proc world)
@@ -461,4 +465,10 @@
         (expect-bool #f)))
 
 (define (main args)
+  (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
+    (for-each
+     (lambda (testcase)
+       (if (or (not testname) (eq? testname (car testcase)))
+           (apply test-proc testcase)))
+     (reverse tests)))
   0)
