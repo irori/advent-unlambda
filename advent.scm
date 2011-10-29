@@ -36,6 +36,7 @@
 (defmacro initial-mot V)
 (defmacro initial-verb V)
 (defmacro initial-oldverb V)
+(defmacro initial-not-warned I)
 (defmacro initial-obj V)
 (defmacro initial-oldobj V)
 (defmacro initial-dummy V)

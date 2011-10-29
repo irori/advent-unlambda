@@ -332,5 +332,47 @@
   (list "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n"
         (expect-enum 'give-up)))
 
+(test-proc 'check-the-lamp "warn-lamp"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-limit (K (to-cons1 c30))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            ((if $not-warned (string "{t}") (string "{f}")) I))))))
+  (list "Your lamp is getting dim.  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"
+        (expect-enum 'handle-special-inputs)
+        "{f}"))
+
+(test-proc 'check-the-lamp "warn-lamp-out-of-batteries"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-limit (K (to-cons1 c30)))
+                 ($set-prop-of BATTERIES (K c1)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            ((if $not-warned (string "{t}") (string "{f}")) I))))))
+  (list "Your lamp is getting dim, and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"
+        (expect-enum 'handle-special-inputs)
+        "{f}"))
+
+(test-proc 'check-the-lamp "warn-lamp-batteries-left"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-limit (K (to-cons1 c30)))
+                 ($drop BATTERIES house))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            ((if $not-warned (string "{t}") (string "{f}")) I))))))
+  (list "Your lamp is getting dim.  You'd best go back for those batteries.\n"
+        (expect-enum 'handle-special-inputs)
+        "{f}"))
+
+
 (define (main args)
   0)

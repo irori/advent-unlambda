@@ -35,6 +35,7 @@
      oldverb
      obj
      oldobj
+     not-warned
      default-msg
      message
      base

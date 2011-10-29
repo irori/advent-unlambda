@@ -105,6 +105,17 @@
                ((if< $location min-in-cave (not (cons1? $limit)) V)
                 ((string "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n")
                  ($goto give-up)))
+               ((and (not (cons1? (c30 1-of-1 $limit)))
+                     $not-warned
+                     ($here? LAMP))
+                ((string "Your lamp is getting dim")
+                 (cond ((nonzero? ($prop-of BATTERIES))
+                        (string ", and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"))
+                       ((zero? (nth BATTERIES $place))
+                        (string ".  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"))
+                       (else
+                        (string ".  You'd best go back for those batteries.\n")))
+                 (goto handle-special-inputs ($set-not-warned (K V)))))
                (else
                 ($goto handle-special-inputs)))))))
 
