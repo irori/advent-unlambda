@@ -26,6 +26,7 @@
      visits
      verbose    ; contains information for look_count and interval
      limit
+     turns
      was-dark
      rand
      word12

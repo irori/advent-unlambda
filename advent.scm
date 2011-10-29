@@ -30,6 +30,7 @@
 (defmacro initial-oldlocs (icons road road))
 (defmacro initial-verbose (to-cons1 c4))
 (defmacro initial-limit (to-cons1 c330))
+(defmacro initial-turns V)
 (defmacro initial-was-dark V)
 (defmacro initial-word12 V)
 (defmacro initial-mot V)

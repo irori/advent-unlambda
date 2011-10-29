@@ -224,5 +224,42 @@
         (expect-enum 'NOTHING)
         (expect-enum 'LAMP)))
 
+(test-proc 'pre-parse "increment-turns"
+  '(lambda (world proc)
+     (let-world (($set-turns (K (cons1 (cons1 V)))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+	    (print-stars (cons1-length $turns)))))))
+  (list (expect-enum 'clocks-and-lamp)
+        "{***}"))
+
+(defmacro dummy-word (lambda (f) (f I I I)))
+
+(test-proc 'pre-parse "say-something"
+  '(lambda (world proc)
+     (let-world (($set-verb (K SAY))
+                 ($set-word12 (K (cons dummy-word dummy-word))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+	    (print-stars $verb))))))
+  (list (expect-enum 'clocks-and-lamp)
+        (expect-enum 'ABSTAIN)))
+
+(test-proc 'pre-parse "say-nothing"
+  '(lambda (world proc)
+     (let-world (($set-verb (K SAY))
+                 ($set-word12 (K (cons dummy-word V))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+	    (print-stars $verb))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'SAY)))
+
 (define (main args)
   0)

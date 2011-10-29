@@ -54,24 +54,41 @@
 ; 76 cycle:
 (define-proc 'cycle
   '(lambda (world)
+     ; TODO: Check if a hint applies, and give it if requested 195
      (let ((words listen))
        (let-world (($set-was-dark (K $dark))
+                   ($set-rand cdr)
 		   ($set-word12 (K words)))
+                   ; TODO: adjust knife_loc 169
+                   ; TODO: adjust prop<0 objects after close
 	 ($goto pre-parse)))))
 
 ; 76 pre_parse:
 (define-proc 'pre-parse
   '(lambda (world)
-     ; turns++
+     ((lambda (next)
+        (let-world (($set-turns cons1))
+          (if (= $verb SAY)
+              (if (word? (cdr $word12))
+                  (next ($set-verb (K ABSTAIN)))
+                  ($goto transitive))
+              (next world))))
+      (lambda (world)
+        ; TODO: adjust foobar 138
+        ($goto clocks-and-lamp)))))
+
+; 178 Check the clocks and the lamp
+(define-proc 'clocks-and-lamp
+  '(lambda (world)
      (let ((old-limit $limit))
        (let-world (($set-limit (if (= (nth LAMP $prop) c1) 1-of-1 I))
-		   (if (and (cons1? old-limit) (not (cons1? $limit)))
-		       (begin
-			 (($here? LAMP)
-			  (string "Your lamp has run out of power.\n") I)
-			 ($set-prop-of LAMP (K c0)))
-		       world))
-	 ($goto look-at-word1)))))
+                   (if (and (cons1? old-limit) (not (cons1? $limit)))
+                       (begin
+                         (($here? LAMP)
+                          (string "Your lamp has run out of power.\n") I)
+                         ($set-prop-of LAMP (K c0)))
+                       world))
+         ($goto look-at-word1)))))
 
 ; 76 shift:
 (define-proc 'shift
@@ -300,7 +317,7 @@
                              ($set-prop-of tt (K (cond ((= tt RUG) c1)
                                                        ((= tt CHAIN) c1)
                                                        (else c0))))))
-                                        ; TODO: tally--, 183
+                         ; TODO: tally--, Zap the lamp 183
                (begin
                  ($describe-single-object tt)
                  (loop world (cdr lst)))))))))
