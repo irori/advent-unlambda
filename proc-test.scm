@@ -302,5 +302,35 @@
         "{}"
         ))
 
+(test-proc 'check-the-lamp "replace-batteries"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($carry BATTERIES)
+                 ($set-prop-of LAMP (K c1))
+                 ($set-limit (K (to-cons1 c31))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+            (print-stars (nth BATTERIES $prop))
+            (print-stars (nth BATTERIES $place))
+            (print-stars (cons1-length $limit))
+            )))))
+  (list "Your lamp is getting dim.  I'm taking the liberty of replacing\nthe batteries.\n"
+        (expect-enum 'handle-special-inputs)
+        "{*}"
+        (expect-enum 'road)
+        "{" (make-string 2500 #\*) "}"
+        ))
+
+(test-proc 'check-the-lamp "giveup"
+  '(lambda (world proc)
+     (let-world (($set-limit (K V)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n"
+        (expect-enum 'give-up)))
+
 (define (main args)
   0)

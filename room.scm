@@ -3,6 +3,7 @@
 
 (define max-loc (lookup-enum 'didit))
 (defmacro max-loc didit)
+(defmacro min-in-cave inside)
 (defmacro min-forced-loc crack)
 
 (define room-desc (make-vector (+ 1 max-loc) #f))

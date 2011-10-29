@@ -88,11 +88,23 @@
   '(lambda (world)
      (let ((old-limit $limit))
        (let-world (($set-limit (if (= (nth LAMP $prop) c1) 1-of-1 I)))
-         (cond ((and (cons1? old-limit) (not (cons1? $limit)))
+         (cond ((and (not (cons1? (c30 1-of-1 $limit)))
+                     ($here? BATTERIES)
+                     (zero? ($prop-of BATTERIES))
+                     ($here? LAMP))
+                ((string "Your lamp is getting dim.  I'm taking the liberty of replacing\nthe batteries.\n")
+                 (let-world (($set-prop-of BATTERIES (K c1))
+                             ($drop BATTERIES $location)
+                             ($set-limit (K (to-cons1 (pow c50 c2)))))
+                   ($goto handle-special-inputs))))
+               ((and (cons1? old-limit) (not (cons1? $limit)))
                 (begin
                   (($here? LAMP)
                    (string "Your lamp has run out of power.\n") I)
                   (goto handle-special-inputs ($set-prop-of LAMP (K c0)))))
+               ((if< $location min-in-cave (not (cons1? $limit)) V)
+                ((string "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n")
+                 ($goto give-up)))
                (else
                 ($goto handle-special-inputs)))))))
 
@@ -527,6 +539,10 @@
 (define-proc 'quit
   '(lambda (world)
      ((string "\nquitting...\n") exit I)))
+
+(define-proc 'give-up
+  `(lambda (world)
+     (exit (print "give-up: not implemented"))))
 
 (define-proc 'death
   `(lambda (world)
