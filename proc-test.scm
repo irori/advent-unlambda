@@ -765,6 +765,45 @@
   (list "I don't know how to apply that word here.\n"
         (expect-enum 'mainloop)))
 
+(define-test 'go-for-it "ppass"
+  '(lambda (world proc)
+     (let-world (($set-location (K alcove))
+                 ($set-mot (K PASSAGE)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'proom)))
+
+(define-test 'go-for-it "ppass-proom"
+  '(lambda (world proc)
+     (let-world (($set-location (K proom))
+                 ($set-mot (K PASSAGE))
+                 ($carry EMERALD))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'alcove)))
+
+(define-test 'go-for-it "ppass-fail"
+  '(lambda (world proc)
+     (let-world (($set-location (K alcove))
+                 ($set-mot (K PASSAGE))
+                 ($carry LAMP))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"
+        (expect-enum 'mainloop)
+        (expect-enum 'alcove)))
+
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))

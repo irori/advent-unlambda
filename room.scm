@@ -38,7 +38,7 @@
 ;; env -> env
 (define (motion-code condition dest)
   (let ((result (if (string? dest)
-                    `((string ,(string-append dest "\n")) (newloc world))
+                    `((string ,(string-append dest "\n")) (location world))
                     dest)))
     (cond ((zero? condition)
            `(lambda (world) ,result))

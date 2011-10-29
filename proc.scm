@@ -582,6 +582,9 @@
               ($goto get-user-input)))
          ($goto report-default))))
 
+(defmacro ppass-msg
+  (string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"))
+
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it
   '(lambda (world)
@@ -589,7 +592,19 @@
        (if (not (pair? q))
            (report-inapplicable-motion world)
            (let-world ((apply-inst q world))
-             ($goto mainloop))))))
+             (cond ((= $newloc ppass)
+                    (let ((os $objects-toting))
+                      (if (or (null? os)
+                              (and (= (car os) EMERALD) (null? (cdr os))))
+                          (goto mainloop
+                                ($set-newloc (K (if (= $location alcove)
+                                                    proom alcove))))
+                          (ppass-msg
+                           (goto mainloop ($set-newloc (K $location)))))))
+                   ; TODO: implement pdrop
+                   ; TODO: implement troll
+                   (else
+                    ($goto mainloop))))))))
 
 (defmacro (report-inapplicable-motion world)
   ((cond ((= $mot CRAWL)
