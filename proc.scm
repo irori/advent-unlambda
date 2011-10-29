@@ -87,7 +87,7 @@
 (define-proc 'check-the-lamp
   '(lambda (world)
      (let ((old-limit $limit))
-       (let-world (($set-limit (if (= (nth LAMP $prop) c1) 1-of-1 I)))
+       (let-world (($set-limit (if (= ($prop-of LAMP) c1) 1-of-1 I)))
          (cond ((and (not (cons1? (c30 1-of-1 $limit)))
                      ($here? BATTERIES)
                      (zero? ($prop-of BATTERIES))
@@ -284,7 +284,7 @@
 
 (defmacro (dark world)
   (and (not (lighted? $location))
-       (or (zero? (nth LAMP $prop))
+       (or (zero? ($prop-of LAMP))
            (not ($here? LAMP)))))
 (defmacro $dark (dark world))
 
@@ -334,7 +334,7 @@
              ((= $location emist) cdr)
              (else I))
        I)
-   ((nth tt $prop) cdr (nth tt $note))
+   (($prop-of tt) cdr (nth tt $note))
    ->car
    #\newline I))
 
@@ -347,7 +347,7 @@
            (goto get-user-input (increment-visits world))
            (let* ((bas (nth (car lst) $base))
                   (tt (if (zero? bas) (car lst) bas)))
-             (let-world ((if ((nth tt $prop) I I)  ; TODO: check !closed
+             (let-world ((if (($prop-of tt) I I)  ; TODO: check !closed
                              world
                              ($set-prop-of tt (K (cond ((= tt RUG) c1)
                                                        ((= tt CHAIN) c1)
@@ -464,14 +464,14 @@
   (lambda (world)
     (cond ((= $obj BIRD)
 	   ($carry CAGE))
-	  ((and (= $obj CAGE) (nonzero? (nth BIRD $prop)))
+	  ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
 	   ($carry BIRD))
 	  (else world))))
 
 ; 114 Check special cases for taking a bird
 (defmacro take-bird
   (lambda (world ret)
-    (if (and (= $obj BIRD) (zero? (nth BIRD $prop)))
+    (if (and (= $obj BIRD) (zero? ($prop-of BIRD)))
 	(begin
 	  (($toting? ROD)
 	   (string "The bird was unafraid when you entered, but as you approach it becomes\ndisturbed and you cannot catch it.\n")
@@ -497,7 +497,7 @@
   (lambda (world)
     (cond ((= $obj BIRD)
 	   ($set-prop-of BIRD (K c0)))
-	  ((and (= $obj CAGE) (nonzero? (nth BIRD $prop)))
+	  ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
 	   ($drop BIRD $location))
 	  (else world))))
 
@@ -519,7 +519,7 @@
 
 (defmacro open-close-grate
   (lambda (world)
-    ((nth (+ (nth GRATE $prop) (if (= $verb OPEN) c2 c0))
+    ((nth (+ ($prop-of GRATE) (if (= $verb OPEN) c2 c0))
 	  (list (string "It was already locked.")
 		(string "The grate is now locked.")
 		(string "The grate is now unlocked.")

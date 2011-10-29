@@ -182,7 +182,7 @@
      (let-world (($set-location (K west)))
        ((proc world)
         (lambda (cont world)
-          (print-stars (nth COINS $prop))))))
+          (print-stars ($prop-of COINS))))))
   (list "There are many coins here!\n"
         "{}"))
 
@@ -191,7 +191,7 @@
      (let-world (($set-location (K scan3)))
        ((proc world)
         (lambda (cont world)
-          (print-stars (nth RUG $prop))))))
+          (print-stars ($prop-of RUG))))))
   (list "A huge green fierce dragon bars the way!\n"
         "The dragon is sprawled out on a Persian rug!!\n"
         "{*}"))
@@ -201,7 +201,7 @@
      (let-world (($set-location (K barr)))
        ((proc world)
         (lambda (cont world)
-          (print-stars (nth CHAIN $prop))))))
+          (print-stars ($prop-of CHAIN))))))
   (list "There is a ferocious cave bear eying you from the far end of the room!\n"
         "The bear is locked to the wall with a golden chain!\n"
         "{*}"))
@@ -293,7 +293,7 @@
 	(lambda (cont world)
 	  (begin
 	    (print-stars cont)
-            (print-stars (nth LAMP $prop))
+            (print-stars ($prop-of LAMP))
             (print-stars (cons1-length $limit))
             )))))
   (list "Your lamp has run out of power.\n"
@@ -312,7 +312,7 @@
 	(lambda (cont world)
 	  (begin
 	    (print-stars cont)
-            (print-stars (nth BATTERIES $prop))
+            (print-stars ($prop-of BATTERIES))
             (print-stars (nth BATTERIES $place))
             (print-stars (cons1-length $limit))
             )))))
