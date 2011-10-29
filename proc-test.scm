@@ -682,6 +682,89 @@
   (list "I need more detailed instructions to do that.\n"
         (expect-enum 'mainloop)))
 
+(define-test 'go-for-it "go"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K ENTER)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'house)))
+
+(define-test 'go-for-it "crawl"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K CRAWL)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "Which way?\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "xyzzy"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K XYZZY)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "Nothing happens.\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "find"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K SLIT))
+                 ($set-verb (K FIND)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I can only tell you what you see as you move about and manipulate\nthings.  I cannot tell you where remote things are.\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "out"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K OUT)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I don't know in from out here.  Use compass points or name something\nin the general direction you want to go.\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "right"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K R)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I am unsure how you are facing.  Use compass points or nearby objects.\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "ne"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K NE)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "There is no way to go in that direction.\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "slit"
+  '(lambda (world proc)
+     (let-world (($set-location (K road))
+                 ($set-mot (K SLIT)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I don't know how to apply that word here.\n"
+        (expect-enum 'mainloop)))
+
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))

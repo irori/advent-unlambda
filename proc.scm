@@ -585,12 +585,29 @@
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it
   '(lambda (world)
-     (let ((q (find-inst $mot
-                         (nth $location travels))))
+     (let ((q (find-inst $mot (nth $location travels))))
        (if (not (pair? q))
-           ((string "There is no way to ...\n")
-            ($goto mainloop))
-           (goto mainloop (apply-inst q world))))))
+           (report-inapplicable-motion world)
+           (let-world ((apply-inst q world))
+             ($goto mainloop))))))
+
+(defmacro (report-inapplicable-motion world)
+  ((cond ((= $mot CRAWL)
+          (string "Which way?"))
+         ((or (= $mot XYZZY) (= $mot PLUGH))
+          (nth WAVE $default-msg))
+         ((or (= $verb FIND) (= $verb INVENTORY))
+          (nth FIND $default-msg))
+         ((or (= $mot IN) (= $mot OUT))
+          (string "I don't know in from out here.  Use compass points or name something\nin the general direction you want to go."))
+         ((or (= $mot FORWARD) (= $mot L) (= $mot R))
+          (string "I am unsure how you are facing.  Use compass points or nearby objects."))
+         ((<= $mot FORWARD)
+          (string "There is no way to go in that direction."))
+         (else
+          (string "I don't know how to apply that word here.")))
+   #\newline
+   ($goto mainloop)))
 
 (define-proc 'quit
   '(lambda (world)
