@@ -599,6 +599,89 @@
           (print-stars cont)))))
   (expect-enum 'transitive))
 
+(define-test 'try-move "go"
+  '(lambda (world proc)
+     (let-world (($set-location (K forest))
+                 ($set-oldlocs (K (cons hill house)))
+                 ($set-mot (K SOUTH)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc)
+            (print-stars (car $oldlocs))
+            (print-stars (cdr $oldlocs)))))))
+  (list (expect-enum 'go-for-it)
+        (expect-enum 'forest)
+        (expect-enum 'forest)
+        (expect-enum 'hill)))
+
+(define-test 'try-move "nowhere"
+  '(lambda (world proc)
+     (let-world (($set-location (K forest))
+                 ($set-mot (K NOWHERE)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'forest)))
+
+(define-test 'try-move "look"
+  '(lambda (world proc)
+     (let-world (($set-location (K forest))
+                 ($set-mot (K LOOK))
+                 ($set-was-dark (K I))
+                 ($set-nth set-visits forest (K (cons1 V))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool $was-dark)
+            (print-stars (cons1-length (nth forest $visits))))))))
+  (list "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n"
+        (expect-enum 'mainloop)
+        (expect-bool #f)
+        "{}"))
+
+(define-test 'try-move "look-quiet"
+  '(lambda (world proc)
+     (let-world (($set-verbose (K (cons1 V)))
+                 ($set-location (K forest))
+                 ($set-mot (K LOOK))
+                 ($set-was-dark (K I))
+                 ($set-nth set-visits forest (K (cons1 V))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool $was-dark)
+            (print-stars (cons1-length (nth forest $visits))))))))
+  (list (expect-enum 'mainloop)
+        (expect-bool #f)
+        "{}"))
+
+(define-test 'try-move "cave"
+  '(lambda (world proc)
+     (let-world (($set-location (K forest))
+                 ($set-mot (K CAVE)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I can't see where the cave is, but hereabouts no stream can run on\nthe surface for long.  I would try the stream.\n"
+        (expect-enum 'mainloop)))
+
+(define-test 'try-move "cave2"
+  '(lambda (world proc)
+     (let-world (($set-location (K inside))
+                 ($set-mot (K CAVE)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I need more detailed instructions to do that.\n"
+        (expect-enum 'mainloop)))
+
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))

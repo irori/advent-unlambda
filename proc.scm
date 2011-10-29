@@ -35,8 +35,14 @@
      (let-world (($set-newloc (K $location)))
        (cond ((= $mot NOWHERE)
 	      ($goto mainloop))
+             ; TODO: handle BACK
 	     ((= $mot LOOK)
 	      (goto mainloop (handle-look world)))
+             ((= $mot CAVE)
+              ((if< $location min-in-cave
+                    (string "I can't see where the cave is, but hereabouts no stream can run on\nthe surface for long.  I would try the stream.\n")
+                    (string "I need more detailed instructions to do that.\n"))
+               ($goto mainloop)))
 	     (else
 	      (goto go-for-it
 		    ($set-oldlocs (lambda (ol-ool)
