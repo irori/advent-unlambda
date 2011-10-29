@@ -778,6 +778,33 @@
         (expect-enum 'mainloop)
         (expect-enum 'slit)))
 
+(define-test 'go-for-it "random-pass"
+  '(lambda (world proc)
+     (let-world (($set-location (K witt))
+                 ($set-mot (K SOUTH))
+                 ($set-rand (K (list K K K K K K))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'ante)))
+
+(define-test 'go-for-it "random-not-pass"
+  '(lambda (world proc)
+     (let-world (($set-location (K witt))
+                 ($set-mot (K SOUTH))
+                 ($set-rand (K (list KI KI KI KI KI KI))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list "You have crawled around in some little holes and wound up back in the\nmain passage.\n"
+        (expect-enum 'mainloop)
+        (expect-enum 'witt)))
+
 (define-test 'go-for-it "property-ok"
   '(lambda (world proc)
      (let-world (($set-location (K outside))

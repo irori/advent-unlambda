@@ -11,11 +11,11 @@
 (require "rand.scm")
 (require "variable.scm")
 
-(defsyntax (pct n world x y)
+(defsyntax (pct n world)
   (let ((nn (round (/ (* n 64) 100))))
-    `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) ,x ,y)))
+    `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) I V)))
 (defsyntax (let-rand var n body)
-  `(let ((,var (pct ,n world I V))
+  `(let ((,var (pct ,n world))
          (world (set-rand world (c5 cdr))))
      ,body))
 

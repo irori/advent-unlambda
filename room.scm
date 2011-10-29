@@ -44,7 +44,7 @@
            `(lambda (world) ,result))
           ((and (< 0 condition) (< condition 100))
            `(lambda (world)
-              (pct ,condition world ,result V)))
+              (if (pct ,condition world) ,result V)))
           ((> condition 300)
            (let* ((obj (remainder condition 100))
                   (val (- (quotient condition 100) 3))
