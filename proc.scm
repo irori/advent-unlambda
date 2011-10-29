@@ -232,29 +232,29 @@
 		       intransitive-open  ;CLOSE
 		       transitive  ;ON
 		       transitive  ;OFF
-		       quit  ;WAVE
-		       quit  ;CALM
+		       not-implemented  ;WAVE
+		       not-implemented  ;CALM
 		       report-default  ;GO
 		       report-default  ;RELAX
 		       transitive  ;POUR
 		       intransitive-eat  ;EAT
 		       transitive  ;DRINK
-		       quit  ;RUB
-		       quit  ;TOSS
-		       quit  ;WAKE
-		       quit  ;FEED
+		       not-implemented  ;RUB
+		       not-implemented  ;TOSS
+		       not-implemented  ;WAKE
+		       not-implemented  ;FEED
 		       transitive  ;FILL
-		       quit  ;BREAK
+		       not-implemented  ;BREAK
 		       transitive  ;BLAST
 		       transitive  ;KILL
-		       quit  ;SAY
-		       quit  ;READ
-		       quit  ;FEEFIE
+		       not-implemented  ;SAY
+		       not-implemented  ;READ
+		       not-implemented  ;FEEFIE
 		       intransitive-brief  ;BRIEF
-		       quit  ;FIND
+		       not-implemented  ;FIND
 		       intransitive-inventory  ;INVENTORY
-		       quit  ;SCORE
-		       quit  ;QUIT
+		       not-implemented  ;SCORE
+		       not-implemented  ;QUIT
 		       )))))
 	    
 
@@ -268,29 +268,29 @@
 		       transitive-open  ;CLOSE
 		       transitive-on  ;ON
 		       transitive-off  ;OFF
-		       quit  ;WAVE
-		       quit  ;CALM
-		       quit  ;GO
-		       quit  ;RELAX
-		       quit  ;POUR
+		       not-implemented  ;WAVE
+		       not-implemented  ;CALM
+		       not-implemented  ;GO
+		       not-implemented  ;RELAX
+		       not-implemented  ;POUR
 		       transitive-eat  ;EAT
-		       quit  ;DRINK
-		       quit  ;RUB
-		       quit  ;TOSS
-		       quit  ;WAKE
-		       quit  ;FEED
-		       quit  ;FILL
-		       quit  ;BREAK
-		       quit  ;BLAST
-		       quit  ;KILL
-		       quit  ;SAY
-		       quit  ;READ
-		       quit  ;FEEFIE
+		       not-implemented  ;DRINK
+		       not-implemented  ;RUB
+		       not-implemented  ;TOSS
+		       not-implemented  ;WAKE
+		       not-implemented  ;FEED
+		       not-implemented  ;FILL
+		       not-implemented  ;BREAK
+		       not-implemented  ;BLAST
+		       not-implemented  ;KILL
+		       not-implemented  ;SAY
+		       not-implemented  ;READ
+		       not-implemented  ;FEEFIE
 		       report-default  ;BRIEF
-		       quit  ;FIND
-		       quit  ;INVENTORY
-		       quit  ;SCORE
-		       quit  ;QUIT
+		       not-implemented  ;FIND
+		       not-implemented  ;INVENTORY
+		       not-implemented  ;SCORE
+		       not-implemented  ;QUIT
 		       )))))
            
 
@@ -623,21 +623,21 @@
    #\newline
    ($goto mainloop)))
 
-(define-proc 'quit
+(define-proc 'not-implemented
   '(lambda (world)
-     ((string "\nquitting...\n") exit I)))
+     ((string "\nnot implemented\n") exit I)))
 
 (define-proc 'give-up
   `(lambda (world)
-     (exit (print "give-up: not implemented"))))
+     (exit (print "give-up: not implemented\n"))))
 
 (define-proc 'death
   `(lambda (world)
-     (exit (print "death: not implemented"))))
+     (exit (print "death: not implemented\n"))))
 
 (define-proc 'pitch-dark
   `(lambda (world)
-     (exit (print "'pitch-dark: not implemented"))))
+     (exit (print "'pitch-dark: not implemented\n"))))
 
 
 (add-unl-macro!
