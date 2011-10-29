@@ -557,7 +557,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (list (expect-enum 'shift)))
+  (expect-enum 'shift))
 
 (define-test 'handle-object-word "with-verb"
   '(lambda (world proc)
@@ -566,7 +566,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (list (expect-enum 'transitive)))
+  (expect-enum 'transitive))
 
 (defmacro (object-word-with-str meaning str)
   (lambda (f) (f (lambda (_ x _ _) x) meaning str)))
@@ -580,6 +580,24 @@
           (print-stars cont)))))
   (list "What do you want to do with the lamp?\n"
         (expect-enum 'cycle)))
+
+(define-test 'cant-see-it ""
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (object-word-with-str LAMP (string "lamp")) V))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I see no lamp here.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'cant-see-it "find"
+  '(lambda (world proc)
+     (let-world (($set-verb (K FIND))
+                 ($set-word12 (K (icons V V))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'transitive))
 
 
 (define (main args)
