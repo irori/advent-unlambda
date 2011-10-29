@@ -53,8 +53,10 @@
                 (if (nth (nth ,(churchnum obj) (prop world)) ,lst)
                     V ,result))))
           (else
-           `(lambda (world)
-              V)))))
+           (let ((obj (remainder condition 100))
+                 (predicate (if (>= condition 200) 'here? 'toting?)))
+             `(lambda (world)
+                (if (,predicate ,(churchnum obj) world) ,result V)))))))
 
 (define (make-inst dest cond words)
   `(icons ,(motion-match words)
@@ -1397,11 +1399,15 @@ It would be advisable to use the exit."
 (defrecmacro (apply-inst table world)
   (table
    (lambda (hd tl)
-     (let ((nl ((inst-code hd) world))
-	   (world (set-rand world cdr)))
-       (if (nl I I)
-           (set-newloc world (lambda (_) nl))
-           (apply-inst tl world))))))
+     (let ((nl ((inst-code hd) world)))
+       (let-world (($set-rand cdr))
+         (cond ((= pdrop nl)
+                (let-world (($drop EMERALD $location))
+                  (apply-inst tl world)))
+               ((nl I I)
+                ($set-newloc (K nl)))
+               (else
+                (apply-inst tl world))))))))
 
 (defmacro initial-visits
   (max-loc (cons V) (cons V V)))

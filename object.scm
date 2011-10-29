@@ -254,10 +254,7 @@ on the underside of\nthe oyster.")
 (defmacro $objects-toting (objects-toting world))
 
 (defmacro (carry object world)
-  (set-place
-   world
-   (modify-nth (to-cons1 object)
-               (K V))))
+  (set-nth world set-place object (K V)))
 (defmacro ($carry object) (carry object world))
 
 (defmacro (drop object location world)

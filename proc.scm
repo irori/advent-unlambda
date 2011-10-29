@@ -601,7 +601,6 @@
                                                     proom alcove))))
                           (ppass-msg
                            (goto mainloop ($set-newloc (K $location)))))))
-                   ; TODO: implement pdrop
                    ; TODO: implement troll
                    (else
                     ($goto mainloop))))))))

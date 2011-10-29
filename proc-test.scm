@@ -755,7 +755,7 @@
   (list "There is no way to go in that direction.\n"
         (expect-enum 'mainloop)))
 
-(define-test 'go-for-it "slit"
+(define-test 'go-for-it "location-word"
   '(lambda (world proc)
      (let-world (($set-location (K road))
                  ($set-mot (K SLIT)))
@@ -764,6 +764,19 @@
           (print-stars cont)))))
   (list "I don't know how to apply that word here.\n"
         (expect-enum 'mainloop)))
+
+(define-test 'go-for-it "remark"
+  '(lambda (world proc)
+     (let-world (($set-location (K slit))
+                 ($set-mot (K D)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list "You don't fit through a two-inch slit!\n"
+        (expect-enum 'mainloop)
+        (expect-enum 'slit)))
 
 (define-test 'go-for-it "ppass"
   '(lambda (world proc)
@@ -803,6 +816,21 @@
   (list "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"
         (expect-enum 'mainloop)
         (expect-enum 'alcove)))
+
+(define-test 'go-for-it "pdrop"
+  '(lambda (world proc)
+     (let-world (($set-location (K y2))
+                 ($set-mot (K PLOVER))
+                 ($carry EMERALD))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc)
+            (print-stars (nth EMERALD $place)))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'proom)
+        (expect-enum 'y2)))
 
 
 (define (main args)
