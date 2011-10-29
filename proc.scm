@@ -153,14 +153,16 @@
               (else
                ($goto parse-label)))))))
 
+; 76 parse:
 (define-proc 'parse-label
   '(lambda (world)
+     ; TODO: give advice about going WEST 80
      ($goto look-at-word1)))
 
 ; 76 shift:
 (define-proc 'shift
   '(lambda (world)
-     (goto look-at-word1 ($set-word12 (lambda (old) (icons (cdr old) V))))))
+     (goto parse-label ($set-word12 (lambda (old) (cons (cdr old) V))))))
 
 ; Gee, I don't understand
 (defmacro unknown-word

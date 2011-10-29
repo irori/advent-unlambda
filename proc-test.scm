@@ -445,6 +445,20 @@
         (expect-bool #t)
         (expect-enum 'PLANT)))
 
+(test-proc 'shift ""
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (action-word EAT) (object-word FOOD)))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool (noun? (car $word12)))
+            (print-stars (word-meaning (car $word12)))
+            (print-bool (word? (cdr $word12))))))))
+  (list (expect-enum 'parse-label)
+        (expect-bool #t)
+        (expect-enum 'FOOD)
+        (expect-bool #f)))
 
 (define (main args)
   0)
