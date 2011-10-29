@@ -261,5 +261,46 @@
   (list (expect-enum 'transitive)
         (expect-enum 'SAY)))
 
+(test-proc 'check-the-lamp "lamp-off"
+  '(lambda (world proc)
+     (let-world (($set-limit (K (cons1 (cons1 V)))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+            (print-stars (cons1-length $limit)))))))
+  (list (expect-enum 'handle-special-inputs)
+        "{**}"))
+
+(test-proc 'check-the-lamp "lamp-on"
+  '(lambda (world proc)
+     (let-world (($set-prop-of LAMP (K c1))
+                 ($set-limit (K (cons1 (cons1 V)))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+            (print-stars (cons1-length $limit)))))))
+  (list (expect-enum 'handle-special-inputs)
+        "{*}"))
+
+(test-proc 'check-the-lamp "lamp-extinguish"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-prop-of LAMP (K c1))
+                 ($set-limit (K (cons1 V))))
+       ((proc world)
+	(lambda (cont world)
+	  (begin
+	    (print-stars cont)
+            (print-stars (nth LAMP $prop))
+            (print-stars (cons1-length $limit))
+            )))))
+  (list "Your lamp has run out of power.\n"
+        (expect-enum 'handle-special-inputs)
+        "{}"
+        "{}"
+        ))
+
 (define (main args)
   0)

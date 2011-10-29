@@ -80,15 +80,27 @@
 ; 178 Check the clocks and the lamp
 (define-proc 'clocks-and-lamp
   '(lambda (world)
+     ; TODO: implement clock check
+     ($goto check-the-lamp)))
+
+; 184 Check the clocks and the lamp
+(define-proc 'check-the-lamp
+  '(lambda (world)
      (let ((old-limit $limit))
-       (let-world (($set-limit (if (= (nth LAMP $prop) c1) 1-of-1 I))
-                   (if (and (cons1? old-limit) (not (cons1? $limit)))
-                       (begin
-                         (($here? LAMP)
-                          (string "Your lamp has run out of power.\n") I)
-                         ($set-prop-of LAMP (K c0)))
-                       world))
-         ($goto look-at-word1)))))
+       (let-world (($set-limit (if (= (nth LAMP $prop) c1) 1-of-1 I)))
+         (cond ((and (cons1? old-limit) (not (cons1? $limit)))
+                (begin
+                  (($here? LAMP)
+                   (string "Your lamp has run out of power.\n") I)
+                  (goto handle-special-inputs ($set-prop-of LAMP (K c0)))))
+               (else
+                ($goto handle-special-inputs)))))))
+
+; 83 Handle additional special cases of input
+(define-proc 'handle-special-inputs
+  '(lambda (world)
+     ; TODO: implement this
+     ($goto look-at-word1)))
 
 ; 76 shift:
 (define-proc 'shift
