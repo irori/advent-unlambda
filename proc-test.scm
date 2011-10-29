@@ -778,6 +778,58 @@
         (expect-enum 'mainloop)
         (expect-enum 'slit)))
 
+(define-test 'go-for-it "property-ok"
+  '(lambda (world proc)
+     (let-world (($set-location (K outside))
+                 ($set-prop-of GRATE (K c1))
+                 ($set-mot (K ENTER)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'inside)))
+
+(define-test 'go-for-it "property-ng"
+  '(lambda (world proc)
+     (let-world (($set-location (K outside))
+                 ($set-mot (K ENTER)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list "You can't go through a locked steel grate!\n"
+        (expect-enum 'mainloop)
+        (expect-enum 'outside)))
+
+(define-test 'go-for-it "holds-true"
+  '(lambda (world proc)
+     (let-world (($set-location (K shell))
+                 ($carry CLAM)
+                 ($set-mot (K SOUTH)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list "You can't fit this five-foot clam through that little passage!\n"
+        (expect-enum 'mainloop)
+        (expect-enum 'shell)))
+
+(define-test 'go-for-it "holds-false"
+  '(lambda (world proc)
+     (let-world (($set-location (K shell))
+                 ($set-mot (K SOUTH)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $newloc))))))
+  (list (expect-enum 'mainloop)
+        (expect-enum 'complex)))
+
 (define-test 'go-for-it "ppass"
   '(lambda (world proc)
      (let-world (($set-location (K alcove))
