@@ -192,30 +192,29 @@
                  (if (or ($toting? $obj)
                          ($at-loc? $obj))
                      ($goto handle-object-word)
-                     ($goto cant-see-it))))
+                     ($goto check-object-location))))
              (lambda (_)  ; verb
 	       (let-world (($set-verb (K (word-meaning word1))))
+                 ; TODO: handle SAY
 		 (if (word? word2)
 		     ($goto shift)
-		     ($goto (if $obj transitive intransitive)))))
+		     ($goto (ifnonzero $obj transitive intransitive)))))
              (lambda (_)  ; message
-               (begin ((nth (word-meaning word1) $message) #\newline I)
-                      ($goto get-user-input)))
+               ($report (nth (word-meaning word1) $message)))
              I)
             (goto cycle (unknown-word world)))))))
 
-; 78
+; 78 case object_type:
 (define-proc 'handle-object-word
   '(lambda (world)
      (if (word? (cdr $word12))
          ($goto shift)
          (if (nonzero? $verb)
              ($goto transitive)
-             (begin
-               (print "What do you want to do with the ")
-               ((word-letters (car $word12)) I)
-               (print "?\n")
-               ($goto cycle))))))
+             ((string "What do you want to do with the ")
+              (word-letters (car $word12))
+              (string "?\n")
+              ($goto cycle))))))
 
 (define-proc 'intransitive
   '(lambda (world)
@@ -303,6 +302,12 @@
        ((word-letters (car $word12)) I)
        (print " what?\n")
        ($goto cycle))))
+
+; 90 Make sure obj is meaningful at the current location
+(define-proc 'check-object-location
+  '(lambda (world)
+     ; TODO: implement this
+     ($goto cant-see-it)))
 
 ; 79 cant_see_it:
 (define-proc 'cant-see-it

@@ -464,6 +464,124 @@
         (expect-enum 'FOOD)
         (expect-bool #f)))
 
+(define-test 'look-at-word1 "unknown-word"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons V V))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I don't know that word.\n"
+        (expect-enum 'cycle)))
+
+(define-test 'look-at-word1 "motion"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (motion-word NE) V))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $mot))))))
+  (list (expect-enum 'try-move)
+        (expect-enum 'NE)))
+
+(define-test 'look-at-word1 "object-here"
+  '(lambda (world proc)
+     (let-world (($set-location (K house))
+                 ($set-word12 (K (cons (object-word LAMP) V))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'handle-object-word)
+        (expect-enum 'LAMP)))
+
+(define-test 'look-at-word1 "object-not-here"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (object-word LAMP) V))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'check-object-location)
+        (expect-enum 'LAMP)))
+
+(define-test 'look-at-word1 "verb-with-word2"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (action-word DROP) (object-word LAMP)))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $verb))))))
+  (list (expect-enum 'shift)
+        (expect-enum 'DROP)))
+
+(define-test 'look-at-word1 "verb-transitive"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (action-word DROP) V)))
+                 ($set-obj (K LAMP)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $verb))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'DROP)))
+
+(define-test 'look-at-word1 "verb-intransitive"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (action-word DROP) V)))
+                 ($set-obj (K NOTHING)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $verb))))))
+  (list (expect-enum 'intransitive)
+        (expect-enum 'DROP)))
+
+(define-test 'look-at-word1 "message-word"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (message-word c4) V))))  ; LOST
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I'm as confused as you are.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'handle-object-word "shift"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons V (action-word TAKE)))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list (expect-enum 'shift)))
+
+(define-test 'handle-object-word "with-verb"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons V V)))
+                 ($set-verb (K TAKE)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list (expect-enum 'transitive)))
+
+(defmacro (object-word-with-str meaning str)
+  (lambda (f) (f (lambda (_ x _ _) x) meaning str)))
+
+(define-test 'handle-object-word "without-verb"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (object-word-with-str LAMP (string "lamp")) V)))
+                 ($set-verb (K ABSTAIN)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "What do you want to do with the lamp?\n"
+        (expect-enum 'cycle)))
+
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each
