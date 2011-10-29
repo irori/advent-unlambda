@@ -119,10 +119,42 @@
                (else
                 ($goto handle-special-inputs)))))))
 
+(defmacro ($report str)
+  (str #\newline
+   (goto get-user-input world)))
+(defmacro ($default-to v)
+  ($report (nth v $default-msg)))
+
 ; 83 Handle additional special cases of input
 (define-proc 'handle-special-inputs
   '(lambda (world)
-     ; TODO: implement this
+     ($word12
+      (lambda (word1 word2)
+        (cond ((and (motion? word1) (= (word-meaning word1) ENTER))
+               (cond ((or (and (noun? word2) (= (word-meaning word2) WATER))
+                          (and (motion? word2) (= (word-meaning word2) STREAM)))
+                      (if (water-here world)
+                          ($report (string "Your feet are now wet."))
+                          ($default-to GO)))
+                     ((word? word2)
+                      ($goto shift))
+                     (else
+                      ($goto parse-label))))
+              ((and (noun? word1)
+                    (or (= (word-meaning word1) WATER)
+                        (= (word-meaning word1) OIL))
+                    (noun? word2)
+                    (or (= (word-meaning word2) PLANT)
+                        (= (word-meaning word2) DOOR))
+                    (= $location (nth (word-meaning word2) $place)))
+               (goto parse-label
+                     ($set-word12 (lambda (old)
+                                    (cons (car old) (action-word POUR))))))
+              (else
+               ($goto parse-label)))))))
+
+(define-proc 'parse-label
+  '(lambda (world)
      ($goto look-at-word1)))
 
 ; 76 shift:

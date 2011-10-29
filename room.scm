@@ -1373,6 +1373,17 @@ It would be advisable to use the exit."
 (defmacro (lighted? loc)
   (nth loc lighted-rooms))
 
+(add-unl-macro!
+ 'initial-liquid '()
+ `(list ,@(map (lambda (flags)
+                 (cond ((memq 'oil flags) 'c1)
+                       ((memq 'liquid flags) 'c0)
+                       (else 'V)))
+               (vector->list loc-flags))))
+
+(defmacro (water-here world)
+  (zero? (nth (location world) (liquid world))))
+
 (defmacro (forced-move? loc)
   (>= loc min-forced-loc))
 

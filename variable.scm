@@ -36,6 +36,7 @@
      obj
      oldobj
      not-warned
+     liquid
      default-msg
      message
      base

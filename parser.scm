@@ -426,6 +426,11 @@ unless you explicitly ask me to.")
            (((words (lambda (hd tl) I)) return words)
             (rec rec)))))))))
 
+(defmacro (motion-word meaning) (lambda (f) (f (lambda (x _ _ _) x) meaning I)))
+(defmacro (object-word meaning) (lambda (f) (f (lambda (_ x _ _) x) meaning I)))
+(defmacro (action-word meaning) (lambda (f) (f (lambda (_ _ x _) x) meaning I)))
+(defmacro (message-word meaning)(lambda (f) (f (lambda (_ _ _ x) x) meaning I)))
+
 (defmacro parser-main
   (call/cc
    (lambda (q)

@@ -16,8 +16,11 @@
          (expect-str (tree->string expect))
 	 (out (read-process-output process unl)))
     (if (string=? expect-str out)
-	#t
+        (begin
+          (display #\.)
+          (flush))
 	(begin
+          (newline)
 	  (print "FAIL " proc-id ", " testname)
 	  (print "EXPECT: " expect-str)
 	  (print "ACTUAL: " out)
@@ -26,8 +29,14 @@
 (define (expect-enum sym)
   (list "{" (make-string (lookup-enum sym) #\*) "}"))
 
+(define (expect-bool b)
+  (list "{" (if b "t" "f") "}"))
+
 (defmacro (print-stars n)
   (#\{ n #\* #\} I))
+
+(defmacro (print-bool b)
+  (#\{ (if b #\t #\f) #\} I))
 
 
 (test-proc 'mainloop ""
@@ -340,10 +349,10 @@
 	(lambda (cont world)
           (begin
             (print-stars cont)
-            ((if $not-warned (string "{t}") (string "{f}")) I))))))
+            (print-bool $not-warned))))))
   (list "Your lamp is getting dim.  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"
         (expect-enum 'handle-special-inputs)
-        "{f}"))
+        (expect-bool #f)))
 
 (test-proc 'check-the-lamp "warn-lamp-out-of-batteries"
   '(lambda (world proc)
@@ -354,10 +363,10 @@
 	(lambda (cont world)
           (begin
             (print-stars cont)
-            ((if $not-warned (string "{t}") (string "{f}")) I))))))
+            (print-bool $not-warned))))))
   (list "Your lamp is getting dim, and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"
         (expect-enum 'handle-special-inputs)
-        "{f}"))
+        (expect-bool #f)))
 
 (test-proc 'check-the-lamp "warn-lamp-batteries-left"
   '(lambda (world proc)
@@ -368,10 +377,73 @@
 	(lambda (cont world)
           (begin
             (print-stars cont)
-            ((if $not-warned (string "{t}") (string "{f}")) I))))))
+            (print-bool $not-warned))))))
   (list "Your lamp is getting dim.  You'd best go back for those batteries.\n"
         (expect-enum 'handle-special-inputs)
-        "{f}"))
+        (expect-bool #f)))
+
+(test-proc 'handle-special-inputs "wet"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (motion-word ENTER)
+                                       (motion-word STREAM)))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "Your feet are now wet.\n"
+        (expect-enum 'get-user-input)))
+
+(test-proc 'handle-special-inputs "not-wet"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (motion-word ENTER) (object-word WATER))))
+                 ($set-location (K hill)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "Where?\n"
+        (expect-enum 'get-user-input)))
+
+(test-proc 'handle-special-inputs "enter-house"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (motion-word ENTER) (motion-word HOUSE)))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'shift))
+
+(test-proc 'handle-special-inputs "enter"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (motion-word ENTER) V))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'parse-label))
+
+(test-proc 'handle-special-inputs "water-plant"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (object-word WATER) (object-word PLANT))))
+                 ($set-location (K wpit)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool (verb? (cdr $word12)))
+            (print-stars (word-meaning (cdr $word12))))))))
+  (list (expect-enum 'parse-label)
+        (expect-bool #t)
+        (expect-enum 'POUR)))
+
+(test-proc 'handle-special-inputs "normal"
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (object-word WATER) (object-word PLANT)))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool (noun? (cdr $word12)))
+            (print-stars (word-meaning (cdr $word12))))))))
+  (list (expect-enum 'parse-label)
+        (expect-bool #t)
+        (expect-enum 'PLANT)))
 
 
 (define (main args)
