@@ -1082,6 +1082,32 @@
         (expect-enum 'get-user-input)
         "{}"))
 
+(define-test 'transitive-eat "food"
+  '(lambda (world proc)
+     (let-world (($set-obj (K FOOD)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "Thank you, it was delicious!\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'transitive-eat "snake"
+  '(lambda (world proc)
+     (let-world (($set-obj (K SNAKE)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "I think I just lost my appetite.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'transitive-eat "other"
+  '(lambda (world proc)
+     (let-world (($set-obj (K KEYS)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'report-default))
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each

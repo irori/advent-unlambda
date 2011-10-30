@@ -457,16 +457,26 @@
 ; 95 case BRIEF:
 (define-proc 'intransitive-brief
   '(lambda (world)
-     ((string "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".\n")
-      (goto get-user-input ($set-verbose (K V))))))
+     (let-world (($set-verbose (K V)))
+       ($report (string "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".")))))
 
 ; 98 case EAT:
 (define-proc 'transitive-eat
   '(lambda (world)
-     (if (= $obj FOOD)
-         ((string "Thank you, it was delicious!\n")
-          (goto get-user-input ($destroy FOOD)))
-         ($goto report-default))))
+     (cond ((= $obj FOOD)
+            (let-world (($destroy FOOD))
+              ($report (string "Thank you, it was delicious!"))))
+           ((or (= $obj BIRD)
+                (= $obj SNAKE)
+                (= $obj CLAM)
+                (= $obj OYSTER)
+                (= $obj DWARF)
+                (= $obj DRAGON)
+                (= $obj TROLL)
+                (= $obj BEAR))
+            ($report (string "I think I just lost my appetite.")))
+           (else
+            ($goto report-default)))))
 
 ; 102 case ON:
 (define-proc 'transitive-on
