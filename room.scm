@@ -21,20 +21,6 @@
   ((lambda (x) (x x))
    (lambda (rec) (icons I (rec rec)))))
 
-(define (motion-match words)
-  (if (null? words)
-      'repeat-true
-      (pair-fold-right
-       (lambda (lis e)
-         (if (null? (cdr lis))
-             'V
-             (let ((d (- (cadr lis) (car lis) 1)))
-               (cond ((< d 0) (error "duplicate motion" words))
-                     ((= d 0) `(icons I ,e))
-                     (else `(,(churchnum d) (icons V) (icons I ,e)))))))
-       'V
-       (cons -1 (sort (map lookup-enum words))))))
-
 ;; env -> env
 (define (motion-code condition dest)
   (let ((result (if (string? dest)
@@ -59,7 +45,7 @@
                 (if (,predicate ,(churchnum obj) world) ,result V)))))))
 
 (define (make-inst dest cond words)
-  `(icons ,(motion-match words)
+  `(icons ,(make-boolean-list words)
           ,(motion-code cond dest)))
 
 (defmacro (inst-match inst) (car inst))

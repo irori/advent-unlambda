@@ -82,3 +82,19 @@
     crack neck lose cant climb check snaked
     thru duck sewer upnout didit
     ppass pdrop troll))
+
+
+;; utilities
+(define (make-boolean-list enums)
+  (if (null? enums)
+      'repeat-true
+      (pair-fold-right
+       (lambda (lis e)
+         (if (null? (cdr lis))
+             'V
+             (let ((d (- (cadr lis) (car lis) 1)))
+               (cond ((< d 0) (error "make-boolean-list: duplicated" enums))
+                     ((= d 0) `(icons I ,e))
+                     (else `(,(churchnum d) (icons V) (icons I ,e)))))))
+       'V
+       (cons -1 (sort (map lookup-enum enums))))))
