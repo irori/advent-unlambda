@@ -273,3 +273,8 @@ on the underside of\nthe oyster.")
   (or (and (= $obj WATER) (zero? ($prop-of BOTTLE)))
       (and (= $obj OIL) (= ($prop-of BOTTLE) c2))))
 (defmacro $object-in-bottle (object-in-bottle world))
+
+(defmacro (bottle-empty world)
+  (= (nth BOTTLE (prop world)) c1))  ; TODO: or prop[BOTTLE] < 0
+(defmacro $bottle-empty (bottle-empty world))
+

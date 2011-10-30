@@ -510,14 +510,25 @@
            ret ($goto get-user-input))
           (let-world ((take-liquid world ret))
             (begin
-              ((pair? (c6 cdr $objects-toting))
+              ((carrying-too-many? world)
                (string "You can't carry anything more.  You'll have to drop something first.\n")
                ret ($goto get-user-input))
               (let-world ((take-bird world ret)
                           (take-cage-bird world)
-                          ($carry $obj))
-                ; TODO: handle bottle
+                          ($carry $obj)
+                          (take-liquid-in-bottle world))
                 ($report (string "OK."))))))))))
+
+(defmacro (carrying-too-many? world)
+  (let loop ((lst (cdr (place world)))
+             (n c1)
+             (count (to-cons1 c6)))
+    (lst
+     (lambda (hd tl)
+       (let ((next (loop tl (succ n))))
+         (cond ((or (hd I I) (= n WATER) (= n OIL)) (next count))
+               ((cons1? count) (next (1-of-1 count)))
+               (else I)))))))
 
 (defmacro (immovable-msg world)
   (cond ((ifnonzero ($prop-of BEAR) (= $obj CHAIN) V)
@@ -549,6 +560,12 @@
                     (ret ($goto transitive)))
                   ((string "You have nothing in which to carry it.\n")
                    ret ($goto get-user-input)))))
+        world)))
+
+(defmacro take-liquid-in-bottle
+  (lambda (world)
+    (if (and (= $obj BOTTLE) (not $bottle-empty))
+        ($carry (ifnonzero ($prop-of BOTTLE) OIL WATER))
         world)))
 
 ; 114 Check special cases for taking a bird

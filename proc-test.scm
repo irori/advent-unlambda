@@ -1262,6 +1262,25 @@
   (list "You can't carry anything more.  You'll have to drop something first.\n"
         (expect-enum 'get-user-input)))
 
+(define-test 'transitive-take "do-not-count-water-in-bottle"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($carry LAMP)
+                 ($carry CAGE)
+                 ($carry ROD)
+                 ($carry BIRD)
+                 ($carry BOTTLE)
+                 ($carry WATER)
+                 ($set-obj (K MAG)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? MAG)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #t)))
+
 (define-test 'transitive-take "water-in-bottle"
   '(lambda (world proc)
      (let-world (($set-location (K house))
@@ -1303,6 +1322,21 @@
           (print-stars cont)))))
   (list "You have nothing in which to carry it.\n"
         (expect-enum 'get-user-input)))
+
+(define-test 'transitive-take "liquid-in-bottle"
+  '(lambda (world proc)
+     (let-world (($set-location (K house))
+                 ($set-obj (K BOTTLE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? BOTTLE))
+            (print-bool ($toting? WATER)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #t)
+        (expect-bool #t)))
 
 (define-test 'transitive-take "bird"
   '(lambda (world proc)
