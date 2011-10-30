@@ -434,8 +434,7 @@
                (goto transitive ($set-obj (K CHAIN))))
            (if (object I I)
                (goto transitive ($set-obj (K object)))
-               ((string "There is nothing here with a lock!\n")
-                ($goto get-user-input)))))))
+               ($report (string "There is nothing here with a lock!")))))))
 
 ; 94 case INVENTORY:
 (define-proc 'intransitive-inventory

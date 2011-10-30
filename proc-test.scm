@@ -977,6 +977,47 @@
   (list (expect-enum 'transitive)
         (expect-enum 'FOOD)))
 
+(define-test 'intransitive-open "grate"
+  '(lambda (world proc)
+     (let-world (($set-location (K outside)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'GRATE)))
+
+(define-test 'intransitive-open "chain"
+  '(lambda (world proc)
+     (let-world (($carry CHAIN))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'CHAIN)))
+
+(define-test 'intransitive-open "grate-chain"
+  '(lambda (world proc)
+     (let-world (($set-location (K outside))
+                 ($carry CHAIN))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont))))))
+  (list (expect-enum 'get-object)))
+
+(define-test 'intransitive-open "nothing"
+  '(lambda (world proc)
+     (let-world (($set-location (K road)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "There is nothing here with a lock!\n"
+        (expect-enum 'get-user-input)))
+
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
