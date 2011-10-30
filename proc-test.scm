@@ -1108,6 +1108,53 @@
           (print-stars cont)))))
   (expect-enum 'report-default))
 
+(define-test 'transitive-on "no-lamp"
+  '(lambda (world proc)
+     ((proc world)
+      (lambda (cont world)
+        (print-stars cont))))
+  (expect-enum 'report-default))
+
+(define-test 'transitive-on "out-of-power"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-limit (K V)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of LAMP)))))))
+  (list "Your lamp has run out of power.\n"
+        (expect-enum 'get-user-input)
+        "{}"))
+
+(define-test 'transitive-on "was-dark"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-was-dark (K I)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of LAMP)))))))
+  (list "Your lamp is now on.\n"
+        (expect-enum 'commence)
+        "{*}"))
+
+(define-test 'transitive-on "not-was-dark"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-was-dark (K V)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of LAMP)))))))
+  (list "Your lamp is now on.\n"
+        (expect-enum 'get-user-input)
+        "{*}"))
+
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each
