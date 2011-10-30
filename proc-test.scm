@@ -1030,6 +1030,46 @@
   (list "There is nothing here with a lock!\n"
         (expect-enum 'get-user-input)))
 
+(define-test 'intransitive-inventory "nothing"
+  '(lambda (world proc)
+     ((proc world)
+      (lambda (cont world)
+        (print-stars cont))))
+  (list "You're not carrying anything.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'intransitive-inventory "objects"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($carry LAMP))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "You are currently holding the following:\n"
+        " Set of keys\n"
+        " Brass lantern\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'intransitive-inventory "bear"
+  '(lambda (world proc)
+     (let-world (($carry BEAR))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "You are being followed by a very large, tame bear.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'intransitive-inventory "object-and-bear"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($carry BEAR))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "You are currently holding the following:\n"
+        " Set of keys\n"
+        "You are being followed by a very large, tame bear.\n"
+        (expect-enum 'get-user-input)))
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))

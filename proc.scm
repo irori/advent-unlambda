@@ -441,13 +441,17 @@
   '(lambda (world)
      (let ((lst $objects-toting))
        (begin
-         (if (null? lst)
-             (print "You're not carrying anything.\n")
-             (begin
-               (print "You are currently holding the following:\n")
-               (for-each (lambda (o)
-                           (#\space (nth o objname) #\newline I))
-                         lst)))
+         (cond ((null? lst)
+                (print "You're not carrying anything.\n"))
+               ((and (= (car lst) BEAR) (null? (cdr lst)))
+                V)
+               (else
+                (for-each
+                 (lambda (o)
+                   ((not (= o BEAR)) #\space (nth o objname) #\newline I))
+                 ((string "You are currently holding the following:\n") lst))))
+         (($toting? BEAR)
+          (string "You are being followed by a very large, tame bear.\n") I)
          ($goto get-user-input)))))
 
 ; 95 case BRIEF:
