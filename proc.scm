@@ -582,6 +582,22 @@
 	       ret ($goto get-user-input))))
 	world)))
 
+; 117 case DROP:
+(define-proc 'transitive-drop
+  '(lambda (world)
+     (call/cc
+      (lambda (ret)
+        (begin
+          ((not ($toting? $obj))
+           ret ($goto report-default))
+          ((= $obj BIRD)
+           try-drop-bird world ret)
+          (let-world ((drop-cage-bird world)
+		      ($drop $obj $location))
+            (begin
+              (print "OK.\n")
+              ($goto get-user-input))))))))
+
 ; 120 Check special cases for dropping the bird
 (defmacro try-drop-bird
   (lambda (world ret)
@@ -600,22 +616,6 @@
 	  ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
 	   ($drop BIRD $location))
 	  (else world))))
-
-; 117 case DROP:
-(define-proc 'transitive-drop
-  '(lambda (world)
-     (call/cc
-      (lambda (ret)
-        (begin
-          ((not ($toting? $obj))
-           ret ($goto report-default))
-          ((= $obj BIRD)
-           try-drop-bird world ret)
-          (let-world ((drop-cage-bird world)
-		      ($drop $obj $location))
-            (begin
-              (print "OK.\n")
-              ($goto get-user-input))))))))
 
 (defmacro open-close-grate
   (lambda (world)
