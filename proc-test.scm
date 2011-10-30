@@ -1187,6 +1187,52 @@
         (expect-enum 'get-user-input)
         "{}"))
 
+(define-test 'transitive-take "carrying"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-obj (K KEYS)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'report-default))
+
+(define-test 'transitive-take "immovable"
+  '(lambda (world proc)
+     (let-world (($set-obj (K GRATE)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You can't be serious!\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'transitive-take "immovable-chain"
+  '(lambda (world proc)
+     (let-world (($set-obj (K CHAIN))
+                 ($set-prop-of BEAR (K c1)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "The chain is still locked.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'transitive-take "immovable-bear"
+  '(lambda (world proc)
+     (let-world (($set-obj (K BEAR))
+                 ($set-prop-of BEAR (K c1)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "The bear is still chained to the wall.\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'transitive-take "immovable-plant"
+  '(lambda (world proc)
+     (let-world (($set-obj (K PLANT)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "The plant has exceptionally deep roots and cannot be pulled free.\n"
+        (expect-enum 'get-user-input)))
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))

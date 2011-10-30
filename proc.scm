@@ -506,13 +506,22 @@
           (($toting? $obj)  ; already carrying it
            ret ($goto report-default))
           ((nonzero? (nth $obj $base))  ; it is immovable
-           (string "You can't be serious!\n")
+           (immovable-msg world) #\newline
            ret ($goto get-user-input))
          (let-world ((take-bird world ret)
 		     (take-cage-bird world)
 		     ($carry $obj))
            ((string "OK.\n")
 	    ($goto get-user-input))))))))
+
+(defmacro (immovable-msg world)
+  (cond ((ifnonzero ($prop-of BEAR) (= $obj CHAIN) V)
+         (string "The chain is still locked."))
+        ((and (= $obj BEAR) (= ($prop-of BEAR) c1))
+         (string "The bear is still chained to the wall."))
+        ((and (= $obj PLANT) (not (nonzero? ($prop-of PLANT)))) ; prop[PLANT]<=0
+         (string "The plant has exceptionally deep roots and cannot be pulled free."))
+        (else (string "You can't be serious!"))))
 
 (defmacro take-cage-bird
   (lambda (world)
