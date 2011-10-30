@@ -568,6 +568,8 @@
           (print-stars cont)))))
   (expect-enum 'transitive))
 
+(defmacro (action-word-with-str meaning str)
+  (lambda (f) (f (lambda (_ _ x _) x) meaning str)))
 (defmacro (object-word-with-str meaning str)
   (lambda (f) (f (lambda (_ x _ _) x) meaning str)))
 
@@ -910,6 +912,70 @@
   (list (expect-enum 'mainloop)
         (expect-enum 'proom)
         (expect-enum 'y2)))
+
+(define-test 'report-default ""
+  '(lambda (world proc)
+     (let-world (($set-verb (K DROP)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "You aren't carrying it!\n"
+        (expect-enum 'get-user-input)))
+
+(define-test 'get-object ""
+  '(lambda (world proc)
+     (let-world (($set-word12 (K (cons (action-word-with-str TOSS (string "throw")) V))))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list "throw what?\n"
+        (expect-enum 'cycle)))
+
+(define-test 'intransitive-take "no-object"
+  '(lambda (world proc)
+     (let-world (($set-location (K road)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'get-object))
+
+(define-test 'intransitive-take "one-object"
+  '(lambda (world proc)
+     (let-world (($set-location (K west)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'COINS)))
+
+(define-test 'intransitive-take "many-objects"
+  '(lambda (world proc)
+     (let-world (($set-location (K house)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'get-object))
+
+(define-test 'intransitive-eat "no-food"
+  '(lambda (world proc)
+     (let-world (($set-location (K road)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (expect-enum 'get-object))
+
+(define-test 'intransitive-eat "food-here"
+  '(lambda (world proc)
+     (let-world (($set-location (K house)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'FOOD)))
 
 
 (define (main args)
