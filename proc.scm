@@ -508,10 +508,15 @@
           ((nonzero? (nth $obj $base))  ; it is immovable
            (immovable-msg world) #\newline
            ret ($goto get-user-input))
-         (let-world ((take-bird world ret)
-		     (take-cage-bird world)
-		     ($carry $obj))
-           ($report (string "OK."))))))))
+          ; TODO: Check special cases for taking a liquid 113
+          ((pair? (c6 cdr $objects-toting))
+           (string "You can't carry anything more.  You'll have to drop something first.\n")
+           ret ($goto get-user-input))
+          (let-world ((take-bird world ret)
+                      (take-cage-bird world)
+                      ($carry $obj))
+            ; TODO: handle bottle
+            ($report (string "OK."))))))))
 
 (defmacro (immovable-msg world)
   (cond ((ifnonzero ($prop-of BEAR) (= $obj CHAIN) V)

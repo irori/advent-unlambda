@@ -1246,6 +1246,22 @@
         (expect-enum 'get-user-input)
         (expect-bool #t)))
 
+(define-test 'transitive-take "toomany"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($carry LAMP)
+                 ($carry CAGE)
+                 ($carry ROD)
+                 ($carry BIRD)
+                 ($carry FOOD)
+                 ($carry AXE)
+                 ($set-obj (K MAG)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You can't carry anything more.  You'll have to drop something first.\n"
+        (expect-enum 'get-user-input)))
+
 (define-test 'transitive-take "bird"
   '(lambda (world proc)
      (let-world (($carry CAGE)
