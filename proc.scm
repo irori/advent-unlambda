@@ -439,8 +439,8 @@
 ; 94 case INVENTORY:
 (define-proc 'intransitive-inventory
   '(lambda (world)
-     (let ((lst $objects-toting))
-       (begin
+     (begin
+       (let ((lst $objects-toting))
          (cond ((null? lst)
                 (print "You're not carrying anything.\n"))
                ((and (= (car lst) BEAR) (null? (cdr lst)))
@@ -449,10 +449,10 @@
                 (for-each
                  (lambda (o)
                    ((not (= o BEAR)) #\space (nth o objname) #\newline I))
-                 ((string "You are currently holding the following:\n") lst))))
-         (($toting? BEAR)
-          (string "You are being followed by a very large, tame bear.\n") I)
-         ($goto get-user-input)))))
+                 ((string "You are currently holding the following:\n") lst)))))
+       (($toting? BEAR)
+        (string "You are being followed by a very large, tame bear.\n") I)
+       ($goto get-user-input))))
 
 ; 95 case BRIEF:
 (define-proc 'intransitive-brief

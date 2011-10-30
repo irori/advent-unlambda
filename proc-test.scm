@@ -1071,6 +1071,17 @@
         "You are being followed by a very large, tame bear.\n"
         (expect-enum 'get-user-input)))
 
+(define-test 'intransitive-brief ""
+  '(lambda (world proc)
+     ((proc world)
+      (lambda (cont world)
+        (begin
+          (print-stars cont)
+          (print-stars (cons1-length $verbose))))))
+  (list "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".\n"
+        (expect-enum 'get-user-input)
+        "{}"))
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each
