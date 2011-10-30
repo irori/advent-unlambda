@@ -1262,6 +1262,48 @@
   (list "You can't carry anything more.  You'll have to drop something first.\n"
         (expect-enum 'get-user-input)))
 
+(define-test 'transitive-take "water-in-bottle"
+  '(lambda (world proc)
+     (let-world (($set-location (K house))
+                 ($set-obj (K WATER)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj)
+            (print-bool ($toting? BOTTLE)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-enum 'BOTTLE)
+        (expect-bool #t)))
+
+(define-test 'transitive-take "change-to-fill"
+  '(lambda (world proc)
+     (let-world (($carry BOTTLE)
+                 ($set-prop-of BOTTLE (K c1))
+                 ($set-obj (K WATER))
+                 ($set-verb (K TAKE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj)
+            (print-stars $verb)
+            (print-stars $oldverb))))))
+  (list (expect-enum 'transitive)
+        (expect-enum 'BOTTLE)
+        (expect-enum 'FILL)
+        (expect-enum 'TAKE)))
+
+(define-test 'transitive-take "no-bottle"
+  '(lambda (world proc)
+     (let-world (($set-obj (K WATER)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You have nothing in which to carry it.\n"
+        (expect-enum 'get-user-input)))
+
 (define-test 'transitive-take "bird"
   '(lambda (world proc)
      (let-world (($carry CAGE)

@@ -508,15 +508,16 @@
           ((nonzero? (nth $obj $base))  ; it is immovable
            (immovable-msg world) #\newline
            ret ($goto get-user-input))
-          ; TODO: Check special cases for taking a liquid 113
-          ((pair? (c6 cdr $objects-toting))
-           (string "You can't carry anything more.  You'll have to drop something first.\n")
-           ret ($goto get-user-input))
-          (let-world ((take-bird world ret)
-                      (take-cage-bird world)
-                      ($carry $obj))
-            ; TODO: handle bottle
-            ($report (string "OK."))))))))
+          (let-world ((take-liquid world ret))
+            (begin
+              ((pair? (c6 cdr $objects-toting))
+               (string "You can't carry anything more.  You'll have to drop something first.\n")
+               ret ($goto get-user-input))
+              (let-world ((take-bird world ret)
+                          (take-cage-bird world)
+                          ($carry $obj))
+                ; TODO: handle bottle
+                ($report (string "OK."))))))))))
 
 (defmacro (immovable-msg world)
   (cond ((ifnonzero ($prop-of BEAR) (= $obj CHAIN) V)
@@ -534,6 +535,21 @@
 	  ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
 	   ($carry BIRD))
 	  (else world))))
+
+; 113 Check special cases for taking a liquid
+(defmacro take-liquid
+  (lambda (world ret)
+    (if (or (= $obj WATER) (= $obj OIL))
+        (if (and ($here? BOTTLE) $object-in-bottle)
+            ($set-obj (K BOTTLE))
+            (let-world (($set-obj (K BOTTLE)))
+              (if ($toting? BOTTLE)
+                  (let-world (($set-oldverb (K $verb))
+                              ($set-verb (K FILL)))
+                    (ret ($goto transitive)))
+                  ((string "You have nothing in which to carry it.\n")
+                   ret ($goto get-user-input)))))
+        world)))
 
 ; 114 Check special cases for taking a bird
 (defmacro take-bird

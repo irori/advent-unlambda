@@ -268,3 +268,8 @@ on the underside of\nthe oyster.")
 (defmacro (destroy object world)
   (drop object limbo world))
 (defmacro ($destroy object) (destroy object world))
+
+(defmacro (object-in-bottle world)
+  (or (and (= $obj WATER) (zero? ($prop-of BOTTLE)))
+      (and (= $obj OIL) (= ($prop-of BOTTLE) c2))))
+(defmacro $object-in-bottle (object-in-bottle world))
