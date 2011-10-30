@@ -511,8 +511,7 @@
          (let-world ((take-bird world ret)
 		     (take-cage-bird world)
 		     ($carry $obj))
-           ((string "OK.\n")
-	    ($goto get-user-input))))))))
+           ($report (string "OK."))))))))
 
 (defmacro (immovable-msg world)
   (cond ((ifnonzero ($prop-of BEAR) (= $obj CHAIN) V)

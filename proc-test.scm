@@ -1234,6 +1234,93 @@
   (list "The plant has exceptionally deep roots and cannot be pulled free.\n"
         (expect-enum 'get-user-input)))
 
+(define-test 'transitive-take "ok"
+  '(lambda (world proc)
+     (let-world (($set-obj (K LAMP)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? LAMP)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #t)))
+
+(define-test 'transitive-take "bird"
+  '(lambda (world proc)
+     (let-world (($carry CAGE)
+                 ($set-obj (K BIRD)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? BIRD))
+            (print-stars ($prop-of BIRD)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #t)
+        "{*}"))
+
+(define-test 'transitive-take "bird-without-cage"
+  '(lambda (world proc)
+     (let-world (($set-obj (K BIRD)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? BIRD))
+            (print-stars ($prop-of BIRD)))))))
+  (list "You can catch the bird, but you cannot carry it.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #f)
+        "{}"))
+
+(define-test 'transitive-take "bird-with-rod"
+  '(lambda (world proc)
+     (let-world (($carry ROD)
+                 ($set-obj (K BIRD)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? BIRD))
+            (print-stars ($prop-of BIRD)))))))
+  (list "The bird was unafraid when you entered, but as you approach it becomes\ndisturbed and you cannot catch it.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #f)
+        "{}"))
+
+(define-test 'transitive-take "bird-in-cage"
+  '(lambda (world proc)
+     (let-world (($set-prop-of BIRD (K c1))
+                 ($set-obj (K BIRD)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? BIRD))
+            (print-bool ($toting? CAGE)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #t)
+        (expect-bool #t)))
+
+(define-test 'transitive-take "cage-with-bird"
+  '(lambda (world proc)
+     (let-world (($set-prop-of BIRD (K c1))
+                 ($set-obj (K CAGE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-bool ($toting? BIRD))
+            (print-bool ($toting? CAGE)))))))
+  (list "OK.\n"
+        (expect-enum 'get-user-input)
+        (expect-bool #t)
+        (expect-bool #t)))
+
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each
