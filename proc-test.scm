@@ -496,6 +496,18 @@
   (list (expect-enum 'handle-object-word)
         (expect-enum 'LAMP)))
 
+(define-test 'look-at-word1 "second-object-here"
+  '(lambda (world proc)
+     (let-world (($set-location (K inside))
+                 ($set-word12 (K (cons (object-word GRATE) V))))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list (expect-enum 'handle-object-word)
+        (expect-enum 'GRATE)))
+
 (define-test 'look-at-word1 "object-not-here"
   '(lambda (world proc)
      (let-world (($set-word12 (K (cons (object-word LAMP) V))))

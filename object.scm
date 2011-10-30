@@ -223,7 +223,11 @@ on the underside of\nthe oyster.")
 (defmacro ($toting? object) (toting? object world))
 
 (defmacro (at-loc? object world)
-  (= (nth object (place world)) (location world)))
+  (or (= (nth object (place world)) (location world))
+      (let ((base-lst (object cdr (base world))))
+        (and (nonzero? (car base-lst))
+             (= (car base-lst) (cadr base-lst))
+             (= (nth object (cdr (place world))) (location world))))))
 (defmacro ($at-loc? object) (at-loc? object world))
 
 (defmacro (here? object world)
