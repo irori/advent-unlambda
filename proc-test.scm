@@ -1154,6 +1154,39 @@
         (expect-enum 'get-user-input)
         "{*}"))
 
+(define-test 'transitive-off "no-lamp"
+  '(lambda (world proc)
+     ((proc world)
+      (lambda (cont world)
+        (print-stars cont))))
+  (expect-enum 'report-default))
+
+(define-test 'transitive-off "not-dark"
+  '(lambda (world proc)
+     (let-world (($carry LAMP))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of LAMP)))))))
+  (list "Your lamp is now off.\n"
+        (expect-enum 'get-user-input)
+        "{}"))
+
+(define-test 'transitive-off "dark"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-location (K debris)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of LAMP)))))))
+  (list "Your lamp is now off.\n"
+        "It is now pitch dark.  If you proceed you will most likely fall into a pit.\n"
+        (expect-enum 'get-user-input)
+        "{}"))
+
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
