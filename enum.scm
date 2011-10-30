@@ -95,6 +95,7 @@
              (let ((d (- (cadr lis) (car lis) 1)))
                (cond ((< d 0) (error "make-boolean-list: duplicated" enums))
                      ((= d 0) `(icons I ,e))
+                     ((= d 1) `((icons V) (icons I ,e)))
                      (else `(,(churchnum d) (icons V) (icons I ,e)))))))
        'V
        (cons -1 (sort (map lookup-enum enums))))))
