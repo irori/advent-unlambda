@@ -15,7 +15,7 @@
 (define (test-proc proc-id testname testcode expect)
   (let* ((unl (compile-to-string
 	      (list testcode 'initial-world
-		    (car (drop (reverse procedures) (lookup-enum proc-id))))))
+		    (car (drop program-table (lookup-enum proc-id))))))
 	 (process (run-process '(unlambda) :input :pipe :output :pipe))
          (expect-str (tree->string expect))
 	 (out (read-process-output process unl)))

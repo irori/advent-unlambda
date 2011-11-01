@@ -694,10 +694,11 @@
   `(lambda (world)
      (exit (print "'pitch-dark: not implemented\n"))))
 
+(define program-table
+  (map (lambda (x) (compile-to-string (if (undefined? x) 'V x)))
+       (reverse procedures)))
 
 (add-unl-macro!
- 'program-table '()
- `(list ,@(map (lambda (x) (compile-to-string (if (undefined? x) 'V x)))
-               (reverse procedures))))
+ 'program-table '() `(list ,@program-table))
 
 (defmacro initial-pc mainloop)
