@@ -17,7 +17,7 @@
 	      (list testcode 'initial-world
 		    (car (drop program-table (lookup-enum proc-id))))))
 	 (process (run-process '(unlambda) :input :pipe :output :pipe))
-         (expect-str (tree->string expect))
+         (expect-str (make-expected-string expect))
 	 (out (read-process-output process unl)))
     (if (string=? expect-str out)
         (begin
@@ -30,11 +30,22 @@
 	  (print "ACTUAL: " out)
 	  #f))))
 
-(define (expect-enum sym)
-  (list "{" (make-string (lookup-enum sym) #\*) "}"))
-
-(define (expect-bool b)
-  (list "{" (if b "t" "f") "}"))
+(define (make-expected-string lst)
+  (with-output-to-string
+    (lambda ()
+      (for-each
+       (lambda (x)
+	 (cond ((symbol? x)
+		(display #\{) (display (make-string (lookup-enum x) #\*)) (display #\}))
+	       ((number? x)
+		(display #\{) (display (make-string x #\*)) (display #\}))
+	       ((eq? #t x)
+		(display "{t}"))
+	       ((eq? #f x)
+		(display "{f}"))
+	       (else
+		(display x))))
+       lst))))
 
 (defmacro (print-stars n)
   (#\{ n #\* #\} I))
@@ -51,8 +62,8 @@
 	  (begin
 	    (print-stars cont)
 	    (print-stars $newloc))))))
-  (list (expect-enum 'commence)
-        (expect-enum 'like1)))
+  (list 'commence
+        'like1))
 
 (define-test 'commence "goto-death"
   '(lambda (world proc)
@@ -60,7 +71,7 @@
        ((proc world)
         (lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'death))
+  (list 'death))
 
 (define-test 'commence "pitch-dark-death"
   '(lambda (world proc)
@@ -70,7 +81,7 @@
        ((proc world)
         (lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'pitch-dark))
+  (list 'pitch-dark))
 
 (define-test 'commence "pitch-dark-msg"
   '(lambda (world proc)
@@ -79,7 +90,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "\nIt is now pitch dark.  If you proceed you will most likely fall into a pit.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'commence "longdesc"
   '(lambda (world proc)
@@ -88,7 +99,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "\nYou are inside a building, a well house for a large spring.\n"
-        (expect-enum 'describe-objects)))
+        'describe-objects))
 
 (define-test 'commence "shortdesc"
   '(lambda (world proc)
@@ -98,7 +109,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "\nYou're inside building.\n"
-        (expect-enum 'describe-objects)))
+        'describe-objects))
 
 (define-test 'commence "bear"
   '(lambda (world proc)
@@ -109,7 +120,7 @@
           (print-stars cont)))))
   (list "You are being followed by a very large, tame bear.\n"
         "\nYou are inside a building, a well house for a large spring.\n"
-        (expect-enum 'describe-objects)))
+        'describe-objects))
 
 (define-test 'commence "forced-move"
   '(lambda (world proc)
@@ -118,7 +129,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "\nThe crack is far too small for you to follow.\n"
-        (expect-enum 'try-move)))
+        'try-move))
 
 (define-test 'describe-objects "count-visits"
   '(lambda (world proc)
@@ -127,8 +138,8 @@
         (begin
           (print-stars (cons1-length (nth initial-location $visits)))
           (print-stars cont)))))
-  (list "{****}"
-        (expect-enum 'get-user-input)))
+  (list 4
+        'get-user-input))
 
 (define-test 'describe-objects "count-visits2"
   '(lambda (world proc)
@@ -138,8 +149,8 @@
           (begin
             (print-stars (cons1-length (nth initial-location $visits)))
             (print-stars cont))))))
-  (list "{*}"
-        (expect-enum 'get-user-input)))
+  (list 1
+        'get-user-input))
 
 (define-test 'describe-objects "describe"
   '(lambda (world proc)
@@ -152,7 +163,7 @@
         "There is a lamp shining nearby.\n"
         "There is food here.\n"
         "There is a bottle of water here.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'describe-objects "based"
   '(lambda (world proc)
@@ -161,7 +172,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "The grate is locked.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'describe-objects "treads-gold"
   '(lambda (world proc)
@@ -170,7 +181,7 @@
        ((proc world)
         (lambda (cont world)
           (print-stars cont)))))
-  (list (expect-enum 'get-user-input)))
+  (list 'get-user-input))
 
 (define-test 'describe-objects "treads-spit"
   '(lambda (world proc)
@@ -179,7 +190,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "Rough stone steps lead down the pit.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'describe-objects "treads-emist"
   '(lambda (world proc)
@@ -188,7 +199,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "Rough stone steps lead up the dome.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'describe-objects "treasure"
   '(lambda (world proc)
@@ -197,7 +208,7 @@
         (lambda (cont world)
           (print-stars ($prop-of COINS))))))
   (list "There are many coins here!\n"
-        "{}"))
+        0))
 
 (define-test 'describe-objects "rug"
   '(lambda (world proc)
@@ -207,7 +218,7 @@
           (print-stars ($prop-of RUG))))))
   (list "A huge green fierce dragon bars the way!\n"
         "The dragon is sprawled out on a Persian rug!!\n"
-        "{*}"))
+        1))
 
 (define-test 'describe-objects "chain"
   '(lambda (world proc)
@@ -217,7 +228,7 @@
           (print-stars ($prop-of CHAIN))))))
   (list "There is a ferocious cave bear eying you from the far end of the room!\n"
         "The bear is locked to the wall with a golden chain!\n"
-        "{*}"))
+        1))
 
 (define-test 'get-user-input ""
   '(lambda (world proc)
@@ -231,11 +242,11 @@
 	    (print-stars $oldverb)
 	    (print-stars $obj)
             (print-stars $oldobj))))))
-  (list (expect-enum 'cycle)
-        (expect-enum 'ABSTAIN)
-        (expect-enum 'ABSTAIN)
-        (expect-enum 'NOTHING)
-        (expect-enum 'LAMP)))
+  (list 'cycle
+        'ABSTAIN
+        'ABSTAIN
+        'NOTHING
+        'LAMP))
 
 (define-test 'pre-parse "increment-turns"
   '(lambda (world proc)
@@ -245,8 +256,8 @@
 	  (begin
 	    (print-stars cont)
 	    (print-stars (cons1-length $turns)))))))
-  (list (expect-enum 'clocks-and-lamp)
-        "{***}"))
+  (list 'clocks-and-lamp
+        3))
 
 (defmacro dummy-word (lambda (f) (f I I I)))
 
@@ -259,8 +270,8 @@
 	  (begin
 	    (print-stars cont)
 	    (print-stars $verb))))))
-  (list (expect-enum 'clocks-and-lamp)
-        (expect-enum 'ABSTAIN)))
+  (list 'clocks-and-lamp
+        'ABSTAIN))
 
 (define-test 'pre-parse "say-nothing"
   '(lambda (world proc)
@@ -271,8 +282,8 @@
 	  (begin
 	    (print-stars cont)
 	    (print-stars $verb))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'SAY)))
+  (list 'transitive
+        'SAY))
 
 (define-test 'check-the-lamp "lamp-off"
   '(lambda (world proc)
@@ -282,8 +293,8 @@
 	  (begin
 	    (print-stars cont)
             (print-stars (cons1-length $limit)))))))
-  (list (expect-enum 'handle-special-inputs)
-        "{**}"))
+  (list 'handle-special-inputs
+        2))
 
 (define-test 'check-the-lamp "lamp-on"
   '(lambda (world proc)
@@ -294,8 +305,8 @@
 	  (begin
 	    (print-stars cont)
             (print-stars (cons1-length $limit)))))))
-  (list (expect-enum 'handle-special-inputs)
-        "{*}"))
+  (list 'handle-special-inputs
+        1))
 
 (define-test 'check-the-lamp "lamp-extinguish"
   '(lambda (world proc)
@@ -310,9 +321,9 @@
             (print-stars (cons1-length $limit))
             )))))
   (list "Your lamp has run out of power.\n"
-        (expect-enum 'handle-special-inputs)
-        "{}"
-        "{}"
+        'handle-special-inputs
+        0
+        0
         ))
 
 (define-test 'check-the-lamp "replace-batteries"
@@ -330,10 +341,10 @@
             (print-stars (cons1-length $limit))
             )))))
   (list "Your lamp is getting dim.  I'm taking the liberty of replacing\nthe batteries.\n"
-        (expect-enum 'handle-special-inputs)
-        "{*}"
-        (expect-enum 'road)
-        "{" (make-string 2500 #\*) "}"
+        'handle-special-inputs
+        1
+        'road
+        2500
         ))
 
 (define-test 'check-the-lamp "giveup"
@@ -343,7 +354,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n"
-        (expect-enum 'give-up)))
+        'give-up))
 
 (define-test 'check-the-lamp "warn-lamp"
   '(lambda (world proc)
@@ -355,8 +366,8 @@
             (print-stars cont)
             (print-bool $not-warned))))))
   (list "Your lamp is getting dim.  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"
-        (expect-enum 'handle-special-inputs)
-        (expect-bool #f)))
+        'handle-special-inputs
+        #f))
 
 (define-test 'check-the-lamp "warn-lamp-out-of-batteries"
   '(lambda (world proc)
@@ -369,8 +380,8 @@
             (print-stars cont)
             (print-bool $not-warned))))))
   (list "Your lamp is getting dim, and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"
-        (expect-enum 'handle-special-inputs)
-        (expect-bool #f)))
+        'handle-special-inputs
+        #f))
 
 (define-test 'check-the-lamp "warn-lamp-batteries-left"
   '(lambda (world proc)
@@ -383,8 +394,8 @@
             (print-stars cont)
             (print-bool $not-warned))))))
   (list "Your lamp is getting dim.  You'd best go back for those batteries.\n"
-        (expect-enum 'handle-special-inputs)
-        (expect-bool #f)))
+        'handle-special-inputs
+        #f))
 
 (define-test 'handle-special-inputs "wet"
   '(lambda (world proc)
@@ -394,7 +405,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "Your feet are now wet.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'handle-special-inputs "not-wet"
   '(lambda (world proc)
@@ -404,7 +415,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "Where?\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'handle-special-inputs "enter-house"
   '(lambda (world proc)
@@ -412,7 +423,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'shift))
+  (list 'shift))
 
 (define-test 'handle-special-inputs "enter"
   '(lambda (world proc)
@@ -420,7 +431,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'parse-label))
+  (list 'parse-label))
 
 (define-test 'handle-special-inputs "water-plant"
   '(lambda (world proc)
@@ -432,9 +443,9 @@
             (print-stars cont)
             (print-bool (verb? (cdr $word12)))
             (print-stars (word-meaning (cdr $word12))))))))
-  (list (expect-enum 'parse-label)
-        (expect-bool #t)
-        (expect-enum 'POUR)))
+  (list 'parse-label
+        #t
+        'POUR))
 
 (define-test 'handle-special-inputs "normal"
   '(lambda (world proc)
@@ -445,9 +456,9 @@
             (print-stars cont)
             (print-bool (noun? (cdr $word12)))
             (print-stars (word-meaning (cdr $word12))))))))
-  (list (expect-enum 'parse-label)
-        (expect-bool #t)
-        (expect-enum 'PLANT)))
+  (list 'parse-label
+        #t
+        'PLANT))
 
 (define-test 'shift ""
   '(lambda (world proc)
@@ -459,10 +470,10 @@
             (print-bool (noun? (car $word12)))
             (print-stars (word-meaning (car $word12)))
             (print-bool (word? (cdr $word12))))))))
-  (list (expect-enum 'parse-label)
-        (expect-bool #t)
-        (expect-enum 'FOOD)
-        (expect-bool #f)))
+  (list 'parse-label
+        #t
+        'FOOD
+        #f))
 
 (define-test 'look-at-word1 "unknown-word"
   '(lambda (world proc)
@@ -471,7 +482,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I don't know that word.\n"
-        (expect-enum 'cycle)))
+        'cycle))
 
 (define-test 'look-at-word1 "motion"
   '(lambda (world proc)
@@ -481,8 +492,8 @@
           (begin
             (print-stars cont)
             (print-stars $mot))))))
-  (list (expect-enum 'try-move)
-        (expect-enum 'NE)))
+  (list 'try-move
+        'NE))
 
 (define-test 'look-at-word1 "object-here"
   '(lambda (world proc)
@@ -493,8 +504,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'handle-object-word)
-        (expect-enum 'LAMP)))
+  (list 'handle-object-word
+        'LAMP))
 
 (define-test 'look-at-word1 "second-object-here"
   '(lambda (world proc)
@@ -505,8 +516,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'handle-object-word)
-        (expect-enum 'GRATE)))
+  (list 'handle-object-word
+        'GRATE))
 
 (define-test 'look-at-word1 "object-not-here"
   '(lambda (world proc)
@@ -516,8 +527,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'check-object-location)
-        (expect-enum 'LAMP)))
+  (list 'check-object-location
+        'LAMP))
 
 (define-test 'look-at-word1 "verb-with-word2"
   '(lambda (world proc)
@@ -527,8 +538,8 @@
           (begin
             (print-stars cont)
             (print-stars $verb))))))
-  (list (expect-enum 'shift)
-        (expect-enum 'DROP)))
+  (list 'shift
+        'DROP))
 
 (define-test 'look-at-word1 "verb-transitive"
   '(lambda (world proc)
@@ -539,8 +550,8 @@
           (begin
             (print-stars cont)
             (print-stars $verb))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'DROP)))
+  (list 'transitive
+        'DROP))
 
 (define-test 'look-at-word1 "verb-intransitive"
   '(lambda (world proc)
@@ -551,8 +562,8 @@
           (begin
             (print-stars cont)
             (print-stars $verb))))))
-  (list (expect-enum 'intransitive)
-        (expect-enum 'DROP)))
+  (list 'intransitive
+        'DROP))
 
 (define-test 'look-at-word1 "message-word"
   '(lambda (world proc)
@@ -561,7 +572,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I'm as confused as you are.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'handle-object-word "shift"
   '(lambda (world proc)
@@ -569,7 +580,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'shift))
+  (list 'shift))
 
 (define-test 'handle-object-word "with-verb"
   '(lambda (world proc)
@@ -578,7 +589,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'transitive))
+  (list 'transitive))
 
 (defmacro (action-word-with-str meaning str)
   (lambda (f) (f (lambda (_ _ x _) x) meaning str)))
@@ -593,7 +604,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "What do you want to do with the lamp?\n"
-        (expect-enum 'cycle)))
+        'cycle))
 
 (define-test 'cant-see-it ""
   '(lambda (world proc)
@@ -602,7 +613,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I see no lamp here.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'cant-see-it "find"
   '(lambda (world proc)
@@ -611,7 +622,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'transitive))
+  (list 'transitive))
 
 (define-test 'try-move "go"
   '(lambda (world proc)
@@ -625,10 +636,10 @@
             (print-stars $newloc)
             (print-stars (car $oldlocs))
             (print-stars (cdr $oldlocs)))))))
-  (list (expect-enum 'go-for-it)
-        (expect-enum 'forest)
-        (expect-enum 'forest)
-        (expect-enum 'hill)))
+  (list 'go-for-it
+        'forest
+        'forest
+        'hill))
 
 (define-test 'try-move "nowhere"
   '(lambda (world proc)
@@ -639,8 +650,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'forest)))
+  (list 'mainloop
+        'forest))
 
 (define-test 'try-move "look"
   '(lambda (world proc)
@@ -655,9 +666,9 @@
             (print-bool $was-dark)
             (print-stars (cons1-length (nth forest $visits))))))))
   (list "Sorry, but I am not allowed to give more detail.  I will repeat the\nlong description of your location.\n"
-        (expect-enum 'mainloop)
-        (expect-bool #f)
-        "{}"))
+        'mainloop
+        #f
+        0))
 
 (define-test 'try-move "look-quiet"
   '(lambda (world proc)
@@ -672,9 +683,9 @@
             (print-stars cont)
             (print-bool $was-dark)
             (print-stars (cons1-length (nth forest $visits))))))))
-  (list (expect-enum 'mainloop)
-        (expect-bool #f)
-        "{}"))
+  (list 'mainloop
+        #f
+        0))
 
 (define-test 'try-move "cave"
   '(lambda (world proc)
@@ -684,7 +695,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I can't see where the cave is, but hereabouts no stream can run on\nthe surface for long.  I would try the stream.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'try-move "cave2"
   '(lambda (world proc)
@@ -694,7 +705,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I need more detailed instructions to do that.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "go"
   '(lambda (world proc)
@@ -705,8 +716,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'house)))
+  (list 'mainloop
+        'house))
 
 (define-test 'go-for-it "crawl"
   '(lambda (world proc)
@@ -716,7 +727,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "Which way?\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "xyzzy"
   '(lambda (world proc)
@@ -726,7 +737,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "Nothing happens.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "find"
   '(lambda (world proc)
@@ -737,7 +748,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I can only tell you what you see as you move about and manipulate\nthings.  I cannot tell you where remote things are.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "out"
   '(lambda (world proc)
@@ -747,7 +758,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I don't know in from out here.  Use compass points or name something\nin the general direction you want to go.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "right"
   '(lambda (world proc)
@@ -757,7 +768,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I am unsure how you are facing.  Use compass points or nearby objects.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "ne"
   '(lambda (world proc)
@@ -767,7 +778,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "There is no way to go in that direction.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "location-word"
   '(lambda (world proc)
@@ -777,7 +788,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I don't know how to apply that word here.\n"
-        (expect-enum 'mainloop)))
+        'mainloop))
 
 (define-test 'go-for-it "remark"
   '(lambda (world proc)
@@ -789,8 +800,8 @@
             (print-stars cont)
             (print-stars $newloc))))))
   (list "You don't fit through a two-inch slit!\n"
-        (expect-enum 'mainloop)
-        (expect-enum 'slit)))
+        'mainloop
+        'slit))
 
 (define-test 'go-for-it "random-pass"
   '(lambda (world proc)
@@ -802,8 +813,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'ante)))
+  (list 'mainloop
+        'ante))
 
 (define-test 'go-for-it "random-not-pass"
   '(lambda (world proc)
@@ -816,8 +827,8 @@
             (print-stars cont)
             (print-stars $newloc))))))
   (list "You have crawled around in some little holes and wound up back in the\nmain passage.\n"
-        (expect-enum 'mainloop)
-        (expect-enum 'witt)))
+        'mainloop
+        'witt))
 
 (define-test 'go-for-it "property-ok"
   '(lambda (world proc)
@@ -829,8 +840,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'inside)))
+  (list 'mainloop
+        'inside))
 
 (define-test 'go-for-it "property-ng"
   '(lambda (world proc)
@@ -842,8 +853,8 @@
             (print-stars cont)
             (print-stars $newloc))))))
   (list "You can't go through a locked steel grate!\n"
-        (expect-enum 'mainloop)
-        (expect-enum 'outside)))
+        'mainloop
+        'outside))
 
 (define-test 'go-for-it "holds-true"
   '(lambda (world proc)
@@ -856,8 +867,8 @@
             (print-stars cont)
             (print-stars $newloc))))))
   (list "You can't fit this five-foot clam through that little passage!\n"
-        (expect-enum 'mainloop)
-        (expect-enum 'shell)))
+        'mainloop
+        'shell))
 
 (define-test 'go-for-it "holds-false"
   '(lambda (world proc)
@@ -868,8 +879,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'complex)))
+  (list 'mainloop
+        'complex))
 
 (define-test 'go-for-it "ppass"
   '(lambda (world proc)
@@ -880,8 +891,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'proom)))
+  (list 'mainloop
+        'proom))
 
 (define-test 'go-for-it "ppass-proom"
   '(lambda (world proc)
@@ -893,8 +904,8 @@
           (begin
             (print-stars cont)
             (print-stars $newloc))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'alcove)))
+  (list 'mainloop
+        'alcove))
 
 (define-test 'go-for-it "ppass-fail"
   '(lambda (world proc)
@@ -907,8 +918,8 @@
             (print-stars cont)
             (print-stars $newloc))))))
   (list "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"
-        (expect-enum 'mainloop)
-        (expect-enum 'alcove)))
+        'mainloop
+        'alcove))
 
 (define-test 'go-for-it "pdrop"
   '(lambda (world proc)
@@ -921,9 +932,9 @@
             (print-stars cont)
             (print-stars $newloc)
             (print-stars (nth EMERALD $place)))))))
-  (list (expect-enum 'mainloop)
-        (expect-enum 'proom)
-        (expect-enum 'y2)))
+  (list 'mainloop
+        'proom
+        'y2))
 
 (define-test 'report-default ""
   '(lambda (world proc)
@@ -932,7 +943,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "You aren't carrying it!\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'get-object ""
   '(lambda (world proc)
@@ -941,7 +952,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "throw what?\n"
-        (expect-enum 'cycle)))
+        'cycle))
 
 (define-test 'intransitive-take "no-object"
   '(lambda (world proc)
@@ -949,7 +960,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'get-object))
+  (list 'get-object))
 
 (define-test 'intransitive-take "one-object"
   '(lambda (world proc)
@@ -959,8 +970,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'COINS)))
+  (list 'transitive
+        'COINS))
 
 (define-test 'intransitive-take "many-objects"
   '(lambda (world proc)
@@ -968,7 +979,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'get-object))
+  (list 'get-object))
 
 (define-test 'intransitive-eat "no-food"
   '(lambda (world proc)
@@ -976,7 +987,7 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'get-object))
+  (list 'get-object))
 
 (define-test 'intransitive-eat "food-here"
   '(lambda (world proc)
@@ -986,8 +997,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'FOOD)))
+  (list 'transitive
+        'FOOD))
 
 (define-test 'intransitive-open "grate"
   '(lambda (world proc)
@@ -997,8 +1008,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'GRATE)))
+  (list 'transitive
+        'GRATE))
 
 (define-test 'intransitive-open "chain"
   '(lambda (world proc)
@@ -1008,8 +1019,8 @@
           (begin
             (print-stars cont)
             (print-stars $obj))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'CHAIN)))
+  (list 'transitive
+        'CHAIN))
 
 (define-test 'intransitive-open "grate-chain"
   '(lambda (world proc)
@@ -1019,7 +1030,7 @@
 	(lambda (cont world)
           (begin
             (print-stars cont))))))
-  (list (expect-enum 'get-object)))
+  (list 'get-object))
 
 (define-test 'intransitive-open "nothing"
   '(lambda (world proc)
@@ -1028,7 +1039,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "There is nothing here with a lock!\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'intransitive-inventory "nothing"
   '(lambda (world proc)
@@ -1036,7 +1047,7 @@
       (lambda (cont world)
         (print-stars cont))))
   (list "You're not carrying anything.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'intransitive-inventory "objects"
   '(lambda (world proc)
@@ -1048,7 +1059,7 @@
   (list "You are currently holding the following:\n"
         " Set of keys\n"
         " Brass lantern\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'intransitive-inventory "bear"
   '(lambda (world proc)
@@ -1057,7 +1068,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "You are being followed by a very large, tame bear.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'intransitive-inventory "object-and-bear"
   '(lambda (world proc)
@@ -1069,7 +1080,7 @@
   (list "You are currently holding the following:\n"
         " Set of keys\n"
         "You are being followed by a very large, tame bear.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'intransitive-brief ""
   '(lambda (world proc)
@@ -1079,8 +1090,8 @@
           (print-stars cont)
           (print-stars (cons1-length $verbose))))))
   (list "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".\n"
-        (expect-enum 'get-user-input)
-        "{}"))
+        'get-user-input
+        0))
 
 (define-test 'transitive-eat "food"
   '(lambda (world proc)
@@ -1089,7 +1100,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "Thank you, it was delicious!\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-eat "snake"
   '(lambda (world proc)
@@ -1098,7 +1109,7 @@
 	(lambda (cont world)
           (print-stars cont)))))
   (list "I think I just lost my appetite.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-eat "other"
   '(lambda (world proc)
@@ -1106,14 +1117,14 @@
        ((proc world)
 	(lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'report-default))
+  (list 'report-default))
 
 (define-test 'transitive-on "no-lamp"
   '(lambda (world proc)
      ((proc world)
       (lambda (cont world)
         (print-stars cont))))
-  (expect-enum 'report-default))
+  (list 'report-default))
 
 (define-test 'transitive-on "out-of-power"
   '(lambda (world proc)
@@ -1125,8 +1136,8 @@
             (print-stars cont)
             (print-stars ($prop-of LAMP)))))))
   (list "Your lamp has run out of power.\n"
-        (expect-enum 'get-user-input)
-        "{}"))
+        'get-user-input
+        0))
 
 (define-test 'transitive-on "was-dark"
   '(lambda (world proc)
@@ -1138,8 +1149,8 @@
             (print-stars cont)
             (print-stars ($prop-of LAMP)))))))
   (list "Your lamp is now on.\n"
-        (expect-enum 'commence)
-        "{*}"))
+        'commence
+        1))
 
 (define-test 'transitive-on "not-was-dark"
   '(lambda (world proc)
@@ -1151,15 +1162,15 @@
             (print-stars cont)
             (print-stars ($prop-of LAMP)))))))
   (list "Your lamp is now on.\n"
-        (expect-enum 'get-user-input)
-        "{*}"))
+        'get-user-input
+        1))
 
 (define-test 'transitive-off "no-lamp"
   '(lambda (world proc)
      ((proc world)
       (lambda (cont world)
         (print-stars cont))))
-  (expect-enum 'report-default))
+  (list 'report-default))
 
 (define-test 'transitive-off "not-dark"
   '(lambda (world proc)
@@ -1170,8 +1181,8 @@
             (print-stars cont)
             (print-stars ($prop-of LAMP)))))))
   (list "Your lamp is now off.\n"
-        (expect-enum 'get-user-input)
-        "{}"))
+        'get-user-input
+        0))
 
 (define-test 'transitive-off "dark"
   '(lambda (world proc)
@@ -1184,8 +1195,8 @@
             (print-stars ($prop-of LAMP)))))))
   (list "Your lamp is now off.\n"
         "It is now pitch dark.  If you proceed you will most likely fall into a pit.\n"
-        (expect-enum 'get-user-input)
-        "{}"))
+        'get-user-input
+        0))
 
 (define-test 'transitive-take "carrying"
   '(lambda (world proc)
@@ -1194,7 +1205,7 @@
        ((proc world)
         (lambda (cont world)
           (print-stars cont)))))
-  (expect-enum 'report-default))
+  (list 'report-default))
 
 (define-test 'transitive-take "immovable"
   '(lambda (world proc)
@@ -1203,7 +1214,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "You can't be serious!\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-take "immovable-chain"
   '(lambda (world proc)
@@ -1213,7 +1224,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "The chain is still locked.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-take "immovable-bear"
   '(lambda (world proc)
@@ -1223,7 +1234,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "The bear is still chained to the wall.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-take "immovable-plant"
   '(lambda (world proc)
@@ -1232,7 +1243,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "The plant has exceptionally deep roots and cannot be pulled free.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-take "ok"
   '(lambda (world proc)
@@ -1243,8 +1254,8 @@
             (print-stars cont)
             (print-bool ($toting? LAMP)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #t)))
+        'get-user-input
+        #t))
 
 (define-test 'transitive-take "toomany"
   '(lambda (world proc)
@@ -1260,7 +1271,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "You can't carry anything more.  You'll have to drop something first.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-take "do-not-count-water-in-bottle"
   '(lambda (world proc)
@@ -1278,8 +1289,8 @@
             (print-stars cont)
             (print-bool ($toting? MAG)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #t)))
+        'get-user-input
+        #t))
 
 (define-test 'transitive-take "water-in-bottle"
   '(lambda (world proc)
@@ -1292,9 +1303,9 @@
             (print-stars $obj)
             (print-bool ($toting? BOTTLE)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-enum 'BOTTLE)
-        (expect-bool #t)))
+        'get-user-input
+        'BOTTLE
+        #t))
 
 (define-test 'transitive-take "change-to-fill"
   '(lambda (world proc)
@@ -1309,10 +1320,10 @@
             (print-stars $obj)
             (print-stars $verb)
             (print-stars $oldverb))))))
-  (list (expect-enum 'transitive)
-        (expect-enum 'BOTTLE)
-        (expect-enum 'FILL)
-        (expect-enum 'TAKE)))
+  (list 'transitive
+        'BOTTLE
+        'FILL
+        'TAKE))
 
 (define-test 'transitive-take "no-bottle"
   '(lambda (world proc)
@@ -1321,7 +1332,7 @@
         (lambda (cont world)
           (print-stars cont)))))
   (list "You have nothing in which to carry it.\n"
-        (expect-enum 'get-user-input)))
+        'get-user-input))
 
 (define-test 'transitive-take "liquid-in-bottle"
   '(lambda (world proc)
@@ -1334,9 +1345,9 @@
             (print-bool ($toting? BOTTLE))
             (print-bool ($toting? WATER)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #t)
-        (expect-bool #t)))
+        'get-user-input
+        #t
+        #t))
 
 (define-test 'transitive-take "bird"
   '(lambda (world proc)
@@ -1349,9 +1360,9 @@
             (print-bool ($toting? BIRD))
             (print-stars ($prop-of BIRD)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #t)
-        "{*}"))
+        'get-user-input
+        #t
+        1))
 
 (define-test 'transitive-take "bird-without-cage"
   '(lambda (world proc)
@@ -1363,9 +1374,9 @@
             (print-bool ($toting? BIRD))
             (print-stars ($prop-of BIRD)))))))
   (list "You can catch the bird, but you cannot carry it.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #f)
-        "{}"))
+        'get-user-input
+        #f
+        0))
 
 (define-test 'transitive-take "bird-with-rod"
   '(lambda (world proc)
@@ -1378,9 +1389,9 @@
             (print-bool ($toting? BIRD))
             (print-stars ($prop-of BIRD)))))))
   (list "The bird was unafraid when you entered, but as you approach it becomes\ndisturbed and you cannot catch it.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #f)
-        "{}"))
+        'get-user-input
+        #f
+        0))
 
 (define-test 'transitive-take "bird-in-cage"
   '(lambda (world proc)
@@ -1393,9 +1404,9 @@
             (print-bool ($toting? BIRD))
             (print-bool ($toting? CAGE)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #t)
-        (expect-bool #t)))
+        'get-user-input
+        #t
+        #t))
 
 (define-test 'transitive-take "cage-with-bird"
   '(lambda (world proc)
@@ -1408,9 +1419,9 @@
             (print-bool ($toting? BIRD))
             (print-bool ($toting? CAGE)))))))
   (list "OK.\n"
-        (expect-enum 'get-user-input)
-        (expect-bool #t)
-        (expect-bool #t)))
+        'get-user-input
+        #t
+        #t))
 
 
 (define (main args)
