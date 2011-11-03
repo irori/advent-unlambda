@@ -35,7 +35,8 @@
      (let-world (($set-newloc (K $location)))
        (cond ((= $mot NOWHERE)
 	      ($goto mainloop))
-             ; TODO: handle BACK
+             ((= $mot BACK)
+              ($goto go-back))
 	     ((= $mot LOOK)
 	      (goto mainloop (handle-look world)))
              ((= $mot CAVE)
@@ -795,6 +796,22 @@
 
 (defmacro ppass-msg
   (string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"))
+
+; 143 Try to go back
+(define-proc 'go-back
+  '(lambda (world)
+     ($oldlocs
+      (lambda (oldloc oldoldloc)
+        (let ((l (if (forced-move? oldloc) oldoldloc oldloc))
+              (world ($set-oldlocs (lambda (p) (cons $location (car p))))))
+          (if (= l $location)
+              ((string "Sorry, but I no longer seem to remember how you got here.\n")
+               ($goto mainloop))
+              (let ((m ((nth $location back-table) l)))
+                (if (m I I)
+                    (goto go-for-it ($set-mot (K m)))
+                    ((string "You can't get there from here.\n")
+                     ($goto mainloop))))))))))
 
 ; 146 Determine the next location, newloc
 (define-proc 'go-for-it
