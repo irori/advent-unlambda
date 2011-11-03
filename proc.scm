@@ -390,7 +390,7 @@
                 (lst $objects-here))
        (if (null? lst)
            (goto get-user-input (increment-visits world))
-           (let* ((bas (nth (car lst) $base))
+           (let* ((bas ($base-of (car lst)))
                   (tt (if (zero? bas) (car lst) bas)))
              (let-world ((if (($prop-of tt) I I)  ; TODO: check !closed
                              world
@@ -505,7 +505,7 @@
         (begin
           (($toting? $obj)  ; already carrying it
            ret ($goto report-default))
-          ((nonzero? (nth $obj $base))  ; it is immovable
+          ((nonzero? ($base-of $obj))  ; it is immovable
            (immovable-msg world) #\newline
            ret ($goto get-user-input))
           (let-world ((take-liquid world ret))
@@ -607,7 +607,9 @@
              ((and (= $obj BEAR) ($at-loc? TROLL))
               (drop-bear world))
              ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
-              (drop-cage world))
+              (let-world (($drop BIRD $location)
+                          ($drop CAGE $location))
+                ($report (string "OK."))))
              (else
               (let-world ((drop-liquid world)
                           ($drop $obj $location))
@@ -656,31 +658,105 @@
                   ($drop VASE $location))
         ($report (nth (if pillow-here c1 c3) (nth VASE $note)))))))
 
-(defmacro drop-cage
-  (lambda (world)
-    (let-world (($drop BIRD $location)
-                ($drop CAGE $location))
-      ($report (string "OK.")))))
-
-(defmacro open-close-grate
-  (lambda (world)
-    ((nth (+ ($prop-of GRATE) (if (= $verb OPEN) c2 c0))
-	  (list (string "It was already locked.")
-		(string "The grate is now locked.")
-		(string "The grate is now unlocked.")
-		(string "It was already unlocked.")))
-     #\newline
-     ($set-prop-of GRATE (K (if (= $verb OPEN) c1 c0))))))
-
-; 130 case OPEN: calse CLOSE:
+; 130 case OPEN: case CLOSE:
 (define-proc 'transitive-open
   '(lambda (world)
-     (if (= $obj GRATE)
-         (if ($here? KEYS)
-             (goto get-user-input (open-close-grate world))
-             ((string "You have no keys!\n")
-              ($goto get-user-input)))
-         ($goto report-default))))
+     (cond ((or (= $obj OYSTER) (= $obj CLAM))
+            (open-close-clam-oyster world))
+           ((= $obj GRATE)
+            (open-close-grate world))
+           ((= $obj CHAIN)
+            (open-close-chain world))
+           ((= $obj KEYS)
+            ($report (string "You can't lock or unlock the keys.")))
+           ((= $obj CAGE)
+            ($report (string "It has no lock.")))
+           ((= $obj DOOR)
+            ($report (ifnonzero ($prop-of DOOR) (string "OK.")
+                                (string "The door is extremely rusty and refuses to open."))))
+           (else
+            ($goto report-default)))))
+
+; 131 Open/close grate
+(defmacro open-close-grate
+  (lambda (world)
+    (if ($here? KEYS)
+        ; TODO: panic at closing time
+        ((nth (+ ($prop-of GRATE) (if (= $verb OPEN) c2 c0))
+              (list (string "It was already locked.")
+                    (string "The grate is now locked.")
+                    (string "The grate is now unlocked.")
+                    (string "It was already unlocked.")))
+         #\newline
+         (goto get-user-input
+               ($set-prop-of GRATE (K (if (= $verb OPEN) c1 c0)))))
+        ($report (string "You have no keys!")))))
+
+; 132 Close chain
+(defmacro close-chain
+  (lambda (world)
+    (cond ((not (= $location barr))
+           ($report (string "There is nothing here to which the chain can be locked.")))
+          ((nonzero? ($prop-of CHAIN))
+           ($report (string "It was already locked.")))
+          (else
+           (let-world (($set-prop-of CHAIN (K c2))
+                       ($set-base-of CHAIN (K CHAIN))
+                       (if ($toting? CHAIN) ($drop CHAIN $location) world))
+             ($report (string "The chain is now locked.")))))))
+
+; 133 Open chain
+(defmacro open-chain
+  (lambda (world)
+    (cond ((zero? ($prop-of CHAIN))
+           ($report (string "It was already unlocked.")))
+          ((zero? ($prop-of BEAR))
+           ($report (string "There is no way to get past the bear to unlock the chain, which is\nprobably just as well.")))
+          (else
+           (let-world (($set-prop-of CHAIN (K c0))
+                       ($set-base-of CHAIN (K NOTHING))
+                       (if (= ($prop-of BEAR) c3)
+                           ($set-base-of BEAR (K BEAR))
+                           (set-prop-of BEAR (K c2)
+                                        ($set-base-of BEAR (K NOTHING)))))
+             ($report (string "The chain is now unlocked.")))))))
+
+; Open/close chain
+(defmacro open-close-chain
+  (lambda (world)
+    (if ($here? KEYS)
+        (if (= $verb OPEN)
+            (open-chain world)
+            (close-chain world))
+        ($report (string "You have no keys!")))))
+
+(defmacro $clam-oyster
+  (if (= $obj CLAM) (string "clam") (string "oyster")))
+
+; 134 Open/close clam/oyster
+(defmacro open-close-clam-oyster
+  (lambda (world)
+    (cond ((= $verb CLOSE)
+           ($report (string "What?")))
+          ((not ($toting? TRIDENT))
+           ((string "You don't have anything strong enough to open the ")
+            $clam-oyster
+            (string ".\n")
+            ($goto get-user-input)))
+          (($toting? $obj)
+           ((string "I advise you to put down the ")
+            $clam-oyster
+            (string " before opening it.  >")
+            (if (= $obj CLAM) (string "STRAIN") (string "WRENCH"))
+            (string "!<\n")
+            ($goto get-user-input)))
+          ((= $obj CLAM)
+           (let-world (($destroy CLAM)
+                       ($drop OYSTER $location)
+                       ($drop PEARL sac))
+             ($report (string "A glistening pearl falls out of the clam and rolls away.  Goodness,\nthis must really be an oyster.  (I never was very good at identifying\nbivalves.)  Whatever it is, it has now snapped shut again."))))
+          (else
+           ($report (string "The oyster creaks open, revealing nothing but oyster inside.\nIt promptly snaps shut again."))))))
 
 (defmacro ppass-msg
   (string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"))

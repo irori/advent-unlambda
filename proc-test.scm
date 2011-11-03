@@ -1522,7 +1522,7 @@
             (print-stars cont)
             (print-stars ($place-of VASE))
             (print-stars ($prop-of VASE))
-            (print-stars (nth VASE $base)))))))
+            (print-stars ($base-of VASE)))))))
   (list "The Ming vase drops with a delicate crash.\n"
         'get-user-input
         'road
@@ -1540,7 +1540,7 @@
             (print-stars cont)
             (print-stars ($place-of VASE))
             (print-stars ($prop-of VASE))
-            (print-stars (nth VASE $base)))))))
+            (print-stars ($base-of VASE)))))))
   (list "The vase is now resting, delicately, on a velvet pillow.\n"
         'get-user-input
         'road
@@ -1620,6 +1620,326 @@
         'get-user-input
         'road
         'road))
+
+(define-test 'transitive-open "default"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K LAMP)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list 'report-default))
+
+(define-test 'transitive-open "keys"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K KEYS)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You can't lock or unlock the keys.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "cage"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K CAGE)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "It has no lock.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "door-ok"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K DOOR))
+                 ($set-prop-of DOOR (K c1)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "OK.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "door-fail"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K DOOR))
+                 ($set-prop-of DOOR (K c0)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "The door is extremely rusty and refuses to open.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-grate-without-keys"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K GRATE)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You have no keys!\n"
+        'get-user-input))
+
+(define-test 'transitive-open "close-locked-grate"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of GRATE (K c0))
+                 ($set-verb (K CLOSE))
+                 ($set-obj (K GRATE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of GRATE)))))))
+  (list "It was already locked.\n"
+        'get-user-input
+        0))
+
+(define-test 'transitive-open "close-unlocked-grate"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of GRATE (K c1))
+                 ($set-verb (K CLOSE))
+                 ($set-obj (K GRATE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of GRATE)))))))
+  (list "The grate is now locked.\n"
+        'get-user-input
+        0))
+
+(define-test 'transitive-open "open-locked-grate"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of GRATE (K c0))
+                 ($set-verb (K OPEN))
+                 ($set-obj (K GRATE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of GRATE)))))))
+  (list "The grate is now unlocked.\n"
+        'get-user-input
+        1))
+
+(define-test 'transitive-open "open-unlocked-grate"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of GRATE (K c1))
+                 ($set-verb (K OPEN))
+                 ($set-obj (K GRATE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of GRATE)))))))
+  (list "It was already unlocked.\n"
+        'get-user-input
+        1))
+
+(define-test 'transitive-open "open-chain-without-keys"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You have no keys!\n"
+        'get-user-input))
+
+(define-test 'transitive-open "close-chain-outside-barr"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-verb (K CLOSE))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "There is nothing here to which the chain can be locked.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "close-locked-chain"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-location (K barr))
+                 ($set-prop-of CHAIN (K c2))
+                 ($set-verb (K CLOSE))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "It was already locked.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "close-chain"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-location (K barr))
+                 ($set-prop-of CHAIN (K c0))
+                 ($set-base-of CHAIN (K NOTHING))
+                 ($carry CHAIN)
+                 ($set-verb (K CLOSE))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of CHAIN))
+            (print-stars ($base-of CHAIN))
+            (print-stars ($place-of CHAIN)))))))
+  (list "The chain is now locked.\n"
+        'get-user-input
+        2
+        'CHAIN
+        'barr))
+
+(define-test 'transitive-open "open-unlocked-chain"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of CHAIN (K c0))
+                 ($set-verb (K OPEN))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "It was already unlocked.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-chain-bear"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of CHAIN (K c1))
+                 ($set-prop-of BEAR (K c0))
+                 ($set-verb (K OPEN))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "There is no way to get past the bear to unlock the chain, which is\nprobably just as well.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-chain"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of CHAIN (K c1))
+                 ($set-prop-of BEAR (K c1))
+                 ($set-verb (K OPEN))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of CHAIN))
+            (print-stars ($base-of CHAIN))
+            (print-stars ($prop-of BEAR))
+            (print-stars ($base-of BEAR)))))))
+  (list "The chain is now unlocked.\n"
+        'get-user-input
+        0
+        'NOTHING
+        2
+        'NOTHING))
+
+(define-test 'transitive-open "open-chain-bear-dead"
+  '(lambda (world proc)
+     (let-world (($carry KEYS)
+                 ($set-prop-of CHAIN (K c2))
+                 ($set-prop-of BEAR (K c3))
+                 ($set-verb (K OPEN))
+                 ($set-obj (K CHAIN)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($prop-of CHAIN))
+            (print-stars ($base-of CHAIN))
+            (print-stars ($prop-of BEAR))
+            (print-stars ($base-of BEAR)))))))
+  (list "The chain is now unlocked.\n"
+        'get-user-input
+        0
+        'NOTHING
+        3
+        'BEAR))
+
+(define-test 'transitive-open "close-clam"
+  '(lambda (world proc)
+     (let-world (($set-verb (K CLOSE))
+                 ($set-obj (K CLAM)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "What?\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-clam-without-trident"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K CLAM)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "You don't have anything strong enough to open the clam.\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-clam-in-hand"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K CLAM))
+                 ($carry TRIDENT)
+                 ($carry CLAM))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "I advise you to put down the clam before opening it.  >STRAIN!<\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-oyster-in-hand"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K OYSTER))
+                 ($carry TRIDENT)
+                 ($carry OYSTER))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "I advise you to put down the oyster before opening it.  >WRENCH!<\n"
+        'get-user-input))
+
+(define-test 'transitive-open "open-clam"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K CLAM))
+                 ($carry TRIDENT))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars ($place-of CLAM))
+            (print-stars ($place-of OYSTER))
+            (print-stars ($place-of PEARL)))))))
+  (list "A glistening pearl falls out of the clam and rolls away.  Goodness,\nthis must really be an oyster.  (I never was very good at identifying\nbivalves.)  Whatever it is, it has now snapped shut again.\n"
+        'get-user-input
+        'limbo
+        'road
+        'sac))
+
+(define-test 'transitive-open "open-oyster"
+  '(lambda (world proc)
+     (let-world (($set-verb (K OPEN))
+                 ($set-obj (K OYSTER))
+                 ($carry TRIDENT))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list "The oyster creaks open, revealing nothing but oyster inside.\nIt promptly snaps shut again.\n"
+        'get-user-input))
+
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
