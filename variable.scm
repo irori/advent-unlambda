@@ -96,6 +96,9 @@
 (defmacro ($set-nth setter n modifier)
   (set-nth world setter n modifier))
 
+(defmacro ($place-of obj)
+  (nth obj (place world)))
+
 (defmacro ($prop-of obj)
   (nth obj (prop world)))
 

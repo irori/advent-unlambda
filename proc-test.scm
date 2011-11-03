@@ -337,7 +337,7 @@
 	  (begin
 	    (print-stars cont)
             (print-stars ($prop-of BATTERIES))
-            (print-stars (nth BATTERIES $place))
+            (print-stars ($place-of BATTERIES))
             (print-stars (cons1-length $limit))
             )))))
   (list "Your lamp is getting dim.  I'm taking the liberty of replacing\nthe batteries.\n"
@@ -931,7 +931,7 @@
           (begin
             (print-stars cont)
             (print-stars $newloc)
-            (print-stars (nth EMERALD $place)))))))
+            (print-stars ($place-of EMERALD)))))))
   (list 'mainloop
         'proom
         'y2))
@@ -1431,7 +1431,7 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth LAMP $place)))))))
+            (print-stars ($place-of LAMP)))))))
   (list "OK.\n"
         'get-user-input
         'road))
@@ -1452,7 +1452,7 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth ROD2 $place)))))))
+            (print-stars ($place-of ROD2)))))))
   (list "OK.\n"
         'get-user-input
         'road))
@@ -1466,8 +1466,8 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth COINS $place))
-            (print-stars (nth BATTERIES $place))
+            (print-stars ($place-of COINS))
+            (print-stars ($place-of BATTERIES))
             (print-stars ($prop-of BATTERIES)))))))
   (list "There are fresh batteries here.\n"
         'get-user-input
@@ -1484,7 +1484,7 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth BIRD $place))
+            (print-stars ($place-of BIRD))
             (print-stars ($prop-of BIRD)))))))
   (list "OK.\n"
         'get-user-input
@@ -1501,9 +1501,9 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth BIRD $place))
+            (print-stars ($place-of BIRD))
             (print-stars ($prop-of BIRD))
-            (print-stars (nth SNAKE $place))
+            (print-stars ($place-of SNAKE))
             (print-stars ($prop-of SNAKE)))))))
   (list "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n"
         'get-user-input
@@ -1520,7 +1520,7 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth VASE $place))
+            (print-stars ($place-of VASE))
             (print-stars ($prop-of VASE))
             (print-stars (nth VASE $base)))))))
   (list "The Ming vase drops with a delicate crash.\n"
@@ -1538,7 +1538,7 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth VASE $place))
+            (print-stars ($place-of VASE))
             (print-stars ($prop-of VASE))
             (print-stars (nth VASE $base)))))))
   (list "The vase is now resting, delicately, on a velvet pillow.\n"
@@ -1556,11 +1556,11 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth BEAR $place))
-            (print-stars (nth TROLL $place))
-            (print-stars (nth TROLL_ $place))
-            (print-stars (nth TROLL2 $place))
-            (print-stars (nth TROLL2_ $place))
+            (print-stars ($place-of BEAR))
+            (print-stars ($place-of TROLL))
+            (print-stars ($place-of TROLL_))
+            (print-stars ($place-of TROLL2))
+            (print-stars ($place-of TROLL2_))
             (print-stars ($prop-of TROLL)))))))
   (list "The bear lumbers toward the troll, who lets out a startled shriek and\nscurries away.  The bear soon gives up the pursuit and wanders back.\n"
         'get-user-input
@@ -1580,8 +1580,8 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth BOTTLE $place))
-            (print-stars (nth WATER $place)))))))
+            (print-stars ($place-of BOTTLE))
+            (print-stars ($place-of WATER)))))))
   (list "OK.\n"
         'get-user-input
         'road
@@ -1597,8 +1597,8 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth BOTTLE $place))
-            (print-stars (nth OIL $place)))))))
+            (print-stars ($place-of BOTTLE))
+            (print-stars ($place-of OIL)))))))
   (list "OK.\n"
         'get-user-input
         'road
@@ -1614,8 +1614,8 @@
         (lambda (cont world)
           (begin
             (print-stars cont)
-            (print-stars (nth CAGE $place))
-            (print-stars (nth BIRD $place)))))))
+            (print-stars ($place-of CAGE))
+            (print-stars ($place-of BIRD)))))))
   (list "OK.\n"
         'get-user-input
         'road

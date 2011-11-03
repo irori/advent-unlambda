@@ -117,7 +117,7 @@
                 ((string "Your lamp is getting dim")
                  (cond ((nonzero? ($prop-of BATTERIES))
                         (string ", and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"))
-                       ((zero? (nth BATTERIES $place))
+                       ((zero? ($place-of BATTERIES))
                         (string ".  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"))
                        (else
                         (string ".  You'd best go back for those batteries.\n")))
@@ -152,7 +152,7 @@
                     (noun? word2)
                     (or (= (word-meaning word2) PLANT)
                         (= (word-meaning word2) DOOR))
-                    (= $location (nth (word-meaning word2) $place)))
+                    (= $location ($place-of (word-meaning word2))))
                (goto parse-label
                      ($set-word12 (lambda (old)
                                     (cons (car old) (action-word POUR))))))
@@ -421,10 +421,10 @@
 ; 93 case OPEN: case CLOSE:
 (define-proc 'intransitive-open
   '(lambda (world)
-     (let ((object (cond ((or (= (nth GRATE $place) $location)
-                              (= (nth GRATE_ $place) $location))
+     (let ((object (cond ((or (= ($place-of GRATE) $location)
+                              (= ($place-of GRATE_) $location))
                           GRATE)
-                         ((= (nth DOOR $place) $location) DOOR)
+                         ((= ($place-of DOOR) $location) DOOR)
                          (($here? CLAM) CLAM)
                          (($here? OYSTER) OYSTER)
                          (else V))))
@@ -650,7 +650,7 @@
 ; 121 Check special cases for dropping the vase
 (defmacro drop-vase
   (lambda (world)
-    (let ((pillow-here (= (nth PILLOW $place) $location)))
+    (let ((pillow-here (= ($place-of PILLOW) $location)))
       (let-world (($set-prop-of VASE (K (if pillow-here c0 c2)))
                   (if pillow-here world ($set-base-of VASE (K VASE)))
                   ($drop VASE $location))
