@@ -1423,6 +1423,203 @@
         #t
         #t))
 
+(define-test 'transitive-drop "ok"
+  '(lambda (world proc)
+     (let-world (($carry LAMP)
+                 ($set-obj (K LAMP)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth LAMP $place)))))))
+  (list "OK.\n"
+        'get-user-input
+        'road))
+
+(define-test 'transitive-drop "not-toting"
+  '(lambda (world proc)
+     (let-world (($set-obj (K LAMP)))
+       ((proc world)
+        (lambda (cont world)
+          (print-stars cont)))))
+  (list 'report-default))
+
+(define-test 'transitive-drop "rod2"
+  '(lambda (world proc)
+     (let-world (($carry ROD2)
+                 ($set-obj (K ROD)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth ROD2 $place)))))))
+  (list "OK.\n"
+        'get-user-input
+        'road))
+
+(define-test 'transitive-drop "drop-coins"
+  '(lambda (world proc)
+     (let-world (($set-location (K pony))
+                 ($carry COINS)
+                 ($set-obj (K COINS)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth COINS $place))
+            (print-stars (nth BATTERIES $place))
+            (print-stars ($prop-of BATTERIES)))))))
+  (list "There are fresh batteries here.\n"
+        'get-user-input
+        'limbo
+        'pony
+        0))
+
+(define-test 'transitive-drop "drop-bird"
+  '(lambda (world proc)
+     (let-world (($carry BIRD)
+                 ($set-obj (K BIRD))
+                 ($set-prop-of BIRD (K c1)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth BIRD $place))
+            (print-stars ($prop-of BIRD)))))))
+  (list "OK.\n"
+        'get-user-input
+        'road
+        0))
+
+(define-test 'transitive-drop "drop-bird-at-snake"
+  '(lambda (world proc)
+     (let-world (($carry BIRD)
+                 ($set-obj (K BIRD))
+                 ($set-prop-of BIRD (K c1))
+                 ($set-location (K hmk)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth BIRD $place))
+            (print-stars ($prop-of BIRD))
+            (print-stars (nth SNAKE $place))
+            (print-stars ($prop-of SNAKE)))))))
+  (list "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n"
+        'get-user-input
+        'hmk
+        0
+        'limbo
+        1))
+
+(define-test 'transitive-drop "drop-vase"
+  '(lambda (world proc)
+     (let-world (($carry VASE)
+                 ($set-obj (K VASE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth VASE $place))
+            (print-stars ($prop-of VASE))
+            (print-stars (nth VASE $base)))))))
+  (list "The Ming vase drops with a delicate crash.\n"
+        'get-user-input
+        'road
+        2
+        'VASE))
+
+(define-test 'transitive-drop "drop-vase-on-pillow"
+  '(lambda (world proc)
+     (let-world (($carry VASE)
+                 ($set-obj (K VASE))
+                 ($drop PILLOW road))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth VASE $place))
+            (print-stars ($prop-of VASE))
+            (print-stars (nth VASE $base)))))))
+  (list "The vase is now resting, delicately, on a velvet pillow.\n"
+        'get-user-input
+        'road
+        0
+        'NOTHING))
+
+(define-test 'transitive-drop "drop-bear"
+  '(lambda (world proc)
+     (let-world (($carry BEAR)
+                 ($set-obj (K BEAR))
+                 ($set-location (K neside)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth BEAR $place))
+            (print-stars (nth TROLL $place))
+            (print-stars (nth TROLL_ $place))
+            (print-stars (nth TROLL2 $place))
+            (print-stars (nth TROLL2_ $place))
+            (print-stars ($prop-of TROLL)))))))
+  (list "The bear lumbers toward the troll, who lets out a startled shriek and\nscurries away.  The bear soon gives up the pursuit and wanders back.\n"
+        'get-user-input
+        'neside
+        'limbo
+        'limbo
+        'swside
+        'neside
+        2))
+
+(define-test 'transitive-drop "drop-water-in-bottle"
+  '(lambda (world proc)
+     (let-world (($carry BOTTLE)
+                 ($carry WATER)
+                 ($set-obj (K WATER)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth BOTTLE $place))
+            (print-stars (nth WATER $place)))))))
+  (list "OK.\n"
+        'get-user-input
+        'road
+        'limbo))
+
+(define-test 'transitive-drop "drop-oil-in-bottle"
+  '(lambda (world proc)
+     (let-world (($carry BOTTLE)
+                 ($set-prop-of BOTTLE (K c2))
+                 ($carry OIL)
+                 ($set-obj (K BOTTLE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth BOTTLE $place))
+            (print-stars (nth OIL $place)))))))
+  (list "OK.\n"
+        'get-user-input
+        'road
+        'limbo))
+
+(define-test 'transitive-drop "cage-with-bird"
+  '(lambda (world proc)
+     (let-world (($carry CAGE)
+                 ($carry BIRD)
+                 ($set-prop-of BIRD (K c1))
+                 ($set-obj (K CAGE)))
+       ((proc world)
+        (lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars (nth CAGE $place))
+            (print-stars (nth BIRD $place)))))))
+  (list "OK.\n"
+        'get-user-input
+        'road
+        'road))
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))

@@ -101,3 +101,6 @@
 
 (defmacro ($set-prop-of obj modifier)
   (set-nth world set-prop obj modifier))
+
+(defmacro ($set-base-of obj modifier)
+  (set-nth world set-base obj modifier))

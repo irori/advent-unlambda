@@ -582,40 +582,85 @@
 	       ret ($goto get-user-input))))
 	world)))
 
+; 115 Check special cases for dropping a liquid
+(defmacro drop-liquid
+  (lambda (world)
+    (let-world ((if $object-in-bottle ($set-obj (K BOTTLE)) world))
+      (if (and (= $obj BOTTLE) (not $bottle-empty))
+          ($drop (ifnonzero ($prop-of BOTTLE) OIL WATER) limbo)
+          world))))
+
 ; 117 case DROP:
 (define-proc 'transitive-drop
   '(lambda (world)
-     (call/cc
-      (lambda (ret)
-        (begin
-          ((not ($toting? $obj))
-           ret ($goto report-default))
-          ((= $obj BIRD)
-           try-drop-bird world ret)
-          (let-world ((drop-cage-bird world)
-		      ($drop $obj $location))
-            (begin
-              (print "OK.\n")
-              ($goto get-user-input))))))))
+     (let-world ((if (and (= $obj ROD) ($toting? ROD2) (not ($toting? ROD)))
+                     ($set-obj (K ROD2))
+                     world))
+       (cond ((not ($toting? $obj))
+              ($goto report-default))
+             ((and (= $obj COINS) ($here? PONY))
+              (drop-coins world))
+             ((= $obj BIRD)
+              (drop-bird world))
+             ((and (= $obj VASE) (not (= $location soft)))
+              (drop-vase world))
+             ((and (= $obj BEAR) ($at-loc? TROLL))
+              (drop-bear world))
+             ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
+              (drop-cage world))
+             (else
+              (let-world ((drop-liquid world)
+                          ($drop $obj $location))
+                ($report (string "OK."))))))))
+
+; 118 Put coins in the vending machine
+(defmacro drop-coins
+  (lambda (world)
+    (let-world (($destroy COINS)
+                ($drop BATTERIES $location)
+                ($set-prop-of BATTERIES (K c0)))
+      ($report (car (nth BATTERIES $note))))))
+
+; 119 Chase the troll away
+(defmacro drop-bear
+  (lambda (world)
+    (let-world (($destroy TROLL)
+                ($destroy TROLL_)
+                ($drop TROLL2 swside)
+                ($drop TROLL2_ neside)
+                ($set-prop-of TROLL (K c2))
+                ($drop BEAR $location))
+      ($report (string "The bear lumbers toward the troll, who lets out a startled shriek and\nscurries away.  The bear soon gives up the pursuit and wanders back.")))))
 
 ; 120 Check special cases for dropping the bird
-(defmacro try-drop-bird
-  (lambda (world ret)
+(defmacro drop-bird
+  (lambda (world)
     (if ($here? SNAKE)
 	(let-world (($destroy SNAKE)
 		    ($set-prop-of SNAKE (K c1))
-		    ($set-prop-of BIRD (K c0)))
-	  ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
-	   ret (goto get-user-input ($drop BIRD $location))))
-	I)))  ; TODO: handle dragon case
+                    ; TODO: if (closed) goto dwarves_upset;
+		    ($set-prop-of BIRD (K c0))
+                    ($drop BIRD $location))
+	  ($report (string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.")))
+        ; TODO: handle dragon case
+        (let-world (($set-prop-of BIRD (K c0))
+                    ($drop BIRD $location))
+          ($report (string "OK."))))))
 
-(defmacro drop-cage-bird
+; 121 Check special cases for dropping the vase
+(defmacro drop-vase
   (lambda (world)
-    (cond ((= $obj BIRD)
-	   ($set-prop-of BIRD (K c0)))
-	  ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
-	   ($drop BIRD $location))
-	  (else world))))
+    (let ((pillow-here (= (nth PILLOW $place) $location)))
+      (let-world (($set-prop-of VASE (K (if pillow-here c0 c2)))
+                  (if pillow-here world ($set-base-of VASE (K VASE)))
+                  ($drop VASE $location))
+        ($report (nth (if pillow-here c1 c3) (nth VASE $note)))))))
+
+(defmacro drop-cage
+  (lambda (world)
+    (let-world (($drop BIRD $location)
+                ($drop CAGE $location))
+      ($report (string "OK.")))))
 
 (defmacro open-close-grate
   (lambda (world)
