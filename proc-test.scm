@@ -954,6 +954,80 @@
   (list "throw what?\n"
         'cycle))
 
+(define-test 'check-object-location "default"
+  '(lambda (world proc)
+     (let-world (($set-obj (K KEYS)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list 'cant-see-it))
+
+(define-test 'check-object-location "grate-at-road"
+  '(lambda (world proc)
+     (let-world (($set-obj (K GRATE)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $mot))))))
+  (list 'try-move
+        'DEPRESSION))
+
+(define-test 'check-object-location "grate-at-spit"
+  '(lambda (world proc)
+     (let-world (($set-obj (K GRATE))
+                 ($set-location (K spit)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $mot))))))
+  (list 'try-move
+        'ENTRANCE))
+
+(define-test 'check-object-location "plant2"
+  '(lambda (world proc)
+     (let-world (($set-obj (K PLANT))
+                 ($set-location (K e2pit))
+                 ($set-prop-of PLANT2 (K c1)))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list 'handle-object-word
+        'PLANT2))
+
+(define-test 'check-object-location "rod2"
+  '(lambda (world proc)
+     (let-world (($set-obj (K ROD))
+                 ($carry ROD2))
+       ((proc world)
+	(lambda (cont world)
+          (begin
+            (print-stars cont)
+            (print-stars $obj))))))
+  (list 'handle-object-word
+        'ROD2))
+
+(define-test 'check-object-location "water-in-bottle"
+  '(lambda (world proc)
+     (let-world (($set-obj (K WATER))
+                 ($carry BOTTLE))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list 'handle-object-word))
+
+(define-test 'check-object-location "oil-here"
+  '(lambda (world proc)
+     (let-world (($set-obj (K OIL))
+                 ($set-location (K epit)))
+       ((proc world)
+	(lambda (cont world)
+          (print-stars cont)))))
+  (list 'handle-object-word))
+
 (define-test 'intransitive-take "no-object"
   '(lambda (world proc)
      (let-world (($set-location (K road)))

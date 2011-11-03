@@ -125,6 +125,8 @@
                (else
                 ($goto handle-special-inputs)))))))
 
+(defmacro ($try-motion m)
+  (goto try-move (set-mot world (K m))))
 (defmacro ($report str)
   (str #\newline
    (goto get-user-input world)))
@@ -309,12 +311,6 @@
        (print " what?\n")
        ($goto cycle))))
 
-; 90 Make sure obj is meaningful at the current location
-(define-proc 'check-object-location
-  '(lambda (world)
-     ; TODO: implement this
-     ($goto cant-see-it)))
-
 ; 79 cant_see_it:
 (define-proc 'cant-see-it
   '(lambda (world)
@@ -401,6 +397,39 @@
                (begin
                  ($describe-single-object tt)
                  (loop world (cdr lst)))))))))
+
+; 90 Make sure obj is meaningful at the current location
+(define-proc 'check-object-location
+  '(lambda (world)
+     (cond ((and (= $obj GRATE) (< $location min-lower-loc))
+            (cond ((or (= $location road)
+                       (= $location valley)
+                       (= $location slit))
+                   ($try-motion DEPRESSION))
+                  ((or (= $location cobbles)
+                       (= $location debris)
+                       (= $location awk)
+                       (= $location bird)
+                       (= $location spit))
+                   ($try-motion ENTRANCE))
+                  (else
+                   ($goto cant-see-it))))
+           ; TODO: handle dwarf
+           ((and (= $obj PLANT) ($at-loc? PLANT2) (nonzero? ($prop-of PLANT2)))
+            (goto handle-object-word ($set-obj (K PLANT2))))
+           ; TODO: handle knife
+           ((and (= $obj ROD) ($here? ROD2))
+            (goto handle-object-word ($set-obj (K ROD2))))
+           ((and (= $obj WATER)
+                 (or (and ($here? BOTTLE) (zero? ($prop-of BOTTLE)))
+                     (water-here world)))
+            ($goto handle-object-word))
+           ((and (= $obj OIL)
+                 (or (and ($here? BOTTLE) (= ($prop-of BOTTLE) c2))
+                     (oil-here world)))
+            ($goto handle-object-word))
+           (else
+            ($goto cant-see-it)))))
 
 ; 92 case TAKE:
 (define-proc 'intransitive-take

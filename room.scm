@@ -4,6 +4,7 @@
 (define max-loc (lookup-enum 'didit))
 (defmacro max-loc didit)
 (defmacro min-in-cave inside)
+(defmacro min-lower-loc emist)
 (defmacro min-forced-loc crack)
 
 (define room-desc (make-vector (+ 1 max-loc) #f))
@@ -1371,6 +1372,9 @@ It would be advisable to use the exit."
 
 (defmacro (water-here world)
   (zero? (nth (location world) (liquid world))))
+
+(defmacro (oil-here world)
+  (nonzero? (nth (location world) (liquid world))))
 
 (defmacro (forced-move? loc)
   (>= loc min-forced-loc))
