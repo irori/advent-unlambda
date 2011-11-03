@@ -187,7 +187,7 @@ on the underside of\nthe oyster.")
 (add-unl-macro!
  'initial-base '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (churchnum x)))
-               (vector->list object-base))))
+               object-base)))
 
 (add-unl-macro!
  'initial-prop '()
@@ -195,17 +195,17 @@ on the underside of\nthe oyster.")
                  (if (or (undefined? x) (< x 0))
                      'V
                      (churchnum x)))
-               (vector->list object-prop))))
+               object-prop)))
 
 (add-unl-macro!
  'initial-place '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (churchnum x)))
-               (vector->list object-place))))
+               object-place)))
 
 (add-unl-macro!
  'objname '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
-               (vector->list object-name))))
+               object-name)))
 
 (add-unl-macro!
  'initial-note '()
@@ -216,7 +216,7 @@ on the underside of\nthe oyster.")
 		      'V
 		      (cons 'list
 			    (map (lambda (x) (if x (list 'string x) 'V)) lst))))
-		(vector->list object-note)))))
+		object-note))))
 
 (defmacro (toting? object world)
   (not ((nth object (place world)) I I)))

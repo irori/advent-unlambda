@@ -236,7 +236,7 @@ things.  I cannot tell you where remote things are.")
 (add-unl-macro!
  'initial-default-msg '()
  `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
-               (vector->list default-msg))))
+               default-msg)))
 
 (define messages '())
 

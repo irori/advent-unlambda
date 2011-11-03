@@ -1347,7 +1347,7 @@ It would be advisable to use the exit."
 			((car desc) `(lambda (x)
 				       (string ,(car desc))))
 			(else 'V)))
-		(vector->list room-desc)))))
+		room-desc))))
 
 (add-unl-macro!
  'travels '()
@@ -1357,7 +1357,7 @@ It would be advisable to use the exit."
                   (if (undefined? x)
                       'V
                       `(list ,@(map (apply$ make-inst) x))))
-		(vector->list travels)))))
+		travels))))
 
 (define (make-back-table here insts)
   (let ((lst '())
@@ -1400,7 +1400,7 @@ It would be advisable to use the exit."
      (if (or (undefined? insts) (>= index min-forced-loc))
          #f
          (print (cons index (compile-back-table (make-back-table index insts))))))
-   (vector->list travels)))
+   travels))
 
 (add-unl-macro!
  'back-table '()
@@ -1411,12 +1411,12 @@ It would be advisable to use the exit."
               (if (or (undefined? insts) (>= i min-forced-loc))
                   'V
                   (compile-back-table (make-back-table i insts))))
-            (vector->list travels)))))
+            travels))))
 
 (add-unl-macro!
  'lighted-rooms '()
  `(list ,@(map (lambda (flags) (if (memq 'lighted flags) 'I 'V))
-               (vector->list loc-flags))))
+               loc-flags)))
 
 (defmacro (lighted? loc)
   (nth loc lighted-rooms))
@@ -1427,7 +1427,7 @@ It would be advisable to use the exit."
                  (cond ((memq 'oil flags) 'c1)
                        ((memq 'liquid flags) 'c0)
                        (else 'V)))
-               (vector->list loc-flags))))
+               loc-flags)))
 
 (defmacro (water-here world)
   (zero? (nth (location world) (liquid world))))
