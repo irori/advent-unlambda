@@ -401,19 +401,25 @@
 ; 90 Make sure obj is meaningful at the current location
 (define-proc 'check-object-location
   '(lambda (world)
-     (cond ((and (= $obj GRATE) (< $location min-lower-loc))
-            (cond ((or (= $location road)
-                       (= $location valley)
-                       (= $location slit))
-                   ($try-motion DEPRESSION))
-                  ((or (= $location cobbles)
-                       (= $location debris)
-                       (= $location awk)
-                       (= $location bird)
-                       (= $location spit))
-                   ($try-motion ENTRANCE))
-                  (else
-                   ($goto cant-see-it))))
+     (cond ((and (= $obj GRATE))
+            (let ((m (nth $location (list V          ; limbo
+                                          DEPRESSION ; road
+                                          V          ; hill
+                                          V          ; house
+                                          DEPRESSION ; valley
+                                          V          ; forest
+                                          V          ; woods
+                                          DEPRESSION ; slit
+                                          V          ; outside
+                                          V          ; inside
+                                          ENTRANCE   ; cobbles
+                                          ENTRANCE   ; debris
+                                          ENTRANCE   ; awk
+                                          ENTRANCE   ; bird
+                                          ENTRANCE)))) ; spit
+              (if (m I I)
+                  ($try-motion m)
+                  ($goto cant-see-it))))
            ; TODO: handle dwarf
            ((and (= $obj PLANT) ($at-loc? PLANT2) (nonzero? ($prop-of PLANT2)))
             (goto handle-object-word ($set-obj (K PLANT2))))
