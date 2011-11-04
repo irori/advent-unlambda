@@ -235,26 +235,26 @@
 		       intransitive-open  ;CLOSE
 		       transitive  ;ON
 		       transitive  ;OFF
-		       not-implemented  ;WAVE
-		       not-implemented  ;CALM
+		       get-object  ;WAVE
+		       get-object  ;CALM
 		       report-default  ;GO
 		       report-default  ;RELAX
 		       transitive  ;POUR
 		       intransitive-eat  ;EAT
 		       transitive  ;DRINK
-		       not-implemented  ;RUB
-		       not-implemented  ;TOSS
-		       not-implemented  ;WAKE
-		       not-implemented  ;FEED
+		       get-object  ;RUB
+		       get-object  ;TOSS
+		       get-object  ;WAKE
+		       get-object  ;FEED
 		       transitive  ;FILL
-		       not-implemented  ;BREAK
+		       get-object  ;BREAK
 		       transitive  ;BLAST
 		       transitive  ;KILL
-		       not-implemented  ;SAY
-		       not-implemented  ;READ
+		       get-object  ;SAY
+		       intransitive-read  ;READ
 		       not-implemented  ;FEEFIE
 		       intransitive-brief  ;BRIEF
-		       not-implemented  ;FIND
+		       get-object  ;FIND
 		       intransitive-inventory  ;INVENTORY
 		       not-implemented  ;SCORE
 		       not-implemented  ;QUIT
@@ -471,6 +471,30 @@
            (if (object I I)
                (goto transitive ($set-obj (K object)))
                ($report (string "There is nothing here with a lock!")))))))
+
+; 93 case READ:
+(define-proc 'intransitive-read
+  '(lambda (world)
+     (if $dark
+         ($goto get-object)
+         (call/cc
+          (lambda (ret)
+            (let-world ((if ($here? MAG) ($set-obj (K MAG)) world)
+                        (if ($here? TABLET)
+                            (if (nonzero? $obj)
+                                (ret ($goto get-object))
+                                ($set-obj (K TABLET)))
+                            world)
+                        (if ($here? MESSAGE)
+                            (if (nonzero? $obj)
+                                (ret ($goto get-object))
+                                ($set-obj (K MESSAGE)))
+                            world)
+                        ; TODO: if (closed && toting(OYSTER)) obj=OYSTER
+                        )
+              (if (nonzero? $obj)
+                  ($goto transitive)
+                  ($goto get-object))))))))
 
 ; 94 case INVENTORY:
 (define-proc 'intransitive-inventory

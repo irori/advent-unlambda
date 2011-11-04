@@ -843,6 +843,39 @@
   (list "There is nothing here with a lock!\n"
         'get-user-input))
 
+(define-test 'intransitive-read "nothing"
+  '()
+  '((print-stars cont))
+  (list 'get-object))
+
+(define-test 'intransitive-read "mag"
+  '(($carry MAG))
+  '((print-stars cont)
+    (print-stars $obj))
+  (list 'transitive
+        'MAG))
+
+(define-test 'intransitive-read "mag-and-tablet"
+  '(($carry MAG)
+    ($carry TABLET))
+  '((print-stars cont)
+    (print-stars $obj))
+  (list 'get-object
+        'MAG))
+
+(define-test 'intransitive-read "tablet-and-message"
+  '(($carry MESSAGE)
+    ($carry TABLET))
+  '((print-stars cont)
+    (print-stars $obj))
+  (list 'get-object
+        'TABLET))
+
+(define-test 'intransitive-read "dark"
+  '(($set-location (K ante)))
+  '((print-stars cont))
+  (list 'get-object))
+
 (define-test 'intransitive-inventory "nothing"
   '()
   '((print-stars cont))
