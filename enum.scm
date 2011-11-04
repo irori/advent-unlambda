@@ -99,3 +99,20 @@
                      (else `(,(churchnum d) (icons V) (icons I ,e)))))))
        'V
        (cons -1 (sort (map lookup-enum enums))))))
+
+(define (make-lookup-table alist)
+  (let ((alist2 (map (lambda (x) (cons (lookup-enum (car x)) (cdr x))) alist)))
+    (pair-fold-right
+     (lambda (lis e)
+       (if (null? (cdr lis))
+	   'V
+	   (let* ((fst (car lis))
+		  (snd (cadr lis))
+		  (val (cdr snd))
+		  (d (- (car snd) (car fst) 1)))
+	     (cond ((< d 0) (error "make-lookup-table: duplicated key" alist))
+		   ((= d 0) `(icons ,val ,e))
+		   ((= d 1) `((icons V) (icons ,val ,e)))
+		   (else `(,(churchnum d) (icons V) (icons ,val ,e)))))))
+     'V
+     (cons '(-1 . #f) (sort-by alist2 car)))))

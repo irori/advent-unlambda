@@ -1387,12 +1387,7 @@ It would be advisable to use the exit."
 
 (define (compile-back-table alist)
   `(lambda (l)
-     (call/cc
-      (lambda (ret)
-        ,(map
-          (lambda (pair)
-            `((= l ,(car pair)) ret ,(cdr pair)))
-          alist)))))
+     (nth l ,(make-lookup-table alist))))
 
 (define (print-back-table)
   (for-each-with-index
