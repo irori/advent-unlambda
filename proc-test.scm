@@ -514,6 +514,59 @@
   (list "I need more detailed instructions to do that.\n"
         'mainloop))
 
+(define-test 'go-back "cannot-back"
+  '(($set-location (K road))
+    ($set-oldlocs (K (cons road road))))
+  '((print-stars cont))
+  (list "Sorry, but I no longer seem to remember how you got here.\n"
+        'mainloop))
+
+(define-test 'go-back "cannot-back-forced"
+  '(($set-location (K spit))
+    ($set-oldlocs (K (cons crack spit))))
+  '((print-stars cont)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs)))
+  (list "Sorry, but I no longer seem to remember how you got here.\n"
+        'mainloop
+        'spit
+        'crack))
+
+(define-test 'go-back "back"
+  '(($set-location (K hill))
+    ($set-oldlocs (K (cons road house))))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs)))
+  (list 'go-for-it
+        'ROAD
+        'hill
+        'road))
+
+(define-test 'go-back "back-forced"
+  '(($set-location (K hill))
+    ($set-oldlocs (K (cons crack road))))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs)))
+  (list 'go-for-it
+        'ROAD
+        'hill
+        'crack))
+
+(define-test 'go-back "no-way"
+  '(($set-location (K cobbles))
+    ($set-oldlocs (K (cons house road))))
+  '((print-stars cont)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs)))
+  (list "You can't get there from here.\n"
+        'mainloop
+        'cobbles
+        'house))
+
 (define-test 'go-for-it "go"
   '(($set-location (K road))
     ($set-mot (K ENTER)))
