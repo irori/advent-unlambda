@@ -431,6 +431,19 @@ unless you explicitly ask me to.")
 (defmacro (action-word meaning) (lambda (f) (f (lambda (_ _ x _) x) meaning I)))
 (defmacro (message-word meaning)(lambda (f) (f (lambda (_ _ _ x) x) meaning I)))
 
+(defmacro (yes q y n)
+  (K (call/cc
+      (lambda (ret)
+        ((call/cc I)
+         (call/cc
+          (begin
+            (q (string "\n>> ") @ I)
+            ((read-char=? #\y #\Y) y ret I)
+            ((read-char=? #\n #\N) n ret V)
+            skip-until-newline
+            (print " Please answer Yes or No.\n"))))))
+     skip-until-newline))
+
 (defmacro parser-main
   (call/cc
    (lambda (q)
@@ -447,6 +460,12 @@ unless you explicitly ask me to.")
          (q I))))
       ((string "what?") I)))))
 
+(defmacro yes-test
+  (if (yes (string "question") (string "yes") (string "no"))
+      (print "foo\n")
+      (print "bar\n"))
+  )
+
 (define (main args)
-  (print-as-unl 'generated-parser)
+  (print-as-unl 'yes-test)
   0)
