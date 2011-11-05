@@ -55,6 +55,8 @@
 		(display x))))
        lst))))
 
+(define yesno-prompt "\n>> ")
+
 (defmacro (print-stars n)
   (#\{ n #\* #\} I))
 
@@ -69,7 +71,7 @@
     (print-stars (nth c6 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Welcome to Adventure!!  Would you like instructions?"
-        "\n>> "
+        yesno-prompt
         'mainloop
         5
         330))
@@ -81,7 +83,7 @@
     (print-stars (nth c6 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Welcome to Adventure!!  Would you like instructions?"
-        "\n>> "
+        yesno-prompt
         "Somewhere nearby is Colossal Cave, where others have found fortunes in\n\
 treasure and gold, though it is rumored that some who enter are never\n\
 seen again.  Magic is said to work in the cave.  I will be your eyes\n\
@@ -973,6 +975,24 @@ all of its bugs were added by Don Knuth.\n"
         'get-user-input
         0))
 
+(define-input-test 'intransitive-quit "yes"
+  '()
+  "yes\n"
+  '((print-stars cont))
+  (list "Do you really wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-quit "no"
+  '()
+  "no\n"
+  '((print-stars cont))
+  (list "Do you really wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'get-user-input))
+
 (define-test 'transitive-eat "food"
   '(($set-obj (K FOOD)))
   '((print-stars cont))
@@ -1656,7 +1676,7 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont)
     (print-stars (nth c7 $hinted)))
   (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
-        "\n>> "
+        yesno-prompt
         "OK.\n"
         'get-user-input
         10))
@@ -1671,7 +1691,7 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c7 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
-        "\n>> "
+        yesno-prompt
         "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"\n"
         'get-user-input
         0
@@ -1687,7 +1707,7 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c7 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
-        "\n>> "
+        yesno-prompt
         "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"\n"
         'get-user-input
         0
@@ -1710,7 +1730,7 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont)
     (print-stars $death-count))
   (list "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?"
-        "\n>> "
+        yesno-prompt
         "OK.\n"
         'quit
         1))
@@ -1721,7 +1741,7 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont)
     (print-stars $death-count))
   (list "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?"
-        "\n>> "
+        yesno-prompt
         "All right.  But don't blame me if something goes wr......\n                 --- POOF!! ---\nYou are engulfed in a cloud of orange smoke.  Coughing and gasping,\nyou emerge from the smoke and find....\n"
         'commence
         1))
@@ -1732,7 +1752,7 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont)
     (print-stars $death-count))
   (list "You clumsy oaf, you've done it again!  I don't know how long I can\nkeep this up.  Do you want me to try reincarnating you again?"
-        "\n>> "
+        yesno-prompt
         "Okay, now where did I put my resurrection kit?....  >POOF!<\nEverything disappears in a dense cloud of orange smoke.\n"
         'commence
         2))
@@ -1743,7 +1763,7 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont)
     (print-stars $death-count))
   (list "Now you've really done it!  I'm out of orange smoke!  You don't expect\nme to do a decent reincarnation without any orange smoke, do you?"
-        "\n>> "
+        yesno-prompt
         "Okay, if you're so smart, do it yourself!  I'm leaving!\n"
         'quit
         3))
@@ -1766,7 +1786,7 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars ($place-of BOTTLE))
     (print-stars ($place-of WATER)))
   (list "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?"
-        "\n>> "
+        yesno-prompt
         "All right.  But don't blame me if something goes wr......\n                 --- POOF!! ---\nYou are engulfed in a cloud of orange smoke.  Coughing and gasping,\nyou emerge from the smoke and find....\n"
         'commence
         'house
@@ -1857,7 +1877,7 @@ all of its bugs were added by Don Knuth.\n"
     (print-bool (pair? $hint-count))
     (print-stars (car $hinted)))
   (list "Are you trying to get into the cave?"
-        "\n>> "
+        yesno-prompt
         "OK.\n"
         'cycle2
         #f
@@ -1871,11 +1891,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-bool (pair? $hint-count))
     (print-stars (car $hinted)))
   (list "Are you trying to get into the cave?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 2 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "OK.\n"
         'cycle2
         #f
@@ -1891,11 +1911,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (car $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to get into the cave?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 2 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.\n"
         'cycle2
         #f
@@ -1912,11 +1932,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (car $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to get into the cave?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 2 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.\n"
         'cycle2
         #f
@@ -1946,11 +1966,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c1 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to catch the bird?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 2 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "Something seems to be frightening the bird just now and you cannot\ncatch it no matter what you try.  Perhaps you might try later.\n"
         'cycle2
         #f
@@ -1976,11 +1996,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c2 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to deal somehow with the snake?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 2 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "You can't kill the snake, or drive it away, or avoid it, or anything\nlike that.  There is a way to get by, but you don't have the necessary\nresources right now.\n"
         'cycle2
         #f
@@ -2022,11 +2042,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c3 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Do you need help getting out of the maze?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 4 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "You can make the passages look less alike by dropping things.\n"
         'cycle2
         #f
@@ -2054,11 +2074,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c4 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to explore beyond the Plover Room?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 5 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "There is a way to explore that region without having to worry about\nfalling into a pit.  None of the objects available is immediately\nuseful for discovering the secret.\n"
         'cycle2
         #f
@@ -2075,11 +2095,11 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars (nth c5 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Do you need help getting out of here?"
-        "\n>> "
+        yesno-prompt
         " I am prepared to give you a hint,\n"
         " but it will cost you 3 points.  "
         "Do you want the hint?"
-        "\n>> "
+        yesno-prompt
         "Don't go west.\n"
         'cycle2
         #f

@@ -11,6 +11,8 @@
   (define-enum (list name) (length procedures))
   (set! procedures (cons body procedures)))
 
+(defmacro ok (string "OK."))
+
 (defmacro start-msg
   (string "Somewhere nearby is Colossal Cave, where others have found fortunes in\n\
 treasure and gold, though it is rumored that some who enter are never\n\
@@ -281,7 +283,7 @@ all of its bugs were added by Don Knuth."))
 		       get-object  ;FIND
 		       intransitive-inventory  ;INVENTORY
 		       not-implemented  ;SCORE
-		       not-implemented  ;QUIT
+		       intransitive-quit  ;QUIT
 		       )))))
 	    
 
@@ -551,6 +553,13 @@ all of its bugs were added by Don Knuth."))
      (let-world (($set-verbose (K V)))
        ($report (string "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".")))))
 
+; 95 case QUIT:
+(define-proc 'intransitive-quit
+  '(lambda (world)
+     (if (yes (string "Do you really wish to quit now?") ok ok)
+         ($goto give-up)
+         ($goto get-user-input))))
+
 ; 98 case EAT:
 (defsyntax (eat-special? x)
   `(nth ,x ,(make-boolean-list
@@ -608,7 +617,7 @@ all of its bugs were added by Don Knuth."))
                           (take-cage-bird world)
                           ($carry $obj)
                           (take-liquid-in-bottle world))
-                ($report (string "OK."))))))))))
+                ($report ok)))))))))
 
 (defmacro (carrying-too-many? world)
   (let loop ((lst (cdr (place world)))
@@ -700,11 +709,11 @@ all of its bugs were added by Don Knuth."))
              ((and (= $obj CAGE) (nonzero? ($prop-of BIRD)))
               (let-world (($drop BIRD $location)
                           ($drop CAGE $location))
-                ($report (string "OK."))))
+                ($report ok)))
              (else
               (let-world ((drop-liquid world)
                           ($drop $obj $location))
-                ($report (string "OK."))))))))
+                ($report ok)))))))
 
 ; 118 Put coins in the vending machine
 (defmacro drop-coins
@@ -738,7 +747,7 @@ all of its bugs were added by Don Knuth."))
         ; TODO: handle dragon case
         (let-world (($set-prop-of BIRD (K c0))
                     ($drop BIRD $location))
-          ($report (string "OK."))))))
+          ($report ok)))))
 
 ; 121 Check special cases for dropping the vase
 (defmacro drop-vase
@@ -763,7 +772,7 @@ all of its bugs were added by Don Knuth."))
            ((= $obj CAGE)
             ($report (string "It has no lock.")))
            ((= $obj DOOR)
-            ($report (ifnonzero ($prop-of DOOR) (string "OK.")
+            ($report (ifnonzero ($prop-of DOOR) ok
                                 (string "The door is extremely rusty and refuses to open."))))
            (else
             ($goto report-default)))))
@@ -871,7 +880,7 @@ all of its bugs were added by Don Knuth."))
   (lambda (world)
     (if (yes (string "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?")
              (string "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"")
-             (string "OK."))
+             ok)
         (let-world ((set-nth world set-hinted c7 (K c0))
                     (if (cons1? (c30 1-of-1 $limit))
                         ($set-limit (c300 cons1))
@@ -952,7 +961,7 @@ all of its bugs were added by Don Knuth."))
        ; TODO: handle closing
        (if (not (and (yes (nth $death-count death-wishes-q)
                           (nth $death-count death-wishes-y)
-                          (string "OK."))
+                          ok)
                 (< $death-count max-deaths)))
            ($goto quit)
            (let-world ((if ($toting? LAMP)
@@ -1075,13 +1084,13 @@ all of its bugs were added by Don Knuth."))
   (lambda (world)
     (if (yes (nth (car $hint-count) hint-prompt)
              (string " I am prepared to give you a hint,")
-             (string "OK."))
+             ok)
         ((string " but it will cost you ")
          (nth (car $hint-count) hint-cost-string)
          (string " points.  ") I
          (if (yes (string "Do you want the hint?")
                   (nth (car $hint-count) hints)
-                  (string "OK."))
+                  ok)
              (let-world ((if (cons1? (c30 1-of-1 $limit))
                              ($set-limit ((mul c30 (nth (car $hint-count) $hinted)) cons1))
                              world)
