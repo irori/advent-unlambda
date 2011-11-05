@@ -282,7 +282,7 @@ all of its bugs were added by Don Knuth."))
 		       intransitive-brief  ;BRIEF
 		       get-object  ;FIND
 		       intransitive-inventory  ;INVENTORY
-		       not-implemented  ;SCORE
+		       intransitive-score  ;SCORE
 		       intransitive-quit  ;QUIT
 		       )))))
 	    
@@ -552,6 +552,16 @@ all of its bugs were added by Don Knuth."))
   '(lambda (world)
      (let-world (($set-verbose (K V)))
        ($report (string "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".")))))
+
+; 95 case SCORE:
+(define-proc 'intransitive-score
+  '(lambda (world)
+     ((string "If you were to quit now, you would score ")
+      (print-digit (sub (score world) c4)) I
+      (string "\nout of a possible 350.\n") I
+      (if (yes (string "Do you indeed wish to quit now?") ok ok)
+          ($goto give-up)
+          ($goto get-user-input)))))
 
 ; 95 case QUIT:
 (define-proc 'intransitive-quit
@@ -1098,7 +1108,7 @@ all of its bugs were added by Don Knuth."))
                   (nth (car $hint-count) hints)
                   ok)
              (let-world ((if (cons1? (c30 1-of-1 $limit))
-                             ($set-limit ((mul c30 (nth (car $hint-count) $hinted)) cons1))
+                             ($set-limit ((* c30 (nth (car $hint-count) $hinted)) cons1))
                              world)
                          (set-nth world set-hinted (car $hint-count) (K c0)))
                world)
@@ -1108,6 +1118,26 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'not-implemented
   '(lambda (world)
      ((string "\nnot implemented\n") exit I)))
+
+; TODO: implement this
+(defmacro (treasure-score world) c0)
+
+(defrecmacro (hint-score lst)
+  (if (null? lst)
+      c0
+      (lst
+       (lambda (hd tl)
+         (+ hd (hint-score tl))))))
+
+(defmacro score
+  (lambda (world)
+    (sub (+ ; TODO: dflag
+            (treasure-score world)
+            (* c10 (sub max-deaths $death-count))
+            (if (= ($place-of MAG) witt) c1 c0)
+            ; TODO: closing
+            (hint-score $hinted))
+         c31)))
 
 (define-proc 'quit
   `(lambda (world)

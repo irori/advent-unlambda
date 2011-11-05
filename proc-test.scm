@@ -76,6 +76,36 @@
         5
         330))
 
+(define-input-test 'offer0 "hoge-no"
+  '()
+  "hoge\nno\n"
+  '((print-stars cont)
+    (print-stars (nth c6 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Welcome to Adventure!!  Would you like instructions?"
+        yesno-prompt
+        " Please answer Yes or No.\n"
+        "Welcome to Adventure!!  Would you like instructions?"
+        yesno-prompt
+        'mainloop
+        5
+        330))
+
+(define-input-test 'offer0 "empty-no"
+  '()
+  "\nno\n"
+  '((print-stars cont)
+    (print-stars (nth c6 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Welcome to Adventure!!  Would you like instructions?"
+        yesno-prompt
+        " Please answer Yes or No.\n"
+        "Welcome to Adventure!!  Would you like instructions?"
+        yesno-prompt
+        'mainloop
+        5
+        330))
+
 (define-input-test 'offer0 "yes"
   '()
   "yes\n"
@@ -974,6 +1004,26 @@ all of its bugs were added by Don Knuth.\n"
   (list "Okay, from now on I'll only describe a place in full the first time\nyou come to it.  To get the full description, say \"LOOK\".\n"
         'get-user-input
         0))
+
+(define-input-test 'intransitive-score "yes"
+  '()
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 32\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "no"
+  '()
+  "no\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 32\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'get-user-input))
 
 (define-input-test 'intransitive-quit "yes"
   '()

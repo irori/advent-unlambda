@@ -25,13 +25,19 @@
 (defmacro (nonzero? n) (n (K I) V))
 (defmacro (ifnonzero n x y) ((n (K x)) y))
 
-(defmacro (+ x y)
+(defmacro (add x y)
   (lambda (s z)
     (x s (y s z))))
+
+(defsyntax (+ e . es)
+  (fold (lambda (x y) `(add ,y ,x)) e es))
 
 (defmacro (mul x y)
   (lambda (s z)
     (x (y s) z)))
+
+(defsyntax (* e . es)
+  (fold (lambda (x y) `(mul ,y ,x)) e es))
 
 (defmacro dbl
   (lambda (x s z)
