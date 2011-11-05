@@ -66,16 +66,19 @@
   '()
   "no\n"
   '((print-stars cont)
+    (print-bool (nth c6 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Welcome to Adventure!!  Would you like instructions?"
         "\n>> "
         'mainloop
+        #f
         330))
 
 (define-input-test 'offer0 "yes"
   '()
   "yes\n"
   '((print-stars cont)
+    (print-bool (nth c6 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Welcome to Adventure!!  Would you like instructions?"
         "\n>> "
@@ -92,6 +95,7 @@ The first adventure program was developed by Willie Crowther.\n\
 Most of the features of the current program were added by Don Woods;\n\
 all of its bugs were added by Don Knuth.\n"
         'mainloop
+        #t
         1000))
 
 (define-test 'mainloop ""
