@@ -311,7 +311,7 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;BLAST
 		       not-implemented  ;KILL
 		       not-implemented  ;SAY
-		       not-implemented  ;READ
+		       transitive-read  ;READ
 		       not-implemented  ;FEEFIE
 		       report-default  ;BRIEF
 		       not-implemented  ;FIND
@@ -849,8 +849,35 @@ all of its bugs were added by Don Knuth."))
           (else
            ($report (string "The oyster creaks open, revealing nothing but oyster inside.\nIt promptly snaps shut again."))))))
 
-(defmacro ppass-msg
-  (string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"))
+; 135 case READ:
+(define-proc 'transitive-read
+  '(lambda (world)
+     (cond ($dark ($goto cant-see-it))
+           ((= $obj MAG)
+            ($report (string "I'm afraid the magazine is written in dwarvish.")))
+           ((= $obj TABLET)
+            ($report (string "\"CONGRATULATIONS ON BRINGING LIGHT INTO THE DARK-ROOM!\"")))
+           ((= $obj MESSAGE)
+            ($report (string "\"This is not the maze where the pirate hides his treasure chest.\"")))
+           ((and (= $obj OYSTER) $closed ($toting? OYSTER))
+            (if (nth c7 $hinted)
+                ($report (string "It says the same thing it did before."))
+                (offer1 world)))
+           (else
+            ($goto report-default)))))
+
+; offer oyster hint
+(defmacro offer1
+  (lambda (world)
+    (if (yes (string "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?")
+             (string "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"")
+             (string "OK."))
+        (let-world ((set-nth world set-hinted c7 (K I))
+                    (if (cons1? (c30 1-of-1 $limit))
+                        ($set-limit (c300 cons1))
+                        world))
+          ($goto get-user-input))
+        ($goto get-user-input))))
 
 ; 143 Try to go back
 (define-proc 'go-back
@@ -887,6 +914,9 @@ all of its bugs were added by Don Knuth."))
                    ; TODO: implement troll
                    (else
                     ($goto mainloop))))))))
+
+(defmacro ppass-msg
+  (string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"))
 
 (defmacro (report-inapplicable-motion world)
   ((cond ((= $mot CRAWL)

@@ -1609,6 +1609,90 @@ all of its bugs were added by Don Knuth.\n"
   (list "The oyster creaks open, revealing nothing but oyster inside.\nIt promptly snaps shut again.\n"
         'get-user-input))
 
+(define-test 'transitive-read "dark"
+  '(($set-location (K debris))
+    ($set-obj (K MAG)))
+  '((print-stars cont))
+  (list 'cant-see-it))
+
+(define-test 'transitive-read "magazine"
+  '(($set-obj (K MAG)))
+  '((print-stars cont))
+  (list "I'm afraid the magazine is written in dwarvish.\n"
+        'get-user-input))
+
+(define-test 'transitive-read "tablet"
+  '(($set-obj (K TABLET)))
+  '((print-stars cont))
+  (list "\"CONGRATULATIONS ON BRINGING LIGHT INTO THE DARK-ROOM!\"\n"
+        'get-user-input))
+
+(define-test 'transitive-read "message"
+  '(($set-obj (K MESSAGE)))
+  '((print-stars cont))
+  (list "\"This is not the maze where the pirate hides his treasure chest.\"\n"
+        'get-user-input))
+
+(define-test 'transitive-read "default"
+  '(($set-obj (K LAMP)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-input-test 'transitive-read "oyster-hinted"
+  '(($set-obj (K OYSTER))
+    ($set-closed (K I))
+    ($carry OYSTER)
+    (set-nth world set-hinted c7 (K I)))
+  "n\n"
+  '((print-stars cont))
+  (list "It says the same thing it did before.\n"
+        'get-user-input))
+
+(define-input-test 'transitive-read "oyster-reject-hint"
+  '(($set-obj (K OYSTER))
+    ($set-closed (K I))
+    ($carry OYSTER))
+  "n\n"
+  '((print-stars cont)
+    (print-bool (nth c7 $hinted)))
+  (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
+        "\n>> "
+        "OK.\n"
+        'get-user-input
+        #f))
+
+(define-input-test 'transitive-read "oyster-accept-hint"
+  '(($set-obj (K OYSTER))
+    ($set-closed (K I))
+    ($carry OYSTER)
+    ($set-limit (K (to-cons1 c50))))
+  "y\n"
+  '((print-stars cont)
+    (print-bool (nth c7 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
+        "\n>> "
+        "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"\n"
+        'get-user-input
+        #t
+        350))
+
+(define-input-test 'transitive-read "do-not-enpower-lamp"
+  '(($set-obj (K OYSTER))
+    ($set-closed (K I))
+    ($carry OYSTER)
+    ($set-limit (K (to-cons1 c30))))
+  "y\n"
+  '((print-stars cont)
+    (print-bool (nth c7 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
+        "\n>> "
+        "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"\n"
+        'get-user-input
+        #t
+        30))
+
 (define-test 'pitch-dark ""
   '(($set-oldlocs (K (icons house road)))
     ($set-location (K debris)))
