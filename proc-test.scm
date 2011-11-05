@@ -66,19 +66,19 @@
   '()
   "no\n"
   '((print-stars cont)
-    (print-bool (nth c6 $hinted))
+    (print-stars (nth c6 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Welcome to Adventure!!  Would you like instructions?"
         "\n>> "
         'mainloop
-        #f
+        5
         330))
 
 (define-input-test 'offer0 "yes"
   '()
   "yes\n"
   '((print-stars cont)
-    (print-bool (nth c6 $hinted))
+    (print-stars (nth c6 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Welcome to Adventure!!  Would you like instructions?"
         "\n>> "
@@ -95,7 +95,7 @@ The first adventure program was developed by Willie Crowther.\n\
 Most of the features of the current program were added by Don Woods;\n\
 all of its bugs were added by Don Knuth.\n"
         'mainloop
-        #t
+        0
         1000))
 
 (define-test 'mainloop ""
@@ -1642,7 +1642,7 @@ all of its bugs were added by Don Knuth.\n"
   '(($set-obj (K OYSTER))
     ($set-closed (K I))
     ($carry OYSTER)
-    (set-nth world set-hinted c7 (K I)))
+    (set-nth world set-hinted c7 (K c0)))
   "n\n"
   '((print-stars cont))
   (list "It says the same thing it did before.\n"
@@ -1654,12 +1654,12 @@ all of its bugs were added by Don Knuth.\n"
     ($carry OYSTER))
   "n\n"
   '((print-stars cont)
-    (print-bool (nth c7 $hinted)))
+    (print-stars (nth c7 $hinted)))
   (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
         "\n>> "
         "OK.\n"
         'get-user-input
-        #f))
+        10))
 
 (define-input-test 'transitive-read "oyster-accept-hint"
   '(($set-obj (K OYSTER))
@@ -1668,13 +1668,13 @@ all of its bugs were added by Don Knuth.\n"
     ($set-limit (K (to-cons1 c50))))
   "y\n"
   '((print-stars cont)
-    (print-bool (nth c7 $hinted))
+    (print-stars (nth c7 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
         "\n>> "
         "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"\n"
         'get-user-input
-        #t
+        0
         350))
 
 (define-input-test 'transitive-read "do-not-enpower-lamp"
@@ -1684,13 +1684,13 @@ all of its bugs were added by Don Knuth.\n"
     ($set-limit (K (to-cons1 c30))))
   "y\n"
   '((print-stars cont)
-    (print-bool (nth c7 $hinted))
+    (print-stars (nth c7 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Hmmm, this looks like a clue, which means it'll cost you 10 points to\nread it.  Should I go ahead and read it anyway?"
         "\n>> "
         "It says, \"There is something strange about this place, such that one\nof the words I've always known now has a new effect.\"\n"
         'get-user-input
-        #t
+        0
         30))
 
 (define-test 'pitch-dark ""
@@ -1823,7 +1823,7 @@ all of its bugs were added by Don Knuth.\n"
 
 (define-test 'cycle "already-hinted"
   '(($set-location (K bird))
-    (set-nth world set-hinted c1 (K I))
+    (set-nth world set-hinted c1 (K c0))
     ($set-hint-count (K (cons c1 (cons1 V)))))
   '((print-stars cont)
     (print-bool (pair? $hint-count)))
@@ -1855,13 +1855,13 @@ all of its bugs were added by Don Knuth.\n"
   "n\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (car $hinted)))
+    (print-stars (car $hinted)))
   (list "Are you trying to get into the cave?"
         "\n>> "
         "OK.\n"
         'cycle2
         #f
-        #f))
+        2))
 
 (define-input-test 'cycle "reject2"
   '(($set-location (K outside))
@@ -1869,7 +1869,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\nn\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (car $hinted)))
+    (print-stars (car $hinted)))
   (list "Are you trying to get into the cave?"
         "\n>> "
         " I am prepared to give you a hint,\n"
@@ -1879,7 +1879,7 @@ all of its bugs were added by Don Knuth.\n"
         "OK.\n"
         'cycle2
         #f
-        #f))
+        2))
 
 (define-input-test 'cycle "grate-accept"
   '(($set-location (K outside))
@@ -1888,7 +1888,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (car $hinted))
+    (print-stars (car $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to get into the cave?"
         "\n>> "
@@ -1899,7 +1899,7 @@ all of its bugs were added by Don Knuth.\n"
         "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.\n"
         'cycle2
         #f
-        #t
+        0
         91))
 
 (define-input-test 'cycle "do-not-enpower-lamp"
@@ -1909,7 +1909,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (car $hinted))
+    (print-stars (car $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to get into the cave?"
         "\n>> "
@@ -1920,7 +1920,7 @@ all of its bugs were added by Don Knuth.\n"
         "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.\n"
         'cycle2
         #f
-        #t
+        0
         30))
 
 (define-test 'cycle "bird-condition-not-met"
@@ -1943,7 +1943,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (nth c1 $hinted))
+    (print-stars (nth c1 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to catch the bird?"
         "\n>> "
@@ -1954,7 +1954,7 @@ all of its bugs were added by Don Knuth.\n"
         "Something seems to be frightening the bird just now and you cannot\ncatch it no matter what you try.  Perhaps you might try later.\n"
         'cycle2
         #f
-        #t
+        0
         91))
 
 (define-test 'cycle "snake-condition-not-met"
@@ -1973,7 +1973,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (nth c2 $hinted))
+    (print-stars (nth c2 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to deal somehow with the snake?"
         "\n>> "
@@ -1984,7 +1984,7 @@ all of its bugs were added by Don Knuth.\n"
         "You can't kill the snake, or drive it away, or avoid it, or anything\nlike that.  There is a way to get by, but you don't have the necessary\nresources right now.\n"
         'cycle2
         #f
-        #t
+        0
         91))
 
 (define-test 'cycle "twist-condition-not-met"
@@ -2019,7 +2019,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (nth c3 $hinted))
+    (print-stars (nth c3 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Do you need help getting out of the maze?"
         "\n>> "
@@ -2030,7 +2030,7 @@ all of its bugs were added by Don Knuth.\n"
         "You can make the passages look less alike by dropping things.\n"
         'cycle2
         #f
-        #t
+        0
         151))
 
 (define-test 'cycle "dark-condition-not-met"
@@ -2051,7 +2051,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (nth c4 $hinted))
+    (print-stars (nth c4 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Are you trying to explore beyond the Plover Room?"
         "\n>> "
@@ -2062,7 +2062,7 @@ all of its bugs were added by Don Knuth.\n"
         "There is a way to explore that region without having to worry about\nfalling into a pit.  None of the objects available is immediately\nuseful for discovering the secret.\n"
         'cycle2
         #f
-        #t
+        0
         181))
 
 (define-input-test 'cycle "witt-accept"
@@ -2072,7 +2072,7 @@ all of its bugs were added by Don Knuth.\n"
   "y\ny\n"
   '((print-stars cont)
     (print-bool (pair? $hint-count))
-    (print-bool (nth c5 $hinted))
+    (print-stars (nth c5 $hinted))
     (print-stars (cons1-length $limit)))
   (list "Do you need help getting out of here?"
         "\n>> "
@@ -2083,7 +2083,7 @@ all of its bugs were added by Don Knuth.\n"
         "Don't go west.\n"
         'cycle2
         #f
-        #t
+        0
         121))
 
 (define (main args)

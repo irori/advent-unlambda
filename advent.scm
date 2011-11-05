@@ -38,7 +38,7 @@
 (defmacro initial-verb V)
 (defmacro initial-oldverb V)
 (defmacro initial-not-warned I)
-(defmacro initial-hinted (list V V V V V V V V))
+(defmacro initial-hinted (list c2 c2 c2 c4 c5 c3 c5 c10 c4))
 (defmacro initial-hint-count V)
 (defmacro initial-death-count c0)
 (defmacro initial-obj V)
