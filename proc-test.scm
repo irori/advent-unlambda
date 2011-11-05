@@ -218,6 +218,16 @@ all of its bugs were added by Don Knuth.\n"
         "The bear is locked to the wall with a golden chain!\n"
         1))
 
+(define-test 'describe-objects "after-closed"
+  '(($set-closed (K I))
+    ($set-location (K neend))
+    ($drop ROD neend)
+    ($set-prop-of ROD (K V)))
+  '((print-stars cont)
+    (print-bool (($prop-of ROD) I I)))
+  (list 'get-user-input
+        #f))
+
 (define-test 'get-user-input ""
   '(($set-verb (K TAKE))
     ($set-obj (K LAMP)))
@@ -904,11 +914,21 @@ all of its bugs were added by Don Knuth.\n"
 
 (define-test 'intransitive-read "tablet-and-message"
   '(($carry MESSAGE)
-    ($carry TABLET))
+    ($carry TABLET)
+    ($carry OYSTER))
   '((print-stars cont)
     (print-stars $obj))
   (list 'get-object
         'TABLET))
+
+(define-test 'intransitive-read "oyster-closed"
+  '(($set-closed (K I))
+    ($carry TABLET)
+    ($carry OYSTER))
+  '((print-stars cont)
+    (print-stars $obj))
+  (list 'transitive
+        'OYSTER))
 
 (define-test 'intransitive-read "dark"
   '(($set-location (K ante)))
@@ -1254,6 +1274,16 @@ all of its bugs were added by Don Knuth.\n"
         0
         'limbo
         1))
+
+(define-test 'transitive-drop "drop-bird-at-snake-after-closed"
+  '(($carry BIRD)
+    ($set-obj (K BIRD))
+    ($set-prop-of BIRD (K c1))
+    ($set-location (K hmk))
+    ($set-closed (K I)))
+  '((print-stars cont))
+  (list "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n"
+        'dwarves-upset))
 
 (define-test 'transitive-drop "drop-vase"
   '(($carry VASE)
@@ -1663,6 +1693,12 @@ all of its bugs were added by Don Knuth.\n"
         'debris
         'debris
         'limbo))
+
+(define-test 'dwarves-upset ""
+  '()
+  '((print-stars cont))
+  (list "The resulting ruckus has awakened the dwarves.  There are now several\nthreatening little dwarves in the room with you!  Most of them throw\nknives at you!  All of them get you!\n"
+        'quit))
 
 (define-test 'cycle "count-start"
   '(($set-location (K outside)))

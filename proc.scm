@@ -413,7 +413,7 @@ all of its bugs were added by Don Knuth."))
            (goto get-user-input (increment-visits world))
            (let* ((bas ($base-of (car lst)))
                   (tt (if (zero? bas) (car lst) bas)))
-             (let-world ((if (($prop-of tt) I I)  ; TODO: check !closed
+             (let-world ((if (or (($prop-of tt) I I) $closed)
                              world
                              ($set-prop-of tt (K (cond ((= tt RUG) c1)
                                                        ((= tt CHAIN) c1)
@@ -461,6 +461,12 @@ all of its bugs were added by Don Knuth."))
             ($goto handle-object-word))
            (else
             ($goto cant-see-it)))))
+
+; 192 Deal with death and resurrection
+(define-proc 'dwarves-upset
+  `(lambda (world)
+     ((string "The resulting ruckus has awakened the dwarves.  There are now several\nthreatening little dwarves in the room with you!  Most of them throw\nknives at you!  All of them get you!\n")
+      ($goto quit))))
 
 ; 92 case TAKE:
 (define-proc 'intransitive-take
@@ -514,8 +520,9 @@ all of its bugs were added by Don Knuth."))
                                 (ret ($goto get-object))
                                 ($set-obj (K MESSAGE)))
                             world)
-                        ; TODO: if (closed && toting(OYSTER)) obj=OYSTER
-                        )
+                        (if (and $closed ($toting? OYSTER))
+                            ($set-obj (K OYSTER))
+                            world))
               (if (nonzero? $obj)
                   ($goto transitive)
                   ($goto get-object))))))))
@@ -724,10 +731,10 @@ all of its bugs were added by Don Knuth."))
     (if ($here? SNAKE)
 	(let-world (($destroy SNAKE)
 		    ($set-prop-of SNAKE (K c1))
-                    ; TODO: if (closed) goto dwarves_upset;
 		    ($set-prop-of BIRD (K c0))
                     ($drop BIRD $location))
-	  ($report (string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.")))
+          ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
+           ($goto (if $closed dwarves-upset get-user-input))))
         ; TODO: handle dragon case
         (let-world (($set-prop-of BIRD (K c0))
                     ($drop BIRD $location))
