@@ -2236,6 +2236,96 @@ all of its bugs were added by Don Knuth.\n"
         0
         121))
 
+(define-test 'quit "1-turn"
+  '((set-nth world set-hinted c8 (K c0))
+    ($set-turns (K (to-cons1 c1))))
+  '()
+  (list "You scored 32 points out of a possible 350, using 1 turn.\n"
+        "You are obviously a rank amateur.  Better luck next time.\n"
+        "To achieve the next higher rating, you need 3 more points.\n"))
+
+(define-test 'quit "1-point"
+  '((set-nth world set-hinted c4 (K c0))
+    ($set-death-count (K c3))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 1 point out of a possible 350, using 2 turns.\n"
+        "You are obviously a rank amateur.  Better luck next time.\n"
+        "To achieve the next higher rating, you need 34 more points.\n"))
+
+(define-test 'quit "1-more-point"
+  '((set-nth world set-hinted c8 (K c2))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 34 points out of a possible 350, using 2 turns.\n"
+        "You are obviously a rank amateur.  Better luck next time.\n"
+        "To achieve the next higher rating, you need 1 more point.\n"))
+
+(define-test 'quit "rank2"
+  '((set-nth world set-hinted c8 (K c3))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 35 points out of a possible 350, using 2 turns.\n"
+        "Your score qualifies you as a novice class adventurer.\n"
+        "To achieve the next higher rating, you need 65 more points.\n"))
+
+(define-test 'quit "rank3"
+  '((set-nth world set-hinted c8 (K c68))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 100 points out of a possible 350, using 2 turns.\n"
+        "You have achieved the rating \"Experienced Adventurer\".\n"
+        "To achieve the next higher rating, you need 30 more points.\n"))
+
+(define-test 'quit "rank4"
+  '((set-nth world set-hinted c8 (K c98))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 130 points out of a possible 350, using 2 turns.\n"
+        "You may now consider yourself a \"Seasoned Adventurer\".\n"
+        "To achieve the next higher rating, you need 70 more points.\n"))
+
+(define-test 'quit "rank5"
+  '((set-nth world set-hinted c8 (K c168))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 200 points out of a possible 350, using 2 turns.\n"
+        "You have reached \"Junior Master\" status.\n"
+        "To achieve the next higher rating, you need 50 more points.\n"))
+
+(define-test 'quit "rank6"
+  '((set-nth world set-hinted c8 (K c218))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 250 points out of a possible 350, using 2 turns.\n"
+        "Your score puts you in Master Adventurer Class C.\n"
+        "To achieve the next higher rating, you need 50 more points.\n"))
+
+(define-test 'quit "rank7"
+  '((set-nth world set-hinted c8 (K c268))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 300 points out of a possible 350, using 2 turns.\n"
+        "Your score puts you in Master Adventurer Class B.\n"
+        "To achieve the next higher rating, you need 30 more points.\n"))
+
+(define-test 'quit "rank8"
+  '((set-nth world set-hinted c8 (K c298))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 330 points out of a possible 350, using 2 turns.\n"
+        "Your score puts you in Master Adventurer Class A.\n"
+        "To achieve the next higher rating, you need 19 more points.\n"))
+
+(define-test 'quit "rank9"
+  '((set-nth world set-hinted c8 (K c317))
+    ($set-turns (K (to-cons1 c2))))
+  '()
+  (list "You scored 349 points out of a possible 350, using 2 turns.\n"
+        "All of Adventuredom gives tribute to you, Adventure Grandmaster!\n"
+        "To achieve the next higher rating would be a neat trick!\n"
+        "Congratulations!!\n"))
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each

@@ -31,10 +31,12 @@
      (lambda (**if-dummy**) ,alternative)) I))
 
 (defsyntax (begin . es)
-  (reduce-right (lambda (e rest)
-                  (if rest `(K I ,e ,rest) e))
-                #f
-                es))
+  (if (null? es)
+      'I
+      (reduce-right (lambda (e rest)
+                      (if rest `(K I ,e ,rest) e))
+                    #f
+                    es)))
 
 (defsyntax (when condition consequent)
   `((,condition

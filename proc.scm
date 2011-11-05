@@ -1150,9 +1150,57 @@ all of its bugs were added by Don Knuth."))
             (hint-score $hinted))
          c31)))
 
+(defmacro class-score
+  (list c35 c100 c130 c200 c250 c300 c330 c349 c1024))
+
+(defmacro highest-class c8)
+
+(defmacro class-message
+  (list 
+   (string "You are obviously a rank amateur.  Better luck next time.")
+   (string "Your score qualifies you as a novice class adventurer.")
+   (string "You have achieved the rating \"Experienced Adventurer\".")
+   (string "You may now consider yourself a \"Seasoned Adventurer\".")
+   (string "You have reached \"Junior Master\" status.")
+   (string "Your score puts you in Master Adventurer Class C.")
+   (string "Your score puts you in Master Adventurer Class B.")
+   (string "Your score puts you in Master Adventurer Class A.")
+   (string "All of Adventuredom gives tribute to you, Adventure Grandmaster!")))
+
+(defmacro (rank-score score)
+  (let loop ((n c0)
+             (lst class-score))
+    (if (< score (car lst))
+        n
+        (loop (succ n) (cdr lst)))))
+
 (define-proc 'quit
   `(lambda (world)
-     (exit (print "quit: not implemented\n"))))
+     (let ((k (score world))
+           (itoa (print-digit)))
+       (begin
+         (print "You scored ")
+         ((itoa k) I)
+         (print " point")
+         ((if (= k c1) I #\s) I)
+         (print " out of a possible 350, using ")
+         ((itoa (cons1-length $turns)) I)
+         (print " turn")
+         ((if (cons1? (1-of-1 $turns)) #\s I) I)
+         (print ".\n")
+         (let ((rank (rank-score k)))
+           (begin
+             ((nth rank class-message) I)
+             (print "\nTo achieve the next higher rating")
+             (if (< rank highest-class)
+                 (begin
+                   (print ", you need ")
+                   ((itoa (sub (nth rank class-score) k)) I)
+                   (print " more point")
+                   ((if (= (succ k) (nth rank class-score)) I #\s) I)
+                   (print ".\n"))
+                 (print " would be a neat trick!\nCongratulations!!\n"))
+             (exit I)))))))
 
 (define program-table
   (map (lambda (x) (compile-to-string (if (undefined? x) 'V x)))
