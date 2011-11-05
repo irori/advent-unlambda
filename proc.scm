@@ -875,6 +875,56 @@
    #\newline
    ($goto mainloop)))
 
+(define-proc 'pitch-dark
+  `(lambda (world)
+     (let-world (($set-oldlocs (lambda (p) (cons (car p) $location))))
+       ((string "You fell into a pit and broke every bone in your body!\n")
+        ($goto death)))))
+
+(defmacro max-deaths c3)
+
+(define-proc 'death
+  `(lambda (world)
+     (let-world (($set-death-count succ))
+       ; TODO: handle closing
+       (if (not (and (yes (nth $death-count death-wishes-q)
+                          (nth $death-count death-wishes-y)
+                          (string "OK."))
+                (< $death-count max-deaths)))
+           ($goto quit)
+           (let-world ((if ($toting? LAMP)
+                           (set-prop-of LAMP (K c0)
+                                        ($drop LAMP road))
+                           world)
+                       ($drop WATER limbo)
+                       ($drop OIL limbo)
+                       (drop-items world $objects-toting)
+                       ($set-location (K house))
+                       ($set-oldlocs (lambda (p) (cons house (cdr p)))))
+             ($goto commence))))))
+
+(defmacro death-wishes-q
+  (list
+   V
+   (string "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?")
+   (string "You clumsy oaf, you've done it again!  I don't know how long I can\nkeep this up.  Do you want me to try reincarnating you again?")
+   (string "Now you've really done it!  I'm out of orange smoke!  You don't expect\nme to do a decent reincarnation without any orange smoke, do you?")))
+
+(defmacro death-wishes-y
+  (list
+   V
+   (string "All right.  But don't blame me if something goes wr......\n                 --- POOF!! ---\nYou are engulfed in a cloud of orange smoke.  Coughing and gasping,\nyou emerge from the smoke and find....")
+   (string "Okay, now where did I put my resurrection kit?....  >POOF!<\nEverything disappears in a dense cloud of orange smoke.")
+   (string "Okay, if you're so smart, do it yourself!  I'm leaving!")))
+
+(defrecmacro (drop-items world objs)
+  (if (null? objs)
+      world
+      (objs
+       (lambda (hd tl)
+         (let-world (($drop hd (cdr $oldlocs)))
+           (drop-items world tl))))))
+
 (define-proc 'not-implemented
   '(lambda (world)
      ((string "\nnot implemented\n") exit I)))
@@ -883,13 +933,9 @@
   `(lambda (world)
      (exit (print "give-up: not implemented\n"))))
 
-(define-proc 'death
+(define-proc 'quit
   `(lambda (world)
-     (exit (print "death: not implemented\n"))))
-
-(define-proc 'pitch-dark
-  `(lambda (world)
-     (exit (print "'pitch-dark: not implemented\n"))))
+     (exit (print "quit: not implemented\n"))))
 
 (define program-table
   (map (lambda (x) (compile-to-string (if (undefined? x) 'V x)))

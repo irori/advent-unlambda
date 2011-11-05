@@ -36,6 +36,7 @@
      obj
      oldobj
      not-warned
+     death-count
      liquid
      default-msg
      message

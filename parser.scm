@@ -438,8 +438,8 @@ unless you explicitly ask me to.")
          (call/cc
           (begin
             (q (string "\n>> ") @ I)
-            ((read-char=? #\y #\Y) y ret I)
-            ((read-char=? #\n #\N) n ret V)
+            ((read-char=? #\y #\Y) y #\newline ret I)
+            ((read-char=? #\n #\N) n #\newline ret V)
             skip-until-newline
             (print " Please answer Yes or No.\n"))))))
      skip-until-newline))

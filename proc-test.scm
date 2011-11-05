@@ -10,9 +10,12 @@
 
 (define tests '())
 (define (define-test proc-id testname setups outputs expect)
-  (push! tests (list proc-id testname setups outputs expect)))
+  (push! tests (list proc-id testname setups "" outputs expect)))
 
-(define (test-proc proc-id testname setups outputs expect)
+(define (define-input-test proc-id testname setups input outputs expect)
+  (push! tests (list proc-id testname setups input outputs expect)))
+
+(define (test-proc proc-id testname setups stdin outputs expect)
   (let* ((testcode `((lambda (world proc)
 		       (let-world ,setups
 			 ((proc world)
@@ -23,7 +26,7 @@
 	 (unl (compile-to-string testcode))
 	 (process (run-process '(unlambda) :input :pipe :output :pipe))
          (expect-str (make-expected-string expect))
-	 (out (read-process-output process unl)))
+	 (out (read-process-output process (string-append unl "\n" stdin))))
     (if (string=? expect-str out)
         (begin
           (display #\.)
@@ -1540,6 +1543,90 @@
   (list "The oyster creaks open, revealing nothing but oyster inside.\nIt promptly snaps shut again.\n"
         'get-user-input))
 
+(define-test 'pitch-dark ""
+  '(($set-oldlocs (K (icons house road)))
+    ($set-location (K debris)))
+  '((print-stars cont)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs)))
+  (list "You fell into a pit and broke every bone in your body!\n"
+        'death
+        'house
+        'debris))
+
+(define-input-test 'death "no"
+  '()
+  "n\n"
+  '((print-stars cont)
+    (print-stars $death-count))
+  (list "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?"
+        "\n>> "
+        "OK.\n"
+        'quit
+        1))
+
+(define-input-test 'death "yes1"
+  '()
+  "y\n"
+  '((print-stars cont)
+    (print-stars $death-count))
+  (list "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?"
+        "\n>> "
+        "All right.  But don't blame me if something goes wr......\n                 --- POOF!! ---\nYou are engulfed in a cloud of orange smoke.  Coughing and gasping,\nyou emerge from the smoke and find....\n"
+        'commence
+        1))
+
+(define-input-test 'death "yes2"
+  '(($set-death-count (K c1)))
+  "y\n"
+  '((print-stars cont)
+    (print-stars $death-count))
+  (list "You clumsy oaf, you've done it again!  I don't know how long I can\nkeep this up.  Do you want me to try reincarnating you again?"
+        "\n>> "
+        "Okay, now where did I put my resurrection kit?....  >POOF!<\nEverything disappears in a dense cloud of orange smoke.\n"
+        'commence
+        2))
+
+(define-input-test 'death "yes3"
+  '(($set-death-count (K c2)))
+  "y\n"
+  '((print-stars cont)
+    (print-stars $death-count))
+  (list "Now you've really done it!  I'm out of orange smoke!  You don't expect\nme to do a decent reincarnation without any orange smoke, do you?"
+        "\n>> "
+        "Okay, if you're so smart, do it yourself!  I'm leaving!\n"
+        'quit
+        3))
+
+(define-input-test 'death "move-items"
+  '(($carry LAMP)
+    ($set-prop-of LAMP (K c1))
+    ($carry KEYS)
+    ($carry BOTTLE)
+    ($carry WATER)
+    ($set-oldlocs (K (icons cobbles debris))))
+  "y\n"
+  '((print-stars cont)
+    (print-stars $location)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs))
+    (print-stars ($place-of LAMP))
+    (print-stars ($prop-of LAMP))
+    (print-stars ($place-of KEYS))
+    (print-stars ($place-of BOTTLE))
+    (print-stars ($place-of WATER)))
+  (list "Oh dear, you seem to have gotten yourself killed.  I might be able to\nhelp you out, but I've never really done this before.  Do you want me\nto try to reincarnate you?"
+        "\n>> "
+        "All right.  But don't blame me if something goes wr......\n                 --- POOF!! ---\nYou are engulfed in a cloud of orange smoke.  Coughing and gasping,\nyou emerge from the smoke and find....\n"
+        'commence
+        'house
+        'house
+        'debris
+        'road
+        0
+        'debris
+        'debris
+        'limbo))
 
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
