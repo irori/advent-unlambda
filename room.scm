@@ -145,7 +145,7 @@ in the rock.  Downstream the streambed is bare rock."
 dirt is a strong steel grate mounted in concrete.  A dry streambed\n\
 leads into the depression."
   "You're outside grate."
-  '(lighted cave_hint)
+  '(lighted cave-hint)
   (list 'forest 0 '(WOODS E W SOUTH))
   (list 'road 0 '(HOUSE))
   (list 'slit 0 '(UPSTREAM GULLY N))
@@ -206,7 +206,7 @@ says \"MAGIC WORD XYZZY\"."
 rivers of orange stone.  An awkward canyon and a good passage exit\n\
 from east and west sides of the chamber."
   "You're in bird chamber."
-  '(bird_hint)
+  '(bird-hint)
   (list 'outside (cond-not 'GRATE 0) '(DEPRESSION))
   (list 'inside 0 '(ENTRANCE))
   (list 'debris 0 '(DEBRIS))
@@ -290,7 +290,7 @@ passage 6 feet off the floor."
   (list 'elong 0 '(W CRAWL))
   )
 
-(define-location 'like1 all-alike #f '(twist_hint)
+(define-location 'like1 all-alike #f '(twist-hint)
   (list 'wmist 0 '(U))
   (list 'like1 0 '(N))
   (list 'like2 0 '(E))
@@ -298,20 +298,20 @@ passage 6 feet off the floor."
   (list 'like11 0 '(W))
   )
 
-(define-location 'like2 all-alike #f '(twist_hint)
+(define-location 'like2 all-alike #f '(twist-hint)
   (list 'like1 0 '(W))
   (list 'like3 0 '(SOUTH))
   (list 'like4 0 '(E))
   )
 
-(define-location 'like3 all-alike #f '(twist_hint)
+(define-location 'like3 all-alike #f '(twist-hint)
   (list 'like2 0 '(E))
   (list 'dead5 0 '(D))
   (list 'like6 0 '(SOUTH))
   (list 'dead9 0 '(N))
   )
 
-(define-location 'like4 all-alike #f '(twist_hint)
+(define-location 'like4 all-alike #f '(twist-hint)
   (list 'like1 0 '(W))
   (list 'like2 0 '(N))
   (list 'dead3 0 '(E))
@@ -319,26 +319,26 @@ passage 6 feet off the floor."
   (list 'like14 0 '(U D))
   )
 
-(define-location 'like5 all-alike #f '(twist_hint)
+(define-location 'like5 all-alike #f '(twist-hint)
   (list 'like6 0 '(E))
   (list 'like7 0 '(W))
   )
 
-(define-location 'like6 all-alike #f '(twist_hint)
+(define-location 'like6 all-alike #f '(twist-hint)
   (list 'like3 0 '(E))
   (list 'like5 0 '(W))
   (list 'like7 0 '(D))
   (list 'like8 0 '(SOUTH))
   )
 
-(define-location 'like7 all-alike #f '(twist_hint)
+(define-location 'like7 all-alike #f '(twist-hint)
   (list 'like5 0 '(W))
   (list 'like6 0 '(U))
   (list 'like8 0 '(E))
   (list 'like9 0 '(SOUTH))
   )
 
-(define-location 'like8 all-alike #f '(twist_hint)
+(define-location 'like8 all-alike #f '(twist-hint)
   (list 'like6 0 '(W))
   (list 'like7 0 '(E))
   (list 'like8 0 '(SOUTH))
@@ -347,38 +347,38 @@ passage 6 feet off the floor."
   (list 'dead11 0 '(D))
   )
 
-(define-location 'like9 all-alike #f '(twist_hint)
+(define-location 'like9 all-alike #f '(twist-hint)
   (list 'like7 0 '(W))
   (list 'like8 0 '(N))
   (list 'dead6 0 '(SOUTH))
   )
 
-(define-location 'like10 all-alike #f '(twist_hint)
+(define-location 'like10 all-alike #f '(twist-hint)
   (list 'like8 0 '(W))
   (list 'like10 0 '(N))
   (list 'dead7 0 '(D))
   (list 'brink 0 '(E))
   )
 
-(define-location 'like11 all-alike #f '(twist_hint)
+(define-location 'like11 all-alike #f '(twist-hint)
   (list 'like1 0 '(N))
   (list 'like11 0 '(W SOUTH))
   (list 'dead1 0 '(E))
   )
 
-(define-location 'like12 all-alike #f '(twist_hint)
+(define-location 'like12 all-alike #f '(twist-hint)
   (list 'brink 0 '(SOUTH))
   (list 'like13 0 '(E))
   (list 'dead10 0 '(W))
   )
 
-(define-location 'like13 all-alike #f '(twist_hint)
+(define-location 'like13 all-alike #f '(twist-hint)
   (list 'brink 0 '(N))
   (list 'like12 0 '(W))
   (list 'dead2 0 '(NW))
   )
 
-(define-location 'like14 all-alike #f '(twist_hint)
+(define-location 'like14 all-alike #f '(twist-hint)
   (list 'like4 0 '(U D))
   )
 
@@ -480,7 +480,7 @@ joins up with a narrow north/south passage."
   "You are in the Hall of the Mountain King, with passages off in all\n\
 directions."
   "You're in Hall of Mt King."
-  '(snake_hint)
+  '(snake-hint)
   (list 'emist 0 '(STAIRS U E))
   (list 'ns (cond-not 'SNAKE 0) '(N L))
   (list 'south (cond-not 'SNAKE 0) '(SOUTH R))
@@ -661,7 +661,7 @@ main passage.")
 (define-location 'witt
   "You are at Witt's End.  Passages lead off in \"all\" directions."
   "You're at Witt's End."
-  '(witt_hint)
+  '(witt-hint)
   (list loop-rmk 95 '(E N SOUTH NE SE SW NW U D))
   (list 'ante 0 '(E))
   (list "You have crawled around in some little holes and found your way\n\
@@ -901,7 +901,7 @@ exits to the south and west."
 distance.  An extremely tight tunnel leads east.  It looks like a very\n\
 tight squeeze.  An eerie light can be seen at the other end."
   "You're in alcove."
-  '(dark_hint)
+  '(dark-hint)
   (list 'misty 0 '(NW CAVERN))
   (list 'ppass 0 '(E PASSAGE))
   (list 'proom 0 '(E))
@@ -911,7 +911,7 @@ tight squeeze.  An eerie light can be seen at the other end."
   "You're in a small chamber lit by an eerie green light.  An extremely\n\
 narrow tunnel exits to the west.  A dark corridor leads NE."
   "You're in Plover Room."
-  '(lighted dark_hint)
+  '(lighted dark-hint)
   (list 'ppass 0 '(W PASSAGE OUT))
   (list 'alcove 0 '(W))
   (list 'pdrop (cond-holds 'EMERALD) '(PLOVER))
@@ -922,7 +922,7 @@ narrow tunnel exits to the west.  A dark corridor leads NE."
 (define-location 'droom
   "You're in the Dark-Room.  A corridor leading south is the only exit."
   "You're in Dark-Room."
-  '(dark_hint)
+  '(dark-hint)
   (list 'proom 0 '(SOUTH PLOVER OUT))
   )
 
@@ -1069,37 +1069,37 @@ from the chasm into a winding corridor."
 (define-location 'dead0 dead-end #f '()
   (list 'cross 0 '(SOUTH OUT)))
 
-(define-location 'dead1 dead-end #f '(twist_hint)
+(define-location 'dead1 dead-end #f '(twist-hint)
   (list 'like11 0 '(W OUT)))
 
 (define-location 'dead2 dead-end #f '()
   (list 'like13 0 '(SE)))
 
-(define-location 'dead3 dead-end #f '(twist_hint)
+(define-location 'dead3 dead-end #f '(twist-hint)
   (list 'like4 0 '(W OUT)))
 
-(define-location 'dead4 dead-end #f '(twist_hint)
+(define-location 'dead4 dead-end #f '(twist-hint)
   (list 'like4 0 '(E OUT)))
 
-(define-location 'dead5 dead-end #f '(twist_hint)
+(define-location 'dead5 dead-end #f '(twist-hint)
   (list 'like3 0 '(U OUT)))
 
-(define-location 'dead6 dead-end #f '(twist_hint)
+(define-location 'dead6 dead-end #f '(twist-hint)
   (list 'like9 0 '(W OUT)))
 
-(define-location 'dead7 dead-end #f '(twist_hint)
+(define-location 'dead7 dead-end #f '(twist-hint)
   (list 'like10 0 '(U OUT)))
 
 (define-location 'dead8 dead-end #f '()
   (list 'brink 0 '(E OUT)))
 
-(define-location 'dead9 dead-end #f '(twist_hint)
+(define-location 'dead9 dead-end #f '(twist-hint)
   (list 'like3 0 '(SOUTH OUT)))
 
-(define-location 'dead10 dead-end #f '(twist_hint)
+(define-location 'dead10 dead-end #f '(twist-hint)
   (list 'like12 0 '(E OUT)))
 
-(define-location 'dead11 dead-end #f '(twist_hint)
+(define-location 'dead11 dead-end #f '(twist-hint)
   (list 'like8 0 '(U OUT)))
 
 
@@ -1408,6 +1408,7 @@ It would be advisable to use the exit."
                   (compile-back-table (make-back-table i insts))))
             travels))))
 
+; TODO: compress it
 (add-unl-macro!
  'lighted-rooms '()
  `(list ,@(map (lambda (flags) (if (memq 'lighted flags) 'I 'V))
@@ -1416,6 +1417,21 @@ It would be advisable to use the exit."
 (defmacro (lighted? loc)
   (nth loc lighted-rooms))
 
+; TODO: compress it
+(add-unl-macro!
+ 'room-hint '()
+ `(list ,@(map
+           (lambda (flags)
+             (cond ((memq 'cave-hint flags) 'c0)
+                   ((memq 'bird-hint flags) 'c1)
+                   ((memq 'snake-hint flags) 'c2)
+                   ((memq 'twist-hint flags) 'c3)
+                   ((memq 'dark-hint flags) 'c4)
+                   ((memq 'witt-hint flags) 'c5)
+                   (else 'V)))
+           loc-flags)))
+
+; TODO: compress it
 (add-unl-macro!
  'initial-liquid '()
  `(list ,@(map (lambda (flags)

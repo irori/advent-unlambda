@@ -1628,6 +1628,308 @@
         'debris
         'limbo))
 
+(define-test 'cycle "count-start"
+  '(($set-location (K outside)))
+  '((print-stars cont)
+    (print-stars (car $hint-count))
+    (print-stars (cons1-length (cdr $hint-count))))
+  (list 'cycle2
+        0
+        1))
+
+(define-test 'cycle "count-inc"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (cons1 V)))))
+  '((print-stars cont)
+    (print-stars (car $hint-count))
+    (print-stars (cons1-length (cdr $hint-count))))
+  (list 'cycle2
+        0
+        2))
+
+(define-test 'cycle "count-reset"
+  '(($set-location (K hill))
+    ($set-hint-count (K (cons c0 (cons1 V)))))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-test 'cycle "count-change"
+  '(($set-location (K bird))
+    ($set-hint-count (K (cons c0 (cons1 (cons1 V))))))
+  '((print-stars cont)
+    (print-stars (car $hint-count))
+    (print-stars (cons1-length (cdr $hint-count))))
+  (list 'cycle2
+        1
+        1))
+
+(define-test 'cycle "already-hinted"
+  '(($set-location (K bird))
+    (set-nth world set-hinted c1 (K I))
+    ($set-hint-count (K (cons c1 (cons1 V)))))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-test 'cycle "under-thresh"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (c2 cons1 V)))))
+  '((print-stars cont)
+    (print-stars (car $hint-count))
+    (print-stars (cons1-length (cdr $hint-count))))
+  (list 'cycle2
+        0
+        3))
+
+(define-test 'cycle "grate-condition-not-met"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (c3 cons1 V))))
+    ($carry KEYS))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-input-test 'cycle "reject1"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (c3 cons1 V)))))
+  "n\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (car $hinted)))
+  (list "Are you trying to get into the cave?"
+        "\n>> "
+        "OK.\n"
+        'cycle2
+        #f
+        #f))
+
+(define-input-test 'cycle "reject2"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (c3 cons1 V)))))
+  "y\nn\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (car $hinted)))
+  (list "Are you trying to get into the cave?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 2 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "OK.\n"
+        'cycle2
+        #f
+        #f))
+
+(define-input-test 'cycle "grate-accept"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (c3 cons1 V))))
+    ($set-limit (K (to-cons1 c31))))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (car $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Are you trying to get into the cave?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 2 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.\n"
+        'cycle2
+        #f
+        #t
+        91))
+
+(define-input-test 'cycle "do-not-enpower-lamp"
+  '(($set-location (K outside))
+    ($set-hint-count (K (cons c0 (c3 cons1 V))))
+    ($set-limit (K (to-cons1 c30))))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (car $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Are you trying to get into the cave?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 2 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.\n"
+        'cycle2
+        #f
+        #t
+        30))
+
+(define-test 'cycle "bird-condition-not-met"
+  '(($set-location (K bird))
+    ($set-hint-count (K (cons c1 (c5 cons1 V))))
+    ($set-oldobj (K BIRD)))
+  '((print-stars cont)
+    (print-stars (car $hint-count))
+    (print-stars (cons1-length (cdr $hint-count))))
+  (list 'cycle2
+        1
+        6))
+
+(define-input-test 'cycle "bird-accept"
+  '(($set-location (K bird))
+    ($set-limit (K (to-cons1 c31)))
+    ($set-hint-count (K (cons c1 (c5 cons1 V))))
+    ($set-oldobj (K BIRD))
+    ($carry ROD))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (nth c1 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Are you trying to catch the bird?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 2 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "Something seems to be frightening the bird just now and you cannot\ncatch it no matter what you try.  Perhaps you might try later.\n"
+        'cycle2
+        #f
+        #t
+        91))
+
+(define-test 'cycle "snake-condition-not-met"
+  '(($set-location (K hmk))
+    ($set-hint-count (K (cons c2 (c8 cons1 V))))
+    ($carry BIRD))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-input-test 'cycle "snake-accept"
+  '(($set-location (K hmk))
+    ($set-hint-count (K (cons c2 (c8 cons1 V))))
+    ($set-limit (K (to-cons1 c31))))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (nth c2 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Are you trying to deal somehow with the snake?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 2 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "You can't kill the snake, or drive it away, or avoid it, or anything\nlike that.  There is a way to get by, but you don't have the necessary\nresources right now.\n"
+        'cycle2
+        #f
+        #t
+        91))
+
+(define-test 'cycle "twist-condition-not-met"
+  '(($set-location (K like3))
+    ($set-oldlocs (K (icons like2 like1)))
+    ($set-hint-count (K (cons c3 (c75 cons1 V))))
+    ($carry BIRD))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-test 'cycle "twist-condition-not-met2"
+  '(($set-location (K like3))
+    ($set-oldlocs (K (icons like2 like1)))
+    ($set-hint-count (K (cons c3 (c75 cons1 V))))
+    ($drop BIRD like1)
+    ($carry LAMP)
+    ($carry KEYS))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-input-test 'cycle "twist-accept"
+  '(($set-location (K like3))
+    ($set-oldlocs (K (icons like2 like1)))
+    ($set-hint-count (K (cons c3 (c75 cons1 V))))
+    ($set-limit (K (to-cons1 c31)))
+    ($carry LAMP)
+    ($carry KEYS))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (nth c3 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Do you need help getting out of the maze?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 4 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "You can make the passages look less alike by dropping things.\n"
+        'cycle2
+        #f
+        #t
+        151))
+
+(define-test 'cycle "dark-condition-not-met"
+  '(($set-location (K droom))
+    ($set-prop-of EMERALD (K c0))
+    ($set-prop-of PYRAMID (K c0))
+    ($set-hint-count (K (cons c4 (c25 cons1 V)))))
+  '((print-stars cont)
+    (print-bool (pair? $hint-count)))
+  (list 'cycle2
+        #f))
+
+(define-input-test 'cycle "dark-accept"
+  '(($set-location (K droom))
+    ($set-hint-count (K (cons c4 (c25 cons1 V))))
+    ($set-prop-of EMERALD (K c0))
+    ($set-limit (K (to-cons1 c31))))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (nth c4 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Are you trying to explore beyond the Plover Room?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 5 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "There is a way to explore that region without having to worry about\nfalling into a pit.  None of the objects available is immediately\nuseful for discovering the secret.\n"
+        'cycle2
+        #f
+        #t
+        181))
+
+(define-input-test 'cycle "witt-accept"
+  '(($set-location (K witt))
+    ($set-hint-count (K (cons c5 (c20 cons1 V))))
+    ($set-limit (K (to-cons1 c31))))
+  "y\ny\n"
+  '((print-stars cont)
+    (print-bool (pair? $hint-count))
+    (print-bool (nth c5 $hinted))
+    (print-stars (cons1-length $limit)))
+  (list "Do you need help getting out of here?"
+        "\n>> "
+        " I am prepared to give you a hint,\n"
+        " but it will cost you 3 points.  "
+        "Do you want the hint?"
+        "\n>> "
+        "Don't go west.\n"
+        'cycle2
+        #f
+        #t
+        121))
+
 (define (main args)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each

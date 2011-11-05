@@ -36,6 +36,8 @@
      obj
      oldobj
      not-warned
+     hinted
+     hint-count
      death-count
      liquid
      default-msg

@@ -59,7 +59,7 @@
        ($goto cycle))))
 
 ; 76 cycle:
-(define-proc 'cycle
+(define-proc 'cycle2
   '(lambda (world)
      ; TODO: Check if a hint applies, and give it if requested 195
      (let ((words listen))
@@ -875,6 +875,7 @@
    #\newline
    ($goto mainloop)))
 
+; 188 Deal with death and resurrection
 (define-proc 'pitch-dark
   `(lambda (world)
      (let-world (($set-oldlocs (lambda (p) (cons (car p) $location))))
@@ -883,6 +884,7 @@
 
 (defmacro max-deaths c3)
 
+; 188 Deal with death and resurrection
 (define-proc 'death
   `(lambda (world)
      (let-world (($set-death-count succ))
@@ -924,6 +926,111 @@
        (lambda (hd tl)
          (let-world (($drop hd (cdr $oldlocs)))
            (drop-items world tl))))))
+
+; 195 Check if a hint applies, and give it if requested
+(defmacro hint-thresh
+  (list c4 c5 c8 c75 c25 c20))
+
+(define-proc 'cycle
+  '(lambda (world)
+     (let ((hintid (nth $location room-hint)))
+       (if (or (not (hintid I I)) (nth hintid $hinted))
+           (let-world (($set-hint-count (K V)))
+             ($goto cycle2))
+           (let-world (($set-hint-count
+                        (lambda (p)
+                          (cons hintid
+                                (cons1 (and (= (car p) hintid) (cdr p)))))))
+             (if (>= (cons1-length (cdr $hint-count))
+                     (nth (car $hint-count) hint-thresh))
+                 (if ((nth (car $hint-count)
+                           (list cave-hint
+                                 bird-hint
+                                 snake-hint
+                                 twist-hint
+                                 dark-hint
+                                 witt-hint))
+                      world)
+                     (let-world ((offer world)
+                                 ($set-hint-count (K V)))
+                       ($goto cycle2))
+                     (let-world ((if (= (car $hint-count) c1)
+                                     world
+                                     ($set-hint-count (K V))))
+                       ($goto cycle2)))
+                 ($goto cycle2)))))))
+
+(defmacro cave-hint
+  (lambda (world)
+    (and (zero? ($prop-of GRATE)) (not ($here? KEYS)))))
+
+(defmacro bird-hint
+  (lambda (world)
+    (and ($here? BIRD) (= $oldobj BIRD) ($toting? ROD))))
+
+(defmacro snake-hint
+  (lambda (world)
+    (and ($here? SNAKE) (not ($here? BIRD)))))
+
+(defmacro twist-hint
+  (lambda (world)
+    (and (not (let loop ((lst $place))
+                (lst
+                 (lambda (hd tl)
+                   (or (= hd $location)
+                       (= hd (car $oldlocs))
+                       (= hd (cdr $oldlocs))
+                       (loop tl))))))
+         (pair? (cdr $objects-toting)))))
+
+(defmacro dark-hint
+  (lambda (world)
+    (and (($prop-of EMERALD) I I)
+         (not (($prop-of PYRAMID) I I)))))
+
+(defmacro witt-hint
+  (lambda (world) I))
+
+(defmacro hint-cost
+  (list c2 c2 c2 c4 c5 c3))
+
+(defmacro hint-cost-string
+  (list #\2 #\2 #\2 #\4 #\5 #\3))
+
+(defmacro hint-prompt
+  (list (string "Are you trying to get into the cave?")
+        (string "Are you trying to catch the bird?")
+        (string "Are you trying to deal somehow with the snake?")
+        (string "Do you need help getting out of the maze?")
+        (string "Are you trying to explore beyond the Plover Room?")
+        (string "Do you need help getting out of here?")))
+
+(defmacro hints
+  (list (string "The grate is very solid and has a hardened steel lock.  You cannot\nenter without a key, and there are no keys in sight.  I would recommend\nlooking elsewhere for the keys.")
+        (string "Something seems to be frightening the bird just now and you cannot\ncatch it no matter what you try.  Perhaps you might try later.")
+        (string "You can't kill the snake, or drive it away, or avoid it, or anything\nlike that.  There is a way to get by, but you don't have the necessary\nresources right now.")
+        (string "You can make the passages look less alike by dropping things.")
+        (string "There is a way to explore that region without having to worry about\nfalling into a pit.  None of the objects available is immediately\nuseful for discovering the secret.")
+        (string "Don't go west.")))
+
+(defmacro offer
+  (lambda (world)
+    (if (yes (nth (car $hint-count) hint-prompt)
+             (string " I am prepared to give you a hint,")
+             (string "OK."))
+        ((string " but it will cost you ")
+         (nth (car $hint-count) hint-cost-string)
+         (string " points.  ") I
+         (if (yes (string "Do you want the hint?")
+                  (nth (car $hint-count) hints)
+                  (string "OK."))
+             (let-world ((set-nth world set-hinted (car $hint-count) (K I))
+                         (if (cons1? (c30 1-of-1 $limit))
+                             ($set-limit ((mul c30 (nth (car $hint-count) hint-cost)) cons1))
+                             world))
+               world)
+             world))
+        world)))
 
 (define-proc 'not-implemented
   '(lambda (world)
