@@ -62,6 +62,38 @@
   (#\{ (if b #\t #\f) #\} I))
 
 
+(define-input-test 'offer0 "no"
+  '()
+  "no\n"
+  '((print-stars cont)
+    (print-stars (cons1-length $limit)))
+  (list "Welcome to Adventure!!  Would you like instructions?"
+        "\n>> "
+        'mainloop
+        330))
+
+(define-input-test 'offer0 "yes"
+  '()
+  "yes\n"
+  '((print-stars cont)
+    (print-stars (cons1-length $limit)))
+  (list "Welcome to Adventure!!  Would you like instructions?"
+        "\n>> "
+        "Somewhere nearby is Colossal Cave, where others have found fortunes in\n\
+treasure and gold, though it is rumored that some who enter are never\n\
+seen again.  Magic is said to work in the cave.  I will be your eyes\n\
+and hands.  Direct me with commands of one or two words.  I should\n\
+warn you that I look at only the first five letters of each word, so\n\
+you'll have to enter \"NORTHEAST\" as \"NE\" to distinguish it from\n\
+\"NORTH\".  Should you get stuck, type \"HELP\" for some general hints.\n\
+For information on how to end your adventure, etc., type \"INFO\".\n\
+                        -  -  -\n\
+The first adventure program was developed by Willie Crowther.\n\
+Most of the features of the current program were added by Don Woods;\n\
+all of its bugs were added by Don Knuth.\n"
+        'mainloop
+        1000))
+
 (define-test 'mainloop ""
   '(($set-newloc (K like1)))
   '((print-stars cont)

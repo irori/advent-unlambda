@@ -11,6 +11,30 @@
   (define-enum (list name) (length procedures))
   (set! procedures (cons body procedures)))
 
+(defmacro start-msg
+  (string "Somewhere nearby is Colossal Cave, where others have found fortunes in\n\
+treasure and gold, though it is rumored that some who enter are never\n\
+seen again.  Magic is said to work in the cave.  I will be your eyes\n\
+and hands.  Direct me with commands of one or two words.  I should\n\
+warn you that I look at only the first five letters of each word, so\n\
+you'll have to enter \"NORTHEAST\" as \"NE\" to distinguish it from\n\
+\"NORTH\".  Should you get stuck, type \"HELP\" for some general hints.\n\
+For information on how to end your adventure, etc., type \"INFO\".\n\
+                        -  -  -\n\
+The first adventure program was developed by Willie Crowther.\n\
+Most of the features of the current program were added by Don Woods;\n\
+all of its bugs were added by Don Knuth."))
+
+; The entry point of the program
+(define-proc 'offer0
+  '(lambda (world)
+     (if (yes (string "Welcome to Adventure!!  Would you like instructions?")
+              start-msg (K I))
+         (let-world ((set-nth world set-hinted c6 (K I))
+                     ($set-limit (K (to-cons1 c1000))))
+           ($goto mainloop))
+         ($goto mainloop))))
+
 ; 75 Simulate an adventure, going to quit when finished
 (define-proc 'mainloop
   '(lambda (world)
@@ -1051,4 +1075,4 @@
 (add-unl-macro!
  'program-table '() `(list ,@program-table))
 
-(defmacro initial-pc mainloop)
+(defmacro initial-pc offer0)
