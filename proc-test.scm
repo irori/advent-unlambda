@@ -993,6 +993,13 @@ all of its bugs were added by Don Knuth.\n"
         "OK.\n"
         'get-user-input))
 
+(define-test 'give-up ""
+  '()
+  '((print-stars cont)
+    (print-stars (nth c8 $hinted)))
+  (list 'quit
+        0))
+
 (define-test 'transitive-eat "food"
   '(($set-obj (K FOOD)))
   '((print-stars cont))

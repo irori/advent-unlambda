@@ -560,6 +560,12 @@ all of its bugs were added by Don Knuth."))
          ($goto give-up)
          ($goto get-user-input))))
 
+; 95 give_up:
+(define-proc 'give-up
+  `(lambda (world)
+     (let-world ((set-nth world set-hinted c8 (K c0)))
+       ($goto quit))))
+
 ; 98 case EAT:
 (defsyntax (eat-special? x)
   `(nth ,x ,(make-boolean-list
@@ -1102,10 +1108,6 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'not-implemented
   '(lambda (world)
      ((string "\nnot implemented\n") exit I)))
-
-(define-proc 'give-up
-  `(lambda (world)
-     (exit (print "give-up: not implemented\n"))))
 
 (define-proc 'quit
   `(lambda (world)
