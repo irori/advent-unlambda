@@ -256,7 +256,7 @@ all of its bugs were added by Don Knuth.\n"
     ($drop ROD neend)
     ($set-prop-of ROD (K V)))
   '((print-stars cont)
-    (print-bool (($prop-of ROD) I I)))
+    (print-bool (churchnum? ($prop-of ROD))))
   (list 'get-user-input
         #f))
 
@@ -1024,6 +1024,79 @@ all of its bugs were added by Don Knuth.\n"
         yesno-prompt
         "OK.\n"
         'get-user-input))
+
+(define-input-test 'intransitive-score "bonus"
+  '((set-nth world set-hinted c9 (K c10)))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 42\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "death"
+  '(($set-death-count (K c1)))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 22\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "witt"
+  '(($drop MAG witt))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 33\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "found-gold"
+  '(($set-prop-of GOLD (K c0)))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 34\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "got-gold"
+  '(($set-prop-of GOLD (K c0))
+    ($drop GOLD house))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 44\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "got-chest"
+  '(($set-prop-of CHEST (K c0))
+    ($drop CHEST house))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 46\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
+(define-input-test 'intransitive-score "got-chain"
+  '(($set-prop-of CHAIN (K c0))
+    ($drop CHAIN house))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 48\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
 
 (define-input-test 'intransitive-quit "yes"
   '()

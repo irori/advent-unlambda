@@ -1,8 +1,10 @@
 (require "enum.scm")
 
 (define min-treasure (lookup-enum 'GOLD))
+(defmacro min-treasure GOLD)
 (define (treasure? t) (>= (lookup-enum t) min-treasure))
 (define max-obj (lookup-enum 'CHAIN))
+(defmacro max-obj CHAIN)
 
 (define object-base (make-vector (+ 2 max-obj)))
 (define object-prop (make-vector (+ 1 max-obj)))
@@ -219,7 +221,7 @@ on the underside of\nthe oyster.")
 		object-note))))
 
 (defmacro (toting? object world)
-  (not ((nth object (place world)) I I)))
+  (not (churchnum? (nth object (place world)))))
 (defmacro ($toting? object) (toting? object world))
 
 (defmacro (at-loc? object world)
@@ -232,7 +234,7 @@ on the underside of\nthe oyster.")
 
 (defmacro (here? object world)
   (let ((obj-place (nth object (place world))))
-    (or (not (obj-place I I))
+    (or (not (churchnum? obj-place))
         (= obj-place (location world)))))
 (defmacro ($here? object) (here? object world))
 
@@ -253,7 +255,7 @@ on the underside of\nthe oyster.")
              (n c1))
     (lst
      (lambda (hd tl)
-       ((if (hd I I) I (cons n))
+       ((if (churchnum? hd) I (cons n))
         (loop tl (succ n)))))))
 (defmacro $objects-toting (objects-toting world))
 

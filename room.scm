@@ -1464,7 +1464,7 @@ It would be advisable to use the exit."
          (cond ((= pdrop nl)
                 (let-world (($drop EMERALD $location))
                   (apply-inst tl world)))
-               ((nl I I)
+               ((churchnum? nl)
                 ($set-newloc (K nl)))
                (else
                 (apply-inst tl world))))))))

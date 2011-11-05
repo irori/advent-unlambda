@@ -12,6 +12,8 @@
      ,(let rec ((n n))
 	(if (zero? n) 'z `(s ,(rec (- n 1)))))))
 
+(defmacro (churchnum? x) (x I I))
+
 (defsyntax (add-n n num)
   `(lambda (s z)
      ,(let rec ((n n))

@@ -415,7 +415,7 @@ all of its bugs were added by Don Knuth."))
            (goto get-user-input (increment-visits world))
            (let* ((bas ($base-of (car lst)))
                   (tt (if (zero? bas) (car lst) bas)))
-             (let-world ((if (or (($prop-of tt) I I) $closed)
+             (let-world ((if (or (churchnum? ($prop-of tt)) $closed)
                              world
                              ($set-prop-of tt (K (cond ((= tt RUG) c1)
                                                        ((= tt CHAIN) c1)
@@ -444,7 +444,7 @@ all of its bugs were added by Don Knuth."))
                                           ENTRANCE   ; awk
                                           ENTRANCE   ; bird
                                           ENTRANCE)))) ; spit
-              (if (m I I)
+              (if (churchnum? m)
                   ($try-motion m)
                   ($goto cant-see-it))))
            ; TODO: handle dwarf
@@ -497,10 +497,10 @@ all of its bugs were added by Don Knuth."))
                          (($here? OYSTER) OYSTER)
                          (else V))))
        (if ($here? CHAIN)
-           (if (object I I)
+           (if (churchnum? object)
                ($goto get-object)
                (goto transitive ($set-obj (K CHAIN))))
-           (if (object I I)
+           (if (churchnum? object)
                (goto transitive ($set-obj (K object)))
                ($report (string "There is nothing here with a lock!")))))))
 
@@ -642,7 +642,7 @@ all of its bugs were added by Don Knuth."))
     (lst
      (lambda (hd tl)
        (let ((next (loop tl (succ n))))
-         (cond ((or (hd I I) (= n WATER) (= n OIL)) (next count))
+         (cond ((or (churchnum? hd) (= n WATER) (= n OIL)) (next count))
                ((cons1? count) (next (1-of-1 count)))
                (else I)))))))
 
@@ -915,7 +915,7 @@ all of its bugs were added by Don Knuth."))
               ((string "Sorry, but I no longer seem to remember how you got here.\n")
                ($goto mainloop))
               (let ((m ((nth $location back-table) l)))
-                (if (m I I)
+                (if (churchnum? m)
                     (goto go-for-it ($set-mot (K m)))
                     ((string "You can't get there from here.\n")
                      ($goto mainloop))))))))))
@@ -1020,7 +1020,7 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'cycle
   '(lambda (world)
      (let ((hintid (nth $location room-hint)))
-       (if (or (not (hintid I I)) (zero? (nth hintid $hinted)))
+       (if (or (not (churchnum? hintid)) (zero? (nth hintid $hinted)))
            (let-world (($set-hint-count (K V)))
              ($goto cycle2))
            (let-world (($set-hint-count
@@ -1071,8 +1071,8 @@ all of its bugs were added by Don Knuth."))
 
 (defmacro dark-hint
   (lambda (world)
-    (and (($prop-of EMERALD) I I)
-         (not (($prop-of PYRAMID) I I)))))
+    (and (churchnum? ($prop-of EMERALD))
+         (not (churchnum? ($prop-of PYRAMID))))))
 
 (defmacro witt-hint
   (lambda (world) I))
@@ -1119,8 +1119,19 @@ all of its bugs were added by Don Knuth."))
   '(lambda (world)
      ((string "\nnot implemented\n") exit I)))
 
-; TODO: implement this
-(defmacro (treasure-score world) c0)
+(defmacro (treasure-score world)
+  (let rec ((k min-treasure))
+    (if (> k max-obj)
+        c0
+        (+ (cond ((not (churchnum? ($prop-of k)))
+                  c0)
+                 ((not (and (= ($place-of k) house) (zero? ($prop-of k))))
+                  c2)
+                 ((< k CHEST)
+                  c12)
+                 (else
+                  (if< CHEST k c16 c14)))
+           (rec (succ k))))))
 
 (defrecmacro (hint-score lst)
   (if (null? lst)
