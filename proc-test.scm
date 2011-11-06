@@ -1283,6 +1283,37 @@ all of its bugs were added by Don Knuth.\n"
         'get-user-input
         0))
 
+(define-test 'transitive-drink "nothing"
+  '(($set-obj (K NOTHING))
+    ($set-location (K hill)))  ; no water here
+  '((print-stars cont))
+  (list 'get-object))
+
+(define-test 'transitive-drink "water-here"
+  '(($set-obj (K NOTHING))
+    ($set-location (K road)))  ; water here
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-drink "bottle-of-water"
+  '(($set-obj (K NOTHING))
+    ($carry BOTTLE)
+    ($carry WATER))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of WATER)))
+  (list "The bottle of water is now empty.\n"
+        'get-user-input
+        1
+        'limbo))
+
+(define-test 'transitive-drink "oil"
+  '(($set-obj (K OIL)))
+  '((print-stars cont))
+  (list "Don't be ridiculous!\n"
+        'get-user-input))
+
+
 (define-test 'transitive-take "carrying"
   '(($carry KEYS)
     ($set-obj (K KEYS)))

@@ -300,7 +300,7 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;RELAX
 		       not-implemented  ;POUR
 		       transitive-eat  ;EAT
-		       not-implemented  ;DRINK
+		       transitive-drink  ;DRINK
 		       not-implemented  ;RUB
 		       transitive-toss  ;TOSS
 		       not-implemented  ;WAKE
@@ -686,6 +686,27 @@ all of its bugs were added by Don Knuth."))
              (print "Your lamp is now off.\n")
              ($dark pitch-dark-msg #\newline I)
              ($goto get-user-input))))))
+
+; 106 case DRINK:
+(define-proc 'transitive-drink
+  '(lambda (world)
+     ((lambda (next)
+        (cond ((zero? $obj)
+               (if (or (water-here world)
+                       (and ($here? BOTTLE)
+                            (zero? ($prop-of BOTTLE))))
+                   (next world)
+                   ($goto get-object)))
+              ((= $obj WATER)
+               (next world))
+              (else
+               ($default-to EAT))))
+      (lambda (world)
+        (if (and ($here? BOTTLE) (zero? ($prop-of BOTTLE)))
+            (let-world (($set-prop-of BOTTLE (K c1))
+                        ($drop WATER limbo))
+              ($report (string "The bottle of water is now empty.")))
+            ($goto report-default))))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take
