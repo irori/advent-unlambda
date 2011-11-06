@@ -304,7 +304,7 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;RUB
 		       transitive-toss  ;TOSS
 		       not-implemented  ;WAKE
-		       not-implemented  ;FEED
+		       transitive-feed  ;FEED
 		       not-implemented  ;FILL
 		       not-implemented  ;BREAK
 		       not-implemented  ;BLAST
@@ -901,6 +901,46 @@ all of its bugs were added by Don Knuth."))
                 ($drop TROLL2 swside)
                 ($drop TROLL2_ neside))
       ($report (string "The troll catches your treasure and scurries away out of sight.")))))
+
+; 129 case FEED:
+(define-proc 'transitive-feed
+  '(lambda (world)
+     (cond ((= $obj BIRD)
+            ($report (string "It's not hungry (it's merely pinin' for the fjords).  Besides, you\nhave no bird seed.")))
+           ((= $obj TROLL)
+            ($report (string "Gluttony is not one of the troll's vices.  Avarice, however, is.")))
+           ((= $obj DRAGON)
+            ($report (ifnonzero ($prop-of DRAGON)
+                                (nth EAT $default-msg)
+                                (string "There's nothing here it wants to eat (except perhaps you)."))))
+           ((= $obj SNAKE)
+            (if (and (not $closed) ($here? BIRD))
+                (let-world (($destroy BIRD)
+                            ($set-prop-of BIRD (K c0))
+                            ($set-lost-treasures succ))
+                  ($report (string "The snake has now devoured your bird.")))
+                ($report (string "There's nothing here it wants to eat (except perhaps you)."))))
+           ((= $obj BEAR)
+            (cond (($here? FOOD)
+                   (let-world (($destroy FOOD)
+                               ($set-prop-of BEAR (K c1))
+                               ($set-prop-of AXE (K c0))
+                               ($set-base-of AXE (K NOTHING)))
+                     ($report (string "The bear eagerly wolfs down your food, after which he seems to calm\ndown considerably and even becomes rather friendly."))))
+                  ((zero? ($prop-of BEAR))
+                   ($report (string "There's nothing here it wants to eat (except perhaps you).")))
+                  ((= ($prop-of BEAR) c3)
+                   ($change-to EAT))
+                  (else
+                   ($goto report-default))))
+           ((= $obj DWARF)
+            (if ($here? FOOD)
+                (begin
+                  ; TODO: dflag++
+                  ($report (string "You fool, dwarves eat only coal!  Now you've made him REALLY mad!")))
+                ($goto report-default)))
+           (else
+            ($report (nth CALM $default-msg))))))
 
 ; 130 case OPEN: case CLOSE:
 (define-proc 'transitive-open

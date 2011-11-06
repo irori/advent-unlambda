@@ -1715,6 +1715,100 @@ all of its bugs were added by Don Knuth.\n"
         'NOTHING
         'KILL))
 
+(define-test 'transitive-feed "bird"
+  '(($set-obj (K BIRD)))
+  '((print-stars cont))
+  (list "It's not hungry (it's merely pinin' for the fjords).  Besides, you\nhave no bird seed.\n"
+        'get-user-input))
+
+(define-test 'transitive-feed "troll"
+  '(($set-obj (K TROLL)))
+  '((print-stars cont))
+  (list "Gluttony is not one of the troll's vices.  Avarice, however, is.\n"
+        'get-user-input))
+
+(define-test 'transitive-feed "dragon"
+  '(($set-obj (K DRAGON)))
+  '((print-stars cont))
+  (list "There's nothing here it wants to eat (except perhaps you).\n"
+        'get-user-input))
+
+(define-test 'transitive-feed "dragon-dead"
+  '(($set-obj (K DRAGON))
+    ($set-prop-of DRAGON (K c2)))
+  '((print-stars cont))
+  (list "Don't be ridiculous!\n"
+        'get-user-input))
+
+(define-test 'transitive-feed "snake"
+  '(($set-obj (K SNAKE)))
+  '((print-stars cont))
+  (list "There's nothing here it wants to eat (except perhaps you).\n"
+        'get-user-input))
+
+(define-test 'transitive-feed "snake-bird"
+  '(($set-obj (K SNAKE))
+    ($carry BIRD)
+    ($set-prop-of BIRD (K c1)))
+  '((print-stars cont)
+    (print-stars ($place-of BIRD))
+    (print-stars ($prop-of BIRD))
+    (print-stars $lost-treasures))
+  (list "The snake has now devoured your bird.\n"
+        'get-user-input
+        'limbo
+        0
+        1))
+
+(define-test 'transitive-feed "bear"
+  '(($set-obj (K BEAR)))
+  '((print-stars cont))
+  (list "There's nothing here it wants to eat (except perhaps you).\n"
+        'get-user-input))
+
+(define-test 'transitive-feed "bear-dead"
+  '(($set-obj (K BEAR))
+    ($set-prop-of BEAR (K c3)))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'transitive
+        'EAT))
+
+(define-test 'transitive-feed "bear-default"
+  '(($set-obj (K BEAR))
+    ($set-prop-of BEAR (K c1)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-feed "bear"
+  '(($set-obj (K BEAR))
+    ($carry FOOD)
+    ($set-prop-of AXE (K c1))
+    ($set-base-of AXE (K AXE)))
+  '((print-stars cont)
+    (print-stars ($place-of FOOD))
+    (print-stars ($prop-of BEAR))
+    (print-stars ($prop-of AXE))
+    (print-stars ($base-of AXE)))
+  (list "The bear eagerly wolfs down your food, after which he seems to calm\ndown considerably and even becomes rather friendly.\n"
+        'get-user-input
+        'limbo
+        1
+        0
+        'NOTHING))
+
+(define-test 'transitive-feed "dwarf"
+  '(($set-obj (K DWARF)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-feed "dwarf-food"
+  '(($set-obj (K DWARF))
+    ($carry FOOD))
+  '((print-stars cont))
+  (list "You fool, dwarves eat only coal!  Now you've made him REALLY mad!\n"
+        'get-user-input))
+
 (define-test 'transitive-open "default"
   '(($set-verb (K OPEN))
     ($set-obj (K LAMP)))
