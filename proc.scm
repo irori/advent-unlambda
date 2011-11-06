@@ -298,7 +298,7 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;CALM
 		       not-implemented  ;GO
 		       not-implemented  ;RELAX
-		       not-implemented  ;POUR
+		       transitive-pour  ;POUR
 		       transitive-eat  ;EAT
 		       transitive-drink  ;DRINK
 		       not-implemented  ;RUB
@@ -707,6 +707,53 @@ all of its bugs were added by Don Knuth."))
                         ($drop WATER limbo))
               ($report (string "The bottle of water is now empty.")))
             ($goto report-default))))))
+
+; 107 case POUR:
+(define-proc 'transitive-pour
+  '(lambda (world)
+     ((lambda (next)
+        (if (or (zero? $obj) (= $obj BOTTLE))
+            (cond ((zero? ($prop-of BOTTLE))
+                   (next ($set-obj (K WATER))))
+                  ((= ($prop-of BOTTLE) c2)
+                   (next ($set-obj (K OIL))))
+                  (else
+                   ($goto get-object)))
+            (next world)))
+      (lambda (world)
+        (cond ((not ($toting? $obj))
+               ($goto report-default))
+              ((and (not (= $obj WATER)) (not (= $obj OIL)))
+               ($report (string "You can't pour that.")))
+              (else
+               (let-world (($set-prop-of BOTTLE (K c1))
+                           ($drop $obj limbo))
+                 (cond ((= $location ($place-of PLANT))
+                        (water-plant world))
+                       ((= $location ($place-of DOOR))
+                        (oil-door world))
+                       (else
+                        ($report (string "Your bottle is empty and the ground is wet.")))))))))))
+
+; 108 Try to water the plant
+(defmacro water-plant
+  (lambda (world)
+    (if (= $obj WATER)
+        ((nth ($prop-of PLANT) (cdr (nth PLANT $note))) #\newline I
+         (let-world (($set-prop-of PLANT (lambda (n) (if> n c2 c0 (+ n c2))))
+                     ($set-prop-of PLANT2 (K (nth ($prop-of PLANT)
+                                                  (list c0 c0 c1 c1 c2)))))
+           $stay-put))
+        ($report (string "The plant indignantly shakes the oil off its leaves and asks, \"Water?\"")))))
+
+; 109 Pour water or oil on the door
+(defmacro oil-door
+  (lambda (world)
+    (if (= $obj WATER)
+        (let-world (($set-prop-of DOOR (K c0)))
+          ($report (string "The hinges are quite thoroughly rusted now and won't budge.")))
+        (let-world (($set-prop-of DOOR (K c1)))
+          ($report (string "The oil has freed up the hinges so that the door will now open."))))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take

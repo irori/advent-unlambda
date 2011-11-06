@@ -1313,6 +1313,145 @@ all of its bugs were added by Don Knuth.\n"
   (list "Don't be ridiculous!\n"
         'get-user-input))
 
+(define-test 'transitive-pour "not-toting"
+  '(($set-obj (K WATER)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-pour "nothing"
+  '(($set-obj (K NOTHING))
+    ($set-prop-of BOTTLE (K c1)))
+  '((print-stars cont))
+  (list 'get-object))
+
+(define-test 'transitive-pour "bad-object"
+  '(($set-obj (K KEYS))
+    ($carry KEYS))
+  '((print-stars cont))
+  (list "You can't pour that.\n"
+        'get-user-input))
+
+(define-test 'transitive-pour "ground"
+  '(($set-obj (K WATER))
+    ($carry BOTTLE)
+    ($carry WATER))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of WATER)))
+  (list "Your bottle is empty and the ground is wet.\n"
+        'get-user-input
+        1
+        'limbo))
+
+(define-test 'transitive-pour "plant-water1"
+  '(($set-obj (K WATER))
+    ($carry BOTTLE)
+    ($carry WATER)
+    ($set-location (K wpit))
+    ($set-prop-of PLANT (K c0)))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of WATER))
+    (print-stars ($prop-of PLANT))
+    (print-stars ($prop-of PLANT2)))
+  (list "The plant spurts into furious growth for a few seconds.\n"
+        'try-move
+        'NOWHERE
+        1
+        'limbo
+        2
+        1))
+
+(define-test 'transitive-pour "plant-water2"
+  '(($set-obj (K WATER))
+    ($carry BOTTLE)
+    ($carry WATER)
+    ($set-location (K wpit))
+    ($set-prop-of PLANT (K c2)))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of WATER))
+    (print-stars ($prop-of PLANT))
+    (print-stars ($prop-of PLANT2)))
+  (list "The plant grows explosively, almost filling the bottom of the pit.\n"
+        'try-move
+        'NOWHERE
+        1
+        'limbo
+        4
+        2))
+
+(define-test 'transitive-pour "plant-water3"
+  '(($set-obj (K WATER))
+    ($carry BOTTLE)
+    ($carry WATER)
+    ($set-location (K wpit))
+    ($set-prop-of PLANT (K c4)))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of WATER))
+    (print-stars ($prop-of PLANT))
+    (print-stars ($prop-of PLANT2)))
+  (list "You've over-watered the plant!  It's shriveling up!  It's, it's...\n"
+        'try-move
+        'NOWHERE
+        1
+        'limbo
+        0
+        0))
+
+(define-test 'transitive-pour "plant-oil"
+  '(($set-obj (K OIL))
+    ($carry BOTTLE)
+    ($carry OIL)
+    ($set-prop-of BOTTLE (K c2))
+    ($set-location (K wpit)))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of OIL))
+    (print-stars ($prop-of PLANT))
+    (print-stars ($prop-of PLANT2)))
+  (list "The plant indignantly shakes the oil off its leaves and asks, \"Water?\"\n"
+        'get-user-input
+        1
+        'limbo
+        0
+        0))
+
+(define-test 'transitive-pour "door-water"
+  '(($set-obj (K WATER))
+    ($carry BOTTLE)
+    ($carry WATER)
+    ($set-prop-of DOOR (K c1))
+    ($set-location (K immense)))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of OIL))
+    (print-stars ($prop-of DOOR)))
+  (list "The hinges are quite thoroughly rusted now and won't budge.\n"
+        'get-user-input
+        1
+        'limbo
+        0))
+
+(define-test 'transitive-pour "door-oil"
+  '(($set-obj (K OIL))
+    ($carry BOTTLE)
+    ($carry OIL)
+    ($set-prop-of BOTTLE (K c2))
+    ($set-location (K immense)))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-stars ($place-of OIL))
+    (print-stars ($prop-of DOOR)))
+  (list "The oil has freed up the hinges so that the door will now open.\n"
+        'get-user-input
+        1
+        'limbo
+        1))
 
 (define-test 'transitive-take "carrying"
   '(($carry KEYS)
