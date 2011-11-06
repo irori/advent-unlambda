@@ -1623,6 +1623,98 @@ all of its bugs were added by Don Knuth.\n"
         'road
         'road))
 
+(define-test 'transitive-toss "rod2"
+  '(($set-obj (K ROD))
+    ($carry ROD2))
+  '((print-stars cont)
+    (print-stars $obj)
+    (print-stars $verb))
+  (list 'transitive
+        'ROD2
+        'DROP))
+
+(define-test 'transitive-toss "not-toting"
+  '(($set-obj (K KEYS)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-toss "troll-treasure"
+  '(($set-obj (K COINS))
+    ($carry COINS)
+    ($set-location (K neside)))
+  '((print-stars cont)
+    (print-stars ($place-of COINS))
+    (print-stars ($place-of TROLL))
+    (print-stars ($place-of TROLL_))
+    (print-stars ($place-of TROLL2))
+    (print-stars ($place-of TROLL2_)))
+  (list "The troll catches your treasure and scurries away out of sight.\n"
+        'get-user-input
+        'limbo
+        'limbo
+        'limbo
+        'swside
+        'neside))
+
+(define-test 'transitive-toss "food-bear"
+  '(($set-obj (K FOOD))
+    ($carry FOOD)
+    ($set-location (K barr)))
+  '((print-stars cont)
+    (print-stars $obj)
+    (print-stars $verb))
+  (list 'transitive
+        'BEAR
+        'FEED))
+
+(define-test 'transitive-toss "axe-dragon"
+  '(($set-obj (K AXE))
+    ($carry AXE)
+    ($set-location (K scan3)))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars ($place-of AXE)))
+  (list "The axe bounces harmlessly off the dragon's thick scales.\n"
+        'try-move
+        'NOWHERE
+        'scan3))
+
+(define-test 'transitive-toss "axe-troll"
+  '(($set-obj (K AXE))
+    ($carry AXE)
+    ($set-location (K swside)))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars ($place-of AXE)))
+  (list "The troll deftly catches the axe, examines it carefully, and tosses it\nback, declaring, \"Good workmanship, but it's not valuable enough.\"\n"
+        'try-move
+        'NOWHERE
+        'swside))
+
+(define-test 'transitive-toss "axe-bear"
+  '(($set-obj (K AXE))
+    ($carry AXE)
+    ($set-location (K barr)))
+  '((print-stars cont)
+    (print-stars ($place-of AXE))
+    (print-stars ($prop-of AXE))
+    (print-stars ($base-of AXE)))
+  (list "The axe misses and lands near the bear where you can't get at it.\n"
+        'get-user-input
+        'barr
+        1
+        'AXE))
+
+(define-test 'transitive-toss "default-to-kill"
+  '(($set-obj (K AXE))
+    ($carry AXE))
+  '((print-stars cont)
+    (print-stars $obj)
+    (print-stars $verb))
+  (list 'transitive
+        'NOTHING
+        'KILL))
+
 (define-test 'transitive-open "default"
   '(($set-verb (K OPEN))
     ($set-obj (K LAMP)))

@@ -149,6 +149,7 @@ all of its bugs were added by Don Knuth."))
 
 (defmacro ($try-motion m)
   (goto try-move (set-mot world (K m))))
+(defmacro $stay-put ($try-motion NOWHERE))
 (defmacro ($report str)
   (str #\newline
    (goto get-user-input world)))
@@ -282,7 +283,6 @@ all of its bugs were added by Don Knuth."))
 		       intransitive-score  ;SCORE
 		       intransitive-quit  ;QUIT
 		       )))))
-	    
 
 (define-proc 'transitive
   '(lambda (world)
@@ -302,7 +302,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-eat  ;EAT
 		       not-implemented  ;DRINK
 		       not-implemented  ;RUB
-		       not-implemented  ;TOSS
+		       transitive-toss  ;TOSS
 		       not-implemented  ;WAKE
 		       not-implemented  ;FEED
 		       not-implemented  ;FILL
@@ -319,6 +319,10 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;QUIT
 		       )))))
            
+(defmacro ($change-to v)
+  (let-world (($set-oldverb (K $verb))
+              ($set-verb (K v)))
+    ($goto transitive)))
 
 ; 79 report_default:
 (define-proc 'report-default
@@ -741,9 +745,7 @@ all of its bugs were added by Don Knuth."))
             ($set-obj (K BOTTLE))
             (let-world (($set-obj (K BOTTLE)))
               (if ($toting? BOTTLE)
-                  (let-world (($set-oldverb (K $verb))
-                              ($set-verb (K FILL)))
-                    (ret ($goto transitive)))
+                  (ret ($change-to FILL))
                   ((string "You have nothing in which to carry it.\n")
                    ret ($goto get-user-input)))))
         world)))
@@ -850,6 +852,55 @@ all of its bugs were added by Don Knuth."))
                   (if pillow-here world ($set-base-of VASE (K VASE)))
                   ($drop VASE $location))
         ($report (nth (if pillow-here c1 c3) (nth VASE $note)))))))
+
+; 122 case TOSS:
+(define-proc 'transitive-toss
+  '(lambda (world)
+     (let-world ((if (and (= $obj ROD) ($toting? ROD2) (not ($toting? ROD)))
+                     ($set-obj (K ROD2))
+                     world))
+       (cond ((not ($toting? $obj))
+              ($goto report-default))
+             ((and (treasure? $obj) ($at-loc? TROLL))
+              (throw-troll world))
+             ((and (= $obj FOOD) ($here? BEAR))
+              (let-world (($set-obj (K BEAR)))
+                ($change-to FEED)))
+             ((not (= $obj AXE))
+              ($change-to DROP))
+             ; TODO: dwarf
+             ((and ($at-loc? DRAGON) (zero? ($prop-of DRAGON)))
+              (let-world (($drop AXE $location))
+                ((string "The axe bounces harmlessly off the dragon's thick scales.\n")
+                 $stay-put)))
+             (($at-loc? TROLL)
+              (let-world (($drop AXE $location))
+                ((string "The troll deftly catches the axe, examines it carefully, and tosses it\nback, declaring, \"Good workmanship, but it's not valuable enough.\"\n")
+                 $stay-put)))
+             ((and ($here? BEAR) (zero? ($prop-of BEAR)))
+              (throw-bear world))
+             (else
+              (let-world (($set-obj (K NOTHING)))
+                ($change-to KILL)))))))
+
+; 123 Throw the axe at the bear
+(defmacro throw-bear
+  (lambda (world)
+    (let-world (($drop AXE $location)
+                ($set-prop-of AXE (K c1))
+                ($set-base-of AXE (K AXE)))
+      ; BUG: the axe should be described after the bear
+      ($report (string "The axe misses and lands near the bear where you can't get at it.")))))
+
+; 124 Snarf a treasure for the troll
+(defmacro throw-troll
+  (lambda (world)
+    (let-world (($drop $obj limbo)
+                ($destroy TROLL)
+                ($destroy TROLL_)
+                ($drop TROLL2 swside)
+                ($drop TROLL2_ neside))
+      ($report (string "The troll catches your treasure and scurries away out of sight.")))))
 
 ; 130 case OPEN: case CLOSE:
 (define-proc 'transitive-open

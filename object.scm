@@ -3,6 +3,7 @@
 (define min-treasure (lookup-enum 'GOLD))
 (defmacro min-treasure GOLD)
 (define (treasure? t) (>= (lookup-enum t) min-treasure))
+(defmacro (treasure? t) (>= t min-treasure))
 (define max-obj (lookup-enum 'CHAIN))
 (defmacro max-obj CHAIN)
 
