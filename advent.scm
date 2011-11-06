@@ -36,6 +36,7 @@
 (defmacro initial-tally c15)
 (defmacro initial-lost-treasures c0)
 (defmacro initial-closed V)
+(defmacro initial-panic V)
 (defmacro initial-was-dark V)
 (defmacro initial-word12 V)
 (defmacro initial-mot V)

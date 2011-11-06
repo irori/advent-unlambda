@@ -1030,19 +1030,30 @@ all of its bugs were added by Don Knuth."))
            (else
             ($goto report-default)))))
 
+; 180 Panic at closing time
+(defmacro panic-at-closing-time
+  (lambda (world)
+    ((string "A mysterious recorded voice groans into life and announces:\n\"This exit is closed.  Please leave via main office.\"\n")
+     (if $panic
+         world
+         (let-world (($set-clock2 (K (to-cons1 c15)))
+                     ($set-panic (K I)))
+           world)))))
+
 ; 131 Open/close grate
 (defmacro open-close-grate
   (lambda (world)
     (if ($here? KEYS)
-        ; TODO: panic at closing time
-        ((nth (+ ($prop-of GRATE) (if (= $verb OPEN) c2 c0))
-              (list (string "It was already locked.")
-                    (string "The grate is now locked.")
-                    (string "The grate is now unlocked.")
-                    (string "It was already unlocked.")))
-         #\newline
-         (goto get-user-input
-               ($set-prop-of GRATE (K (if (= $verb OPEN) c1 c0)))))
+        (if $not-closing
+            ((nth (+ ($prop-of GRATE) (if (= $verb OPEN) c2 c0))
+                  (list (string "It was already locked.")
+                        (string "The grate is now locked.")
+                        (string "The grate is now unlocked.")
+                        (string "It was already unlocked.")))
+             #\newline
+             (goto get-user-input
+                   ($set-prop-of GRATE (K (if (= $verb OPEN) c1 c0)))))
+            (goto get-user-input (panic-at-closing-time world)))
         ($report (string "You have no keys!")))))
 
 ; 132 Close chain

@@ -32,6 +32,7 @@
      tally
      lost-treasures
      closed
+     panic
      was-dark
      rand
      word12

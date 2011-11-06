@@ -2248,6 +2248,22 @@ all of its bugs were added by Don Knuth.\n"
         'get-user-input
         1))
 
+(define-test 'transitive-open "open-grate-in-closing-time"
+  '(($carry KEYS)
+    ($set-verb (K OPEN))
+    ($set-obj (K GRATE))
+    ($set-clock1 (K V))
+    ($set-clock2 (K (cons1 V))))
+  '((print-stars cont)
+    (print-stars ($prop-of GRATE))
+    (print-bool $panic)
+    (print-stars (cons1-length $clock2)))
+  (list "A mysterious recorded voice groans into life and announces:\n\"This exit is closed.  Please leave via main office.\"\n"
+        'get-user-input
+        0
+        #t
+        15))
+
 (define-test 'transitive-open "open-chain-without-keys"
   '(($set-verb (K OPEN))
     ($set-obj (K CHAIN)))
