@@ -1446,6 +1446,9 @@ It would be advisable to use the exit."
 (defmacro (oil-here world)
   (nonzero? (nth (location world) (liquid world))))
 
+(defmacro (no-liquid-here world)
+  (not (churchnum? (nth (location world) (liquid world)))))
+
 (defmacro (forced-move? loc)
   (>= loc min-forced-loc))
 

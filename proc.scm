@@ -305,7 +305,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-toss  ;TOSS
 		       not-implemented  ;WAKE
 		       transitive-feed  ;FEED
-		       not-implemented  ;FILL
+		       transitive-fill  ;FILL
 		       not-implemented  ;BREAK
 		       not-implemented  ;BLAST
 		       not-implemented  ;KILL
@@ -754,6 +754,45 @@ all of its bugs were added by Don Knuth."))
           ($report (string "The hinges are quite thoroughly rusted now and won't budge.")))
         (let-world (($set-prop-of DOOR (K c1)))
           ($report (string "The oil has freed up the hinges so that the door will now open."))))))
+
+; 110 case FILL:
+(define-proc 'transitive-fill
+  '(lambda (world)
+     (cond ((= $obj VASE)
+            (fill-vase world))
+           ((not ($here? BOTTLE))
+            ($goto (if (= $obj NOTHING) get-object report-default)))
+           ((and (not (= $obj NOTHING)) (not (= $obj BOTTLE)))
+            ($goto report-default))
+           ((not $bottle-empty)
+            ($report (string "Your bottle is already full.")))
+           ((no-liquid-here world)
+            ($report (string "There is nothing here with which to fill the bottle.")))
+           (else
+            (let ((oil (oil-here world)))
+              (let-world (($set-prop-of BOTTLE (K (if oil c2 c0)))
+                          (if ($toting? BOTTLE)
+                              ($carry (if oil OIL WATER))
+                              world))
+                ((string "Your bottle is now full of ")
+                 (if oil (string "oil") (string "water"))
+                 (string ".\n") I
+                 ($goto get-user-input))))))))
+
+(define-proc 'smash
+  '(lambda (world)
+     ((string "\nsmash: not implemented\n") exit I)))
+
+; 111 Try to fill the vase
+(defmacro fill-vase
+  (lambda (world)
+    (cond ((no-liquid-here world)
+           ($report (string "There is nothing here with which to fill the vase.\n")))
+          (($toting? VASE)
+           ((string "The sudden change in temperature has delicately shattered the vase.\n")
+            ($goto smash)))
+          (else
+           ($report (nth DROP $default-msg))))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take

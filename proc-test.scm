@@ -1453,6 +1453,97 @@ all of its bugs were added by Don Knuth.\n"
         'limbo
         1))
 
+(define-test 'transitive-fill "nothing"
+  '(($set-obj (K NOTHING)))
+  '((print-stars cont))
+  (list 'get-object))
+
+(define-test 'transitive-fill "no-bottle-here"
+  '(($set-obj (K BOTTLE)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-fill "bad-object"
+  '(($set-obj (K LAMP)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-fill "already-full"
+  '(($set-obj (K BOTTLE))
+    ($carry BOTTLE))
+  '((print-stars cont))
+  (list "Your bottle is already full.\n"
+        'get-user-input))
+
+(define-test 'transitive-fill "no-liquid"
+  '(($set-location (K hill))
+    ($set-obj (K NOTHING))
+    ($set-prop-of BOTTLE (K c1))
+    ($carry BOTTLE))
+  '((print-stars cont))
+  (list "There is nothing here with which to fill the bottle.\n"
+        'get-user-input))
+
+(define-test 'transitive-fill "water"
+  '(($set-location (K slit))
+    ($set-obj (K BOTTLE))
+    ($set-prop-of BOTTLE (K c1))
+    ($carry BOTTLE))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-bool ($toting? WATER)))
+  (list "Your bottle is now full of water.\n"
+        'get-user-input
+        0
+        #t))
+
+(define-test 'transitive-fill "oil"
+  '(($set-location (K epit))
+    ($set-obj (K NOTHING))
+    ($set-prop-of BOTTLE (K c1))
+    ($carry BOTTLE))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-bool ($toting? OIL)))
+  (list "Your bottle is now full of oil.\n"
+        'get-user-input
+        2
+        #t))
+
+(define-test 'transitive-fill "not-bottle-toting"
+  '(($set-location (K house))
+    ($set-obj (K BOTTLE))
+    ($set-prop-of BOTTLE (K c1)))
+  '((print-stars cont)
+    (print-stars ($prop-of BOTTLE))
+    (print-bool ($toting? WATER)))
+  (list "Your bottle is now full of water.\n"
+        'get-user-input
+        0
+        #f))
+
+(define-test 'transitive-fill "vase-no-liquid"
+  '(($set-location (K hill))
+    ($set-obj (K VASE)))
+  '((print-stars cont))
+  (list "There is nothing here with which to fill the vase.\n\n"
+        'get-user-input))
+
+(define-test 'transitive-fill "vase-not-toting"
+  '(($set-location (K house))
+    ($set-obj (K VASE)))
+  '((print-stars cont))
+  (list "You aren't carrying it!\n"
+        'get-user-input))
+
+(define-test 'transitive-fill "vase"
+  '(($set-location (K house))
+    ($set-obj (K VASE))
+    ($carry VASE))
+  '((print-stars cont))
+  (list "The sudden change in temperature has delicately shattered the vase.\n"
+        'smash))
+
 (define-test 'transitive-take "carrying"
   '(($carry KEYS)
     ($set-obj (K KEYS)))
