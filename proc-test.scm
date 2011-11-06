@@ -232,9 +232,23 @@ all of its bugs were added by Don Knuth.\n"
 
 (define-test 'describe-objects "treasure"
   '(($set-location (K west)))
-  '((print-stars ($prop-of COINS)))
+  '((print-stars ($prop-of COINS))
+    (print-stars $tally))
   (list "There are many coins here!\n"
-        0))
+        0
+        14))
+
+(define-test 'describe-objects "zap-the-lamp"
+  '(($set-location (K west))
+    ($set-tally (K c2))
+    ($set-lost-treasures (K c1)))
+  '((print-stars ($prop-of COINS))
+    (print-stars $tally)
+    (print-stars (cons1-length $limit)))
+  (list "There are many coins here!\n"
+        0
+        1
+        35))
 
 (define-test 'describe-objects "rug"
   '(($set-location (K scan3)))

@@ -87,7 +87,6 @@ all of its bugs were added by Don Knuth."))
 ; 76 cycle:
 (define-proc 'cycle2
   '(lambda (world)
-     ; TODO: Check if a hint applies, and give it if requested 195
      (let ((words listen))
        (let-world (($set-was-dark (K $dark))
                    ($set-rand cdr)
@@ -419,8 +418,9 @@ all of its bugs were added by Don Knuth."))
                              world
                              ($set-prop-of tt (K (cond ((= tt RUG) c1)
                                                        ((= tt CHAIN) c1)
-                                                       (else c0))))))
-                         ; TODO: tally--, Zap the lamp 183
+                                                       (else c0)))))
+                         ($set-tally pred)
+                         (zap-the-lamp world))
                (begin
                  ($describe-single-object tt)
                  (loop world (cdr lst)))))))))
@@ -960,6 +960,15 @@ all of its bugs were added by Don Knuth."))
           (string "I don't know how to apply that word here.")))
    #\newline
    ($goto mainloop)))
+
+; 183 Zap the lamp if the remaining treasures are too elusive
+(defmacro zap-the-lamp
+  (lambda (world)
+    (if (and (= $tally $lost-treasures)
+             (nonzero? $tally)
+             (cons1? (c35 1-of-1 $limit)))
+        ($set-limit (K (to-cons1 c35)))
+        world)))
 
 ; 188 Deal with death and resurrection
 (define-proc 'pitch-dark

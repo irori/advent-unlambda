@@ -27,6 +27,8 @@
      verbose    ; contains information for look_count and interval
      limit
      turns
+     tally
+     lost-treasures
      closed
      was-dark
      rand
