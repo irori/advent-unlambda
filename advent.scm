@@ -31,6 +31,8 @@
 (defmacro initial-verbose (to-cons1 c4))
 (defmacro initial-limit (to-cons1 c330))
 (defmacro initial-turns V)
+(defmacro initial-clock1 (to-cons1 c15))
+(defmacro initial-clock2 (to-cons1 c30))
 (defmacro initial-tally c15)
 (defmacro initial-lost-treasures c0)
 (defmacro initial-closed V)

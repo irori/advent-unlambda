@@ -27,6 +27,8 @@
      verbose    ; contains information for look_count and interval
      limit
      turns
+     clock1
+     clock2
      tally
      lost-treasures
      closed

@@ -339,6 +339,66 @@ all of its bugs were added by Don Knuth.\n"
   (list 'transitive
         'SAY))
 
+(define-test 'clocks-and-lamp "do-not-clock-if-treasure-left"
+  '(($set-tally (K c1))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock1)))
+  (list 'check-the-lamp
+        15))
+
+(define-test 'clocks-and-lamp "do-not-clock-at-spit"
+  '(($set-tally (K c0))
+    ($set-location (K spit)))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock1)))
+  (list 'check-the-lamp
+        15))
+
+(define-test 'clocks-and-lamp "do-not-clock-at-y2"
+  '(($set-tally (K c0))
+    ($set-location (K y2)))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock1)))
+  (list 'check-the-lamp
+        15))
+
+(define-test 'clocks-and-lamp "clock"
+  '(($set-tally (K c0))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock1)))
+  (list 'check-the-lamp
+        14))
+
+(define-test 'clocks-and-lamp "close-warning"
+  '(($set-tally (K c0))
+    ($set-location (K emist))
+    ($set-clock1 (K (cons1 V))))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock1)))
+  (list 'warn-close
+        0))
+
+(define-test 'clocks-and-lamp "clock2"
+  '(($set-tally (K c0))
+    ($set-location (K y2))
+    ($set-clock1 (K V)))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock2)))
+  (list 'check-the-lamp
+        29))
+
+(define-test 'clocks-and-lamp "close"
+  '(($set-tally (K c0))
+    ($set-location (K y2))
+    ($set-clock1 (K V))
+    ($set-clock2 (K (cons1 V))))
+  '((print-stars cont)
+    (print-stars (cons1-length $clock2)))
+  (list 'close-the-cave
+        0))
+
 (define-test 'check-the-lamp "lamp-off"
   '(($set-limit (K (cons1 (cons1 V)))))
   '((print-stars cont)

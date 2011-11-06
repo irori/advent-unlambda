@@ -105,48 +105,6 @@ all of its bugs were added by Don Knuth."))
         ; TODO: adjust foobar 138
         ($goto clocks-and-lamp)))))
 
-; 178 Check the clocks and the lamp
-(define-proc 'clocks-and-lamp
-  '(lambda (world)
-     ; TODO: implement clock check
-     ($goto check-the-lamp)))
-
-; 184 Check the clocks and the lamp
-(define-proc 'check-the-lamp
-  '(lambda (world)
-     (let ((old-limit $limit))
-       (let-world (($set-limit (if (= ($prop-of LAMP) c1) 1-of-1 I)))
-         (cond ((and (not (cons1? (c30 1-of-1 $limit)))
-                     ($here? BATTERIES)
-                     (zero? ($prop-of BATTERIES))
-                     ($here? LAMP))
-                ((string "Your lamp is getting dim.  I'm taking the liberty of replacing\nthe batteries.\n")
-                 (let-world (($set-prop-of BATTERIES (K c1))
-                             ($drop BATTERIES $location)
-                             ($set-limit (K (to-cons1 (pow c50 c2)))))
-                   ($goto handle-special-inputs))))
-               ((and (cons1? old-limit) (not (cons1? $limit)))
-                (begin
-                  (($here? LAMP)
-                   (string "Your lamp has run out of power.\n") I)
-                  (goto handle-special-inputs ($set-prop-of LAMP (K c0)))))
-               ((if< $location min-in-cave (not (cons1? $limit)) V)
-                ((string "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n")
-                 ($goto give-up)))
-               ((and (not (cons1? (c30 1-of-1 $limit)))
-                     $not-warned
-                     ($here? LAMP))
-                ((string "Your lamp is getting dim")
-                 (cond ((nonzero? ($prop-of BATTERIES))
-                        (string ", and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"))
-                       ((zero? ($place-of BATTERIES))
-                        (string ".  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"))
-                       (else
-                        (string ".  You'd best go back for those batteries.\n")))
-                 (goto handle-special-inputs ($set-not-warned (K V)))))
-               (else
-                ($goto handle-special-inputs)))))))
-
 (defmacro ($try-motion m)
   (goto try-move (set-mot world (K m))))
 (defmacro $stay-put ($try-motion NOWHERE))
@@ -1236,6 +1194,36 @@ all of its bugs were added by Don Knuth."))
    #\newline
    ($goto mainloop)))
 
+; 178 Check the clocks and the lamp
+(define-proc 'clocks-and-lamp
+  '(lambda (world)
+     (cond ((cons1? $clock1)
+            (if (and (zero? $tally)
+                     (>= $location min-lower-loc)
+                     (not (= $location y2)))
+                (let-world (($set-clock1 1-of-1))
+                  (if (cons1? $clock1)
+                      ($goto check-the-lamp)
+                      ($goto warn-close)))
+                ($goto check-the-lamp)))
+           ((cons1? $clock2)
+            (let-world (($set-clock2 1-of-1))
+              (if (cons1? $clock2)
+                  ($goto check-the-lamp)
+                  ($goto close-the-cave))))
+           (else
+            ($goto check-the-lamp)))))
+
+; 179 Warn that the cave is closing
+(define-proc 'warn-close
+  '(lambda (world)
+     ((string "\nwarn-close: not implemented\n") exit I)))
+
+; 181 Close the cave
+(define-proc 'close-the-cave
+  '(lambda (world)
+     ((string "\nclose-the-cave: not implemented\n") exit I)))
+
 ; 183 Zap the lamp if the remaining treasures are too elusive
 (defmacro zap-the-lamp
   (lambda (world)
@@ -1244,6 +1232,42 @@ all of its bugs were added by Don Knuth."))
              (cons1? (c35 1-of-1 $limit)))
         ($set-limit (K (to-cons1 c35)))
         world)))
+
+; 184 Check the clocks and the lamp
+(define-proc 'check-the-lamp
+  '(lambda (world)
+     (let ((old-limit $limit))
+       (let-world (($set-limit (if (= ($prop-of LAMP) c1) 1-of-1 I)))
+         (cond ((and (not (cons1? (c30 1-of-1 $limit)))
+                     ($here? BATTERIES)
+                     (zero? ($prop-of BATTERIES))
+                     ($here? LAMP))
+                ((string "Your lamp is getting dim.  I'm taking the liberty of replacing\nthe batteries.\n")
+                 (let-world (($set-prop-of BATTERIES (K c1))
+                             ($drop BATTERIES $location)
+                             ($set-limit (K (to-cons1 (pow c50 c2)))))
+                   ($goto handle-special-inputs))))
+               ((and (cons1? old-limit) (not (cons1? $limit)))
+                (begin
+                  (($here? LAMP)
+                   (string "Your lamp has run out of power.\n") I)
+                  (goto handle-special-inputs ($set-prop-of LAMP (K c0)))))
+               ((if< $location min-in-cave (not (cons1? $limit)) V)
+                ((string "There's not much point in wandering around out here, and you can't\nexplore the cave without a lamp.  So let's just call it a day.\n")
+                 ($goto give-up)))
+               ((and (not (cons1? (c30 1-of-1 $limit)))
+                     $not-warned
+                     ($here? LAMP))
+                ((string "Your lamp is getting dim")
+                 (cond ((nonzero? ($prop-of BATTERIES))
+                        (string ", and you're out of spare batteries.  You'd\nbest start wrapping this up.\n"))
+                       ((zero? ($place-of BATTERIES))
+                        (string ".  You'd best start wrapping this up, unless\nyou can find some fresh batteries.  I seem to recall that there's\na vending machine in the maze.  Bring some coins with you.\n"))
+                       (else
+                        (string ".  You'd best go back for those batteries.\n")))
+                 (goto handle-special-inputs ($set-not-warned (K V)))))
+               (else
+                ($goto handle-special-inputs)))))))
 
 ; 188 Deal with death and resurrection
 (define-proc 'pitch-dark
