@@ -16,7 +16,7 @@
     `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) I V)))
 (defsyntax (let-rand var n body)
   `(let ((,var (pct ,n world))
-         (world (set-rand world (c5 cdr))))
+         (world (set-rand world (c6 cdr))))
      ,body))
 
 (require "object.scm")

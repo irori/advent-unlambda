@@ -374,10 +374,15 @@ all of its bugs were added by Don Knuth."))
               (#\newline p #\newline I)
               (if (forced-move? $location)
                   ($goto try-move)
-                  ; TODO: give optinal plugh hint 157
-                  ($goto (if $dark
-                             get-user-input
-                             describe-objects)))))))))
+                  (let* ((bits $rand)
+                         (r ((car bits) V ((cadr bits) V I)))
+                         (world ($set-rand cddr)))
+                    (begin
+                      (r (= $location y2) $not-closing
+                         (string "A hollow voice says \"PLUGH\".\n") I)
+                      ($goto (if $dark
+                                 get-user-input
+                                 describe-objects)))))))))))
 
 (defmacro increment-visits
   (lambda (world)

@@ -208,6 +208,16 @@ all of its bugs were added by Don Knuth.\n"
   (list "\nThe crack is far too small for you to follow.\n"
         'try-move))
 
+(define-test 'commence "plugh-msg"
+  '(($set-location (K y2))
+    ($set-rand (K (list K K K K K K KI KI KI))))
+  '((print-stars cont)
+    (print-stars (length $rand)))
+  (list "\nIt is now pitch dark.  If you proceed you will most likely fall into a pit.\n"
+        "A hollow voice says \"PLUGH\".\n"
+        'get-user-input
+        1))
+
 (define-test 'describe-objects "count-visits"
   '()
   '((print-stars (cons1-length (nth initial-location $visits)))

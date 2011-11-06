@@ -121,3 +121,6 @@
 
 (defmacro ($set-base-of obj modifier)
   (set-nth world set-base obj modifier))
+
+(defmacro $not-closing
+  (cons1? (clock1 world)))
