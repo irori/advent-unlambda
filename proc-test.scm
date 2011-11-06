@@ -1449,6 +1449,21 @@ all of its bugs were added by Don Knuth.\n"
   (list "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n"
         'dwarves-upset))
 
+(define-test 'transitive-drop "drop-bird-at-dragon"
+  '(($carry BIRD)
+    ($set-obj (K BIRD))
+    ($set-prop-of BIRD (K c1))
+    ($set-location (K scan1)))
+  '((print-stars cont)
+    (print-stars ($place-of BIRD))
+    (print-stars ($prop-of BIRD))
+    (print-stars $lost-treasures))
+  (list "The little bird attacks the green dragon, and in an astounding flurry\ngets burnt to a cinder.  The ashes blow away.\n"
+        'get-user-input
+        'limbo
+        0
+        1))
+
 (define-test 'transitive-drop "drop-vase"
   '(($carry VASE)
     ($set-obj (K VASE)))

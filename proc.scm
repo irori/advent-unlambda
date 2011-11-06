@@ -753,17 +753,24 @@ all of its bugs were added by Don Knuth."))
 ; 120 Check special cases for dropping the bird
 (defmacro drop-bird
   (lambda (world)
-    (if ($here? SNAKE)
-	(let-world (($destroy SNAKE)
-		    ($set-prop-of SNAKE (K c1))
-		    ($set-prop-of BIRD (K c0))
-                    ($drop BIRD $location))
-          ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
-           ($goto (if $closed dwarves-upset get-user-input))))
-        ; TODO: handle dragon case
-        (let-world (($set-prop-of BIRD (K c0))
-                    ($drop BIRD $location))
-          ($report ok)))))
+    (cond (($here? SNAKE)
+           (let-world (($destroy SNAKE)
+                       ($set-prop-of SNAKE (K c1))
+                       ($set-prop-of BIRD (K c0))
+                       ($drop BIRD $location))
+             ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
+              ($goto (if $closed dwarves-upset get-user-input)))))
+          ((and ($at-loc? DRAGON) (zero? ($prop-of DRAGON)))
+           (let-world (($destroy BIRD)
+                       ($set-prop-of BIRD (K c0))
+                       (if (= ($place-of SNAKE) hmk)
+                           ($set-lost-treasures succ)
+                           world))
+             ($report (string "The little bird attacks the green dragon, and in an astounding flurry\ngets burnt to a cinder.  The ashes blow away."))))
+          (else
+           (let-world (($set-prop-of BIRD (K c0))
+                       ($drop BIRD $location))
+             ($report ok))))))
 
 ; 121 Check special cases for dropping the vase
 (defmacro drop-vase
