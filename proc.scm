@@ -225,10 +225,12 @@ all of its bugs were added by Don Knuth."))
                      ($goto check-object-location))))
              (lambda (_)  ; verb
 	       (let-world (($set-verb (K (word-meaning word1))))
-                 ; TODO: handle SAY
-		 (if (word? word2)
-		     ($goto shift)
-		     ($goto (ifnonzero $obj transitive intransitive)))))
+                 (cond ((= $verb SAY)
+                        ($goto (if (word? word2) transitive intransitive)))
+                       ((word? word2)
+                        ($goto shift))
+                       (else
+                        ($goto (ifnonzero $obj transitive intransitive))))))
              (lambda (_)  ; message
                ($report (nth (word-meaning word1) $message)))
              I)
@@ -307,7 +309,7 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;BREAK
 		       not-implemented  ;BLAST
 		       not-implemented  ;KILL
-		       not-implemented  ;SAY
+		       transitive-say  ;SAY
 		       transitive-read  ;READ
 		       not-implemented  ;FEEFIE
 		       report-default  ;BRIEF
@@ -605,6 +607,27 @@ all of its bugs were added by Don Knuth."))
   `(lambda (world)
      (let-world ((set-nth world set-hinted c8 (K c0)))
        ($goto quit))))
+
+; 97 case SAY:
+; TODO: fix this!
+(define-proc 'transitive-say
+  '(lambda (world)
+     (let-world ((if (word? (cdr $word12))
+                     ($set-word12 (lambda (p) (cons (cdr p) (cdr p))))
+                     world))
+       (if (nth (word-meaning (car $word12)) magic-word-list)
+           (let-world (($set-word12 (lambda (p) (cons (car p) V)))
+                       ($set-obj (K NOTHING)))
+             ($goto look-at-word1))
+           (begin
+             (print "Okay, \"")
+             ((word-letters (car $word12)) I)
+             (print "\".\n")
+             ($goto get-user-input))))))
+
+(add-unl-macro!
+ 'magic-word-list '()
+ (make-boolean-list '(XYZZY PLUGH PLOVER FEEFIE)))
 
 ; 98 case EAT:
 (defsyntax (eat-special? x)

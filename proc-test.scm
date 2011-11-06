@@ -533,6 +533,20 @@ all of its bugs were added by Don Knuth.\n"
   (list 'intransitive
         'DROP))
 
+(define-test 'look-at-word1 "say-transitive"
+  '(($set-word12 (K (cons (action-word SAY) (action-word SAY)))))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'transitive
+        'SAY))
+
+(define-test 'look-at-word1 "say-intransitive"
+  '(($set-word12 (K (cons (action-word SAY) V))))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'intransitive
+        'SAY))
+
 (define-test 'look-at-word1 "message-word"
   '(($set-word12 (K (cons (message-word c4) V))))  ; LOST
   '((print-stars cont))
