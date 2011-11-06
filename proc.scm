@@ -294,7 +294,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-open  ;CLOSE
 		       transitive-on  ;ON
 		       transitive-off  ;OFF
-		       not-implemented  ;WAVE
+		       transitive-wave  ;WAVE
 		       not-implemented  ;CALM
 		       not-implemented  ;GO
 		       not-implemented  ;RELAX
@@ -630,10 +630,6 @@ all of its bugs were added by Don Knuth."))
  (make-boolean-list '(XYZZY PLUGH PLOVER FEEFIE)))
 
 ; 98 case EAT:
-(defsyntax (eat-special? x)
-  `(nth ,x ,(make-boolean-list
-             '(BIRD SNAKE CLAM OYSTER DWARF DRAGON TROLL BEAR))))
-
 (define-proc 'transitive-eat
   '(lambda (world)
      (cond ((= $obj FOOD)
@@ -643,6 +639,27 @@ all of its bugs were added by Don Knuth."))
             ($report (string "I think I just lost my appetite.")))
            (else
             ($goto report-default)))))
+
+(defsyntax (eat-special? x)
+  `(nth ,x ,(make-boolean-list
+             '(BIRD SNAKE CLAM OYSTER DWARF DRAGON TROLL BEAR))))
+
+; 99 case WAVE:
+(define-proc 'transitive-wave
+  '(lambda (world)
+     (if (and (= $obj ROD)
+              (or (= $location efiss)
+                  (= $location wfiss))
+              ($toting? ROD)
+              ; TODO: (not $closing)
+              )
+         (let-world (($set-prop-of CRYSTAL (lambda (x) (x (K c0) c1))))
+           ($report (cadr ((ifnonzero ($prop-of CRYSTAL) I cdr)
+                           (nth CRYSTAL $note)))))
+         (if (or ($toting? $obj)
+                 (and (= $obj ROD) ($toting? ROD2)))
+             ($goto report-default)
+             ($default-to DROP)))))
 
 ; 102 case ON:
 (define-proc 'transitive-on

@@ -1194,6 +1194,40 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont))
   (list 'report-default))
 
+(define-test 'transitive-wave "default"
+  '(($carry LAMP)
+    ($set-obj (K LAMP)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-wave "not-toting"
+  '(($set-obj (K LAMP)))
+  '((print-stars cont))
+  (list "You aren't carrying it!\n"
+        'get-user-input))
+
+(define-test 'transitive-wave "crystal"
+  '(($carry ROD)
+    ($set-obj (K ROD))
+    ($set-location (K wfiss))
+    ($set-prop-of CRYSTAL (K c0)))
+  '((print-stars cont)
+    (print-stars ($prop-of CRYSTAL)))
+  (list "A crystal bridge now spans the fissure.\n"
+        'get-user-input
+        1))
+
+(define-test 'transitive-wave "vanish"
+  '(($carry ROD)
+    ($set-obj (K ROD))
+    ($set-location (K wfiss))
+    ($set-prop-of CRYSTAL (K c1)))
+  '((print-stars cont)
+    (print-stars ($prop-of CRYSTAL)))
+  (list "The crystal bridge has vanished!\n"
+        'get-user-input
+        0))
+
 (define-test 'transitive-on "no-lamp"
   '()
   '((print-stars cont))
