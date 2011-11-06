@@ -84,15 +84,11 @@ all of its bugs were added by Don Knuth."))
 		 ($set-obj (K NOTHING)))
        ($goto cycle))))
 
-; 76 cycle:
-(define-proc 'cycle2
+; 76 listen()
+(define-proc 'cycle3
   '(lambda (world)
      (let ((words listen))
-       (let-world (($set-was-dark (K $dark))
-                   ($set-rand cdr)
-		   ($set-word12 (K words)))
-                   ; TODO: adjust knife_loc 169
-                   ; TODO: adjust prop<0 objects after close
+       (let-world (($set-word12 (K words)))
 	 ($goto pre-parse)))))
 
 ; 76 pre_parse:
@@ -357,6 +353,40 @@ all of its bugs were added by Don Knuth."))
 
 (defmacro pitch-dark-msg
   (string "It is now pitch dark.  If you proceed you will most likely fall into a pit."))
+
+; 85 Make special adjustments before looking at new input
+(define-proc 'cycle2
+  '(lambda (world)
+     (let-world (($set-was-dark (K $dark))
+                 ($set-rand cdr)
+                 ; TODO: adjust knife_loc 169
+                 (adjust-props-after-closed world))
+       ($goto cycle3))))
+
+(defmacro (prop-after-close obj)
+  (cond ((= obj BOTTLE) c1)
+        ((= obj SNAKE) c1)
+        ((= obj BIRD) c1)
+        (else c0)))
+
+; 182 Make special adjustments before looking at new input
+(defmacro adjust-props-after-closed
+  (lambda (world)
+    (if $closed
+        (begin
+          ((not (churchnum? ($prop-of OYSTER)))
+           ($toting? OYSTER)
+           (cadr (nth OYSTER $note)) #\newline I)
+          (let loop ((lst $objects-toting)
+                     (world world))
+            (if (null? lst)
+                world
+                (if (churchnum? ($prop-of (car lst)))
+                    (loop (cdr lst) world)
+                    (let-world (($set-prop-of (car lst)
+                                              (K (prop-after-close (car lst)))))
+                      (loop (cdr lst) world))))))
+        world)))
 
 ; 86 Report the current state
 (define-proc 'commence

@@ -137,6 +137,32 @@ all of its bugs were added by Don Knuth.\n"
   (list 'commence
         'like1))
 
+(define-test 'cycle2 "was-dark"
+  '(($set-location (K debris)))
+  '((print-stars cont)
+    (print-bool $was-dark))
+  (list 'cycle3
+        #t))
+
+(define-test 'cycle2 "oyster-message"
+  '(($set-closed (K I))
+    ($set-prop-of OYSTER (K V))
+    ($carry OYSTER))
+  '((print-stars cont)
+    (print-stars ($prop-of OYSTER)))
+  (list "Interesting.  There seems to be something written on the underside of\nthe oyster.\n"
+        'cycle3
+        0))
+
+(define-test 'cycle2 "snake-prop"
+  '(($set-closed (K I))
+    ($set-prop-of SNAKE (K V))
+    ($carry SNAKE))
+  '((print-stars cont)
+    (print-stars ($prop-of SNAKE)))
+  (list 'cycle3
+        1))
+
 (define-test 'commence "goto-death"
   '(($set-location (K limbo)))
   '((print-stars cont))
