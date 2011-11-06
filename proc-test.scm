@@ -1222,6 +1222,16 @@ all of its bugs were added by Don Knuth.\n"
         "OK.\n"
         'give-up))
 
+(define-input-test 'intransitive-score "closing"
+  '(($set-clock1 (K V)))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 57\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
 (define-input-test 'intransitive-quit "yes"
   '()
   "yes\n"
@@ -1296,6 +1306,17 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars ($prop-of CRYSTAL)))
   (list "The crystal bridge has vanished!\n"
         'get-user-input
+        0))
+
+(define-test 'transitive-wave "closing"
+  '(($carry ROD)
+    ($set-obj (K ROD))
+    ($set-location (K wfiss))
+    ($set-prop-of CRYSTAL (K c0))
+    ($set-clock1 (K V)))
+  '((print-stars cont)
+    (print-stars ($prop-of CRYSTAL)))
+  (list 'report-default
         0))
 
 (define-test 'transitive-on "no-lamp"
@@ -2473,6 +2494,14 @@ all of its bugs were added by Don Knuth.\n"
         'death
         'house
         'debris))
+
+(define-test 'death "closing"
+  '(($set-clock1 (K V)))
+  '((print-stars cont)
+    (print-stars $death-count))
+  (list "It looks as though you're dead.  Well, seeing as how it's so close\nto closing time anyway, let's just call it a day.\n"
+        'quit
+        1))
 
 (define-input-test 'death "no"
   '()

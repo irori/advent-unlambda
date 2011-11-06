@@ -618,8 +618,7 @@ all of its bugs were added by Don Knuth."))
               (or (= $location efiss)
                   (= $location wfiss))
               ($toting? ROD)
-              ; TODO: (not $closing)
-              )
+              $not-closing)
          (let-world (($set-prop-of CRYSTAL (lambda (x) (x (K c0) c1))))
            ($report (cadr ((ifnonzero ($prop-of CRYSTAL) I cdr)
                            (nth CRYSTAL $note)))))
@@ -1283,26 +1282,29 @@ all of its bugs were added by Don Knuth."))
 
 (defmacro max-deaths c3)
 
-; 188 Deal with death and resurrection
+; 189 Deal with death and resurrection
 (define-proc 'death
   `(lambda (world)
      (let-world (($set-death-count succ))
-       ; TODO: handle closing
-       (if (not (and (yes (nth $death-count death-wishes-q)
-                          (nth $death-count death-wishes-y)
-                          ok)
-                (< $death-count max-deaths)))
-           ($goto quit)
-           (let-world ((if ($toting? LAMP)
-                           (set-prop-of LAMP (K c0)
-                                        ($drop LAMP road))
-                           world)
-                       ($drop WATER limbo)
-                       ($drop OIL limbo)
-                       (drop-items world $objects-toting)
-                       ($set-location (K house))
-                       ($set-oldlocs (lambda (p) (cons house (cdr p)))))
-             ($goto commence))))))
+       (cond ((not $not-closing)
+              ((string "It looks as though you're dead.  Well, seeing as how it's so close\nto closing time anyway, let's just call it a day.\n")
+               ($goto quit)))
+             ((not (and (yes (nth $death-count death-wishes-q)
+                             (nth $death-count death-wishes-y)
+                             ok)
+                        (< $death-count max-deaths)))
+              ($goto quit))
+             (else
+              (let-world ((if ($toting? LAMP)
+                              (set-prop-of LAMP (K c0)
+                                           ($drop LAMP road))
+                              world)
+                          ($drop WATER limbo)
+                          ($drop OIL limbo)
+                          (drop-items world $objects-toting)
+                          ($set-location (K house))
+                          ($set-oldlocs (lambda (p) (cons house (cdr p)))))
+                ($goto commence)))))))
 
 (defmacro death-wishes-q
   (list
@@ -1453,13 +1455,14 @@ all of its bugs were added by Don Knuth."))
        (lambda (hd tl)
          (+ hd (hint-score tl))))))
 
+; 197 score()
 (defmacro score
   (lambda (world)
     (sub (+ ; TODO: dflag
             (treasure-score world)
             (* c10 (sub max-deaths $death-count))
             (if (= ($place-of MAG) witt) c1 c0)
-            ; TODO: closing
+            (if $not-closing c0 c25)
             (hint-score $hinted))
          c31)))
 
