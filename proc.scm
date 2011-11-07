@@ -415,14 +415,22 @@ all of its bugs were added by Don Knuth."))
                   (tt (if (zero? bas) (car lst) bas)))
              (let-world ((if (or (churchnum? ($prop-of tt)) $closed)
                              world
-                             ($set-prop-of tt (K (cond ((= tt RUG) c1)
-                                                       ((= tt CHAIN) c1)
-                                                       (else c0)))))
-                         ($set-tally pred)
-                         (zap-the-lamp world))
+                             (spot-treasure tt world)))
                (begin
                  ($describe-single-object tt)
                  (loop world (cdr lst)))))))))
+
+(defmacro (spot-treasure tt)
+  (lambda (world)
+    (let-world (($set-prop-of tt (K (cond ((= tt RUG) c1)
+                                          ((= tt CHAIN) c1)
+                                          (else c0))))
+                ($set-tally pred))
+      (if (and (= $tally $lost-treasures)
+               (nonzero? $tally)
+               (cons1? (c35 1-of-1 $limit)))
+          ($set-limit (K (to-cons1 c35)))
+          world))))
 
 ; 90 Make sure obj is meaningful at the current location
 (define-proc 'check-object-location
@@ -1238,15 +1246,6 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'close-the-cave
   '(lambda (world)
      ((string "\nclose-the-cave: not implemented\n") exit I)))
-
-; 183 Zap the lamp if the remaining treasures are too elusive
-(defmacro zap-the-lamp
-  (lambda (world)
-    (if (and (= $tally $lost-treasures)
-             (nonzero? $tally)
-             (cons1? (c35 1-of-1 $limit)))
-        ($set-limit (K (to-cons1 c35)))
-        world)))
 
 ; 184 Check the clocks and the lamp
 (define-proc 'check-the-lamp

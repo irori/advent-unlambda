@@ -235,12 +235,14 @@ all of its bugs were added by Don Knuth.\n"
 (define-test 'describe-objects "describe"
   '(($set-location (K house))
     ($set-prop-of LAMP (K c1)))
-  '((print-stars cont))
+  '((print-stars cont)
+    (print-stars $tally))
   (list "There are some keys on the ground here.\n"
         "There is a lamp shining nearby.\n"
         "There is food here.\n"
         "There is a bottle of water here.\n"
-        'get-user-input))
+        'get-user-input
+        15))
 
 (define-test 'describe-objects "based"
   '(($set-location (K inside)))
