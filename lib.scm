@@ -139,12 +139,14 @@
    (lambda (hd tl)
      (begin (f hd) (for-each f tl)))))
 
-(defrecmacro (modify-nth n f lst)
-  (if (cons1? n)
-      (lst (lambda (hd tl)
-             (cons hd (modify-nth (1-of-1 n) f tl))))
-      (lst (lambda (hd tl)
-             (cons (f hd) tl)))))
+(defmacro (modify-nth f)
+  ((lambda (x) (x x))
+   (lambda (_rec _n _lst)
+     (if (cons1? _n)
+	 (_lst (lambda (_hd _tl)
+		 ((icons _hd) (_rec _rec (1-of-1 _n) _tl))))
+	 (_lst (lambda (_hd _tl)
+		 ((snoc _tl) (f _hd))))))))
 
 ;; utilities
 (defmacro KI (K I))
