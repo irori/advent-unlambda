@@ -142,11 +142,12 @@
 (defmacro (modify-nth f)
   ((lambda (x) (x x))
    (lambda (_rec _n _lst)
-     (if (cons1? _n)
-	 (_lst (lambda (_hd _tl)
-		 ((icons _hd) (_rec _rec (1-of-1 _n) _tl))))
-	 (_lst (lambda (_hd _tl)
-		 ((snoc _tl) (f _hd))))))))
+     (_lst
+      (if (cons1? _n)
+	  (lambda (_hd _tl)
+	    ((icons _hd) (_rec _rec (1-of-1 _n) _tl)))
+	  (lambda (_hd _tl)
+	    ((snoc _tl) (f _hd))))))))
 
 ;; utilities
 (defmacro KI (K I))
