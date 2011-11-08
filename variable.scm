@@ -66,9 +66,9 @@
         (fold
          (lambda (p e)
            `(lambda (_hd _tl)
-              ((cons)
-               ,(if (eq? p 'car) (if e `(_hd ,e) '(modifier _hd)) '_hd)
-               ,(if (eq? p 'cdr) (if e `(_tl ,e) '(modifier _tl)) '_tl))))
+	      ,(if (eq? p 'car)
+		   `((snoc _tl) ,(if e `(_hd ,e) '(modifier _hd)))
+		   `((icons _hd) ,(if e `(_tl ,e) '(modifier _tl))))))
          #f plist)))
 
 ;; generates accessor macros for the memory map

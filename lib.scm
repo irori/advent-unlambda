@@ -104,6 +104,7 @@
 (defmacro nil V)
 (defmacro cons (lambda (a b f) (f a b)))
 (defmacro (icons a b) (lambda (_f) (_f a b)))  ; inlined cons
+(defmacro (snoc b a) (lambda (_f) (_f a b)))
 (defmacro (pair? x) (x (lambda (a b) I)))
 (defmacro (null? x) (not (pair? x)))
 (defmacro (car x) (x (lambda (a b) a)))
