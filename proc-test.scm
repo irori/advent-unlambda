@@ -22,7 +22,7 @@
 			  (lambda (cont world)
 			    (begin ,@outputs)))))
 		     initial-world
-		     ,(car (drop program-table (lookup-enum proc-id)))))
+		     ,(cdar (drop program-table (lookup-enum proc-id)))))
 	 (unl (compile-to-string testcode))
 	 (process (run-process '(unlambda) :input :pipe :output :pipe))
          (expect-str (make-expected-string expect))

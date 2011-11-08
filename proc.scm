@@ -9,7 +9,7 @@
 
 (define (define-proc name body)
   (define-enum (list name) (length procedures))
-  (set! procedures (cons body procedures)))
+  (push! procedures (cons name body)))
 
 (defmacro ok (string "OK."))
 
@@ -1529,10 +1529,18 @@ all of its bugs were added by Don Knuth."))
              (exit I)))))))
 
 (define program-table
-  (map (lambda (x) (compile-to-string (if (undefined? x) 'V x)))
+  (map (lambda (x) (cons (car x) (compile-to-string (cdr x))))
        (reverse procedures)))
 
+(define (print-program-table-sizes)
+  (let* ((lst (map (lambda (x) (cons (car x) (string-length (cdr x))))
+		   program-table))
+	 (lst (sort-by lst cdr)))
+    (for-each (lambda (p)
+		(print (cdr p) "\t" (car p)))
+	      lst)))
+
 (add-unl-macro!
- 'program-table '() `(list ,@program-table))
+ 'program-table '() `(list ,@(map cdr program-table)))
 
 (defmacro initial-pc offer0)

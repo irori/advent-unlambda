@@ -79,7 +79,11 @@
 	    ((outfile "o|outfile=s" "advent.unl")
              (profile "p|profile")
              (mexpand "m|macroexpand")
+             (program-size "s|size")
              )
+    (if program-size
+	(begin (print-program-table-sizes)
+	       (exit 0)))
     (if mexpand
         (begin (write (macroexpand unl-macros 'main))
                (exit 0)))
