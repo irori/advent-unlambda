@@ -235,8 +235,8 @@ things.  I cannot tell you where remote things are.")
 
 (add-unl-macro!
  'initial-default-msg '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
-               default-msg)))
+ (compress-list (map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+		     default-msg)))
 
 (define messages '())
 
@@ -331,8 +331,8 @@ unless you explicitly ask me to.")
 
 (add-unl-macro!
  'initial-message '()
- `(list ,@(map (lambda (x) (list 'string x))
-               (reverse messages))))
+ (compress-list (map (lambda (x) (list 'string x))
+		     (reverse messages))))
 
 (define (defword word-data)
   (let ((type (car word-data))

@@ -116,3 +116,14 @@
 		   (else `(,(churchnum d) (icons V) (icons ,val ,e)))))))
      'V
      (cons '(-1 . #f) (sort-by alist2 car)))))
+
+(define (compress-list lst)
+  (if (null? lst)
+      'V
+      (let ((e (car lst)))
+	(call-with-values (lambda () (span (lambda (x) (equal? x e)) lst))
+	  (lambda (head rest)
+	    (let ((n (length head)))
+	      (if (= n 1)
+		  `(icons ,e ,(compress-list rest))
+		  `(,(churchnum n) (icons ,e) ,(compress-list rest)))))))))

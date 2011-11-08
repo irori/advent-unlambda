@@ -189,37 +189,38 @@ on the underside of\nthe oyster.")
 
 (add-unl-macro!
  'initial-base '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V (churchnum x)))
-               object-base)))
+ (compress-list (map (lambda (x) (if (undefined? x) 'V (churchnum x)))
+		     object-base)))
 
 (add-unl-macro!
  'initial-prop '()
- `(list ,@(map (lambda (x)
-                 (if (or (undefined? x) (< x 0))
-                     'V
-                     (churchnum x)))
-               object-prop)))
+ (compress-list (map (lambda (x)
+		       (if (or (undefined? x) (< x 0))
+			   'V
+			   (churchnum x)))
+		     object-prop)))
 
 (add-unl-macro!
  'initial-place '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V (churchnum x)))
-               object-place)))
+ (compress-list (map (lambda (x) (if (undefined? x) 'V (churchnum x)))
+		     object-place)))
 
 (add-unl-macro!
  'objname '()
- `(list ,@(map (lambda (x) (if (undefined? x) 'V (list 'string x)))
-               object-name)))
+ (compress-list (map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+		     object-name)))
 
 (add-unl-macro!
  'initial-note '()
  (compile-to-file
   "note.unlo"
-  `(list ,@(map (lambda (lst)
-		  (if (undefined? lst)
-		      'V
-		      (cons 'list
-			    (map (lambda (x) (if x (list 'string x) 'V)) lst))))
-		object-note))))
+  (compress-list (map (lambda (lst)
+			(if (undefined? lst)
+			    'V
+			    (cons 'list
+				  (map (lambda (x) (if x (list 'string x) 'V))
+				       lst))))
+		      object-note))))
 
 (defmacro (toting? object world)
   (not (churchnum? (nth object (place world)))))

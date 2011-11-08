@@ -1340,24 +1340,24 @@ It would be advisable to use the exit."
  'room-desc '()
  (compile-to-file
   "roomdesc.unlo"
-  `(list ,@(map (lambda (desc)
-		  (cond ((not desc) 'V)
-			((cdr desc) `(icons (string ,(car desc))
-					    (string ,(cdr desc))))
-			((car desc) `(lambda (x)
-				       (string ,(car desc))))
-			(else 'V)))
-		room-desc))))
+  (compress-list (map (lambda (desc)
+			(cond ((not desc) 'V)
+			      ((cdr desc) `(icons (string ,(car desc))
+						  (string ,(cdr desc))))
+			      ((car desc) `(lambda (x)
+					     (string ,(car desc))))
+			      (else 'V)))
+		      room-desc))))
 
 (add-unl-macro!
  'travels '()
  (compile-to-file
   "travels.unlo"
-  `(list ,@(map (lambda (x)
-                  (if (undefined? x)
-                      'V
-                      `(list ,@(map (apply$ make-inst) x))))
-		travels))))
+  (compress-list (map (lambda (x)
+			(if (undefined? x)
+			    'V
+			    (compress-list (map (apply$ make-inst) x))))
+		      travels))))
 
 (define (make-back-table here insts)
   (let ((lst '())
@@ -1401,44 +1401,41 @@ It would be advisable to use the exit."
  'back-table '()
  (compile-to-file
   "backtbl.unlo"
-  `(list ,@(map-with-index
-            (lambda (i insts)
-              (if (or (undefined? insts) (>= i min-forced-loc))
-                  'V
-                  (compile-back-table (make-back-table i insts))))
-            travels))))
+  (compress-list (map-with-index
+		  (lambda (i insts)
+		    (if (or (undefined? insts) (>= i min-forced-loc))
+			'V
+			(compile-back-table (make-back-table i insts))))
+		  travels))))
 
-; TODO: compress it
 (add-unl-macro!
  'lighted-rooms '()
- `(list ,@(map (lambda (flags) (if (memq 'lighted flags) 'I 'V))
-               loc-flags)))
+ (compress-list (map (lambda (flags) (if (memq 'lighted flags) 'I 'V))
+		     loc-flags)))
 
 (defmacro (lighted? loc)
   (nth loc lighted-rooms))
 
-; TODO: compress it
 (add-unl-macro!
  'room-hint '()
- `(list ,@(map
-           (lambda (flags)
-             (cond ((memq 'cave-hint flags) 'c0)
-                   ((memq 'bird-hint flags) 'c1)
-                   ((memq 'snake-hint flags) 'c2)
-                   ((memq 'twist-hint flags) 'c3)
-                   ((memq 'dark-hint flags) 'c4)
-                   ((memq 'witt-hint flags) 'c5)
-                   (else 'V)))
-           loc-flags)))
+ (compress-list (map
+		 (lambda (flags)
+		   (cond ((memq 'cave-hint flags) 'c0)
+			 ((memq 'bird-hint flags) 'c1)
+			 ((memq 'snake-hint flags) 'c2)
+			 ((memq 'twist-hint flags) 'c3)
+			 ((memq 'dark-hint flags) 'c4)
+			 ((memq 'witt-hint flags) 'c5)
+			 (else 'V)))
+		 loc-flags)))
 
-; TODO: compress it
 (add-unl-macro!
  'initial-liquid '()
- `(list ,@(map (lambda (flags)
-                 (cond ((memq 'oil flags) 'c1)
-                       ((memq 'liquid flags) 'c0)
-                       (else 'V)))
-               loc-flags)))
+ (compress-list (map (lambda (flags)
+		       (cond ((memq 'oil flags) 'c1)
+			     ((memq 'liquid flags) 'c0)
+			     (else 'V)))
+		     loc-flags)))
 
 (defmacro (water-here world)
   (zero? (nth (location world) (liquid world))))
