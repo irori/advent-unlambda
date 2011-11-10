@@ -516,25 +516,23 @@ all of its bugs were added by Don Knuth."))
   '(lambda (world)
      (if $dark
          ($goto get-object)
-         (call/cc
-          (lambda (ret)
-            (let-world ((if ($here? MAG) ($set-obj (K MAG)) world)
-                        (if ($here? TABLET)
-                            (if (nonzero? $obj)
-                                (ret ($goto get-object))
-                                ($set-obj (K TABLET)))
-                            world)
-                        (if ($here? MESSAGE)
-                            (if (nonzero? $obj)
-                                (ret ($goto get-object))
-                                ($set-obj (K MESSAGE)))
-                            world)
-                        (if (and $closed ($toting? OYSTER))
-                            ($set-obj (K OYSTER))
-                            world))
-              (if (nonzero? $obj)
-                  ($goto transitive)
-                  ($goto get-object))))))))
+	 (let-world ((if ($here? MAG) ($set-obj (K MAG)) world)
+		     (if ($here? TABLET)
+			 (if (nonzero? $obj)
+			     ($return ($goto get-object))
+			     ($set-obj (K TABLET)))
+			 world)
+		     (if ($here? MESSAGE)
+			 (if (nonzero? $obj)
+			     ($return ($goto get-object))
+			     ($set-obj (K MESSAGE)))
+			 world)
+		     (if (and $closed ($toting? OYSTER))
+			 ($set-obj (K OYSTER))
+			 world))
+	   (if (nonzero? $obj)
+	       ($goto transitive)
+	       ($goto get-object))))))
 
 ; 94 case INVENTORY:
 (define-proc 'intransitive-inventory
@@ -767,24 +765,22 @@ all of its bugs were added by Don Knuth."))
 ; 112 case TAKE:
 (define-proc 'transitive-take
   '(lambda (world)
-     (call/cc
-      (lambda (ret)
-        (begin
-          (($toting? $obj)  ; already carrying it
-           ret ($goto report-default))
-          ((nonzero? ($base-of $obj))  ; it is immovable
-           (immovable-msg world) #\newline
-           ret ($goto get-user-input))
-          (let-world ((take-liquid world ret))
-            (begin
-              ((carrying-too-many? world)
-               (string "You can't carry anything more.  You'll have to drop something first.\n")
-               ret ($goto get-user-input))
-              (let-world ((take-bird world ret)
-                          (take-cage-bird world)
-                          ($carry $obj)
-                          (take-liquid-in-bottle world))
-                ($report ok)))))))))
+     (begin
+       (($toting? $obj)  ; already carrying it
+	$return ($goto report-default))
+       ((nonzero? ($base-of $obj))  ; it is immovable
+	(immovable-msg world) #\newline
+	$return ($goto get-user-input))
+       (let-world ((take-liquid world))
+	 (begin
+	   ((carrying-too-many? world)
+	    (string "You can't carry anything more.  You'll have to drop something first.\n")
+	    $return ($goto get-user-input))
+	   (let-world ((take-bird world)
+		       (take-cage-bird world)
+		       ($carry $obj)
+		       (take-liquid-in-bottle world))
+	     ($report ok)))))))
 
 (defmacro (carrying-too-many? world)
   (let loop ((lst (cdr (place world)))
@@ -816,15 +812,15 @@ all of its bugs were added by Don Knuth."))
 
 ; 113 Check special cases for taking a liquid
 (defmacro take-liquid
-  (lambda (world ret)
+  (lambda (world)
     (if (or (= $obj WATER) (= $obj OIL))
         (if (and ($here? BOTTLE) $object-in-bottle)
             ($set-obj (K BOTTLE))
             (let-world (($set-obj (K BOTTLE)))
               (if ($toting? BOTTLE)
-                  (ret ($change-to FILL))
+                  ($return ($change-to FILL))
                   ((string "You have nothing in which to carry it.\n")
-                   ret ($goto get-user-input)))))
+                   $return ($goto get-user-input)))))
         world)))
 
 (defmacro take-liquid-in-bottle
@@ -835,16 +831,16 @@ all of its bugs were added by Don Knuth."))
 
 ; 114 Check special cases for taking a bird
 (defmacro take-bird
-  (lambda (world ret)
+  (lambda (world)
     (if (and (= $obj BIRD) (zero? ($prop-of BIRD)))
 	(begin
 	  (($toting? ROD)
 	   (string "The bird was unafraid when you entered, but as you approach it becomes\ndisturbed and you cannot catch it.\n")
-	   ret ($goto get-user-input))
+	   $return ($goto get-user-input))
 	  (if ($toting? CAGE)
 	      ($set-prop-of BIRD (K c1))
 	      ((string "You can catch the bird, but you cannot carry it.\n")
-	       ret ($goto get-user-input))))
+	       $return ($goto get-user-input))))
 	world)))
 
 ; 115 Check special cases for dropping a liquid
@@ -1543,4 +1539,4 @@ all of its bugs were added by Don Knuth."))
 (add-unl-macro!
  'program-table '() `(list ,@(map cdr program-table)))
 
-(defmacro initial-pc offer0)
+(defmacro initial-label offer0)

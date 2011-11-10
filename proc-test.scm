@@ -16,13 +16,15 @@
   (push! tests (list proc-id testname setups input outputs expect)))
 
 (define (test-proc proc-id testname setups stdin outputs expect)
-  (let* ((testcode `((lambda (world proc)
-		       (let-world ,setups
-			 ((proc world)
-			  (lambda (cont world)
-			    (begin ,@outputs)))))
-		     initial-world
-		     ,(cdar (drop program-table (lookup-enum proc-id)))))
+  (let* ((testcode
+	  `((call/cc
+	     (lambda (ret)
+	       (let ((world (set-return initial-world (K ret)))
+		     (proc ,(cdar (drop program-table (lookup-enum proc-id)))))
+		 (let-world ,setups
+		    (proc world)))))
+	    (lambda (cont world)
+	      (begin ,@outputs))))
 	 (unl (compile-to-string testcode))
 	 (process (run-process '(unlambda) :input :pipe :output :pipe))
          (expect-str (make-expected-string expect))

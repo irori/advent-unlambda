@@ -20,7 +20,8 @@
 
 (define memory-map
   (make-memory-map
-   '(location
+   '(return
+     location
      newloc
      oldlocs
      visits

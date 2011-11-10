@@ -25,6 +25,7 @@
 
 
 ;; initial environment
+(defmacro initial-return V)
 (defmacro initial-location road)
 (defmacro initial-newloc road)
 (defmacro initial-oldlocs (icons road road))
@@ -66,12 +67,16 @@
   (make-initial-map memory-map)))
 
 
-;; main loop
-(defrecmacro (advent-mainloop pc world)
-  (((nth pc program-table) world) advent-mainloop))
+;; trampoline driver
+(defrecmacro (trampoline label world)
+  (((nth label program-table) world) trampoline))
 
 (defmacro main
-  (advent-mainloop initial-pc initial-world))
+  ((call/cc
+    (lambda (ret)
+      (cons initial-label
+	    (set-return initial-world (K ret)))))
+   trampoline))
 
 
 (define (main args)
