@@ -327,11 +327,8 @@ all of its bugs were added by Don Knuth."))
                  (adjust-props-after-closed world))
        ($goto cycle3))))
 
-(defmacro (prop-after-close obj)
-  (cond ((= obj BOTTLE) c1)
-        ((= obj SNAKE) c1)
-        ((= obj BIRD) c1)
-        (else c0)))
+(defsyntax (prop-after-close obj)
+  `(if (nth ,obj ,(make-boolean-list '(BOTTLE SNAKE BIRD))) c1 c0))
 
 ; 182 Make special adjustments before looking at new input
 (defmacro adjust-props-after-closed
