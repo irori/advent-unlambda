@@ -1388,6 +1388,14 @@ all of its bugs were added by Don Knuth.\n"
         'proom
         'y2))
 
+(define-test 'go-for-it "forced"
+  '(($set-location (K crack))
+    ($set-mot (K CRACK)))
+  '((print-stars cont)
+    (print-stars $newloc))
+  (list 'mainloop
+        'spit))
+
 (define-test 'report-default ""
   '(($set-verb (K DROP)))
   '((print-stars cont))

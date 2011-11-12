@@ -51,7 +51,9 @@
                 (if (,predicate ,(churchnum obj) world) ,result V)))))))
 
 (define (make-inst dest cond words)
-  `(icons ,(make-boolean-list words)
+  `(icons ,(if (null? words)
+               'repeat-true
+               (make-boolean-list words))
           ,(motion-code cond dest)))
 
 (defmacro (inst-match inst) (car inst))
