@@ -132,12 +132,42 @@ all of its bugs were added by Don Knuth.\n"
         0
         1000))
 
-(define-test 'mainloop ""
+(define-test 'mainloop "move"
   '(($set-newloc (K like1)))
   '((print-stars cont)
     (print-stars $newloc))
-  (list 'commence
+  (list 'move-dwarves
         'like1))
+
+(define-test 'mainloop "panic"
+  '(($set-location (K inside))
+    ($set-newloc (K outside))
+    ($set-clock1 (K V)))
+  '((print-stars cont)
+    (print-stars $newloc))
+  (list "A mysterious recorded voice groans into life and announces:\n\"This exit is closed.  Please leave via main office.\"\n"
+        'move-dwarves
+        'inside))
+
+(define-test 'mainloop "dwarf1"
+  '(($set-location (K hmk))
+    ($set-newloc (K west))
+    ($set-nth-dwarf c1 (K (make-dwarf like3 west I))))
+  '((print-stars cont)
+    (print-stars $newloc))
+  (list "A little dwarf with a big knife blocks your way.\n"
+        'move-dwarves
+        'hmk))
+
+(define-test 'mainloop "dwarf5"
+  '(($set-location (K hmk))
+    ($set-newloc (K west))
+    ($set-nth-dwarf c5 (K (make-dwarf like3 west I))))
+  '((print-stars cont)
+    (print-stars $newloc))
+  (list "A little dwarf with a big knife blocks your way.\n"
+        'move-dwarves
+        'hmk))
 
 (define-test 'cycle2 "was-dark"
   '(($set-location (K debris)))

@@ -40,10 +40,27 @@ all of its bugs were added by Don Knuth."))
 ; 75 Simulate an adventure, going to quit when finished
 (define-proc 'mainloop
   '(lambda (world)
-     ; TODO: Check for interference with the proposed move to newloc 153
-     (let-world (($set-location (K $newloc)))
-       ; TODO: Possibly move dwarves and the pirate 161
-       ($goto commence))))
+     ; 153 Check for interference with the proposed move to newloc
+     (cond ((and (not $not-closing) (< $newloc min-in-cave) (nonzero? $newloc))
+            (let-world ((panic-at-closing-time world)
+                        ($set-newloc (K $location)))
+              ($goto move-dwarves)))
+           ((= $newloc $location)
+            ($goto move-dwarves))
+           (else
+            (begin
+              ((<= $newloc max-pirate-loc)
+               c5
+               (lambda (lst)
+                 (lst (lambda (dwf rest)
+                        (if (and (= (odloc dwf) $newloc) (dseen dwf))
+                            (let-world (($set-newloc (K $location)))
+                              ((print "A little dwarf with a big knife blocks your way.\n")
+                               $return ($goto move-dwarves)))
+                            rest))))
+               (cdr $dwarf))
+              (let-world (($set-location (K $newloc)))
+                ($goto move-dwarves)))))))
 
 ; 141 Report the long description and continue
 (defmacro handle-look
@@ -1209,6 +1226,11 @@ all of its bugs were added by Don Knuth."))
           (string "I don't know how to apply that word here.")))
    #\newline
    ($goto mainloop)))
+
+; 161 Possibly move dwarves and the pirate
+(define-proc 'move-dwarves
+  '(lambda (world)
+     ($goto commence)))
 
 ; 178 Check the clocks and the lamp
 (define-proc 'clocks-and-lamp

@@ -21,6 +21,7 @@
 
 (require "object.scm")
 (require "room.scm")
+(require "dwarf.scm")
 (require "proc.scm")
 
 
