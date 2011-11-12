@@ -1,5 +1,6 @@
 #!/usr/local/bin/gosh
 (define *debug-print-label* #f)
+(define *debug-print-dwarf* #f)
 
 (add-load-path ".")
 

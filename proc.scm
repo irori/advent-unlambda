@@ -1279,13 +1279,32 @@ all of its bugs were added by Don Knuth."))
                           (make-dwarf l l V))
                         (loop rest))))))))))
 
+(defmacro print-dwarf-locations
+  (lambda (world)
+    (begin
+      (print "\ndwarf locations:")
+      (let loop ((lst $dwarf))
+        (lst
+         (lambda (hd tl)
+           (#\space (if (dseen hd) #\* I) (nth (dloc hd) location-names)
+            loop tl))))
+      (#\newline I))))
+
+(defsyntax (debug-print-dwarf world e)
+  (if *debug-print-dwarf*
+      `(begin
+         (print-dwarf-locations ,world)
+         ,e)
+      e))
+
 ; 164 Move dwarves and the pirate
 (define-proc 'move-dwarves-and-the-pirate
   '(lambda (world)
      (let-world ((cdr (c6 random-move-dwarf (cons c0 world))))
-       ($goto (if (dseen (car $dwarf))
-                  pirate-follow
-                  dwarves-follow)))))
+       (debug-print-dwarf world
+         ($goto (if (dseen (car $dwarf))
+                    pirate-follow
+                    dwarves-follow))))))
 
 (defmacro (random-move-dwarf pair)
   (pair
