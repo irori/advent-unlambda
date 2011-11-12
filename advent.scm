@@ -1,4 +1,6 @@
 #!/usr/local/bin/gosh
+(define *debug-print-label* #f)
+
 (add-load-path ".")
 
 (use gauche.parseopt)
@@ -67,10 +69,17 @@
   "world.unlo"
   (make-initial-map memory-map)))
 
+(defsyntax (debug-print-label label e)
+  (if *debug-print-label*
+      `(begin
+         ((nth ,label label-names) #\newline I)
+         ,e)
+      e))
 
 ;; trampoline driver
 (defrecmacro (trampoline label world)
-  (((nth label program-table) world) trampoline))
+  (debug-print-label label
+    (((nth label program-table) world) trampoline)))
 
 (defmacro main
   ((call/cc

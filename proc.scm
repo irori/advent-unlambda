@@ -1704,4 +1704,10 @@ all of its bugs were added by Don Knuth."))
 (add-unl-macro!
  'program-table '() `(list ,@(map cdr program-table)))
 
+(add-unl-macro!
+ 'label-names '()
+ (cons 'list
+       (map (lambda (x) `(string ,(symbol->string (car x))))
+            program-table)))
+
 (defmacro initial-label offer0)
