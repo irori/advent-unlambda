@@ -1230,6 +1230,59 @@ all of its bugs were added by Don Knuth."))
 ; 161 Possibly move dwarves and the pirate
 (define-proc 'move-dwarves
   '(lambda (world)
+     (if (and (<= $location max-pirate-loc) (nonzero? $location))
+         (cond ((zero? $dflag)
+                (goto commence (if>= $location min-lower-loc
+                                     ($set-dflag (K c1))
+                                     world)))
+               ((= $dflag c1)
+                (let-rand r 5
+                  (if (if>= $location min-lower-loc r V)
+                      ($goto see-first-dwarf)
+                      ($goto commence))))
+               (else
+                ($goto move-dwarves-and-the-pirate)))
+         ($goto commence))))
+
+; 162 Advance dflag to 2
+(define-proc 'see-first-dwarf
+  '(lambda (world)
+     (let* ((bits $rand)
+            (try ((car bits succ I) (cadr bits c1 c0))))
+       (let-world (($set-dflag (K c2))
+                   ($set-rand cddr)
+                   (try kill-random-dwarf world)
+                   (init-dwarves world)
+                   ($drop AXE $location))
+         ((string "A little dwarf just walked around a corner, saw you, threw a little\naxe at you, cursed, and ran away.  (The axe missed.)\n")
+          ($goto commence))))))
+
+(defmacro kill-random-dwarf
+  (lambda (world)
+    (let ((n (random (to-cons1 c3) $rand))
+          (world ($set-rand (c4 cdr))))
+      (if (zero? n)
+          world
+          ($set-nth-dwarf (div (+ c2 n) c3) (set-dloc limbo))))))
+
+(defmacro init-dwarves
+  (lambda (world)
+    ($set-dwarf
+     (lambda (ds)
+       (cons (car ds)
+             (let loop ((lst (cdr ds)))
+               (lst
+                (lambda (dwarf rest)
+                  (cons (let ((l (if (= (dloc dwarf) $location)
+                                     nugget
+                                     (dloc dwarf))))
+                          (make-dwarf l l V))
+                        (loop rest))))))))))
+
+; 164 Move dwarves and the pirate
+(define-proc 'move-dwarves-and-the-pirate
+  '(lambda (world)
+     ; TODO: implement it
      ($goto commence)))
 
 ; 178 Check the clocks and the lamp

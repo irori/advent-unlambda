@@ -383,6 +383,135 @@ all of its bugs were added by Don Knuth.\n"
   (list 'transitive
         'SAY))
 
+(define-test 'move-dwarves "too-shallow"
+  '(($set-location (K spit)))
+  '((print-stars cont)
+    (print-stars $dflag))
+  (list 'commence
+        0))
+
+(define-test 'move-dwarves "too-deep"
+  '(($set-location (K dead3)))
+  '((print-stars cont)
+    (print-stars $dflag))
+  (list 'commence
+        0))
+  
+(define-test 'move-dwarves "advance-dflag-to-1"
+  '(($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag))
+  (list 'commence
+        1))
+  
+(define-test 'move-dwarves "advance-dflag-to-2"
+  '(($set-location (K emist))
+    ($set-dflag (K c1))
+    ($set-rand (K (list KI K KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand)))
+  (list 'see-first-dwarf
+        1))
+
+(define-test 'move-dwarves "dflag2"
+  '(($set-location (K spit))
+    ($set-dflag (K c2)))
+  '((print-stars cont))
+  (list 'move-dwarves-and-the-pirate))
+
+(define-test 'see-first-dwarf "kill-0-dwarves"
+  '(($set-rand (K (list KI KI V))))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-stars (length $rand))
+    (print-bool (nonzero? (dloc (nth c1 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c2 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c3 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c4 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c5 $dwarf))))
+    (print-stars ($place-of AXE)))
+  (list "A little dwarf just walked around a corner, saw you, threw a little\naxe at you, cursed, and ran away.  (The axe missed.)\n"
+        'commence
+        2
+        1
+        #t #t #t #t #t
+        'road))
+
+(define-test 'see-first-dwarf "adjust-dwarves"
+  '(($set-rand (K (list KI KI V)))
+    ($set-location (K wfiss)))
+  '((print-stars cont)
+    (print-stars (dloc (nth c1 $dwarf)))
+    (print-stars (odloc (nth c1 $dwarf)))
+    (print-stars (dloc (nth c2 $dwarf)))
+    (print-stars (odloc (nth c2 $dwarf)))
+    (print-stars (dloc (nth c3 $dwarf)))
+    (print-stars (odloc (nth c3 $dwarf)))
+    (print-stars (dloc (nth c4 $dwarf)))
+    (print-stars (odloc (nth c4 $dwarf)))
+    (print-stars (dloc (nth c5 $dwarf)))
+    (print-stars (odloc (nth c5 $dwarf))))
+  (list "A little dwarf just walked around a corner, saw you, threw a little\naxe at you, cursed, and ran away.  (The axe missed.)\n"
+        'commence
+        'hmk
+        'hmk
+        'nugget
+        'nugget
+        'y2
+        'y2
+        'like3
+        'like3
+        'complex
+        'complex))
+
+(define-test 'see-first-dwarf "kill-1-dwarf"
+  '(($set-rand (K (list K KI K K K K V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-bool (nonzero? (dloc (nth c0 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c1 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c2 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c3 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c4 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c5 $dwarf)))))
+  (list "A little dwarf just walked around a corner, saw you, threw a little\naxe at you, cursed, and ran away.  (The axe missed.)\n"
+        'commence
+        1
+        #t #t #t #t #t #f))
+
+(define-test 'see-first-dwarf "kill-dwarf0"
+  '(($set-rand (K (list KI K KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-bool (nonzero? (dloc (nth c0 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c1 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c2 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c3 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c4 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c5 $dwarf)))))
+  (list "A little dwarf just walked around a corner, saw you, threw a little\naxe at you, cursed, and ran away.  (The axe missed.)\n"
+        'commence
+        1
+        #t #t #t #t #t #t))
+
+(define-test 'see-first-dwarf "kill-2-dwarves"
+  '(($set-rand (K (list K K
+                        K KI KI KI
+                        KI KI KI K
+                        V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-bool (nonzero? (dloc (nth c0 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c1 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c2 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c3 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c4 $dwarf))))
+    (print-bool (nonzero? (dloc (nth c5 $dwarf)))))
+  (list "A little dwarf just walked around a corner, saw you, threw a little\naxe at you, cursed, and ran away.  (The axe missed.)\n"
+        'commence
+        1
+        #t #f #t #f #t #t))
+
 (define-test 'clocks-and-lamp "do-not-clock-if-treasure-left"
   '(($set-tally (K c1))
     ($set-location (K emist)))

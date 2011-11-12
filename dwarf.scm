@@ -13,6 +13,15 @@
 (defmacro initial-dflag c0)
 (defmacro initial-not-dkill I)  ; have you killed a dwarf?
 
+(defmacro ($set-nth-dwarf n modifier)
+  (set-nth world set-dwarf n modifier))
+(defmacro (set-dloc x dwarf)
+  (dwarf (lambda (_ oloc seen) (make-dwarf x oloc seen))))
+(defmacro (set-odloc x dwarf)
+  (dwarf (lambda (loc _ seen) (make-dwarf loc x seen))))
+(defmacro (set-dseen x dwarf)
+  (dwarf (lambda (loc oloc _) (make-dwarf loc oloc x))))
+
 (defmacro dwarf-here?
   (lambda (world)
     (call/cc
