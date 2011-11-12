@@ -512,6 +512,134 @@ all of its bugs were added by Don Knuth.\n"
         1
         #t #f #t #f #t #t))
 
+(define-test 'move-dwarves-and-the-pirate "move-pirate"
+  '(($set-dwarf (K (list (make-dwarf like3 like6 V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-rand (K (list KI KI KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-stars (dloc (nth c0 $dwarf)))
+    (print-stars (odloc (nth c0 $dwarf)))
+    (print-bool (dseen (nth c0 $dwarf))))
+  (list 'dwarves-follow
+        1
+        'like2
+        'like3
+        #f))
+
+(define-test 'move-dwarves-and-the-pirate "move-dwarf"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf emist hmk I))))
+    ($set-rand (K (list KI KI KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-stars (dloc (nth c5 $dwarf)))
+    (print-stars (odloc (nth c5 $dwarf)))
+    (print-bool (dseen (nth c5 $dwarf))))
+  (list 'dwarves-follow
+        1
+        'jumble
+        'emist
+        #f))
+
+(define-test 'move-dwarves-and-the-pirate "move-dwarves"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf nugget emist V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf emist hmk V))))
+    ($set-rand (K (list KI KI K KI KI KI
+                        KI KI K KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-stars (dloc (nth c1 $dwarf)))
+    (print-stars (odloc (nth c1 $dwarf)))
+    (print-bool (dseen (nth c1 $dwarf)))
+    (print-stars (dloc (nth c5 $dwarf)))
+    (print-stars (odloc (nth c5 $dwarf)))
+    (print-bool (dseen (nth c5 $dwarf)))
+    )
+  (list 'dwarves-follow
+        1
+        'emist
+        'nugget
+        #f
+        'efiss
+        'emist
+        #f))
+
+(define-test 'move-dwarves-and-the-pirate "seen"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist hmk V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-location (K jumble))
+    ($set-rand (K (list KI KI KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-stars (dloc (nth c1 $dwarf)))
+    (print-stars (odloc (nth c1 $dwarf)))
+    (print-bool (dseen (nth c1 $dwarf)))
+    )
+  (list 'dwarves-follow
+        1
+        'jumble
+        'emist
+        #t))
+
+(define-test 'move-dwarves-and-the-pirate "seen-odloc"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist hmk V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-location (K emist))
+    ($set-rand (K (list KI KI KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-stars (dloc (nth c1 $dwarf)))
+    (print-stars (odloc (nth c1 $dwarf)))
+    (print-bool (dseen (nth c1 $dwarf)))
+    )
+  (list 'dwarves-follow
+        1
+        'jumble
+        'emist
+        #t))
+
+(define-test 'move-dwarves-and-the-pirate "seen-keep"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-location (K like1))
+    ($set-rand (K (list KI KI KI KI KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand))
+    (print-stars (dloc (nth c1 $dwarf)))
+    (print-stars (odloc (nth c1 $dwarf)))
+    (print-bool (dseen (nth c1 $dwarf)))
+    )
+  (list 'dwarves-follow
+        1
+        'jumble
+        'emist
+        #t))
+
 (define-test 'clocks-and-lamp "do-not-clock-if-treasure-left"
   '(($set-tally (K c1))
     ($set-location (K emist)))

@@ -139,6 +139,12 @@
    (lambda (hd tl)
      (begin (f hd) (for-each f tl)))))
 
+(defmacro (remove f lst)
+  (let loop ((l lst))
+    (l (lambda (hd tl)
+         ((if (f hd) I (icons hd))
+          (loop tl))))))
+
 (defmacro (modify-nth f)
   ((lambda (x) (x x))
    (lambda (_rec _n _lst)

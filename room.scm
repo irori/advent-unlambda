@@ -9,6 +9,7 @@
 (defmacro max-pirate-loc dead2)
 (defmacro chest-loc dead2)
 (define max-loc (lookup-enum 'didit))
+(define min-lower-loc (lookup-enum 'emist))
 (define min-forced-loc (lookup-enum 'crack))
 
 (define room-desc (make-vector (+ 1 max-loc) #f))
@@ -1409,6 +1410,41 @@ It would be advisable to use the exit."
 			'V
 			(compile-back-table (make-back-table i insts))))
 		  travels))))
+
+(define (make-dwarf-moves here insts)
+  (if (or (undefined? insts) (< here min-lower-loc) (>= here min-forced-loc))
+      '()
+      (fold
+       (lambda (inst a)
+         (let* ((dest (car inst))
+                (condition (cadr inst))
+                (d (if (string? dest) 0 (lookup-enum dest))))
+           (if (and (>= d min-lower-loc)
+                    (not (= d here))
+                    (or (null? a) (not (eq? dest (car a))))
+                    (not (= condition 100))
+                    (< d min-forced-loc))
+               (cons dest a)
+               a)))
+       '()
+       insts)))
+
+(define (print-dwarf-moves)
+  (for-each-with-index
+   (lambda (index insts)
+     (if (or (undefined? insts) (>= index min-forced-loc))
+         #f
+         (print (cons index (make-dwarf-moves index insts)))))
+   travels))
+
+(add-unl-macro!
+ 'dwarf-moves '()
+ (compile-to-file
+  "dmoves.unlo"
+  (compress-list (map-with-index
+                  (lambda (i insts)
+                    (cons 'list (make-dwarf-moves i insts)))
+                  travels))))
 
 (add-unl-macro!
  'lighted-rooms '()

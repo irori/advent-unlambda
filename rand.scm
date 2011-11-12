@@ -33,6 +33,15 @@
 	  (dbl (random (1-of-1 n) bs)))))
       ((car bits) c1 c0)))
 
+; Randomely select an element from lst
+(defmacro (random-select lst bits)
+  (let ((n (to-cons1 (random (to-cons1 c5) bits))))
+    (let loop ((n n)
+               (l lst))
+      (cond ((null? l) (loop n lst))
+            ((cons1? n) (loop (1-of-1 n) (cdr l)))
+            (else (car l))))))
+
 (defmacro rand-main
   (c100 (lambda (r)
 	  (begin
@@ -40,4 +49,11 @@
 	    (c6 cdr r)))
         rand-8))
 
-;(print-as-unl 'rand-main)
+(defmacro random-select-test
+  (c100 (lambda (bits)
+          (begin
+            ((random-select (list #\1 #\2 #\3 #\4 #\5) bits) I)
+            (c6 cdr bits)))
+        rand-7))
+
+;(print-as-unl 'random-select-test)

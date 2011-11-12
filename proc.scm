@@ -1282,8 +1282,48 @@ all of its bugs were added by Don Knuth."))
 ; 164 Move dwarves and the pirate
 (define-proc 'move-dwarves-and-the-pirate
   '(lambda (world)
-     ; TODO: implement it
+     (let-world ((cdr (c6 random-move-dwarf (cons c0 world))))
+       ($goto (if (dseen (car $dwarf))
+                  pirate-follow
+                  dwarves-follow)))))
+
+(defmacro (random-move-dwarf pair)
+  (pair
+   (lambda (i world)
+     (let* ((dwf (nth i $dwarf))
+            (ploc (nth (dloc dwf) dwarf-moves)))
+       (if (zero? (dloc dwf))
+           (cons (succ i) world)
+           (let* ((ploc2 (remove (lambda (dest)
+                                   (or (and (zero? i) (> dest max-pirate-loc))
+                                       (= dest (odloc dwf))))
+                                 ploc))
+                  (new-odloc (dloc dwf))
+                  (new-dloc (if (null? ploc2) (odloc dwf)
+                                (random-select ploc2 $rand)))
+                  (new-dseen (or (= new-dloc $location)
+                                 (= new-odloc $location)
+                                 (and (dseen dwf)
+                                      (>= $location min-lower-loc)))))
+             (let-world (($set-nth-dwarf i (K (make-dwarf new-dloc
+                                                          new-odloc
+                                                          new-dseen)))
+                         ($set-rand (c6 cdr)))
+               (cons (succ i) world))))))))
+
+; 167 Make dwarf j follow
+(define-proc 'dwarves-follow
+  '(lambda (world)
+     ; TODO: dloc[j] = loc
+     ; TODO: implement
      ($goto commence)))
+
+; 172 Make the pirate track you
+(define-proc 'pirate-follow
+  '(lambda (world)
+     ; TODO: dloc[j] = loc
+     ; TODO: implement
+     ($goto dwarves-follow)))
 
 ; 178 Check the clocks and the lamp
 (define-proc 'clocks-and-lamp
