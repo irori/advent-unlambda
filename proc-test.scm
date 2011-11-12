@@ -640,6 +640,171 @@ all of its bugs were added by Don Knuth.\n"
         'emist
         #t))
 
+(define-test 'dwarves-follow "not-seen"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist hmk V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-location (K like3)))
+  '((print-stars cont))
+  (list 'commence))
+
+(define-test 'dwarves-follow "seen"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-dflag (K c2))
+    ($set-rand (K (list KI KI KI KI KI V)))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-stars (length $rand)))
+  (list "There is a threatening little dwarf in the room with you!\n"
+        'commence
+        2
+        6))
+
+(define-test 'dwarves-follow "seen5"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf emist hmk I))))
+    ($set-location (K emist)))
+  '((print-stars cont))
+  (list "There are 5 threatening little dwarves in the room with you!\n"
+        'commence))
+
+(define-test 'dwarves-follow "attack"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist emist I)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-dflag (K c2))
+    ($set-rand (K (list KI KI KI KI KI V)))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-stars $knife-loc)
+    (print-stars (length $rand)))
+  (list "There is a threatening little dwarf in the room with you!\n"
+        "One sharp nasty knife is thrown at you --- "
+        "it misses!\n"
+        'commence
+        3
+        'emist
+        1))
+
+(define-test 'dwarves-follow "attack4"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist hmk I)
+                         (make-dwarf emist emist I))))
+    ($set-dflag (K c2))
+    ($set-rand (K (list KI KI KI KI KI
+                        KI KI KI KI KI
+                        KI KI KI KI KI
+                        KI KI KI KI KI V)))
+    ($set-knife-loc (K V))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-bool (churchnum? $knife-loc))
+    (print-stars (length $rand)))
+  (list "There are 5 threatening little dwarves in the room with you!\n"
+        " 4 of them throw knives at you --- "
+        "none of them hit you!\n"
+        'commence
+        3
+        #f
+        1))
+
+(define-test 'dwarves-follow "hit-1-of-1"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist emist I)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V)
+                         (make-dwarf limbo V V))))
+    ($set-dflag (K c3))
+    ($set-rand (K (list KI K KI KI KI V)))
+    ($set-oldlocs (K (icons hmk nugget)))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-stars (car $oldlocs))
+    (print-stars (cdr $oldlocs))
+    (print-stars (length $rand)))
+  (list "There is a threatening little dwarf in the room with you!\n"
+        "One sharp nasty knife is thrown at you --- "
+        "it gets you!\n"
+        'death
+        3
+        'hmk
+        'emist
+        1))
+
+(define-test 'dwarves-follow "hit-1-of-5"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I))))
+    ($set-dflag (K c4))
+    ($set-rand (K (list K  K  K  K  K   ; 31 - miss
+                        K  KI K  KI KI  ;  5 - hit
+                        KI K  K  KI KI  ;  6 - miss
+                        KI KI KI K  KI  ;  8 - miss
+                        KI KI KI KI K   ; 16 - miss
+                        V)))
+    ($set-oldlocs (K (icons hmk nugget)))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-stars (length $rand)))
+  (list "There are 5 threatening little dwarves in the room with you!\n"
+        " 5 of them throw knives at you --- "
+        "one of them gets you!\n"
+        'death
+        4
+        1))
+
+(define-test 'dwarves-follow "hit-5-of-5"
+  '(($set-dwarf (K (list (make-dwarf limbo V V)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I)
+                         (make-dwarf emist emist I))))
+    ($set-dflag (K c3))
+    ($set-rand (K (list KI KI KI KI KI
+                        KI KI KI KI KI
+                        KI KI KI KI KI
+                        KI KI KI KI KI
+                        KI KI KI KI KI V)))
+    ($set-oldlocs (K (icons hmk nugget)))
+    ($set-location (K emist)))
+  '((print-stars cont)
+    (print-stars $dflag)
+    (print-stars (length $rand)))
+  (list "There are 5 threatening little dwarves in the room with you!\n"
+        " 5 of them throw knives at you --- "
+        "5 of them get you!\n"
+        'death
+        3
+        1))
+
 (define-test 'clocks-and-lamp "do-not-clock-if-treasure-left"
   '(($set-tally (K c1))
     ($set-location (K emist)))

@@ -12,6 +12,7 @@
                               (make-dwarf complex V V)))
 (defmacro initial-dflag c0)
 (defmacro initial-not-dkill I)  ; have you killed a dwarf?
+(defmacro initial-knife-loc c0)
 
 (defmacro ($set-nth-dwarf n modifier)
   (set-nth world set-dwarf n modifier))

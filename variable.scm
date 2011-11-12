@@ -38,6 +38,7 @@
      dwarf   ; (dloc, odloc, dseen)[5]
      dflag
      not-dkill
+     knife-loc
      rand
      word12
      mot

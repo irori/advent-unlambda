@@ -1314,9 +1314,62 @@ all of its bugs were added by Don Knuth."))
 ; 167 Make dwarf j follow
 (define-proc 'dwarves-follow
   '(lambda (world)
-     ; TODO: dloc[j] = loc
-     ; TODO: implement
-     ($goto commence)))
+     (let ((env (c5 dwarf-follow (lambda (f) (f c1 c0 c0 c0 world)))))
+       (env
+        (lambda (_ dtotal attack stick world)
+          (if (zero? dtotal)
+              ($goto commence)
+              (begin
+                ((if (= dtotal c1)
+                     (string "There is a threatening little dwarf")
+                     ((string "There are ")
+                      (nth dtotal (list I I #\2 #\3 #\4 #\5))
+                      (string " threatening little dwarves")))
+                 (string " in the room with you!\n") I)
+                (if (zero? attack)
+                    ($goto commence)
+                    (let-world (($set-dflag (lambda (o) (if (= o c2) c3 o))))
+                      (begin
+                        ((if (= attack c1)
+                             (string "One sharp nasty knife is thrown")
+                             (#\space
+                              (nth attack (list I I #\2 #\3 #\4 #\5))
+                              (string " of them throw knives")))
+                         (string " at you --- ") I)
+                        (if (zero? stick)
+                            ((if (= attack c1) (string "it misses!\n")
+                                 (string "none of them hit you!\n"))
+                             ($goto commence))
+                            (begin
+                              ((if (= stick c1)
+                                   (if (= attack c1) (string "it gets you!\n")
+                                       (string "one of them gets you!\n"))
+                                   ((nth stick (list I I #\2 #\3 #\4 #\5))
+                                    (string " of them get you!\n"))) I)
+                              (goto death
+                                    ($set-oldlocs
+                                     (lambda (o) (cons (car o) $location))))))))))))))))
+
+
+(defmacro (dwarf-follow env)
+  (env
+   (lambda (i dtotal attack stick world)
+     (let ((dwf (nth i $dwarf)))
+       (if (dseen dwf)
+           (let-world (($set-nth-dwarf i (set-dloc $location)))
+             (if (= (odloc dwf) $location)
+                 (let* ((n (random (to-cons1 c4) $rand))
+                        (next-stick
+                         ((if< n (mul c3 (sub $dflag c2)) succ I) stick)))
+                   (let-world (($set-knife-loc
+                                (lambda (o) (and (churchnum? o) $location)))
+                               ($set-rand (c5 cdr)))
+                     (lambda (f)
+                       (f (succ i) (succ dtotal) (succ attack) next-stick world))))
+                 (lambda (f)
+                   (f (succ i) (succ dtotal) attack stick world))))
+           (lambda (f)
+             (f (succ i) dtotal attack stick world)))))))
 
 ; 172 Make the pirate track you
 (define-proc 'pirate-follow
