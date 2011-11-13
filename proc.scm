@@ -288,8 +288,8 @@ all of its bugs were added by Don Knuth."))
 		       transitive-read  ;READ
 		       report-default  ;FEEFIE
 		       report-default  ;BRIEF
-		       not-implemented  ;FIND
-		       not-implemented  ;INVENTORY
+		       transitive-find  ;FIND
+		       transitive-find  ;INVENTORY
 		       report-default  ;SCORE
 		       report-default  ;QUIT
 		       )))))
@@ -657,6 +657,22 @@ all of its bugs were added by Don Knuth."))
                  (and (= $obj ROD) ($toting? ROD2)))
              ($goto report-default)
              ($default-to DROP)))))
+
+; 100 case FIND: case INVENTORY:
+(define-proc 'transitive-find
+  '(lambda (world)
+     (cond (($toting? $obj)
+            ($default-to TAKE))
+           ($closed
+            ($report (string "I daresay whatever you want is around here somewhere.")))
+           ((or ($at-loc? $obj)
+                (and $object-in-bottle (= ($place-of BOTTLE) $location))
+                (and (= $obj WATER) (water-here world))
+                (and (= $obj OIL) (oil-here world))
+                (and (= $obj DWARF) $dwarf-here?))
+            ($report (string "I believe what you want is right here with you.")))
+           (else
+            ($goto report-default)))))
 
 ; 102 case ON:
 (define-proc 'transitive-on

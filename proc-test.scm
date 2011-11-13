@@ -1967,6 +1967,40 @@ all of its bugs were added by Don Knuth.\n"
   (list 'report-default
         0))
 
+(define-test 'transitive-find "toting"
+  '(($set-obj (K KEYS))
+    ($carry KEYS))
+  '((print-stars cont))
+  (list "You are already carrying it!\n"
+        'get-user-input))
+
+(define-test 'transitive-find "closed"
+  '(($set-obj (K KEYS))
+    ($set-closed (K I)))
+  '((print-stars cont))
+  (list "I daresay whatever you want is around here somewhere.\n"
+        'get-user-input))
+
+(define-test 'transitive-find "here"
+  '(($set-obj (K KEYS))
+    ($drop KEYS road))
+  '((print-stars cont))
+  (list "I believe what you want is right here with you.\n"
+        'get-user-input))
+
+(define-test 'transitive-find "dwarf"
+  '(($set-obj (K DWARF))
+    ($set-dflag (K c2))
+    ($set-location (K hmk)))
+  '((print-stars cont))
+  (list "I believe what you want is right here with you.\n"
+        'get-user-input))
+
+(define-test 'transitive-find "not-here"
+  '(($set-obj (K KEYS)))
+  '((print-stars cont))
+  (list 'report-default))
+
 (define-test 'transitive-on "no-lamp"
   '()
   '((print-stars cont))
