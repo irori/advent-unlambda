@@ -1732,7 +1732,7 @@ all of its bugs were added by Don Knuth."))
 ; 197 score()
 (defmacro score
   (lambda (world)
-    (sub (+ ; TODO: dflag
+    (sub (+ (ifnonzero $dflag c25 c0)
             (treasure-score world)
             (* c10 (sub max-deaths $death-count))
             (if (= ($place-of MAG) witt) c1 c0)

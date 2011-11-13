@@ -1797,6 +1797,16 @@ all of its bugs were added by Don Knuth.\n"
         "OK.\n"
         'give-up))
 
+(define-input-test 'intransitive-score "dflag"
+  '(($set-dflag (K c1)))
+  "yes\n"
+  '((print-stars cont))
+  (list "If you were to quit now, you would score 57\nout of a possible 350.\n"
+        "Do you indeed wish to quit now?"
+        yesno-prompt
+        "OK.\n"
+        'give-up))
+
 (define-input-test 'intransitive-score "death"
   '(($set-death-count (K c1)))
   "yes\n"
