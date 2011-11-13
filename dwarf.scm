@@ -27,7 +27,7 @@
   (lambda (world)
     (call/cc
      (lambda (q)
-       (((if< $dflag 2 q I) V)
+       (((if< $dflag c2 q I) V)
         (c5 (lambda (lst)
               (lst (lambda (dwf rest)
                      (K rest

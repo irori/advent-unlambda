@@ -1561,6 +1561,30 @@ all of its bugs were added by Don Knuth.\n"
   (list 'try-move
         'ENTRANCE))
 
+(define-test 'check-object-location "dwarf"
+  '(($set-obj (K DWARF))
+    ($set-dflag (K c2))
+    ($set-nth-dwarf c1 (set-dloc spit))
+    ($set-location (K spit)))
+  '((print-stars cont))
+  (list 'handle-object-word))
+
+(define-test 'check-object-location "dflag=1"
+  '(($set-obj (K DWARF))
+    ($set-dflag (K c1))
+    ($set-nth-dwarf c5 (set-dloc spit))
+    ($set-location (K spit)))
+  '((print-stars cont))
+  (list 'cant-see-it))
+
+(define-test 'check-object-location "no-dwarf-here"
+  '(($set-obj (K DWARF))
+    ($set-dflag (K c2))
+    ($set-nth-dwarf c0 (set-dloc spit))
+    ($set-location (K spit)))
+  '((print-stars cont))
+  (list 'cant-see-it))
+
 (define-test 'check-object-location "plant2"
   '(($set-obj (K PLANT))
     ($set-location (K e2pit))
@@ -1569,6 +1593,16 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars $obj))
   (list 'handle-object-word
         'PLANT2))
+
+(define-test 'check-object-location "knife"
+  '(($set-obj (K KNIFE))
+    ($set-knife-loc (K spit))
+    ($set-location (K spit)))
+  '((print-stars cont)
+    (print-bool (churchnum? $knife-loc)))
+  (list "The dwarves' knives vanish as they strike the walls of the cave.\n"
+        'get-user-input
+        #f))
 
 (define-test 'check-object-location "rod2"
   '(($set-obj (K ROD))
