@@ -2864,10 +2864,13 @@ all of its bugs were added by Don Knuth.\n"
 
 (define-test 'transitive-feed "dwarf-food"
   '(($set-obj (K DWARF))
-    ($carry FOOD))
-  '((print-stars cont))
+    ($carry FOOD)
+    ($set-dflag (K c2)))
+  '((print-stars cont)
+    (print-stars $dflag))
   (list "You fool, dwarves eat only coal!  Now you've made him REALLY mad!\n"
-        'get-user-input))
+        'get-user-input
+        3))
 
 (define-test 'transitive-open "default"
   '(($set-verb (K OPEN))

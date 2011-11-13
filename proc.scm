@@ -1054,8 +1054,7 @@ all of its bugs were added by Don Knuth."))
                    ($goto report-default))))
            ((= $obj DWARF)
             (if ($here? FOOD)
-                (begin
-                  ; TODO: dflag++
+                (let-world (($set-dflag succ))
                   ($report (string "You fool, dwarves eat only coal!  Now you've made him REALLY mad!")))
                 ($goto report-default)))
            (else
