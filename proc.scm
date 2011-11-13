@@ -1297,21 +1297,13 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
            (report-inapplicable-motion world)
            (let-world ((apply-inst q world))
              (cond ((= $newloc ppass)
-                    (let ((os $objects-toting))
-                      (if (or (null? os)
-                              (and (= (car os) EMERALD) (null? (cdr os))))
-                          (goto mainloop
-                                ($set-newloc (K (if (= $location alcove)
-                                                    proom alcove))))
-                          (ppass-msg
-                           (goto mainloop ($set-newloc (K $location)))))))
-                   ; TODO: implement troll
+                    (go-ppass world))
+                   ((= $newloc troll)
+                    (go-troll world))
                    (else
                     ($goto mainloop))))))))
 
-(defmacro ppass-msg
-  (string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n"))
-
+; 148 Report on inapplicable motion and continue
 (defmacro (report-inapplicable-motion world)
   ((cond ((= $mot CRAWL)
           (string "Which way?"))
@@ -1329,6 +1321,18 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
           (string "I don't know how to apply that word here.")))
    #\newline
    ($goto mainloop)))
+
+; 149 Choose newloc via plover-alcove passage
+(defmacro go-ppass
+  (lambda (world)
+    (let ((os $objects-toting))
+      (if (or (null? os)
+              (and (= (car os) EMERALD) (null? (cdr os))))
+          (goto mainloop
+                ($set-newloc (K (if (= $location alcove)
+                                    proom alcove))))
+          ((string "Something you're carrying won't fit through the tunnel with you.\nYou'd best take inventory and drop something.\n")
+           (goto mainloop ($set-newloc (K $location))))))))
 
 ; 161 Possibly move dwarves and the pirate
 (define-proc 'move-dwarves
@@ -1673,6 +1677,41 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
        (lambda (hd tl)
          (let-world (($drop hd (cdr $oldlocs)))
            (drop-items world tl))))))
+
+; 151 Cross troll bridge if possible
+(defmacro go-troll
+  (lambda (world)
+    (if (= ($prop-of TROLL) c1)
+        (let-world (($drop TROLL swside)
+                    ($drop TROLL_ neside)
+                    ($set-prop-of TROLL (K c0))
+                    ($destroy TROLL2)
+                    ($destroy TROLL2_)
+                    ($set-newloc (K $location)))
+          ((string "The troll steps out from beneath the bridge and blocks your way.\n")
+           ($goto mainloop)))
+        (let-world (($set-newloc (K (if (= $location neside) swside neside)))
+                    (if (zero? ($prop-of TROLL))
+                        ($set-prop-of TROLL (K c1))
+                        world))
+          (if (not ($toting? BEAR))
+              ($goto mainloop)
+              (let-world (($set-prop-of BRIDGE (K c1))
+                          ($set-prop-of TROLL (K c2))
+                          ($drop BEAR $newloc)
+                          ($set-base-of BEAR (K BEAR))
+                          ($set-prop-of BEAR (K c3))
+                          ($set-lost-treasures
+                           (if (and (not (churchnum? ($prop-of SPICES)))
+                                    (>= ($place-of SPICES) neside))
+                               succ I))
+                          ($set-lost-treasures
+                           (if (and (not (churchnum? ($prop-of CHAIN)))
+                                    (>= ($place-of CHAIN) neside))
+                               succ I))
+                          ($set-oldlocs (lambda (p) (cons (car p) $newloc))))
+                ((string "Just as you reach the other side, the bridge buckles beneath the\nweight of the bear, who was still following you around.  You\nscrabble desperately for support, but as the bridge collapses you\nstumble back and fall into the chasm.\n")
+                 ($goto death))))))))
 
 ; 195 Check if a hint applies, and give it if requested
 (defmacro hint-thresh

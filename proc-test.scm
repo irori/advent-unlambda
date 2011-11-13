@@ -1529,6 +1529,85 @@ all of its bugs were added by Don Knuth.\n"
   (list 'mainloop
         'spit))
 
+(define-test 'go-for-it "troll"
+  '(($destroy TROLL)
+    ($destroy TROLL_)
+    ($drop TROLL2 swside)
+    ($drop TROLL2_ neside)
+    ($set-location (K swside))
+    ($set-mot (K OVER)))
+  '((print-stars cont)
+    (print-stars $newloc)
+    (print-stars ($prop-of TROLL)))
+  (list 'mainloop
+        'neside
+        1))
+
+(define-test 'go-for-it "troll-away"
+  '(($destroy TROLL)
+    ($destroy TROLL_)
+    ($drop TROLL2 swside)
+    ($drop TROLL2_ neside)
+    ($set-prop-of TROLL (K c2))
+    ($set-location (K neside))
+    ($set-mot (K OVER)))
+  '((print-stars cont)
+    (print-stars $newloc)
+    (print-stars ($prop-of TROLL)))
+  (list 'mainloop
+        'swside
+        2))
+
+(define-test 'go-for-it "troll-block-again"
+  '(($destroy TROLL)
+    ($destroy TROLL_)
+    ($drop TROLL2 swside)
+    ($drop TROLL2_ neside)
+    ($set-prop-of TROLL (K c1))
+    ($set-location (K swside))
+    ($set-mot (K OVER)))
+  '((print-stars cont)
+    (print-stars $newloc)
+    (print-stars ($place-of TROLL))
+    (print-stars ($place-of TROLL_))
+    (print-stars ($prop-of TROLL))
+    (print-stars ($place-of TROLL2))
+    (print-stars ($place-of TROLL2_)))
+  (list "The troll steps out from beneath the bridge and blocks your way.\n"
+        'mainloop
+        'swside
+        'swside
+        'neside
+        0
+        'limbo
+        'limbo))
+
+(define-test 'go-for-it "cross-with-bear"
+  '(($destroy TROLL)
+    ($destroy TROLL_)
+    ($drop TROLL2 swside)
+    ($drop TROLL2_ neside)
+    ($set-location (K neside))
+    ($carry BEAR)
+    ($set-mot (K OVER)))
+  '((print-stars cont)
+    (print-stars ($prop-of BRIDGE))
+    (print-stars ($prop-of TROLL))
+    (print-stars ($place-of BEAR))
+    (print-stars ($base-of BEAR))
+    (print-stars ($prop-of BEAR))
+    (print-stars $lost-treasures)
+    (print-stars (cdr $oldlocs)))
+  (list "Just as you reach the other side, the bridge buckles beneath the\nweight of the bear, who was still following you around.  You\nscrabble desperately for support, but as the bridge collapses you\nstumble back and fall into the chasm.\n"
+        'death
+        1
+        2
+        'swside
+        'BEAR
+        3
+        2
+        'swside))
+
 (define-test 'report-default ""
   '(($set-verb (K DROP)))
   '((print-stars cont))
