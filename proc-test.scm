@@ -2006,6 +2006,17 @@ walls of the room.\n"
         'quit
         45))
 
+(define-test 'transitive-rub "lamp"
+  '(($set-obj (K LAMP)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-rub "default"
+  '(($set-obj (K KEYS)))
+  '((print-stars cont))
+  (list "Peculiar.  Nothing unexpected happens.\n"
+        'get-user-input))
+
 (define-test 'transitive-find "toting"
   '(($set-obj (K KEYS))
     ($carry KEYS))

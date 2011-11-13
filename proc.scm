@@ -276,7 +276,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-pour  ;POUR
 		       transitive-eat  ;EAT
 		       transitive-drink  ;DRINK
-		       not-implemented  ;RUB
+		       transitive-rub  ;RUB
 		       transitive-toss  ;TOSS
 		       transitive-wake  ;WAKE
 		       transitive-feed  ;FEED
@@ -681,6 +681,13 @@ in through the hole, destroying everything in its path, including you!\n"))
 wall, burying the dwarves in the rubble.  You march through the hole\n\
 and find yourself in the main office, where a cheering band of\n\
 friendly elves carry the conquering adventurer off into the sunset.\n"))
+
+; 99 case RUB:
+(define-proc 'transitive-rub
+  '(lambda (world)
+     (if (= $obj LAMP)
+         ($goto report-default)
+         ($default-to TOSS))))
 
 ; 100 case FIND: case INVENTORY:
 (define-proc 'transitive-find
