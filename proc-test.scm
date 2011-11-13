@@ -1967,6 +1967,45 @@ all of its bugs were added by Don Knuth.\n"
   (list 'report-default
         0))
 
+(define-test 'transitive-blast "default"
+  '(($set-closed (K I))
+    ($set-prop-of ROD2 (K V)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-blast "blast1"
+  '(($set-closed (K I))
+    ($set-prop-of ROD2 (K c0))
+    ($carry ROD2))
+  '((print-stars cont)
+    (print-stars (nth c9 $hinted)))
+  (list "There is a loud explosion and you are suddenly splashed across the\n\
+walls of the room.\n"
+        'quit
+        25))
+
+(define-test 'transitive-blast "blast2"
+  '(($set-closed (K I))
+    ($set-prop-of ROD2 (K c0))
+    ($drop ROD2 swend)
+    ($set-location (K neend)))
+  '((print-stars cont)
+    (print-stars (nth c9 $hinted)))
+  (list "There is a loud explosion and a twenty-foot hole appears in the far\nwall, burying the snakes in the rubble.  A river of molten lava pours\nin through the hole, destroying everything in its path, including you!\n"
+        'quit
+        30))
+
+(define-test 'transitive-blast "blast3"
+  '(($set-closed (K I))
+    ($set-prop-of ROD2 (K c0))
+    ($drop ROD2 neend)
+    ($set-location (K swend)))
+  '((print-stars cont)
+    (print-stars (nth c9 $hinted)))
+  (list "There is a loud explosion, and a twenty-foot hole appears in the far\nwall, burying the dwarves in the rubble.  You march through the hole\nand find yourself in the main office, where a cheering band of\nfriendly elves carry the conquering adventurer off into the sunset.\n"
+        'quit
+        45))
+
 (define-test 'transitive-find "toting"
   '(($set-obj (K KEYS))
     ($carry KEYS))

@@ -282,7 +282,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-feed  ;FEED
 		       transitive-fill  ;FILL
 		       transitive-break  ;BREAK
-		       not-implemented  ;BLAST
+		       transitive-blast  ;BLAST
 		       not-implemented  ;KILL
 		       transitive-say  ;SAY
 		       transitive-read  ;READ
@@ -657,6 +657,30 @@ all of its bugs were added by Don Knuth."))
                  (and (= $obj ROD) ($toting? ROD2)))
              ($goto report-default)
              ($default-to DROP)))))
+
+; 99 case BLAST:
+(define-proc 'transitive-blast
+  '(lambda (world)
+     (if (and $closed (churchnum? ($prop-of ROD2)))
+         (let ((bonus (cond (($here? ROD2) (blast-msg1 c25))
+                            ((= $location neend) (blast-msg2 c30))
+                            (else (blast-msg3 c45)))))
+           (let-world ((set-nth world set-hinted c9 (K bonus)))
+             ($goto quit)))
+         ($goto report-default))))
+
+(defmacro blast-msg1
+  (string "There is a loud explosion and you are suddenly splashed across the\n\
+walls of the room.\n"))
+(defmacro blast-msg2
+  (string "There is a loud explosion and a twenty-foot hole appears in the far\n\
+wall, burying the snakes in the rubble.  A river of molten lava pours\n\
+in through the hole, destroying everything in its path, including you!\n"))
+(defmacro blast-msg3
+  (string "There is a loud explosion, and a twenty-foot hole appears in the far\n\
+wall, burying the dwarves in the rubble.  You march through the hole\n\
+and find yourself in the main office, where a cheering band of\n\
+friendly elves carry the conquering adventurer off into the sunset.\n"))
 
 ; 100 case FIND: case INVENTORY:
 (define-proc 'transitive-find
