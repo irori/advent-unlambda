@@ -37,7 +37,7 @@
      was-dark
      dwarf   ; (dloc, odloc, dseen)[5]
      dflag
-     not-dkill
+     dkill
      knife-loc
      rand
      word12

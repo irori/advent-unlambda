@@ -966,7 +966,8 @@ all of its bugs were added by Don Knuth."))
                 ($change-to FEED)))
              ((not (= $obj AXE))
               ($change-to DROP))
-             ; TODO: dwarf
+             ($dwarf-here?
+              (throw-dwarf world))
              ((and ($at-loc? DRAGON) (zero? ($prop-of DRAGON)))
               (let-world (($drop AXE $location))
                 ((string "The axe bounces harmlessly off the dragon's thick scales.\n")
@@ -999,6 +1000,26 @@ all of its bugs were added by Don Knuth."))
                 ($drop TROLL2 swside)
                 ($drop TROLL2_ neside))
       ($report (string "The troll catches your treasure and scurries away out of sight.")))))
+
+; 163 Throw the axe at a dwarf
+(defmacro throw-dwarf
+  (lambda (world)
+    (let loop ((j c1))
+      (if (= (dloc (nth j $dwarf)) $location)
+          (let-world (($drop AXE $location))
+            (let-rand r 67
+              (if r
+                  (begin
+                    (if $dkill
+                        (print "You killed a little dwarf.\n")
+                        (print "You killed a little dwarf.  The body vanishes in a cloud of greasy\nblack smoke.\n"))
+                    (let-world (($set-nth-dwarf j
+                                   (lambda (d) (make-dwarf limbo (odloc d) V)))
+                                ($set-dkill (K I)))
+                      $stay-put))
+                  ((string "You attack a little dwarf, but he dodges out of the way.\n")
+                   $stay-put))))
+          (loop (succ j))))))
 
 ; 129 case FEED:
 (define-proc 'transitive-feed

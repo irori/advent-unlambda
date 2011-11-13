@@ -2657,6 +2657,76 @@ all of its bugs were added by Don Knuth.\n"
         'BEAR
         'FEED))
 
+(define-test 'transitive-toss "axe-dwarf-hit"
+  '(($set-obj (K AXE))
+    ($carry AXE)
+    ($set-dflag (K c2))
+    ($set-location (K west))
+    ($set-nth-dwarf c3 (K (make-dwarf west west I)))
+    ($set-rand (K (list KI K KI K KI K V))))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars (dloc (nth c3 $dwarf)))
+    (print-bool (dseen (nth c3 $dwarf)))
+    (print-bool $dkill)
+    (print-stars ($place-of AXE))
+    (print-stars (length $rand)))
+  (list "You killed a little dwarf.  The body vanishes in a cloud of greasy\nblack smoke.\n"
+        'try-move
+        'NOWHERE
+        'limbo
+        #f
+        #t
+        'west
+        1))
+
+(define-test 'transitive-toss "axe-dwarf-hit2"
+  '(($set-obj (K AXE))
+    ($carry AXE)
+    ($set-dflag (K c2))
+    ($set-location (K west))
+    ($set-nth-dwarf c3 (K (make-dwarf west west I)))
+    ($set-rand (K (list KI K KI K KI K V)))
+    ($set-dkill (K I)))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars (dloc (nth c3 $dwarf)))
+    (print-bool (dseen (nth c3 $dwarf)))
+    (print-bool $dkill)
+    (print-stars ($place-of AXE))
+    (print-stars (length $rand)))
+  (list "You killed a little dwarf.\n"
+        'try-move
+        'NOWHERE
+        'limbo
+        #f
+        #t
+        'west
+        1))
+
+(define-test 'transitive-toss "axe-dwarf-miss"
+  '(($set-obj (K AXE))
+    ($carry AXE)
+    ($set-dflag (K c2))
+    ($set-location (K west))
+    ($set-nth-dwarf c3 (K (make-dwarf west west I)))
+    ($set-rand (K (list K K KI K KI K V))))
+  '((print-stars cont)
+    (print-stars $mot)
+    (print-stars (dloc (nth c3 $dwarf)))
+    (print-bool (dseen (nth c3 $dwarf)))
+    (print-bool $dkill)
+    (print-stars ($place-of AXE))
+    (print-stars (length $rand)))
+  (list "You attack a little dwarf, but he dodges out of the way.\n"
+        'try-move
+        'NOWHERE
+        'west
+        #t
+        #f
+        'west
+        1))
+
 (define-test 'transitive-toss "axe-dragon"
   '(($set-obj (K AXE))
     ($carry AXE)
