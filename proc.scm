@@ -340,9 +340,17 @@ all of its bugs were added by Don Knuth."))
   '(lambda (world)
      (let-world (($set-was-dark (K $dark))
                  ($set-rand cdr)
-                 ; TODO: adjust knife_loc 169
+                 (adjust-knife-loc world)
                  (adjust-props-after-closed world))
        ($goto cycle3))))
+
+; 169 Make special adjustments before looking at new input
+(defmacro adjust-knife-loc
+  (lambda (world)
+    (if (and (nonzero? $knife-loc)
+             (not (= $knife-loc $location)))
+        ($set-knife-loc (K limbo))
+        world)))
 
 (defsyntax (prop-after-close obj)
   `(if (nth ,obj ,(make-boolean-list '(BOTTLE SNAKE BIRD))) c1 c0))

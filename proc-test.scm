@@ -176,6 +176,14 @@ all of its bugs were added by Don Knuth.\n"
   (list 'cycle3
         #t))
 
+(define-test 'cycle2 "knife-loc"
+  '(($set-location (K debris))
+    ($set-knife-loc (K hmk)))
+  '((print-stars cont)
+    (print-stars $knife-loc))
+  (list 'cycle3
+        'limbo))
+
 (define-test 'cycle2 "oyster-message"
   '(($set-closed (K I))
     ($set-prop-of OYSTER (K V))
