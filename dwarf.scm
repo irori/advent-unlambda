@@ -34,6 +34,8 @@
                         ((= (dloc dwf) $location) q I)))))
             (cdr $dwarf)))))))
 
+(defmacro $dwarf-here? (dwarf-here? world))
+
 (defmacro ($too-easy? i)
   (and (= i PYRAMID)
        (or (= $location proom)

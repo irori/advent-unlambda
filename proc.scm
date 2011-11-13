@@ -476,7 +476,7 @@ all of its bugs were added by Don Knuth."))
               (if (churchnum? m)
                   ($try-motion m)
                   ($goto cant-see-it))))
-           ((and (= $obj DWARF) (dwarf-here? world))
+           ((and (= $obj DWARF) $dwarf-here?)
             ($goto handle-object-word))
            ((and (= $obj PLANT) ($at-loc? PLANT2) (nonzero? ($prop-of PLANT2)))
             (goto handle-object-word ($set-obj (K PLANT2))))
@@ -506,7 +506,7 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'intransitive-take
   '(lambda (world)
      (let ((objs $objects-here))
-       (if (and (pair? objs) (null? (cdr objs)))  ; TODO: check dwarf
+       (if (and (pair? objs) (null? (cdr objs)) (not $dwarf-here?))
            (goto transitive ($set-obj (K (car objs))))
            ($goto get-object)))))
 

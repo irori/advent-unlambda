@@ -1641,6 +1641,13 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont))
   (list 'get-object))
 
+(define-test 'intransitive-take "dwarf"
+  '(($set-location (K west))
+    ($set-dflag (K c2))
+    ($set-nth-dwarf c1 (set-dloc west)))
+  '((print-stars cont))
+  (list 'get-object))
+
 (define-test 'intransitive-eat "no-food"
   '(($set-location (K road)))
   '((print-stars cont))
