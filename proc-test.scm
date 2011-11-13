@@ -1788,7 +1788,7 @@ all of its bugs were added by Don Knuth.\n"
         'get-user-input))
 
 (define-input-test 'intransitive-score "bonus"
-  '((set-nth world set-hinted c9 (K c10)))
+  '(($set-nth-hinted c9 (K c10)))
   "yes\n"
   '((print-stars cont))
   (list "If you were to quit now, you would score 42\nout of a possible 350.\n"
@@ -3303,7 +3303,7 @@ walls of the room.\n"
   '(($set-obj (K OYSTER))
     ($set-closed (K I))
     ($carry OYSTER)
-    (set-nth world set-hinted c7 (K c0)))
+    ($set-nth-hinted c7 (K c0)))
   "n\n"
   '((print-stars cont))
   (list "It says the same thing it did before.\n"
@@ -3492,7 +3492,7 @@ walls of the room.\n"
 
 (define-test 'cycle "already-hinted"
   '(($set-location (K bird))
-    (set-nth world set-hinted c1 (K c0))
+    ($set-nth-hinted c1 (K c0))
     ($set-hint-count (K (cons c1 (cons1 V)))))
   '((print-stars cont)
     (print-bool (pair? $hint-count)))
@@ -3756,7 +3756,7 @@ walls of the room.\n"
         121))
 
 (define-test 'quit "1-turn"
-  '((set-nth world set-hinted c8 (K c0))
+  '(($set-nth-hinted c8 (K c0))
     ($set-turns (K (to-cons1 c1))))
   '()
   (list "You scored 32 points out of a possible 350, using 1 turn.\n"
@@ -3764,7 +3764,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 3 more points.\n"))
 
 (define-test 'quit "1-point"
-  '((set-nth world set-hinted c4 (K c0))
+  '(($set-nth-hinted c4 (K c0))
     ($set-death-count (K c3))
     ($set-turns (K (to-cons1 c2))))
   '()
@@ -3773,7 +3773,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 34 more points.\n"))
 
 (define-test 'quit "1-more-point"
-  '((set-nth world set-hinted c8 (K c2))
+  '(($set-nth-hinted c8 (K c2))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 34 points out of a possible 350, using 2 turns.\n"
@@ -3781,7 +3781,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 1 more point.\n"))
 
 (define-test 'quit "rank2"
-  '((set-nth world set-hinted c8 (K c3))
+  '(($set-nth-hinted c8 (K c3))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 35 points out of a possible 350, using 2 turns.\n"
@@ -3789,7 +3789,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 65 more points.\n"))
 
 (define-test 'quit "rank3"
-  '((set-nth world set-hinted c8 (K c68))
+  '(($set-nth-hinted c8 (K c68))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 100 points out of a possible 350, using 2 turns.\n"
@@ -3797,7 +3797,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 30 more points.\n"))
 
 (define-test 'quit "rank4"
-  '((set-nth world set-hinted c8 (K c98))
+  '(($set-nth-hinted c8 (K c98))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 130 points out of a possible 350, using 2 turns.\n"
@@ -3805,7 +3805,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 70 more points.\n"))
 
 (define-test 'quit "rank5"
-  '((set-nth world set-hinted c8 (K c168))
+  '(($set-nth-hinted c8 (K c168))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 200 points out of a possible 350, using 2 turns.\n"
@@ -3813,7 +3813,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 50 more points.\n"))
 
 (define-test 'quit "rank6"
-  '((set-nth world set-hinted c8 (K c218))
+  '(($set-nth-hinted c8 (K c218))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 250 points out of a possible 350, using 2 turns.\n"
@@ -3821,7 +3821,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 50 more points.\n"))
 
 (define-test 'quit "rank7"
-  '((set-nth world set-hinted c8 (K c268))
+  '(($set-nth-hinted c8 (K c268))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 300 points out of a possible 350, using 2 turns.\n"
@@ -3829,7 +3829,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 30 more points.\n"))
 
 (define-test 'quit "rank8"
-  '((set-nth world set-hinted c8 (K c298))
+  '(($set-nth-hinted c8 (K c298))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 330 points out of a possible 350, using 2 turns.\n"
@@ -3837,7 +3837,7 @@ walls of the room.\n"
         "To achieve the next higher rating, you need 19 more points.\n"))
 
 (define-test 'quit "rank9"
-  '((set-nth world set-hinted c8 (K c317))
+  '(($set-nth-hinted c8 (K c317))
     ($set-turns (K (to-cons1 c2))))
   '()
   (list "You scored 349 points out of a possible 350, using 2 turns.\n"

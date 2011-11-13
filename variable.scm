@@ -130,3 +130,9 @@
 
 (defmacro $not-closing
   (cons1? (clock1 world)))
+
+(defmacro (set-nth-hinted n modifier world)
+  (set-nth world set-hinted n modifier))
+
+(defmacro ($set-nth-hinted n modifier)
+  (set-nth world set-hinted n modifier))
