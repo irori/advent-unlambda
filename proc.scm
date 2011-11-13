@@ -281,7 +281,7 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;WAKE
 		       transitive-feed  ;FEED
 		       transitive-fill  ;FILL
-		       not-implemented  ;BREAK
+		       transitive-break  ;BREAK
 		       not-implemented  ;BLAST
 		       not-implemented  ;KILL
 		       transitive-say  ;SAY
@@ -674,6 +674,27 @@ all of its bugs were added by Don Knuth."))
            (else
             ($goto report-default)))))
 
+; 101 case BREAK:
+(define-proc 'transitive-break
+  '(lambda (world)
+     (cond ((and (= $obj VASE) (zero? ($prop-of VASE)))
+            ((string "You have taken the vase and hurled it delicately to the ground.\n")
+             (goto smash (if ($toting? VASE) ($drop VASE $location) world))))
+           ((not (= $obj MIRROR))
+            ($goto report-default))
+           ($closed
+            ((string "You strike the mirror a resounding blow, whereupon it shatters into a\nmyriad tiny fragments.\n")
+             ($goto dwarves-upset)))
+           (else
+            ($report (string "It is too far up for you to reach."))))))
+
+; 101 smash:
+(define-proc 'smash
+  '(lambda (world)
+     (let-world (($set-prop-of VASE (K c2))
+                 ($set-base-of VASE (K VASE)))
+       ($goto get-user-input))))
+
 ; 102 case ON:
 (define-proc 'transitive-on
   '(lambda (world)
@@ -787,10 +808,6 @@ all of its bugs were added by Don Knuth."))
                  (if oil (string "oil") (string "water"))
                  (string ".\n") I
                  ($goto get-user-input))))))))
-
-(define-proc 'smash
-  '(lambda (world)
-     ((string "\nsmash: not implemented\n") exit I)))
 
 ; 111 Try to fill the vase
 (defmacro fill-vase

@@ -2001,6 +2001,43 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont))
   (list 'report-default))
 
+(define-test 'transitive-break "vase"
+  '(($set-obj (K VASE))
+    ($set-prop-of VASE (K c0))
+    ($carry VASE))
+  '((print-stars cont)
+    (print-stars ($place-of VASE)))
+  (list "You have taken the vase and hurled it delicately to the ground.\n"
+        'smash
+        'road))
+
+(define-test 'transitive-break "bottle"
+  '(($set-obj (K BOTTLE)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-break "mirror"
+  '(($set-obj (K MIRROR)))
+  '((print-stars cont))
+  (list "It is too far up for you to reach.\n"
+        'get-user-input))
+
+(define-test 'transitive-break "mirror-after-close"
+  '(($set-obj (K MIRROR))
+    ($set-closed (K I)))
+  '((print-stars cont))
+  (list "You strike the mirror a resounding blow, whereupon it shatters into a\nmyriad tiny fragments.\n"
+        'dwarves-upset))
+
+(define-test 'smash ""
+  '()
+  '((print-stars cont)
+    (print-stars ($prop-of VASE))
+    (print-stars ($base-of VASE)))
+  (list 'get-user-input
+        2
+        'VASE))
+
 (define-test 'transitive-on "no-lamp"
   '()
   '((print-stars cont))
