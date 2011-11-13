@@ -270,9 +270,9 @@ all of its bugs were added by Don Knuth."))
 		       transitive-on  ;ON
 		       transitive-off  ;OFF
 		       transitive-wave  ;WAVE
-		       not-implemented  ;CALM
-		       not-implemented  ;GO
-		       not-implemented  ;RELAX
+		       report-default  ;CALM
+		       report-default  ;GO
+		       report-default  ;RELAX
 		       transitive-pour  ;POUR
 		       transitive-eat  ;EAT
 		       transitive-drink  ;DRINK
@@ -286,12 +286,12 @@ all of its bugs were added by Don Knuth."))
 		       not-implemented  ;KILL
 		       transitive-say  ;SAY
 		       transitive-read  ;READ
-		       not-implemented  ;FEEFIE
+		       report-default  ;FEEFIE
 		       report-default  ;BRIEF
 		       not-implemented  ;FIND
 		       not-implemented  ;INVENTORY
-		       not-implemented  ;SCORE
-		       not-implemented  ;QUIT
+		       report-default  ;SCORE
+		       report-default  ;QUIT
 		       )))))
            
 (defmacro ($change-to v)
