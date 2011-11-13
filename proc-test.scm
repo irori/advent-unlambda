@@ -2038,6 +2038,18 @@ all of its bugs were added by Don Knuth.\n"
         2
         'VASE))
 
+(define-test 'transitive-wake "default"
+  '(($set-obj (K DWARF)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-wake "dwarf-after-close"
+  '(($set-obj (K DWARF))
+    ($set-closed (K I)))
+  '((print-stars cont))
+  (list "You prod the nearest dwarf, who wakes up grumpily, takes one look at\nyou, curses, and grabs for his axe.\n"
+        'dwarves-upset))
+
 (define-test 'transitive-on "no-lamp"
   '()
   '((print-stars cont))

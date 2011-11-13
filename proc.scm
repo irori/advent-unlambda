@@ -278,7 +278,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-drink  ;DRINK
 		       not-implemented  ;RUB
 		       transitive-toss  ;TOSS
-		       not-implemented  ;WAKE
+		       transitive-wake  ;WAKE
 		       transitive-feed  ;FEED
 		       transitive-fill  ;FILL
 		       transitive-break  ;BREAK
@@ -694,6 +694,14 @@ all of its bugs were added by Don Knuth."))
      (let-world (($set-prop-of VASE (K c2))
                  ($set-base-of VASE (K VASE)))
        ($goto get-user-input))))
+
+; 101 case WAKE:
+(define-proc 'transitive-wake
+  '(lambda (world)
+     (if (and $closed (= $obj DWARF))
+         ((string "You prod the nearest dwarf, who wakes up grumpily, takes one look at\nyou, curses, and grabs for his axe.\n")
+          ($goto dwarves-upset))
+         ($goto report-default))))
 
 ; 102 case ON:
 (define-proc 'transitive-on
