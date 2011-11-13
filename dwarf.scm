@@ -33,3 +33,11 @@
                      (K rest
                         ((= (dloc dwf) $location) q I)))))
             (cdr $dwarf)))))))
+
+(defmacro ($too-easy? i)
+  (and (= i PYRAMID)
+       (or (= $location proom)
+           (= $location droom))))
+
+(defmacro $pirate-not-spotted
+  (zero? ($place-of MESSAGE)))

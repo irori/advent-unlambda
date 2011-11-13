@@ -1393,9 +1393,62 @@ all of its bugs were added by Don Knuth."))
 ; 172 Make the pirate track you
 (define-proc 'pirate-follow
   '(lambda (world)
-     ; TODO: dloc[j] = loc
-     ; TODO: implement
-     ($goto dwarves-follow)))
+     (let-world (($set-dwarf (lambda (ds) (cons (set-dloc $location (car ds))
+                                                (cdr ds)))))
+       (if (or (= $location max-pirate-loc) (churchnum? ($prop-of CHEST)))
+           ($goto dwarves-follow)
+           (let loop ((i min-treasure)
+                      (k V))
+             (cond ((<= i max-obj)
+                    (if (and (not ($too-easy? i)) ($toting? i))
+                        (snatch-all-treasures world)
+                        (loop (succ i) (or k ($here? i)))))
+                   ((and (= $tally (succ $lost-treasures))
+                         (not k)
+                         $pirate-not-spotted
+                         (nonzero? ($prop-of LAMP))
+                         ($here? LAMP))
+                    (spot-pirate world))
+                   (else
+                    (let-rand r 20
+                      (begin
+                        (when (and r (not (= (odloc (car $dwarf))
+                                             (dloc (car $dwarf)))))
+                              (print "There are faint rustling noises from the darkness behind you.\n"))
+                        ($goto dwarves-follow))))))))))
+
+; 173 move_chest:
+(define-proc 'move-chest
+  '(lambda (world)
+     (let-world (($set-dwarf (lambda (ds)
+                               (cons (make-dwarf chest-loc chest-loc V)
+                                     (cdr ds)))))
+       (if $pirate-not-spotted
+           (let-world (($drop CHEST chest-loc)
+                       ($drop MESSAGE message-loc))
+             ($goto dwarves-follow))
+           ($goto dwarves-follow)))))
+
+; 173 Take booty and hide it in the chest
+(defmacro snatch-all-treasures
+  (lambda (world)
+    ((string "Out from the shadows behind you pounces a bearded pirate!  \"Har, har,\"\nhe chortles, \"I'll just take all this booty and hide it away with me\nchest deep in the maze!\"  He snatches your treasure and vanishes into\nthe gloom.\n")
+     (let loop ((i min-treasure)
+                (world world))
+       (cond ((> i max-obj)
+              ($goto move-chest))
+             ((and (not ($too-easy? i))
+                   (or (and (zero? ($base-of i)) (= ($place-of i) $location))
+                       ($toting? i)))
+              (loop (succ i) ($drop i chest-loc)))
+             (else
+              (loop (succ i) world)))))))
+
+; 175 Let the pirate be spotted
+(defmacro spot-pirate
+  (lambda (world)
+    ((string "There are faint rustling noises from the darkness behind you.  As you\nturn toward them, the beam of your lamp falls across a bearded pirate.\nHe is carrying a large chest.  \"Shiver me timbers!\" he cries, \"I've\nbeen spotted!  I'd best hie meself off to the maze to hide me chest!\"\nWith that, he vanishes into the gloom.\n")
+     ($goto move-chest))))
 
 ; 178 Check the clocks and the lamp
 (define-proc 'clocks-and-lamp

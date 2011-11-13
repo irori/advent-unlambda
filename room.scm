@@ -8,6 +8,7 @@
 (defmacro min-forced-loc crack)
 (defmacro max-pirate-loc dead2)
 (defmacro chest-loc dead2)
+(defmacro message-loc pony)
 (define max-loc (lookup-enum 'didit))
 (define min-lower-loc (lookup-enum 'emist))
 (define min-forced-loc (lookup-enum 'crack))

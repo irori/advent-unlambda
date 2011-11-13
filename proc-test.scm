@@ -805,6 +805,131 @@ all of its bugs were added by Don Knuth.\n"
         3
         1))
 
+(define-test 'pirate-follow "max-pirate-loc"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf emist hmk I) (cdr ds))))
+    ($set-location (K max-pirate-loc))
+    ($carry COINS))
+  '((print-stars cont)
+    (print-stars (dloc (car $dwarf))))
+  (list 'dwarves-follow
+        'dead2))
+
+(define-test 'pirate-follow "chest-seen"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf emist hmk I) (cdr ds))))
+    ($set-location (K y2))
+    ($set-prop-of CHEST (K c0))
+    ($carry COINS))
+  '((print-stars cont)
+    (print-stars (dloc (car $dwarf))))
+  (list 'dwarves-follow
+        'y2))
+
+(define-test 'pirate-follow "too-easy"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf emist hmk I) (cdr ds))))
+    ($set-location (K proom))
+    ($carry PYRAMID))
+  '((print-stars cont)
+    (print-bool ($toting? PYRAMID)))
+  (list 'dwarves-follow
+        '#t))
+
+(define-test 'pirate-follow "hide"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf emist hmk I) (cdr ds))))
+    ($set-location (K south))  ; JEWELS here
+    ($carry COINS))
+  '((print-stars cont)
+    (print-stars ($place-of COINS))
+    (print-stars ($place-of JEWELS)))
+  (list "Out from the shadows behind you pounces a bearded pirate!  \"Har, har,\"\nhe chortles, \"I'll just take all this booty and hide it away with me\nchest deep in the maze!\"  He snatches your treasure and vanishes into\nthe gloom.\n"
+        'move-chest
+        'dead2
+        'dead2))
+
+(define-test 'pirate-follow "does-not-hide-too-easy"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf emist hmk I) (cdr ds))))
+    ($set-location (K proom))
+    ($carry GOLD)
+    ($carry PYRAMID))
+  '((print-stars cont)
+    (print-stars ($place-of GOLD))
+    (print-bool ($toting? PYRAMID)))
+  (list "Out from the shadows behind you pounces a bearded pirate!  \"Har, har,\"\nhe chortles, \"I'll just take all this booty and hide it away with me\nchest deep in the maze!\"  He snatches your treasure and vanishes into\nthe gloom.\n"
+        'move-chest
+        'dead2
+        #t))
+
+(define-test 'pirate-follow "message"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf hmk hmk I) (cdr ds))))
+    ($set-location (K emist))
+    ($set-rand (K (list KI KI K K KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand)))
+  (list "There are faint rustling noises from the darkness behind you.\n"
+        'dwarves-follow
+        1))
+
+(define-test 'pirate-follow "no-message"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf hmk emist I) (cdr ds))))
+    ($set-location (K emist))
+    ($set-rand (K (list KI KI K K KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand)))
+  (list 'dwarves-follow
+        1))
+
+(define-test 'pirate-follow "spot"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf hmk hmk I) (cdr ds))))
+    ($set-location (K emist))
+    ($set-tally (K c2))
+    ($set-lost-treasures (K c1))
+    ($set-prop-of LAMP (K c1))
+    ($carry LAMP))
+  '((print-stars cont))
+  (list "There are faint rustling noises from the darkness behind you.  As you\nturn toward them, the beam of your lamp falls across a bearded pirate.\nHe is carrying a large chest.  \"Shiver me timbers!\" he cries, \"I've\nbeen spotted!  I'd best hie meself off to the maze to hide me chest!\"\nWith that, he vanishes into the gloom.\n"
+        'move-chest))
+
+(define-test 'pirate-follow "not-spot"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf hmk hmk I) (cdr ds))))
+    ($set-location (K south))  ; JEWELS here
+    ($set-tally (K c2))
+    ($set-lost-treasures (K c1))
+    ($set-prop-of LAMP (K c1))
+    ($carry LAMP)
+    ($set-rand (K (list K KI K K KI KI V))))
+  '((print-stars cont)
+    (print-stars (length $rand)))
+  (list 'dwarves-follow
+        1))
+
+(define-test 'move-chest "move-chest"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf hmk hmk I) (cdr ds)))))
+  '((print-stars cont)
+    (print-stars (dloc (car $dwarf)))
+    (print-stars (odloc (car $dwarf)))
+    (print-bool (dseen (car $dwarf)))
+    (print-stars ($place-of CHEST))
+    (print-stars ($place-of MESSAGE)))
+  (list 'dwarves-follow
+        'dead2
+        'dead2
+        #f
+        'dead2
+        'pony))
+
+(define-test 'move-chest "not-move-chest"
+  '(($set-dwarf (lambda (ds) (cons (make-dwarf hmk hmk I) (cdr ds))))
+    ($drop MESSAGE pony))
+  '((print-stars cont)
+    (print-stars (dloc (car $dwarf)))
+    (print-stars (odloc (car $dwarf)))
+    (print-bool (dseen (car $dwarf)))
+    (print-stars ($place-of CHEST)))
+  (list 'dwarves-follow
+        'dead2
+        'dead2
+        #f
+        'limbo))
+
 (define-test 'clocks-and-lamp "do-not-clock-if-treasure-left"
   '(($set-tally (K c1))
     ($set-location (K emist)))
