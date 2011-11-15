@@ -46,10 +46,13 @@
                 (if (nth (nth ,(churchnum obj) (prop world)) ,lst)
                     V ,result))))
           (else
-           (let ((obj (remainder condition 100))
-                 (predicate (if (>= condition 200) 'here? 'toting?)))
+           (let* ((obj (remainder condition 100))
+		  (condition (if (>= condition 200)
+				 `(or (toting? ,(churchnum obj) world)
+				      (at-loc? ,(churchnum obj) world))
+				 `(toting? ,(churchnum obj) world))))
              `(lambda (world)
-                (if (,predicate ,(churchnum obj) world) ,result V)))))))
+                (if ,condition ,result V)))))))
 
 (define (make-inst dest cond words)
   `(icons ,(if (null? words)

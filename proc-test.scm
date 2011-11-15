@@ -1543,6 +1543,15 @@ all of its bugs were added by Don Knuth.\n"
         'neside
         1))
 
+(define-test 'go-for-it "troll-neside"
+  '(($set-location (K neside))
+    ($set-mot (K OVER)))
+  '((print-stars cont)
+    (print-stars $newloc))
+  (list "The troll refuses to let you cross.\n"
+	'mainloop
+        'neside))
+
 (define-test 'go-for-it "troll-away"
   '(($destroy TROLL)
     ($destroy TROLL_)
