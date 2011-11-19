@@ -41,6 +41,7 @@
      knife-loc
      rand
      west-count
+     foobar
      word12
      mot
      verb

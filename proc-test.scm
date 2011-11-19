@@ -391,6 +391,20 @@ all of its bugs were added by Don Knuth.\n"
   (list 'transitive
         'SAY))
 
+(define-test 'pre-parse "adjust-foobar"
+  '(($set-foobar (K (lambda (_ _) c3))))
+  '((print-stars cont)
+    (print-stars $foobar))
+  (list 'clocks-and-lamp
+        3))
+
+(define-test 'pre-parse "adjust-foobar2"
+  '(($set-foobar (K c3)))
+  '((print-stars cont)
+    (print-stars $foobar))
+  (list 'clocks-and-lamp
+        0))
+
 (define-test 'move-dwarves "too-shallow"
   '(($set-location (K spit)))
   '((print-stars cont)
@@ -3467,6 +3481,104 @@ walls of the room.\n"
         'get-user-input
         0
         30))
+
+(defmacro (action-word-with-aux meaning aux)
+  (cons I (lambda (f) (f (lambda (_ _ x _) x) meaning aux))))
+
+(define-test 'intransitive-feefie "fie"
+  '(($set-foobar (K c0))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c1) V))))
+  '((print-stars cont)
+    (print-stars ($foobar I c0)))
+  (list "Nothing happens.\n"
+        'get-user-input
+        0))
+
+(define-test 'intransitive-feefie "fee"
+  '(($set-foobar (K c0))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c0) V))))
+  '((print-stars cont)
+    (print-stars ($foobar I c0)))
+  (list "OK.\n"
+        'get-user-input
+        1))
+
+(define-test 'intransitive-feefie "fee-fie"
+  '(($set-foobar (K c1))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c1) V))))
+  '((print-stars cont)
+    (print-stars ($foobar I c0)))
+  (list "OK.\n"
+        'get-user-input
+        2))
+
+(define-test 'intransitive-feefie "fee-fie-fie"
+  '(($set-foobar (K c2))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c1) V))))
+  '((print-stars cont)
+    (print-stars ($foobar I c0)))
+  (list "What's the matter, can't you read?  Now you'd best start over.\n"
+        'get-user-input
+        0))
+
+(define-test 'intransitive-feefie "no-move"
+  '(($set-foobar (K c3))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c3) V))))
+  '((print-stars cont)
+    (print-stars ($foobar I c0)))
+  (list "Nothing happens.\n"
+        'get-user-input
+        0))
+
+(define-test 'intransitive-feefie "at-giant"
+  '(($set-foobar (K c3))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c3) V)))
+    ($drop EGGS road)
+    ($set-location (K giant)))
+  '((print-stars cont)
+    (print-stars ($foobar I c0))
+    (print-stars ($place-of EGGS)))
+  (list "There is a large nest here, full of golden eggs!\n"
+        'get-user-input
+        0
+        'giant))
+
+(define-test 'intransitive-feefie "carry"
+  '(($set-foobar (K c3))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c3) V)))
+    ($carry EGGS))
+  '((print-stars cont)
+    (print-stars ($foobar I c0))
+    (print-stars ($place-of EGGS)))
+  (list "The nest of golden eggs has vanished!\n"
+        'get-user-input
+        0
+        'giant))
+
+(define-test 'intransitive-feefie "remote"
+  '(($set-foobar (K c3))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c3) V)))
+    ($drop EGGS house))
+  '((print-stars cont)
+    (print-stars ($foobar I c0))
+    (print-stars ($place-of EGGS)))
+  (list "Done!\n"
+        'get-user-input
+        0
+        'giant))
+
+(define-test 'intransitive-feefie "return-troll"
+  '(($set-foobar (K c3))
+    ($set-word12 (K (cons (action-word-with-aux FEEFIE c3) V)))
+    ($destroy EGGS)
+    ($destroy TROLL))
+  '((print-stars cont)
+    (print-stars ($prop-of TROLL))
+    (print-stars ($place-of EGGS)))
+  (list "Done!\n"
+        'get-user-input
+        1
+        'giant))
 
 (define-test 'pitch-dark ""
   '(($set-oldlocs (K (icons house road)))

@@ -119,8 +119,8 @@ all of its bugs were added by Don Knuth."))
                   ($goto transitive))
               (next world))))
       (lambda (world)
-        ; TODO: adjust foobar 138
-        ($goto clocks-and-lamp)))))
+        (let-world (($set-foobar (lambda (fb) (fb I c0))))
+          ($goto clocks-and-lamp))))))
 
 (defmacro ($try-motion m)
   (goto try-move (set-mot world (K m))))
@@ -263,7 +263,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive  ;KILL
 		       get-object  ;SAY
 		       intransitive-read  ;READ
-		       not-implemented  ;FEEFIE
+		       intransitive-feefie  ;FEEFIE
 		       intransitive-brief  ;BRIEF
 		       get-object  ;FIND
 		       intransitive-inventory  ;INVENTORY
@@ -1283,6 +1283,34 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                         world))
           ($goto get-user-input))
         ($goto get-user-input))))
+
+; 136 case FEEFIE:
+(define-proc 'intransitive-feefie
+  '(lambda (world)
+     (if (= $foobar (word-aux (car $word12)))
+         (if (< $foobar c3)
+             (let-world (($set-foobar (lambda (x _ _) (succ x))))
+               ($default-to RELAX))
+             (let-world (($set-foobar (K c0)))
+               (if (or (= ($place-of EGGS) giant)
+                       (and ($toting? EGGS) (= $location giant)))
+                   ($report (nth WAVE $default-msg))
+                   (begin
+                     ((nth (cond ((= $location giant) c0)
+                                 (($here? EGGS) c1)
+                                 (else c2))
+                           (nth EGGS $note)) #\newline I)
+                     (let-world ((if (and (zero? ($place-of EGGS))
+                                          (zero? ($place-of TROLL))
+                                          (zero? ($prop-of TROLL)))
+                                     ($set-prop-of TROLL (K c1))
+                                     world)
+                                 ($drop EGGS giant))
+                       ($goto get-user-input))))))
+         ($report (if (zero? $foobar)
+                      (nth WAVE $default-msg)
+                      (string "What's the matter, can't you read?  Now you'd best start over."))))))
+         
 
 ; 143 Try to go back
 (define-proc 'go-back
