@@ -36,6 +36,10 @@
 
 (defmacro $dwarf-here? (dwarf-here? world))
 
+(defmacro kill-all-dwarves
+  (lambda (world)
+    ($set-dwarf (K (c6 (cons (make-dwarf limbo V V)) V)))))
+
 (defmacro ($too-easy? i)
   (and (= i PYRAMID)
        (or (= $location proom)

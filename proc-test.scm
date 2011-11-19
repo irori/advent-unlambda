@@ -1012,6 +1012,44 @@ all of its bugs were added by Don Knuth.\n"
   (list 'close-the-cave
         0))
 
+(define-test 'warn-close ""
+  '(($set-prop-of GRATE (K c1))
+    ($set-prop-of CRYSTAL (K c1))
+    ($set-prop-of CHAIN (K c1))
+    ($set-base-of CHAIN (K CHAIN))
+    ($set-prop-of AXE (K c1))
+    ($set-base-of AXE (K AXE)))
+  '((print-stars cont)
+    (print-stars ($prop-of GRATE))
+    (print-stars ($prop-of CRYSTAL))
+    (print-stars (dloc (nth c0 $dwarf)))
+    (print-stars (dloc (nth c5 $dwarf)))
+    (print-stars ($place-of BEAR))
+    (print-stars ($prop-of CHAIN))
+    (print-stars ($base-of CHAIN))
+    (print-stars ($prop-of AXE))
+    (print-stars ($base-of AXE)))
+  (list "A sepulchral voice, reverberating through the cave, says, \"Cave\nclosing soon.  All adventurers exit immediately through main office.\"\n"
+        'handle-special-inputs
+        0
+        0
+        0
+        0
+        0
+        0
+        0
+        0
+        0))
+
+(define-test 'warn-close "dead-bear"
+  '(($set-prop-of BEAR (K c3))
+    ($drop BEAR swside))
+  '((print-stars cont)
+    (print-stars ($place-of BEAR)))
+  (list "A sepulchral voice, reverberating through the cave, says, \"Cave\nclosing soon.  All adventurers exit immediately through main office.\"\n"
+        'handle-special-inputs
+        'swside))
+
 (define-test 'check-the-lamp "lamp-off"
   '(($set-limit (K (cons1 (cons1 V)))))
   '((print-stars cont)

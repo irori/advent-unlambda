@@ -1619,7 +1619,22 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
 ; 179 Warn that the cave is closing
 (define-proc 'warn-close
   '(lambda (world)
-     ((string "\nwarn-close: not implemented\n") exit I)))
+     (let-world (($set-prop-of GRATE (K c0))
+                 ($set-prop-of CRYSTAL (K c0))
+                 (kill-all-dwarves world)
+                 ($destroy TROLL)
+                 ($destroy TROLL_)
+                 ($drop TROLL2 swside)
+                 ($drop TROLL2_ neside)
+                 (if (= ($prop-of BEAR) c3)
+                     world
+                     ($destroy BEAR))
+                 ($set-prop-of CHAIN (K c0))
+                 ($set-base-of CHAIN (K NOTHING))
+                 ($set-prop-of AXE (K c0))
+                 ($set-base-of AXE (K NOTHING)))
+       ((string "A sepulchral voice, reverberating through the cave, says, \"Cave\nclosing soon.  All adventurers exit immediately through main office.\"\n")
+        ($goto handle-special-inputs)))))
 
 ; 181 Close the cave
 (define-proc 'close-the-cave
