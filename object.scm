@@ -279,6 +279,7 @@ on the underside of\nthe oyster.")
 (defmacro $object-in-bottle (object-in-bottle world))
 
 (defmacro (bottle-empty world)
-  (= (nth BOTTLE (prop world)) c1))  ; TODO: or prop[BOTTLE] < 0
+  (or (= (nth BOTTLE (prop world)) c1)
+      (not (churchnum? (nth BOTTLE (prop world))))))
 (defmacro $bottle-empty (bottle-empty world))
 
