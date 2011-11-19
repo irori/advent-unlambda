@@ -2,7 +2,7 @@
 (use file.util)
 (require "enum.scm")
 
-(define ignore-case #f)
+(define ignore-case #t)
 
 (define parser-trie (make-tree-map char=? char<?))
 
