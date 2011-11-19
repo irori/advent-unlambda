@@ -172,16 +172,18 @@ all of its bugs were added by Don Knuth.\n"
 (define-test 'cycle2 "was-dark"
   '(($set-location (K debris)))
   '((print-stars cont)
-    (print-bool $was-dark))
-  (list 'cycle3
-        #t))
+    (print-bool $was-dark)
+    (print-stars $word12))
+  (list 'call-listen
+        #t
+        'pre-parse))
 
 (define-test 'cycle2 "knife-loc"
   '(($set-location (K debris))
     ($set-knife-loc (K hmk)))
   '((print-stars cont)
     (print-stars $knife-loc))
-  (list 'cycle3
+  (list 'call-listen
         'limbo))
 
 (define-test 'cycle2 "oyster-message"
@@ -191,7 +193,7 @@ all of its bugs were added by Don Knuth.\n"
   '((print-stars cont)
     (print-stars ($prop-of OYSTER)))
   (list "Interesting.  There seems to be something written on the underside of\nthe oyster.\n"
-        'cycle3
+        'call-listen
         0))
 
 (define-test 'cycle2 "snake-prop"
@@ -200,7 +202,7 @@ all of its bugs were added by Don Knuth.\n"
     ($carry SNAKE))
   '((print-stars cont)
     (print-stars ($prop-of SNAKE)))
-  (list 'cycle3
+  (list 'call-listen
         1))
 
 (define-test 'commence "goto-death"
@@ -373,8 +375,6 @@ all of its bugs were added by Don Knuth.\n"
   (list 'clocks-and-lamp
         3))
 
-(defmacro dummy-word (cons I (lambda (f) (f I I I))))
-
 (define-test 'pre-parse "say-something"
   '(($set-verb (K SAY))
     ($set-word12 (K (cons dummy-word dummy-word))))
@@ -390,6 +390,20 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars $verb))
   (list 'transitive
         'SAY))
+
+(define-test 'pre-parse "clear-special-word"
+  '(($set-word12 (K (cons (make-word special-type c0 (string "foo") V)
+                          (make-word special-type c0 (string "bar") V)))))
+  '((print-stars cont)
+    (word-letters (car $word12) I)
+    (print-bool (word? (car $word12)))
+    (word-letters (cdr $word12) I)
+    (print-bool (word? (cdr $word12))))
+  (list 'clocks-and-lamp
+        "foo"
+        #f
+        "bar"
+        #f))
 
 (define-test 'pre-parse "adjust-foobar"
   '(($set-foobar (K (lambda (_ _) c3))))
@@ -3125,6 +3139,190 @@ walls of the room.\n"
   (list 'transitive
         'NOTHING
         'KILL))
+
+(define-test 'transitive-kill "nothing"
+  '(($set-obj (K NOTHING)))
+  '((print-stars cont))
+  (list "There is nothing here to attack.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "target-not-unique"
+  '(($set-obj (K NOTHING))
+    ($set-dflag (K c2))
+    ($set-location (K hmk)))  ; a dwarf and a snake here
+  '((print-stars cont))
+  (list 'get-object))
+
+(define-test 'transitive-kill "dwarf"
+  '(($set-obj (K NOTHING))
+    ($set-dflag (K c2))
+    ($set-location (K y2))
+    ($drop CLAM y2))
+  '((print-stars cont))
+  (list "With what?  Your bare hands?\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "dwarf-after-close"
+  '(($set-obj (K DWARF))
+    ($set-closed (K I)))
+  '((print-stars cont))
+  (list 'dwarves-upset))
+
+(define-test 'transitive-kill "snake"
+  '(($set-obj (K NOTHING))
+    ($set-location (K hmk))
+    (kill-all-dwarves world))
+  '((print-stars cont))
+  (list "Attacking the snake both doesn't work and is very dangerous.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "troll"
+  '(($set-obj (K NOTHING))
+    ($set-location (K swside)))
+  '((print-stars cont))
+  (list "Trolls are close relatives with the rocks and have skin as tough as\na rhinoceros hide.  The troll fends off your blows effortlessly.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "bear"
+  '(($set-obj (K NOTHING))
+    ($set-location (K barr)))
+  '((print-stars cont))
+  (list "With what?  Your bare hands?  Against HIS bear hands?\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "bear-content"
+  '(($set-obj (K BEAR))
+    ($set-location (K barr))
+    ($set-prop-of BEAR (K c2)))
+  '((print-stars cont))
+  (list "The bear is confused; he only wants to be your friend.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "bear-dead"
+  '(($set-obj (K BEAR))
+    ($set-location (K barr))
+    ($set-prop-of BEAR (K c3)))
+  '((print-stars cont))
+  (list "For crying out loud, the poor thing is already dead!\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "bird"
+  '(($set-obj (K BIRD))
+    ($set-prop-of BIRD (K c1)))
+  '((print-stars cont)
+    (print-stars ($place-of BIRD))
+    (print-stars ($prop-of BIRD))
+    (print-stars $lost-treasures))
+  (list "The little bird is now dead.  Its body disappears.\n"
+        'get-user-input
+        'limbo
+        0
+        1))
+
+(define-test 'transitive-kill "bird-closed"
+  '(($set-obj (K NOTHING))
+    ($set-location (K bird))
+    ($set-closed (K I)))
+  '((print-stars cont))
+  (list "Oh, leave the poor unhappy bird alone.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "not-implicit-bird"
+  '(($set-obj (K NOTHING))
+    ($set-location (K bird))
+    ($set-oldverb (K TOSS)))
+  '((print-stars cont))
+  (list "There is nothing here to attack.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "clam"
+  '(($set-obj (K NOTHING))
+    ($set-location (K shell)))
+  '((print-stars cont))
+  (list "The shell is very strong and impervious to attack.\n"
+        'get-user-input))
+
+(define-test 'transitive-kill "bird-and-clam"
+  '(($set-obj (K NOTHING))
+    ($set-location (K shell))
+    ($drop BIRD shell))
+  '((print-stars cont))
+  (list 'get-object))
+
+(define-test 'transitive-kill "default"
+  '(($set-obj (K LAMP)))
+  '((print-stars cont))
+  (list 'report-default))
+
+(define-test 'transitive-kill "dragon"
+  '(($set-obj (K NOTHING))
+    ($set-location (K scan1)))
+  '((print-stars cont)
+    (print-stars $verb)
+    (print-stars $obj)
+    (print-stars $word12))
+  (list "With what?  Your bare hands?\n"
+        'call-listen
+        'ABSTAIN
+        'NOTHING
+        'attack-dragon-cont))
+
+(define-test 'transitive-kill "dragon-scan3"
+  '(($set-obj (K NOTHING))
+    ($set-location (K scan3)))
+  '((print-stars cont)
+    (print-stars $verb)
+    (print-stars $obj)
+    (print-stars $word12))
+  (list "With what?  Your bare hands?\n"
+        'call-listen
+        'ABSTAIN
+        'NOTHING
+        'attack-dragon-cont))
+
+(define-test 'transitive-kill "dead-dragon"
+  '(($set-obj (K DRAGON))
+    ($set-prop-of DRAGON (K c2)))
+  '((print-stars cont))
+  (list "For crying out loud, the poor thing is already dead!\n"
+        'get-user-input))
+
+(define-test 'attack-dragon-cont "no"
+  '(($set-word12 (K (cons dummy-word dummy-word))))
+  '((print-stars cont))
+  (list 'pre-parse))
+
+(define-test 'attack-dragon-cont "yes"
+  '(($set-word12 (K (cons (make-word special-type c0 (string "yes") V) V)))
+    ($drop KEYS scan1)
+    ($drop BIRD scan3))
+  '((print-stars cont)
+    (print-stars ($prop-of DRAGON))
+    (print-stars ($prop-of RUG))
+    (print-stars ($base-of RUG))
+    (print-stars ($base-of DRAGON_))
+    (print-stars ($place-of DRAGON_))
+    (print-stars ($base-of RUG_))
+    (print-stars ($place-of RUG_))
+    (print-stars ($place-of DRAGON))
+    (print-stars ($place-of KEYS))
+    (print-stars ($place-of BIRD))
+    (print-stars $location)
+    (print-stars $mot))
+  (list "Congratulations!  You have just vanquished a dragon with your bare\nhands! (Unbelievable, isn't it?)\n"
+        'try-move
+        2
+        0
+        'NOTHING
+        'DRAGON_
+        'limbo
+        'RUG_
+        'limbo
+        'scan2
+        'scan2
+        'scan2
+        'scan2
+        'NOWHERE))
 
 (define-test 'transitive-feed "bird"
   '(($set-obj (K BIRD)))

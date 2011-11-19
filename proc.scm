@@ -102,25 +102,36 @@ all of its bugs were added by Don Knuth."))
        ($goto cycle))))
 
 ; 76 listen()
-(define-proc 'cycle3
+(define-proc 'call-listen
   '(lambda (world)
-     (let ((words listen))
+     (let ((words listen)
+           (cont $word12))
        (let-world (($set-word12 (K words)))
-	 ($goto pre-parse)))))
+	 ($goto cont)))))
 
 ; 76 pre_parse:
 (define-proc 'pre-parse
   '(lambda (world)
-     ((lambda (next)
-        (let-world (($set-turns cons1))
-          (if (= $verb SAY)
-              (if (word? (cdr $word12))
-                  (next ($set-verb (K ABSTAIN)))
-                  ($goto transitive))
-              (next world))))
-      (lambda (world)
-        (let-world (($set-foobar (lambda (fb) (fb I c0))))
-          ($goto clocks-and-lamp))))))
+     (let-world (($set-word12 clear-special-word))
+       ((lambda (next)
+          (let-world (($set-turns cons1))
+            (if (= $verb SAY)
+                (if (word? (cdr $word12))
+                    (next ($set-verb (K ABSTAIN)))
+                    ($goto transitive))
+                (next world))))
+        (lambda (world)
+          (let-world (($set-foobar (lambda (fb) (fb I c0))))
+            ($goto clocks-and-lamp)))))))
+
+(defmacro (clear-special-word word12)
+  (word12
+   (lambda (w1 w2)
+     (let ((clear (lambda (w)
+                    (if (special-word? w)
+                        (make-non-word (car w))
+                        w))))
+       (cons (clear w1) (clear w2))))))
 
 (defmacro ($try-motion m)
   (goto try-move (set-mot world (K m))))
@@ -297,7 +308,7 @@ all of its bugs were added by Don Knuth."))
 		       transitive-fill  ;FILL
 		       transitive-break  ;BREAK
 		       transitive-blast  ;BLAST
-		       not-implemented  ;KILL
+		       transitive-kill  ;KILL
 		       transitive-say  ;SAY
 		       transitive-read  ;READ
 		       report-default  ;FEEFIE
@@ -355,8 +366,9 @@ all of its bugs were added by Don Knuth."))
      (let-world (($set-was-dark (K $dark))
                  ($set-rand cdr)
                  (adjust-knife-loc world)
-                 (adjust-props-after-closed world))
-       ($goto cycle3))))
+                 (adjust-props-after-closed world)
+                 ($set-word12 (K pre-parse)))
+       ($goto call-listen))))
 
 ; 169 Make special adjustments before looking at new input
 (defmacro adjust-knife-loc
@@ -1105,6 +1117,106 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                   ((string "You attack a little dwarf, but he dodges out of the way.\n")
                    $stay-put))))
           (loop (succ j))))))
+
+; 125 case KILL:
+(define-proc 'transitive-kill
+  '(lambda (world)
+     (let-world ((if (zero? $obj) (object-to-attack world) world))
+       (cond ((= $obj BIRD)
+              (attack-bird world))
+             ((= $obj DRAGON)
+              (if (zero? ($prop-of DRAGON))
+                  (attack-dragon world)
+                  ($report (string "For crying out loud, the poor thing is already dead!"))))
+             ((or (= $obj CLAM) (= $obj OYSTER))
+              ($report (string "The shell is very strong and impervious to attack.")))
+             ((= $obj SNAKE)
+              ($report (string "Attacking the snake both doesn't work and is very dangerous.")))
+             ((= $obj DWARF)
+              (if $closed
+                  ($goto dwarves-upset)
+                  ($report (string "With what?  Your bare hands?"))))
+             ((= $obj TROLL)
+              ($report (string "Trolls are close relatives with the rocks and have skin as tough as\na rhinoceros hide.  The troll fends off your blows effortlessly.")))
+             ((= $obj BEAR)
+              ($report
+               (nth ($prop-of BEAR)
+                    (cons (string "With what?  Your bare hands?  Against HIS bear hands?")
+                          (c2 (cons (string "The bear is confused; he only wants to be your friend."))
+                              (cons (string "For crying out loud, the poor thing is already dead!") V))))))
+             (else
+              ($goto report-default))))))
+
+; 126 See if there's a unique object to attack
+(defmacro object-to-attack
+  (lambda (world)
+    (let ((lst ((if $dwarf-here? (icons DWARF) I)
+                ((if ($here? SNAKE) (icons SNAKE) I)
+                 ((if (and ($at-loc? DRAGON) (zero? ($prop-of DRAGON)))
+                      (icons DRAGON) I)
+                  ((if ($at-loc? TROLL) (icons TROLL) I)
+                   ((if (and ($here? BEAR) (zero? ($prop-of BEAR)))
+                        (icons BEAR) I)
+                    V)))))))
+      (if (pair? lst)
+          (if (pair? (cdr lst))
+              ($return ($goto get-object))
+              ($set-obj (K (car lst))))
+          (let ((lst ((if (and ($here? BIRD) (not (= $oldverb TOSS)))
+                          (icons BIRD) I)
+                      ((if (or ($here? CLAM) ($here? OYSTER))
+                           (icons CLAM) I)
+                       V))))
+            (if (pair? lst)
+                (if (pair? (cdr lst))
+                    ($return ($goto get-object))
+                    ($set-obj (K (car lst))))
+                ($return ($report (string "There is nothing here to attack.")))))))))
+
+; 127 Dispatch the poor bird
+(defmacro attack-bird
+  (lambda (world)
+    (if $closed
+        ($report (string "Oh, leave the poor unhappy bird alone."))
+        (let-world (($destroy BIRD)
+                    ($set-prop-of BIRD (K c0))
+                    (if (= ($place-of SNAKE) hmk)
+                        ($set-lost-treasures succ)
+                        world))
+          ($report (string "The little bird is now dead.  Its body disappears."))))))
+
+; 128 Fun stuff for dragon
+(define-proc 'attack-dragon-cont
+  '(lambda (world)
+     (if (special-word? (car $word12))
+         (let-world (($set-prop-of DRAGON (K c2))
+                     ($set-prop-of RUG (K c0))
+                     ($set-base-of RUG (K NOTHING))
+                     ($set-base-of DRAGON_ (K DRAGON_))
+                     ($destroy DRAGON_)
+                     ($set-base-of RUG_ (K RUG_))
+                     ($destroy RUG_)
+                     ($set-place move-to-scan2)
+                     ($set-location (K scan2)))
+           ((cadr (nth DRAGON $note)) #\newline
+            $stay-put))
+         ($goto pre-parse))))
+
+(defrecmacro (move-to-scan2 places)
+  (places
+   (lambda (hd tl)
+     (cons (if (or (= hd scan1) (= hd scan3))
+               scan2
+               hd)
+           (move-to-scan2 tl)))))
+
+(defmacro attack-dragon
+  (lambda (world)
+    (let-world (($set-verb (K ABSTAIN))
+                ($set-obj (K NOTHING))
+                ($set-word12 (K attack-dragon-cont)))
+      ((string "With what?  Your bare hands?\n")
+       ($goto call-listen)))))
 
 ; 129 case FEED:
 (define-proc 'transitive-feed
@@ -1893,10 +2005,6 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                world)
              world))
         world)))
-
-(define-proc 'not-implemented
-  '(lambda (world)
-     ((string "\nnot implemented\n") exit I)))
 
 (defmacro (treasure-score world)
   (let rec ((k min-treasure))

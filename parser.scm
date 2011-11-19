@@ -25,7 +25,8 @@
   '(motion-type
     object-type
     action-type
-    message-type))
+    message-type
+    special-type))
 
 (define (define-word type meaning . rest)
   (let ((m (if (number? meaning) meaning (lookup-enum meaning)))
@@ -345,6 +346,8 @@ unless you explicitly ask me to.")
  (compress-list (map (lambda (x) (list 'string x))
 		     (reverse messages))))
 
+(define-word 'special-type 0 "y" "yes")
+
 (define (defword word-data)
   (let ((type (car word-data))
         (meaning (cadr word-data))
@@ -402,6 +405,7 @@ unless you explicitly ask me to.")
 (defmacro (noun? word) (= object-type (word-type word)))
 (defmacro (verb? word) (= action-type (word-type word)))
 (defmacro (message-word? word) (= message-type (word-type word)))
+(defmacro (special-word? word) (= special-type (word-type word)))
 (defmacro (word-meaning word) ((cdr word) (lambda (_ m _) m)))
 (defmacro (word-aux word) ((cdr word) (lambda (_ _ a) a)))
 (defmacro (word-letters word) (car word))
@@ -446,6 +450,10 @@ unless you explicitly ask me to.")
 
 (defmacro (make-word type meaning str aux)
   (cons str (lambda (f) (f type meaning aux))))
+(defmacro (make-non-word str)
+  (cons str V))
+(defmacro dummy-word
+  (make-word c1 c1 I V))
 (defmacro (motion-word meaning)
   (make-word motion-type meaning I V))
 (defmacro (object-word meaning)
