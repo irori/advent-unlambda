@@ -1122,6 +1122,32 @@ all of its bugs were added by Don Knuth.\n"
         #t
         'PLANT))
 
+(defmacro (motion-word-with-aux meaning aux)
+  (cons I (lambda (f) (f (lambda (x _ _ _) x) meaning aux))))
+
+(define-test 'parse-label "w"
+  '(($set-word12 (K (cons (motion-word-with-aux W V) V))))
+  '((print-stars cont)
+    (print-stars (cons1-length $west-count)))
+  (list 'look-at-word1
+        10))
+
+(define-test 'parse-label "west"
+  '(($set-word12 (K (cons (motion-word-with-aux W I) V))))
+  '((print-stars cont)
+    (print-stars (cons1-length $west-count)))
+  (list 'look-at-word1
+        9))
+
+(define-test 'parse-label "west-message"
+  '(($set-word12 (K (cons (motion-word-with-aux W I) V)))
+    ($set-west-count (K (cons1 V))))
+  '((print-stars cont)
+    (print-stars (cons1-length $west-count)))
+  (list " If you prefer, simply type W rather than WEST.\n"
+        'look-at-word1
+        0))
+
 (define-test 'shift ""
   '(($set-word12 (K (cons (action-word EAT) (object-word FOOD)))))
   '((print-stars cont)

@@ -43,6 +43,7 @@
 (defmacro initial-closed V)
 (defmacro initial-panic V)
 (defmacro initial-was-dark V)
+(defmacro initial-west-count (to-cons1 c10))
 (defmacro initial-word12 V)
 (defmacro initial-mot V)
 (defmacro initial-verb V)

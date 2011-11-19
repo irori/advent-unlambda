@@ -136,7 +136,7 @@ all of its bugs were added by Don Knuth."))
   '(lambda (world)
      ($word12
       (lambda (word1 word2)
-        ; TODO: reject synonyms
+        ; BUG: "h2o" should not be a synonym of "water" here
         (cond ((and (motion? word1) (= (word-meaning word1) ENTER))
                (cond ((or (and (noun? word2) (= (word-meaning word2) WATER))
                           (and (motion? word2) (= (word-meaning word2) STREAM)))
@@ -148,7 +148,7 @@ all of its bugs were added by Don Knuth."))
                      (else
                       ($goto parse-label))))
               ((and (noun? word1)
-                    (or (= (word-meaning word1) WATER)  ; TODO: reject synonyms
+                    (or (= (word-meaning word1) WATER)
                         (= (word-meaning word1) OIL))
                     (noun? word2)
                     (or (= (word-meaning word2) PLANT)
@@ -160,11 +160,21 @@ all of its bugs were added by Don Knuth."))
               (else
                ($goto parse-label)))))))
 
-; 76 parse:
+; 80 Give advice about going WEST
 (define-proc 'parse-label
   '(lambda (world)
-     ; TODO: give advice about going WEST 80
-     ($goto look-at-word1)))
+     (let ((word1 (car $word12)))
+       (if (and (motion? word1)
+                (= (word-meaning word1) W)
+                (word-aux word1)
+                (cons1? $west-count))
+           (let-world (($set-west-count 1-of-1))
+             (begin
+               ((not (cons1? $west-count))
+                (string " If you prefer, simply type W rather than WEST.\n")
+                I)
+               ($goto look-at-word1)))
+           ($goto look-at-word1)))))
 
 ; 76 shift:
 (define-proc 'shift

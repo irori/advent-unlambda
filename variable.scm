@@ -40,6 +40,7 @@
      dkill
      knife-loc
      rand
+     west-count
      word12
      mot
      verb
