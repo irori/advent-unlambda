@@ -1224,9 +1224,6 @@ all of its bugs were added by Don Knuth.\n"
         #t
         'PLANT))
 
-(defmacro (motion-word-with-aux meaning aux)
-  (cons I (lambda (f) (f (lambda (x _ _ _) x) meaning aux))))
-
 (define-test 'parse-label "w"
   '(($set-word12 (K (cons (motion-word-with-aux W V) V))))
   '((print-stars cont)
@@ -1350,11 +1347,6 @@ all of its bugs were added by Don Knuth.\n"
     ($set-verb (K TAKE)))
   '((print-stars cont))
   (list 'transitive))
-
-(defmacro (action-word-with-str meaning str)
-  (cons str (lambda (f) (f (lambda (_ _ x _) x) meaning I))))
-(defmacro (object-word-with-str meaning str)
-  (cons str (lambda (f) (f (lambda (_ x _ _) x) meaning I))))
 
 (define-test 'handle-object-word "without-verb"
   '(($set-word12 (K (cons (object-word-with-str LAMP (string "lamp")) V)))
@@ -3569,9 +3561,6 @@ walls of the room.\n"
         'get-user-input
         0
         30))
-
-(defmacro (action-word-with-aux meaning aux)
-  (cons I (lambda (f) (f (lambda (_ _ x _) x) meaning aux))))
 
 (define-test 'intransitive-feefie "fie"
   '(($set-foobar (K c0))

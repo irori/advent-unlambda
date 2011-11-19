@@ -201,25 +201,27 @@ all of its bugs were added by Don Knuth."))
      ($word12
       (lambda (word1 word2)
         (if (word? word1)
-            ((word-type word1)
-             (lambda (_)  ; motion
-               (goto try-move ($set-mot (K (word-meaning word1)))))
-             (lambda (_)  ; object
-               (let-world (($set-obj (K (word-meaning word1))))
-                 (if (or ($toting? $obj)
-                         ($at-loc? $obj))
-                     ($goto handle-object-word)
-                     ($goto check-object-location))))
-             (lambda (_)  ; verb
-	       (let-world (($set-verb (K (word-meaning word1))))
-                 (cond ((= $verb SAY)
-                        ($goto (if (pair? word2) transitive intransitive)))
-                       ((pair? word2)
-                        ($goto shift))
-                       (else
-                        ($goto (ifnonzero $obj transitive intransitive))))))
-             (lambda (_)  ; message
-               ($report (nth (word-meaning word1) $message)))
+            ((nth
+              (word-type word1)
+              (list 
+               (lambda (_)  ; motion
+                 (goto try-move ($set-mot (K (word-meaning word1)))))
+               (lambda (_)  ; object
+                 (let-world (($set-obj (K (word-meaning word1))))
+                   (if (or ($toting? $obj)
+                           ($at-loc? $obj))
+                       ($goto handle-object-word)
+                       ($goto check-object-location))))
+               (lambda (_)  ; verb
+                 (let-world (($set-verb (K (word-meaning word1))))
+                   (cond ((= $verb SAY)
+                          ($goto (if (pair? word2) transitive intransitive)))
+                         ((pair? word2)
+                          ($goto shift))
+                         (else
+                          ($goto (ifnonzero $obj transitive intransitive))))))
+               (lambda (_)  ; message
+                 ($report (nth (word-meaning word1) $message)))))
              I)
             (goto cycle (unknown-word world)))))))
 
