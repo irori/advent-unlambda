@@ -373,7 +373,7 @@ all of its bugs were added by Don Knuth.\n"
   (list 'clocks-and-lamp
         3))
 
-(defmacro dummy-word (lambda (f) (f I I I)))
+(defmacro dummy-word (cons I (lambda (f) (f I I I))))
 
 (define-test 'pre-parse "say-something"
   '(($set-verb (K SAY))
@@ -1224,9 +1224,9 @@ all of its bugs were added by Don Knuth.\n"
   (list 'transitive))
 
 (defmacro (action-word-with-str meaning str)
-  (lambda (f) (f (lambda (_ _ x _) x) meaning str)))
+  (cons str (lambda (f) (f (lambda (_ _ x _) x) meaning I))))
 (defmacro (object-word-with-str meaning str)
-  (lambda (f) (f (lambda (_ x _ _) x) meaning str)))
+  (cons str (lambda (f) (f (lambda (_ x _ _) x) meaning I))))
 
 (define-test 'handle-object-word "without-verb"
   '(($set-word12 (K (cons (object-word-with-str LAMP (string "lamp")) V)))

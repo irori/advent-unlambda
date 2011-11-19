@@ -219,10 +219,11 @@ all of its bugs were added by Don Knuth."))
          ($goto shift)
          (if (nonzero? $verb)
              ($goto transitive)
-             ((string "What do you want to do with the ")
-              (word-letters (car $word12))
-              (string "?\n")
-              ($goto cycle))))))
+             (begin
+               (print "What do you want to do with the ")
+               ((word-letters (car $word12)) I)
+               (print "?\n")
+               ($goto cycle))))))
 
 (define-proc 'intransitive
   '(lambda (world)
