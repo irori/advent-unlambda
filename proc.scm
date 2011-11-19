@@ -136,18 +136,19 @@ all of its bugs were added by Don Knuth."))
   '(lambda (world)
      ($word12
       (lambda (word1 word2)
+        ; TODO: reject synonyms
         (cond ((and (motion? word1) (= (word-meaning word1) ENTER))
                (cond ((or (and (noun? word2) (= (word-meaning word2) WATER))
                           (and (motion? word2) (= (word-meaning word2) STREAM)))
                       (if (water-here world)
                           ($report (string "Your feet are now wet."))
                           ($default-to GO)))
-                     ((word? word2)
+                     ((pair? word2)
                       ($goto shift))
                      (else
                       ($goto parse-label))))
               ((and (noun? word1)
-                    (or (= (word-meaning word1) WATER)
+                    (or (= (word-meaning word1) WATER)  ; TODO: reject synonyms
                         (= (word-meaning word1) OIL))
                     (noun? word2)
                     (or (= (word-meaning word2) PLANT)
@@ -202,8 +203,8 @@ all of its bugs were added by Don Knuth."))
              (lambda (_)  ; verb
 	       (let-world (($set-verb (K (word-meaning word1))))
                  (cond ((= $verb SAY)
-                        ($goto (if (word? word2) transitive intransitive)))
-                       ((word? word2)
+                        ($goto (if (pair? word2) transitive intransitive)))
+                       ((pair? word2)
                         ($goto shift))
                        (else
                         ($goto (ifnonzero $obj transitive intransitive))))))
@@ -215,7 +216,7 @@ all of its bugs were added by Don Knuth."))
 ; 78 case object_type:
 (define-proc 'handle-object-word
   '(lambda (world)
-     (if (word? (cdr $word12))
+     (if (pair? (cdr $word12))
          ($goto shift)
          (if (nonzero? $verb)
              ($goto transitive)
@@ -319,7 +320,7 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'cant-see-it
   '(lambda (world)
      (if (and (or (= $verb FIND) (= $verb INVENTORY))
-              (not (word? (cdr $word12))))
+              (not (pair? (cdr $word12))))
          ($goto transitive)
          (begin
            (print "I see no ")
@@ -608,10 +609,9 @@ all of its bugs were added by Don Knuth."))
        ($goto quit))))
 
 ; 97 case SAY:
-; TODO: fix this!
 (define-proc 'transitive-say
   '(lambda (world)
-     (let-world ((if (word? (cdr $word12))
+     (let-world ((if (pair? (cdr $word12))
                      ($set-word12 (lambda (p) (cons (cdr p) (cdr p))))
                      world))
        (if (nth (word-meaning (car $word12)) magic-word-list)
