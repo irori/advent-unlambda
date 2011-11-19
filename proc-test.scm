@@ -1050,6 +1050,56 @@ all of its bugs were added by Don Knuth.\n"
         'handle-special-inputs
         'swside))
 
+(define-test 'close-the-cave ""
+  '(($carry KEYS)
+    ($carry LAMP)
+    ($carry CHAIN))
+  '((print-stars cont)
+    (print-stars ($place-of BOTTLE)) (print-bool (churchnum? ($prop-of BOTTLE)))
+    (print-stars ($place-of PLANT))  (print-bool (churchnum? ($prop-of PLANT)))
+    (print-stars ($place-of OYSTER)) (print-bool (churchnum? ($prop-of OYSTER)))
+    (print-stars ($place-of LAMP))   (print-bool (churchnum? ($prop-of LAMP)))
+    (print-stars ($place-of ROD))    (print-bool (churchnum? ($prop-of ROD)))
+    (print-stars ($place-of DWARF))  (print-bool (churchnum? ($prop-of DWARF)))
+    (print-stars ($place-of MIRROR)) (print-bool (churchnum? ($prop-of MIRROR)))
+    (print-stars $location)
+    (print-stars (car $oldlocs))
+    (print-stars ($place-of GRATE))  (print-stars ($prop-of GRATE))
+    (print-stars ($place-of SNAKE))  (print-bool (churchnum? ($prop-of SNAKE)))
+    (print-stars ($place-of BIRD))   (print-bool (churchnum? ($prop-of BIRD)))
+    (print-stars ($place-of CAGE))   (print-bool (churchnum? ($prop-of CAGE)))
+    (print-stars ($place-of ROD2))   (print-bool (churchnum? ($prop-of ROD2)))
+    (print-stars ($place-of PILLOW)) (print-bool (churchnum? ($prop-of PILLOW)))
+    (print-stars ($place-of MIRROR_))
+    (print-stars ($place-of KEYS))
+    (print-stars ($place-of CHAIN))
+    (print-bool $closed)
+    (print-stars (nth c9 $hinted))
+    (print-stars $mot))
+  (list "The sepulchral voice intones, \"The cave is now closed.\"  As the echoes\nfade, there is a blinding flash of light (and a small puff of orange\nsmoke). . . .    Then your eyes refocus; you look around and find...\n"
+        'try-move
+        'neend #f
+        'neend #f
+        'neend #f
+        'neend #f
+        'neend #f
+        'neend #f
+        'neend #f
+        'neend
+        'neend
+        'swend 0
+        'swend #f
+        'swend #f
+        'swend #f
+        'swend #f
+        'swend #f
+        'swend
+        0
+        0
+        #t
+        10
+        'NOWHERE))
+
 (define-test 'check-the-lamp "lamp-off"
   '(($set-limit (K (cons1 (cons1 V)))))
   '((print-stars cont)

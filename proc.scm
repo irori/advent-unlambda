@@ -1639,7 +1639,30 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
 ; 181 Close the cave
 (define-proc 'close-the-cave
   '(lambda (world)
-     ((string "\nclose-the-cave: not implemented\n") exit I)))
+     (let-world (($drop BOTTLE neend) ($set-prop-of BOTTLE (K V))
+                 ($drop PLANT neend)  ($set-prop-of PLANT (K V))
+                 ($drop OYSTER neend) ($set-prop-of OYSTER (K V))
+                 ($drop LAMP neend)   ($set-prop-of LAMP (K V))
+                 ($drop ROD neend)    ($set-prop-of ROD (K V))
+                 ($drop DWARF neend)  ($set-prop-of DWARF (K V))
+                 ($drop MIRROR neend) ($set-prop-of MIRROR (K V))
+                 ($set-location (K neend))
+                 ($set-oldlocs (lambda (o) (cons neend (cdr o))))
+                 ($drop GRATE swend)  ; prop[GRATE] still zero
+                 ($drop SNAKE swend)  ($set-prop-of SNAKE (K V))
+                 ($drop BIRD swend)   ($set-prop-of BIRD (K V))
+                 ($drop CAGE swend)   ($set-prop-of CAGE (K V))
+                 ($drop ROD2 swend)   ($set-prop-of ROD2 (K V))
+                 ($drop PILLOW swend) ($set-prop-of PILLOW (K V))
+                 ($drop MIRROR_ swend)
+                 ($set-closed (K I))
+                 ($set-nth-hinted c9 (K c10)))
+       (let loop ((lst $objects-toting)
+                  (world world))
+         (if (null? lst)
+             ((string "The sepulchral voice intones, \"The cave is now closed.\"  As the echoes\nfade, there is a blinding flash of light (and a small puff of orange\nsmoke). . . .    Then your eyes refocus; you look around and find...\n")
+              $stay-put)
+             (loop (cdr lst) ($destroy (car lst))))))))
 
 ; 184 Check the clocks and the lamp
 (define-proc 'check-the-lamp
