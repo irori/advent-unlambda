@@ -18,7 +18,7 @@
         tree
         (loop tree (extend-memory-map tree lst)))))
 
-(define memory-map
+(define memory-map-old
   (make-memory-map
    '(return
      location
@@ -56,6 +56,9 @@
      place
      note)))
 
+(define memory-map
+  (cons (cons (cons (cons (cons 'word12 (cons 'hint-count 'oldverb)) (cons (cons 'clock2 'dflag) 'mot)) 'obj) 'place) (cons (cons 'location (cons (cons (cons 'hinted (cons 'foobar 'knife-loc)) (cons (cons (cons 'note 'tally) 'return) 'oldlocs)) (cons (cons 'limit (cons (cons 'liquid 'death-count) (cons 'visits 'verbose))) 'rand))) (cons 'prop (cons (cons 'base (cons (cons 'dkill-panic (cons (cons 'not-warned 'oldobj) 'was-dark)) 'newloc)) (cons (cons 'dwarf (cons 'lost-treasures (cons (cons 'turns 'west-count) 'clock1))) 'verb))))))
+
 (define (getter-name sym) sym)
 (define (setter-name sym)
   (string->symbol (string-append "set-" (symbol->string sym))))
@@ -83,10 +86,12 @@
       (begin
         (add-unl-macro! (getter-name tree) '(world)
                         (fold-right list 'world plist))
+;                        (string-append "{" (symbol->string (getter-name tree)) "}"))
         (add-unl-macro! (getter-with-implicit-world-name tree) '()
 			(list (getter-name tree) 'world))
         (add-unl-macro! (setter-name tree) '(world modifier)
                         (modifier-body plist))
+;                        (string-append "<" (symbol->string (setter-name tree)) ">"))
         (add-unl-macro! (setter-with-implicit-world-name tree) '(modifier)
 			(list (setter-name tree) 'world 'modifier))
 	)))
