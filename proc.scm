@@ -230,7 +230,7 @@ all of its bugs were added by Don Knuth."))
                          (else
                           ($goto (ifnonzero $obj transitive intransitive))))))
                (lambda (_)  ; message
-                 ($report (nth (word-meaning word1) $message)))))
+                 ($report (nth (word-meaning word1) message)))))
              I)
             (goto cycle (unknown-word world)))))))
 

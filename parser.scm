@@ -342,7 +342,7 @@ unless you explicitly ask me to.")
   "I don't know how.")
 
 (add-unl-macro!
- 'initial-message '()
+ 'message '()
  (compress-list (map (lambda (x) (list 'string x))
 		     (reverse messages))))
 
@@ -492,7 +492,7 @@ unless you explicitly ask me to.")
         ((print-digit (word-meaning w1) I)
          (#\space I)
          ((message-word? w1)
-          (nth (word-meaning w1) initial-message) I
+          (nth (word-meaning w1) message) I
           #\space I)
          (if (word? w2)
              (print-digit (word-meaning w2) I)

@@ -52,7 +52,6 @@
      hint-count
      death-count
      liquid
-     message
      base
      prop
      place
