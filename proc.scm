@@ -384,7 +384,7 @@ all of its bugs were added by Don Knuth."))
 ; 182 Make special adjustments before looking at new input
 (defmacro adjust-props-after-closed
   (lambda (world)
-    (if $closed
+    (if $closed?
         (begin
           ((not (churchnum? ($prop-of OYSTER)))
            ($toting? OYSTER)
@@ -461,7 +461,7 @@ all of its bugs were added by Don Knuth."))
            (goto get-user-input (increment-visits world))
            (let* ((bas ($base-of (car lst)))
                   (tt (if (zero? bas) (car lst) bas)))
-             (let-world ((if (or (churchnum? ($prop-of tt)) $closed)
+             (let-world ((if (or (churchnum? ($prop-of tt)) $closed?)
                              world
                              (spot-treasure tt world)))
                (begin
@@ -578,7 +578,7 @@ all of its bugs were added by Don Knuth."))
 			     ($return ($goto get-object))
 			     ($set-obj (K MESSAGE)))
 			 world)
-		     (if (and $closed ($toting? OYSTER))
+		     (if (and $closed? ($toting? OYSTER))
 			 ($set-obj (K OYSTER))
 			 world))
 	   (if (nonzero? $obj)
@@ -686,7 +686,7 @@ all of its bugs were added by Don Knuth."))
 ; 99 case BLAST:
 (define-proc 'transitive-blast
   '(lambda (world)
-     (if (and $closed (churchnum? ($prop-of ROD2)))
+     (if (and $closed? (churchnum? ($prop-of ROD2)))
          (let ((bonus (cond (($here? ROD2) (blast-msg1 c25))
                             ((= $location neend) (blast-msg2 c30))
                             (else (blast-msg3 c45)))))
@@ -719,7 +719,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
   '(lambda (world)
      (cond (($toting? $obj)
             ($default-to TAKE))
-           ($closed
+           ($closed?
             ($report (string "I daresay whatever you want is around here somewhere.")))
            ((or ($at-loc? $obj)
                 (and $object-in-bottle (= ($place-of BOTTLE) $location))
@@ -738,11 +738,11 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
              (goto smash (if ($toting? VASE) ($drop VASE $location) world))))
            ((not (= $obj MIRROR))
             ($goto report-default))
-           ($closed
-            ((string "You strike the mirror a resounding blow, whereupon it shatters into a\nmyriad tiny fragments.\n")
-             ($goto dwarves-upset)))
+           ($not-closed
+            ($report (string "It is too far up for you to reach.")))
            (else
-            ($report (string "It is too far up for you to reach."))))))
+            ((string "You strike the mirror a resounding blow, whereupon it shatters into a\nmyriad tiny fragments.\n")
+             ($goto dwarves-upset))))))
 
 ; 101 smash:
 (define-proc 'smash
@@ -754,7 +754,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
 ; 101 case WAKE:
 (define-proc 'transitive-wake
   '(lambda (world)
-     (if (and $closed (= $obj DWARF))
+     (if (and $closed? (= $obj DWARF))
          ((string "You prod the nearest dwarf, who wakes up grumpily, takes one look at\nyou, curses, and grabs for his axe.\n")
           ($goto dwarves-upset))
          ($goto report-default))))
@@ -1026,7 +1026,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                        ($set-prop-of BIRD (K c0))
                        ($drop BIRD $location))
              ((string "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n")
-              ($goto (if $closed dwarves-upset get-user-input)))))
+              ($goto (if $not-closed get-user-input dwarves-upset)))))
           ((and ($at-loc? DRAGON) (zero? ($prop-of DRAGON)))
            (let-world (($destroy BIRD)
                        ($set-prop-of BIRD (K c0))
@@ -1133,9 +1133,9 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
              ((= $obj SNAKE)
               ($report (string "Attacking the snake both doesn't work and is very dangerous.")))
              ((= $obj DWARF)
-              (if $closed
-                  ($goto dwarves-upset)
-                  ($report (string "With what?  Your bare hands?"))))
+              (if $not-closed
+                  ($report (string "With what?  Your bare hands?"))
+                  ($goto dwarves-upset)))
              ((= $obj TROLL)
               ($report (string "Trolls are close relatives with the rocks and have skin as tough as\na rhinoceros hide.  The troll fends off your blows effortlessly.")))
              ((= $obj BEAR)
@@ -1176,14 +1176,14 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
 ; 127 Dispatch the poor bird
 (defmacro attack-bird
   (lambda (world)
-    (if $closed
-        ($report (string "Oh, leave the poor unhappy bird alone."))
+    (if $not-closed
         (let-world (($destroy BIRD)
                     ($set-prop-of BIRD (K c0))
                     (if (= ($place-of SNAKE) hmk)
                         ($set-lost-treasures succ)
                         world))
-          ($report (string "The little bird is now dead.  Its body disappears."))))))
+          ($report (string "The little bird is now dead.  Its body disappears.")))
+        ($report (string "Oh, leave the poor unhappy bird alone.")))))
 
 ; 128 Fun stuff for dragon
 (define-proc 'attack-dragon-cont
@@ -1230,7 +1230,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                                 (nth EAT $default-msg)
                                 (string "There's nothing here it wants to eat (except perhaps you)."))))
            ((= $obj SNAKE)
-            (if (and (not $closed) ($here? BIRD))
+            (if (and $not-closed ($here? BIRD))
                 (let-world (($destroy BIRD)
                             ($set-prop-of BIRD (K c0))
                             ($set-lost-treasures succ))
@@ -1378,7 +1378,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
             ($report (string "\"CONGRATULATIONS ON BRINGING LIGHT INTO THE DARK-ROOM!\"")))
            ((= $obj MESSAGE)
             ($report (string "\"This is not the maze where the pirate hides his treasure chest.\"")))
-           ((and (= $obj OYSTER) $closed ($toting? OYSTER))
+           ((and (= $obj OYSTER) $closed? ($toting? OYSTER))
             (if (zero? (nth c7 $hinted))
                 ($report (string "It says the same thing it did before."))
                 (offer1 world)))
@@ -1769,7 +1769,6 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                  ($drop ROD2 swend)   ($set-prop-of ROD2 (K V))
                  ($drop PILLOW swend) ($set-prop-of PILLOW (K V))
                  ($drop MIRROR_ swend)
-                 ($set-closed (K I))
                  ($set-nth-hinted c9 (K c10)))
        (let loop ((lst $objects-toting)
                   (world world))

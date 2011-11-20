@@ -32,7 +32,6 @@
      clock2
      tally
      lost-treasures
-     closed
      panic
      was-dark
      dwarf   ; (dloc, odloc, dseen)[5]
@@ -132,6 +131,12 @@
 
 (defmacro $not-closing
   (cons1? (clock1 world)))
+
+(defmacro $not-closed
+  (cons1? (clock2 world)))
+
+(defmacro $closed?
+  (not $not-closed))
 
 (defmacro (set-nth-hinted n modifier world)
   (set-nth world set-hinted n modifier))

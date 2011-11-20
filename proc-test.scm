@@ -187,7 +187,7 @@ all of its bugs were added by Don Knuth.\n"
         'limbo))
 
 (define-test 'cycle2 "oyster-message"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-prop-of OYSTER (K V))
     ($carry OYSTER))
   '((print-stars cont)
@@ -197,7 +197,7 @@ all of its bugs were added by Don Knuth.\n"
         0))
 
 (define-test 'cycle2 "snake-prop"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-prop-of SNAKE (K V))
     ($carry SNAKE))
   '((print-stars cont)
@@ -345,7 +345,7 @@ all of its bugs were added by Don Knuth.\n"
         1))
 
 (define-test 'describe-objects "after-closed"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-location (K neend))
     ($drop ROD neend)
     ($set-prop-of ROD (K V)))
@@ -1087,7 +1087,6 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars ($place-of MIRROR_))
     (print-stars ($place-of KEYS))
     (print-stars ($place-of CHAIN))
-    (print-bool $closed)
     (print-stars (nth c9 $hinted))
     (print-stars $mot))
   (list "The sepulchral voice intones, \"The cave is now closed.\"  As the echoes\nfade, there is a blinding flash of light (and a small puff of orange\nsmoke). . . .    Then your eyes refocus; you look around and find...\n"
@@ -1110,7 +1109,6 @@ all of its bugs were added by Don Knuth.\n"
         'swend
         0
         0
-        #t
         10
         'NOWHERE))
 
@@ -1938,7 +1936,7 @@ all of its bugs were added by Don Knuth.\n"
         'TABLET))
 
 (define-test 'intransitive-read "oyster-closed"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($carry TABLET)
     ($carry OYSTER))
   '((print-stars cont)
@@ -2190,13 +2188,13 @@ all of its bugs were added by Don Knuth.\n"
         0))
 
 (define-test 'transitive-blast "default"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-prop-of ROD2 (K V)))
   '((print-stars cont))
   (list 'report-default))
 
 (define-test 'transitive-blast "blast1"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-prop-of ROD2 (K c0))
     ($carry ROD2))
   '((print-stars cont)
@@ -2207,7 +2205,7 @@ walls of the room.\n"
         25))
 
 (define-test 'transitive-blast "blast2"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-prop-of ROD2 (K c0))
     ($drop ROD2 swend)
     ($set-location (K neend)))
@@ -2218,7 +2216,7 @@ walls of the room.\n"
         30))
 
 (define-test 'transitive-blast "blast3"
-  '(($set-closed (K I))
+  '(($set-clock2 (K V))
     ($set-prop-of ROD2 (K c0))
     ($drop ROD2 neend)
     ($set-location (K swend)))
@@ -2248,7 +2246,7 @@ walls of the room.\n"
 
 (define-test 'transitive-find "closed"
   '(($set-obj (K KEYS))
-    ($set-closed (K I)))
+    ($set-clock2 (K V)))
   '((print-stars cont))
   (list "I daresay whatever you want is around here somewhere.\n"
         'get-user-input))
@@ -2296,7 +2294,7 @@ walls of the room.\n"
 
 (define-test 'transitive-break "mirror-after-close"
   '(($set-obj (K MIRROR))
-    ($set-closed (K I)))
+    ($set-clock2 (K V)))
   '((print-stars cont))
   (list "You strike the mirror a resounding blow, whereupon it shatters into a\nmyriad tiny fragments.\n"
         'dwarves-upset))
@@ -2317,7 +2315,7 @@ walls of the room.\n"
 
 (define-test 'transitive-wake "dwarf-after-close"
   '(($set-obj (K DWARF))
-    ($set-closed (K I)))
+    ($set-clock2 (K V)))
   '((print-stars cont))
   (list "You prod the nearest dwarf, who wakes up grumpily, takes one look at\nyou, curses, and grabs for his axe.\n"
         'dwarves-upset))
@@ -2873,7 +2871,7 @@ walls of the room.\n"
     ($set-obj (K BIRD))
     ($set-prop-of BIRD (K c1))
     ($set-location (K hmk))
-    ($set-closed (K I)))
+    ($set-clock2 (K V)))
   '((print-stars cont))
   (list "The little bird attacks the green snake, and in an astounding flurry\ndrives the snake away.\n"
         'dwarves-upset))
@@ -3164,7 +3162,7 @@ walls of the room.\n"
 
 (define-test 'transitive-kill "dwarf-after-close"
   '(($set-obj (K DWARF))
-    ($set-closed (K I)))
+    ($set-clock2 (K V)))
   '((print-stars cont))
   (list 'dwarves-upset))
 
@@ -3222,7 +3220,7 @@ walls of the room.\n"
 (define-test 'transitive-kill "bird-closed"
   '(($set-obj (K NOTHING))
     ($set-location (K bird))
-    ($set-closed (K I)))
+    ($set-clock2 (K V)))
   '((print-stars cont))
   (list "Oh, leave the poor unhappy bird alone.\n"
         'get-user-input))
@@ -3707,7 +3705,7 @@ walls of the room.\n"
 
 (define-input-test 'transitive-read "oyster-hinted"
   '(($set-obj (K OYSTER))
-    ($set-closed (K I))
+    ($set-clock2 (K V))
     ($carry OYSTER)
     ($set-nth-hinted c7 (K c0)))
   "n\n"
@@ -3717,7 +3715,7 @@ walls of the room.\n"
 
 (define-input-test 'transitive-read "oyster-reject-hint"
   '(($set-obj (K OYSTER))
-    ($set-closed (K I))
+    ($set-clock2 (K V))
     ($carry OYSTER))
   "n\n"
   '((print-stars cont)
@@ -3730,7 +3728,7 @@ walls of the room.\n"
 
 (define-input-test 'transitive-read "oyster-accept-hint"
   '(($set-obj (K OYSTER))
-    ($set-closed (K I))
+    ($set-clock2 (K V))
     ($carry OYSTER)
     ($set-limit (K (to-cons1 c50))))
   "y\n"
@@ -3746,7 +3744,7 @@ walls of the room.\n"
 
 (define-input-test 'transitive-read "do-not-enpower-lamp"
   '(($set-obj (K OYSTER))
-    ($set-closed (K I))
+    ($set-clock2 (K V))
     ($carry OYSTER)
     ($set-limit (K (to-cons1 c30))))
   "y\n"
