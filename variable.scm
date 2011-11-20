@@ -52,7 +52,6 @@
      hint-count
      death-count
      liquid
-     default-msg
      message
      base
      prop

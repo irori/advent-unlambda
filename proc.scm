@@ -139,8 +139,6 @@ all of its bugs were added by Don Knuth."))
 (defmacro ($report str)
   (str #\newline
    (goto get-user-input world)))
-(defmacro ($default-to v)
-  ($report (nth v $default-msg)))
 
 ; 83 Handle additional special cases of input
 (define-proc 'handle-special-inputs
@@ -328,8 +326,10 @@ all of its bugs were added by Don Knuth."))
 (define-proc 'report-default
   '(lambda (world)
      (begin
-       ((nth $verb $default-msg) #\newline I)
+       ((nth $verb default-msg) #\newline I)
        ($goto get-user-input))))
+(defmacro ($default-to v)
+  (goto report-default ($set-verb (K v))))
 
 ; 79 get_object:
 (define-proc 'get-object
@@ -882,7 +882,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
            ((string "The sudden change in temperature has delicately shattered the vase.\n")
             ($goto smash)))
           (else
-           ($report (nth DROP $default-msg))))))
+           ($default-to DROP)))))
 
 ; 112 case TAKE:
 (define-proc 'transitive-take
@@ -1226,9 +1226,10 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
            ((= $obj TROLL)
             ($report (string "Gluttony is not one of the troll's vices.  Avarice, however, is.")))
            ((= $obj DRAGON)
-            ($report (ifnonzero ($prop-of DRAGON)
-                                (nth EAT $default-msg)
-                                (string "There's nothing here it wants to eat (except perhaps you)."))))
+            (if (zero? ($prop-of DRAGON))
+                       ($report 
+                        (string "There's nothing here it wants to eat (except perhaps you)."))
+                       ($default-to EAT)))
            ((= $obj SNAKE)
             (if (and $not-closed ($here? BIRD))
                 (let-world (($destroy BIRD)
@@ -1255,7 +1256,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                   ($report (string "You fool, dwarves eat only coal!  Now you've made him REALLY mad!")))
                 ($goto report-default)))
            (else
-            ($report (nth CALM $default-msg))))))
+            ($default-to CALM)))))
 
 ; 130 case OPEN: case CLOSE:
 (define-proc 'transitive-open
@@ -1404,11 +1405,11 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
      (if (= $foobar (word-aux (car $word12)))
          (if (< $foobar c3)
              (let-world (($set-foobar (lambda (x _ _) (succ x))))
-               ($default-to RELAX))
+               ($report ok))
              (let-world (($set-foobar (K c0)))
                (if (or (= ($place-of EGGS) giant)
                        (and ($toting? EGGS) (= $location giant)))
-                   ($report (nth WAVE $default-msg))
+                   ($default-to WAVE)
                    (begin
                      ((nth (cond ((= $location giant) c0)
                                  (($here? EGGS) c1)
@@ -1421,9 +1422,9 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                                      world)
                                  ($drop EGGS giant))
                        ($goto get-user-input))))))
-         ($report (if (zero? $foobar)
-                      (nth WAVE $default-msg)
-                      (string "What's the matter, can't you read?  Now you'd best start over."))))))
+         (if (zero? $foobar)
+             ($default-to WAVE)
+             ($report (string "What's the matter, can't you read?  Now you'd best start over."))))))
          
 
 ; 143 Try to go back
@@ -1461,9 +1462,9 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
   ((cond ((= $mot CRAWL)
           (string "Which way?"))
          ((or (= $mot XYZZY) (= $mot PLUGH))
-          (nth WAVE $default-msg))
+          (string "Nothing happens."))
          ((or (= $verb FIND) (= $verb INVENTORY))
-          (nth FIND $default-msg))
+          (string "I can only tell you what you see as you move about and manipulate\nthings.  I cannot tell you where remote things are."))
          ((or (= $mot IN) (= $mot OUT))
           (string "I don't know in from out here.  Use compass points or name something\nin the general direction you want to go."))
          ((or (= $mot FORWARD) (= $mot L) (= $mot R))

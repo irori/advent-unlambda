@@ -246,7 +246,7 @@ things.  I cannot tell you where remote things are.")
 (set-default-msg 'QUIT "Eh?")
 
 (add-unl-macro!
- 'initial-default-msg '()
+ 'default-msg '()
  (compress-list (map (lambda (x) (if (undefined? x) 'V (list 'string x)))
 		     default-msg)))
 

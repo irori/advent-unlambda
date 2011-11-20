@@ -1203,9 +1203,10 @@ all of its bugs were added by Don Knuth.\n"
 (define-test 'handle-special-inputs "not-wet"
   '(($set-word12 (K (cons (motion-word ENTER) (object-word WATER))))
     ($set-location (K hill)))
-  '((print-stars cont))
-  (list "Where?\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'GO))
 
 (define-test 'handle-special-inputs "enter-house"
   '(($set-word12 (K (cons (motion-word ENTER) (motion-word HOUSE)))))
@@ -2150,9 +2151,10 @@ all of its bugs were added by Don Knuth.\n"
 
 (define-test 'transitive-wave "not-toting"
   '(($set-obj (K LAMP)))
-  '((print-stars cont))
-  (list "You aren't carrying it!\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'DROP))
 
 (define-test 'transitive-wave "crystal"
   '(($carry ROD)
@@ -2233,16 +2235,18 @@ walls of the room.\n"
 
 (define-test 'transitive-rub "default"
   '(($set-obj (K KEYS)))
-  '((print-stars cont))
-  (list "Peculiar.  Nothing unexpected happens.\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'TOSS))
 
 (define-test 'transitive-find "toting"
   '(($set-obj (K KEYS))
     ($carry KEYS))
-  '((print-stars cont))
-  (list "You are already carrying it!\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'TAKE))
 
 (define-test 'transitive-find "closed"
   '(($set-obj (K KEYS))
@@ -2401,9 +2405,10 @@ walls of the room.\n"
 
 (define-test 'transitive-drink "oil"
   '(($set-obj (K OIL)))
-  '((print-stars cont))
-  (list "Don't be ridiculous!\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'EAT))
 
 (define-test 'transitive-pour "not-toting"
   '(($set-obj (K WATER)))
@@ -2624,9 +2629,10 @@ walls of the room.\n"
 (define-test 'transitive-fill "vase-not-toting"
   '(($set-location (K house))
     ($set-obj (K VASE)))
-  '((print-stars cont))
-  (list "You aren't carrying it!\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'DROP))
 
 (define-test 'transitive-fill "vase"
   '(($set-location (K house))
@@ -3343,9 +3349,10 @@ walls of the room.\n"
 (define-test 'transitive-feed "dragon-dead"
   '(($set-obj (K DRAGON))
     ($set-prop-of DRAGON (K c2)))
-  '((print-stars cont))
-  (list "Don't be ridiculous!\n"
-        'get-user-input))
+  '((print-stars cont)
+    (print-stars $verb))
+  (list 'report-default
+        'EAT))
 
 (define-test 'transitive-feed "snake"
   '(($set-obj (K SNAKE)))
@@ -3762,10 +3769,11 @@ walls of the room.\n"
   '(($set-foobar (K c0))
     ($set-word12 (K (cons (action-word-with-aux FEEFIE c1) V))))
   '((print-stars cont)
-    (print-stars ($foobar I c0)))
-  (list "Nothing happens.\n"
-        'get-user-input
-        0))
+    (print-stars ($foobar I c0))
+    (print-stars $verb))
+  (list 'report-default
+        0
+        'WAVE))
 
 (define-test 'intransitive-feefie "fee"
   '(($set-foobar (K c0))
@@ -3798,10 +3806,11 @@ walls of the room.\n"
   '(($set-foobar (K c3))
     ($set-word12 (K (cons (action-word-with-aux FEEFIE c3) V))))
   '((print-stars cont)
-    (print-stars ($foobar I c0)))
-  (list "Nothing happens.\n"
-        'get-user-input
-        0))
+    (print-stars ($foobar I c0))
+    (print-stars $verb))
+  (list 'report-default
+        0
+        'WAVE))
 
 (define-test 'intransitive-feefie "at-giant"
   '(($set-foobar (K c3))
