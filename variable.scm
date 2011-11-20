@@ -32,11 +32,10 @@
      clock2
      tally
      lost-treasures
-     panic
      was-dark
      dwarf   ; (dloc, odloc, dseen)[5]
      dflag
-     dkill
+     dkill-panic
      knife-loc
      rand
      west-count

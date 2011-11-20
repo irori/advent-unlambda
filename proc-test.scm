@@ -1032,7 +1032,8 @@ all of its bugs were added by Don Knuth.\n"
     ($set-prop-of CHAIN (K c1))
     ($set-base-of CHAIN (K CHAIN))
     ($set-prop-of AXE (K c1))
-    ($set-base-of AXE (K AXE)))
+    ($set-base-of AXE (K AXE))
+    ($set-dkill-panic (K I)))
   '((print-stars cont)
     (print-stars ($prop-of GRATE))
     (print-stars ($prop-of CRYSTAL))
@@ -1042,7 +1043,8 @@ all of its bugs were added by Don Knuth.\n"
     (print-stars ($prop-of CHAIN))
     (print-stars ($base-of CHAIN))
     (print-stars ($prop-of AXE))
-    (print-stars ($base-of AXE)))
+    (print-stars ($base-of AXE))
+    (print-bool $dkill-panic))
   (list "A sepulchral voice, reverberating through the cave, says, \"Cave\nclosing soon.  All adventurers exit immediately through main office.\"\n"
         'handle-special-inputs
         0
@@ -1053,7 +1055,8 @@ all of its bugs were added by Don Knuth.\n"
         0
         0
         0
-        0))
+        0
+        #f))
 
 (define-test 'warn-close "dead-bear"
   '(($set-prop-of BEAR (K c3))
@@ -3037,7 +3040,7 @@ walls of the room.\n"
     (print-stars $mot)
     (print-stars (dloc (nth c3 $dwarf)))
     (print-bool (dseen (nth c3 $dwarf)))
-    (print-bool $dkill)
+    (print-bool $dkill-panic)
     (print-stars ($place-of AXE))
     (print-stars (length $rand)))
   (list "You killed a little dwarf.  The body vanishes in a cloud of greasy\nblack smoke.\n"
@@ -3056,12 +3059,12 @@ walls of the room.\n"
     ($set-location (K west))
     ($set-nth-dwarf c3 (K (make-dwarf west west I)))
     ($set-rand (K (list KI K KI K KI K V)))
-    ($set-dkill (K I)))
+    ($set-dkill-panic (K I)))
   '((print-stars cont)
     (print-stars $mot)
     (print-stars (dloc (nth c3 $dwarf)))
     (print-bool (dseen (nth c3 $dwarf)))
-    (print-bool $dkill)
+    (print-bool $dkill-panic)
     (print-stars ($place-of AXE))
     (print-stars (length $rand)))
   (list "You killed a little dwarf.\n"
@@ -3084,7 +3087,7 @@ walls of the room.\n"
     (print-stars $mot)
     (print-stars (dloc (nth c3 $dwarf)))
     (print-bool (dseen (nth c3 $dwarf)))
-    (print-bool $dkill)
+    (print-bool $dkill-panic)
     (print-stars ($place-of AXE))
     (print-stars (length $rand)))
   (list "You attack a little dwarf, but he dodges out of the way.\n"
@@ -3521,7 +3524,7 @@ walls of the room.\n"
     ($set-clock2 (K (cons1 V))))
   '((print-stars cont)
     (print-stars ($prop-of GRATE))
-    (print-bool $panic)
+    (print-bool $dkill-panic)
     (print-stars (cons1-length $clock2)))
   (list "A mysterious recorded voice groans into life and announces:\n\"This exit is closed.  Please leave via main office.\"\n"
         'get-user-input

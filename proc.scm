@@ -1107,12 +1107,12 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
             (let-rand r 67
               (if r
                   (begin
-                    (if $dkill
+                    (if $dkill-panic
                         (print "You killed a little dwarf.\n")
                         (print "You killed a little dwarf.  The body vanishes in a cloud of greasy\nblack smoke.\n"))
                     (let-world (($set-nth-dwarf j
                                    (lambda (d) (make-dwarf limbo (odloc d) V)))
-                                ($set-dkill (K I)))
+                                ($set-dkill-panic (K I)))
                       $stay-put))
                   ((string "You attack a little dwarf, but he dodges out of the way.\n")
                    $stay-put))))
@@ -1281,10 +1281,10 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
 (defmacro panic-at-closing-time
   (lambda (world)
     ((string "A mysterious recorded voice groans into life and announces:\n\"This exit is closed.  Please leave via main office.\"\n")
-     (if $panic
+     (if $dkill-panic
          world
          (let-world (($set-clock2 (K (to-cons1 c15)))
-                     ($set-panic (K I)))
+                     ($set-dkill-panic (K I)))
            world)))))
 
 ; 131 Open/close grate
@@ -1737,6 +1737,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
      (let-world (($set-prop-of GRATE (K c0))
                  ($set-prop-of CRYSTAL (K c0))
                  (kill-all-dwarves world)
+                 ($set-dkill-panic (K V))
                  ($destroy TROLL)
                  ($destroy TROLL_)
                  ($drop TROLL2 swside)

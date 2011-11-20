@@ -11,7 +11,6 @@
                               (make-dwarf like3 V V)
                               (make-dwarf complex V V)))
 (defmacro initial-dflag c0)
-(defmacro initial-dkill V)
 (defmacro initial-knife-loc c0)
 
 (defmacro ($set-nth-dwarf n modifier)
