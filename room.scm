@@ -41,9 +41,14 @@
           ((> condition 300)
            (let* ((obj (remainder condition 100))
                   (val (- (quotient condition 100) 3))
-                  (lst (append '(list) (make-list val 'V) '(I))))
+                  (prop-expr `(nth ,(churchnum obj) (prop world))))
              `(lambda (world)
-                (if (nth (nth ,(churchnum obj) (prop world)) ,lst)
+                (if ,(cond ((zero? val)
+                            `(zero? ,prop-expr))
+                           ((= val 1)
+                            `(nth ,prop-expr (list V I)))
+                           (else
+                            `(= ,(churchnum val) ,prop-expr)))
                     V ,result))))
           (else
            (let* ((obj (remainder condition 100))
