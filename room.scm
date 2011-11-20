@@ -27,50 +27,6 @@
     (vector-set! travels n insts)
     ))
 
-(defmacro repeat-true
-  ((lambda (x) (x x))
-   (lambda (rec) (icons I (rec rec)))))
-
-;; env -> env
-(define (motion-code condition dest)
-  (let ((result (if (string? dest)
-                    `((string ,(string-append dest "\n")) (location world))
-                    dest)))
-    (cond ((zero? condition)
-           `(lambda (world) ,result))
-          ((and (< 0 condition) (< condition 100))
-           `(lambda (world)
-              (if (pct ,condition world) ,result V)))
-          ((> condition 300)
-           (let* ((obj (remainder condition 100))
-                  (val (- (quotient condition 100) 3))
-                  (prop-expr `(nth ,(churchnum obj) (prop world))))
-             `(lambda (world)
-                (if ,(cond ((zero? val)
-                            `(zero? ,prop-expr))
-                           ((= val 1)
-                            `(nth ,prop-expr (list V I)))
-                           (else
-                            `(= ,(churchnum val) ,prop-expr)))
-                    V ,result))))
-          (else
-           (let* ((obj (remainder condition 100))
-		  (condition (if (>= condition 200)
-				 `(or (toting? ,(churchnum obj) world)
-				      (at-loc? ,(churchnum obj) world))
-				 `(toting? ,(churchnum obj) world))))
-             `(lambda (world)
-                (if ,condition ,result V)))))))
-
-(define (compile-inst inst)
-  `(icons ,(if (null? (inst-words inst))
-               'repeat-true
-               (make-boolean-list (inst-words inst)))
-          ,(motion-code (inst-cond inst) (inst-dest inst))))
-
-(defmacro (inst-match inst) (car inst))
-(defmacro (inst-code inst) (cdr inst))
-
 (define (cond-holds obj)
   (+ 100 (lookup-enum obj)))
 (define (cond-sees obj)
@@ -1366,15 +1322,66 @@ It would be advisable to use the exit."
 			      (else 'V)))
 		      room-desc))))
 
+(define (compile-insts insts)
+  (if (undefined? insts)
+      'V
+      (list 'icons
+            (compile-travel-matcher insts)
+            (compress-list (map motion-code insts)))))
+
+(define (compile-travel-matcher insts)
+  (if (null? (inst-words (car insts)))  ; forced move?
+      '(repeat c0)
+      (let ((v (make-vector (+ 1 (lookup-enum 'NOWHERE)) 'V)))
+        (for-each-with-index
+         (lambda (i inst)
+           (for-each
+            (lambda (w)
+              (if (eq? (vector-ref v w) 'V)
+                  (vector-set! v w (churchnum i))))
+            (map lookup-enum (inst-words inst))))
+         insts)
+        (compress-list (reverse (drop-while (pa$ eq? 'V)
+                                            (reverse (vector->list v))))))))
+
+;; env -> env
+(define (motion-code inst)
+  (let* ((condition (inst-cond inst))
+         (dest (inst-dest inst))
+         (result (if (string? dest)
+                     `((string ,(string-append dest "\n")) (location world))
+                     dest)))
+    (cond ((zero? condition)
+           `(lambda (world) ,result))
+          ((and (< 0 condition) (< condition 100))
+           `(lambda (world)
+              (if (pct ,condition world) ,result V)))
+          ((> condition 300)
+           (let* ((obj (remainder condition 100))
+                  (val (- (quotient condition 100) 3))
+                  (prop-expr `(nth ,(churchnum obj) (prop world))))
+             `(lambda (world)
+                (if ,(cond ((zero? val)
+                            `(zero? ,prop-expr))
+                           ((= val 1)
+                            `(nth ,prop-expr (list V I)))
+                           (else
+                            `(= ,(churchnum val) ,prop-expr)))
+                    V ,result))))
+          (else
+           (let* ((obj (remainder condition 100))
+		  (condition (if (>= condition 200)
+				 `(or (toting? ,(churchnum obj) world)
+				      (at-loc? ,(churchnum obj) world))
+				 `(toting? ,(churchnum obj) world))))
+             `(lambda (world)
+                (if ,condition ,result V)))))))
+
 (add-unl-macro!
  'travels '()
  (compile-to-file
   "travels.unlo"
-  (compress-list (map (lambda (x)
-			(if (undefined? x)
-			    'V
-			    (compress-list (map compile-inst x))))
-		      travels))))
+  (compress-list (map compile-insts travels))))
 
 (define (make-back-table here insts)
   (let ((lst '())
@@ -1501,17 +1508,15 @@ It would be advisable to use the exit."
 (defmacro (forced-move? loc)
   (>= loc min-forced-loc))
 
-(defrecmacro (find-inst motion table)
-  (table
-   (lambda (hd tl)
-     (if (nth motion (inst-match hd))
-         table
-         (find-inst motion tl)))))
+(defmacro (find-inst motion travel)
+  (travel
+   (lambda (mot-lookup lst)
+     ((nth motion mot-lookup) cdr lst))))
 
-(defrecmacro (apply-inst table world)
-  (table
+(defrecmacro (apply-inst lst world)
+  (lst
    (lambda (hd tl)
-     (let ((nl ((inst-code hd) world)))
+     (let ((nl (hd world)))
        (let-world (($set-rand cdr))
          (cond ((= pdrop nl)
                 (let-world (($drop EMERALD $location))

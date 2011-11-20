@@ -128,6 +128,10 @@
 	`(icons ,(car args) ,(cdr args))
 	`(icons ,(car args) ,(rec (cdr args))))))
 
+(defmacro (repeat x)
+  ((lambda (z) (z z))
+   (lambda (rec) (icons x (rec rec)))))
+
 (defmacro (cons1 x)
   (lambda (f) (f x)))
 (defmacro (cons1? x) (x (lambda (a) I)))
