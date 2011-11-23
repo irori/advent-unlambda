@@ -2089,7 +2089,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                    ((if (= (succ k) (nth rank class-score)) I #\s) I)
                    (print ".\n"))
                  (print " would be a neat trick!\nCongratulations!!\n"))
-             (exit I)))))))
+             V))))))
 
 (define program-table
   (map (lambda (x) (cons (car x) (compile-to-string (cdr x))))
