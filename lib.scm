@@ -157,7 +157,7 @@
       (*if* (cons1? _n)
             (let ((next (_rec _rec (1-of-1 _n))))
               (lambda (_hd _tl)
-                ((icons _hd) (next _tl))))
+                (S (S I (K _hd)) (K (next _tl)))))
             (lambda (_hd _tl)
               ((snoc _tl) (f _hd))))))))
 
