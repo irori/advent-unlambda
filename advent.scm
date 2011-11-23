@@ -27,44 +27,7 @@
 (require "dwarf.scm")
 (require "proc.scm")
 
-
 ;; initial environment
-(defmacro initial-return V)
-(defmacro initial-location road)
-(defmacro initial-newloc road)
-(defmacro initial-oldlocs (icons road road))
-(defmacro initial-verbose (to-cons1 c4))
-(defmacro initial-limit (to-cons1 c330))
-(defmacro initial-turns V)
-(defmacro initial-clock1 (to-cons1 c15))
-(defmacro initial-clock2 (to-cons1 c30))
-(defmacro initial-tally c15)
-(defmacro initial-lost-treasures c0)
-(defmacro initial-dkill-panic V)
-(defmacro initial-was-dark V)
-(defmacro initial-west-count (to-cons1 c10))
-(defmacro initial-foobar c0)
-(defmacro initial-word12 V)
-(defmacro initial-mot V)
-(defmacro initial-verb V)
-(defmacro initial-oldverb V)
-(defmacro initial-not-warned I)
-(defmacro initial-hinted (list c2 c2 c2 c4 c5 c3  ; hint2-7
-                               c5 c10  ; hint0, hint1
-                               c4  ; gave_up
-                               c0))  ; bonus
-(defmacro initial-hint-count V)
-(defmacro initial-death-count c0)
-(defmacro initial-obj V)
-(defmacro initial-oldobj V)
-(defmacro initial-dummy V)
-
-(define (make-initial-map tree)
-  (if (pair? tree)
-      `(icons ,(make-initial-map (car tree))
-              ,(make-initial-map (cdr tree)))
-      (string->symbol (string-append "initial-" (symbol->string tree)))))
-
 (add-unl-macro!
  'initial-world '()
  (compile-to-file
