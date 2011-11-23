@@ -108,7 +108,7 @@
      ,body))
 
 (defmacro (set-nth world setter n modifier)
-  (setter world (modify-nth modifier (to-cons1 n))))
+  (setter world (update-nth modifier (to-cons1 n))))
 
 (defmacro ($set-nth setter n modifier)
   (set-nth world setter n modifier))

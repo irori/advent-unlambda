@@ -127,7 +127,7 @@ For information on how to end your adventure, etc., type \"INFO\".
                         -  -  -
 The first adventure program was developed by Willie Crowther.
 Most of the features of the current program were added by Don Woods.
-This is a translation into Unlambda of Don Knuth's CWEB version.\n"
+This Unlambda version is a translation of Don Knuth's CWEB version.\n"
         'mainloop
         0
         1000))

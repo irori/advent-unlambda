@@ -149,7 +149,8 @@
          ((if (f hd) I (icons hd))
           (loop tl))))))
 
-(defmacro (modify-nth f)
+; (update-nth f n lst) replaces n-th value of lst with (f (nth n lst))
+(defmacro (update-nth f)
   ((lambda (x) (x x))
    (lambda (_rec _n _lst)
      (_lst
