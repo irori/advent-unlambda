@@ -5,22 +5,7 @@
       (error "negative argument" n)
       (string->symbol (string-append "c" (number->string n)))))
 
-(defmacro (T x y) (y x))
-
-(defsyntax (churchnum n)
-  `(lambda (s z)
-     ,(let rec ((n n))
-	(if (zero? n) 'z `(s ,(rec (- n 1)))))))
-
 (defmacro (churchnum? x) (x I I))
-
-(defsyntax (add-n n num)
-  `(lambda (s z)
-     ,(let rec ((n n))
-	(if (zero? n)
-	    `(,num s z)
-	    `(s ,(rec (- n 1)))))))
-
 (defmacro zero (lambda (s z) z))
 (defmacro (succ n) (lambda (s z) (s (n s z))))
 (defmacro (zero? n) (n V I))
@@ -51,14 +36,6 @@
 (defmacro (pred n)
   (lambda (s z)
     (((n (lambda (g h) (h (g s)))) (lambda (x) z)) I)))
-
-; (pred 2)
-; (lambda (s z) ((2 (lambda (g h) (h (g s))) (lambda (x) z)) I))
-; (lambda (s z) (((lambda (g h) (h (g s))) ((lambda (g h) (h (g s))) (lambda (x) z))) I)
-; (lambda (s z) (I (((lambda (g h) (h (g s))) (lambda (x) z)) s)))
-; (lambda (s z) (((lambda (g h) (h (g s))) (lambda (x) z)) s))
-; (lambda (s z) (s ((lambda (x) z) s)))
-; (lambda (s z) (s z))
 
 (defmacro (nth n lst)
   (car (n cdr lst)))
@@ -94,11 +71,6 @@
 	  (succ (rec xs2))
 	  zero))))
 
-;(defrecmacro (div x y)
-;  (if (< x y)
-;      zero
-;      (succ (div (sub x y) y))))
-
 (defmacro (mod x y)
   (let rec ((xs (cons1 (x cons1 V))))
     (let ((xs2 ((y 1-of-1) xs)))
@@ -113,11 +85,6 @@
 	  (rec xs2 (succ q))
 	  (icons q (cons1-length (1-of-1 xs)))))))
 
-;(defrecmacro (mod x y)
-;  (if (< x y)
-;      x
-;      (mod (sub x y) y)))
-
 (require "./churchnum.tbl")
 
 (defmacro (print-digit1 n)
@@ -129,22 +96,3 @@
       ((divmod n c10)
        (lambda (m d)
 	 (S (print-digit m) (print-digit1 d))))))
-
-(defmacro parse-digit1-fn
- (lambda (q)
-   (((((((((((((? #\0) I) q) c0)
-	    ((((? #\1) I) q) c1))
-	   ((((? #\2) I) q) c2))
-	  ((((? #\3) I) q) c3))
-	 ((((? #\4) I) q) c4))
-	((((? #\5) I) q) c5))
-       ((((? #\6) I) q) c6))
-      ((((? #\7) I) q) c7))
-     ((((? #\8) I) q) c8))
-    ((((? #\9) I) q) c9))))
-
-(defmacro parse-digit1
-  (call/cc parse-digit1-fn))
-
-(defmacro (read-digit1)
-  ((@ I) parse-digit1))
