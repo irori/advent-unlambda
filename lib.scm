@@ -1,4 +1,11 @@
 ; -*- scheme-*-
+
+;; utilities
+(defmacro KI (K I))
+(defmacro (compose f g)
+  (lambda (x) (f (g x))))
+(defmacro M (lambda (x) (x x)))
+
 ;; character predicates
 (defmacro ?space (? #\space))
 (defmacro ?newline (? #\newline))
@@ -19,7 +26,13 @@
 	`((lambda ,vars ,body)
 	  ,@vals))))
 
-;; control structures
+(defsyntax (let* binds body)
+  (fold-right
+   (lambda (bind rest)
+     `(let (,bind) ,rest))
+   body
+   binds))
+
 (defmacro *if*
   ; (lambda (b) (call/cc (lambda (q) ((K (K I)) ((b q) K)))))
   ((S (K call/cc)) ((S (K (S (K (K (K I)))))) ((S S) (K (K K))))))
@@ -29,21 +42,6 @@
      ,condition
      (lambda (**if-dummy**) ,consequent)
      (lambda (**if-dummy**) ,alternative)) I))
-
-(defsyntax (begin . es)
-  (if (null? es)
-      'I
-      (reduce-right (lambda (e rest)
-                      (if rest `(K I ,e ,rest) e))
-                    #f
-                    es)))
-
-(defsyntax (when condition consequent)
-  `((,condition
-     (lambda (**when-dummy**) ,consequent)) I))
-
-(defmacro (unless condition alternative)
-  (if condition V alternative))
 
 ; (cond (c1 b1) (c2 b2) ... (cn bn) [(else b)])
 (defsyntax (cond . clauses)
@@ -56,12 +54,13 @@
 	     clauses)))
     V))
 
-(defsyntax (let* binds body)
-  (fold-right
-   (lambda (bind rest)
-     `(let (,bind) ,rest))
-   body
-   binds))
+(defsyntax (begin . es)
+  (if (null? es)
+      'I
+      (reduce-right (lambda (e rest)
+                      (if rest `(K I ,e ,rest) e))
+                    #f
+                    es)))
 
 ;; I/O functions
 (defsyntax (read-char=? c . cs)
@@ -71,9 +70,8 @@
         (lambda (_c)
           ,(map (lambda (ch) `((? ,ch) I _c I))
                 (cons c cs))))))
-(defmacro (read-char) (@ I))
-(defmacro (reprint-char) ((! I) I))
 
+;; string constant. ((string "foo") x) prints "foo" and returns x
 (defsyntax (string s)
   ; (string "abc") => (d (#\b (#\a #\c)))
   (let* ((len (string-length s))
@@ -89,16 +87,14 @@
   (fold list e (string->list s)))
 
 ;; boolean functions
-(defmacro (not b) (if b V I))
-;(defmacro (and a b) (a b))
-;(defmacro (or a b) (if a I b))
+(defmacro not
+  (lambda (b) (call/cc (lambda (q) (K I (b q V))))))
+(defsyntax (and . es) es)
 (defsyntax (or . es)
   (let rec ((es es))
     (if (null? (cdr es))
 	(car es)
 	`(if ,(car es) I ,(rec (cdr es))))))
-(defsyntax (and . es)
-  es)
 
 ;; list functions
 (defmacro nil V)
@@ -129,8 +125,7 @@
 	`(icons ,(car args) ,(rec (cdr args))))))
 
 (defmacro (repeat x)
-  ((lambda (z) (z z))
-   (lambda (rec) (icons x (rec rec)))))
+  (M (lambda (rec) (icons x (rec rec)))))
 
 (defmacro (cons1 x)
   (lambda (f) (f x)))
@@ -151,18 +146,11 @@
 
 ; (update-nth f n lst) replaces n-th value of lst with (f (nth n lst))
 (defmacro (update-nth f)
-  ((lambda (x) (x x))
-   (lambda (_rec _n _lst)
-     (_lst
-      (*if* (cons1? _n)
-            (let ((next (_rec _rec (1-of-1 _n))))
+  (M (lambda (_rec _n _lst)
+       (_lst
+        (*if* (cons1? _n)
+              (let ((next (_rec _rec (1-of-1 _n))))
+                (lambda (_hd _tl)
+                  (S (S I (K _hd)) (K (next _tl)))))
               (lambda (_hd _tl)
-                (S (S I (K _hd)) (K (next _tl)))))
-            (lambda (_hd _tl)
-              ((snoc _tl) (f _hd))))))))
-
-;; utilities
-(defmacro KI (K I))
-(defmacro (compose f g)
-  (lambda (x) (f (g x))))
-(defmacro (M x) (x x))
+                ((snoc _tl) (f _hd))))))))

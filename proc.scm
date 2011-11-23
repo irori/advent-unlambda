@@ -1673,9 +1673,9 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
                    (else
                     (let-rand r 20
                       (begin
-                        (when (and r (not (= (odloc (car $dwarf))
-                                             (dloc (car $dwarf)))))
-                              (print "There are faint rustling noises from the darkness behind you.\n"))
+                        ((and r (not (= (odloc (car $dwarf))
+                                        (dloc (car $dwarf)))))
+                         (string "There are faint rustling noises from the darkness behind you.\n") I)
                         ($goto dwarves-follow))))))))))
 
 ; 173 move_chest:
