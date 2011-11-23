@@ -14,18 +14,18 @@
 (defmacro ok (string "OK."))
 
 (defmacro start-msg
-  (string "Somewhere nearby is Colossal Cave, where others have found fortunes in\n\
-treasure and gold, though it is rumored that some who enter are never\n\
-seen again.  Magic is said to work in the cave.  I will be your eyes\n\
-and hands.  Direct me with commands of one or two words.  I should\n\
-warn you that I look at only the first five letters of each word, so\n\
-you'll have to enter \"NORTHEAST\" as \"NE\" to distinguish it from\n\
-\"NORTH\".  Should you get stuck, type \"HELP\" for some general hints.\n\
-For information on how to end your adventure, etc., type \"INFO\".\n\
-                        -  -  -\n\
-The first adventure program was developed by Willie Crowther.\n\
-Most of the features of the current program were added by Don Woods.\n\
-This is a translation into Unlambda of Don Knuth's CWEB version."))
+  (string "Somewhere nearby is Colossal Cave, where others have found fortunes in
+treasure and gold, though it is rumored that some who enter are never
+seen again.  Magic is said to work in the cave.  I will be your eyes
+and hands.  Direct me with commands of one or two words.  I should
+warn you that I look at only the first five letters of each word, so
+you'll have to enter \"NORTHEAST\" as \"NE\" to distinguish it from
+\"NORTH\".  Should you get stuck, type \"HELP\" for some general hints.
+For information on how to end your adventure, etc., type \"INFO\".
+                        -  -  -
+The first adventure program was developed by Willie Crowther.
+Most of the features of the current program were added by Don Woods.
+This Unlambda version is a translation of Don Knuth's CWEB version."))
 
 ; The entry point of the program
 (define-proc 'offer0
@@ -695,16 +695,16 @@ This is a translation into Unlambda of Don Knuth's CWEB version."))
          ($goto report-default))))
 
 (defmacro blast-msg1
-  (string "There is a loud explosion and you are suddenly splashed across the\n\
+  (string "There is a loud explosion and you are suddenly splashed across the
 walls of the room.\n"))
 (defmacro blast-msg2
-  (string "There is a loud explosion and a twenty-foot hole appears in the far\n\
-wall, burying the snakes in the rubble.  A river of molten lava pours\n\
+  (string "There is a loud explosion and a twenty-foot hole appears in the far
+wall, burying the snakes in the rubble.  A river of molten lava pours
 in through the hole, destroying everything in its path, including you!\n"))
 (defmacro blast-msg3
-  (string "There is a loud explosion, and a twenty-foot hole appears in the far\n\
-wall, burying the dwarves in the rubble.  You march through the hole\n\
-and find yourself in the main office, where a cheering band of\n\
+  (string "There is a loud explosion, and a twenty-foot hole appears in the far
+wall, burying the dwarves in the rubble.  You march through the hole
+and find yourself in the main office, where a cheering band of
 friendly elves carry the conquering adventurer off into the sunset.\n"))
 
 ; 99 case RUB:

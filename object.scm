@@ -31,20 +31,20 @@
          "The troll is nowhere to be seen.")
 (new-obj 'TROLL_ #f 'TROLL 'neside)
 (new-obj 'TROLL #f 'TROLL 'swside
-         "A burly troll stands by the bridge and insists you throw him a\n\
+         "A burly troll stands by the bridge and insists you throw him a
 treasure before you may cross."
          "The troll steps out from beneath the bridge and blocks your way."
          #f)
 (new-obj 'BRIDGE_ #f 'BRIDGE 'neside)
 (new-obj 'BRIDGE #f 'BRIDGE 'swside
-         "A rickety wooden bridge extends across the chasm, vanishing into the\n\
+         "A rickety wooden bridge extends across the chasm, vanishing into the
 mist.  A sign posted on the bridge reads, \"STOP!  PAY TROLL!\""
-         "The wreckage of a bridge (and a dead bear) can be seen at the bottom\n\
+         "The wreckage of a bridge (and a dead bear) can be seen at the bottom
 of the chasm.")
 (new-obj 'DRAGON_ #f 'DRAGON 'scan3)
 (new-obj 'DRAGON #f 'DRAGON 'scan1
          "A huge green fierce dragon bars the way!"
-         "Congratulations!  You have just vanquished a dragon with your bare\n\
+         "Congratulations!  You have just vanquished a dragon with your bare
 hands! (Unbelievable, isn't it?)"
          "The body of a huge green dead dragon is lying off to one side.")
 (new-obj 'SHADOW_ #f 'SHADOW 'window)
@@ -112,12 +112,12 @@ hands! (Unbelievable, isn't it?)"
          "There are fresh batteries here."
          "Some worn-out batteries have been discarded nearby.")
 (new-obj 'PONY #f 'PONY 'pony
-         "There is a massive vending machine here.  The instructions on it read:\n\
+         "There is a massive vending machine here.  The instructions on it read:
 \"Drop coins here to receive fresh batteries.\"")
 (new-obj 'GEYSER #f 'GEYSER 'view
          #f)
 (new-obj 'MESSAGE #f 'MESSAGE 'limbo
-         "There is a message scrawled in the dust in a flowery script, reading:\n\
+         "There is a message scrawled in the dust in a flowery script, reading:
 \"This is not the maze where the pirate hides his treasure chest.\"")
 (new-obj 'BEAR #f 'BEAR 'barr
          "There is a ferocious cave bear eying you from the far end of the room!"
@@ -136,7 +136,7 @@ hands! (Unbelievable, isn't it?)"
 (new-obj 'PLANT #f 'PLANT 'wpit
          "There is a tiny little plant in the pit, murmuring \"Water, water, ...\""
          "The plant spurts into furious growth for a few seconds."
-         "There is a 12-foot-tall beanstalk stretching up out of the pit,\n\
+         "There is a 12-foot-tall beanstalk stretching up out of the pit,
 bellowing \"Water!!  Water!!\""
          "The plant grows explosively, almost filling the bottom of the pit."
          "There is a gigantic beanstalk stretching all the way up to the hole."
@@ -157,12 +157,12 @@ bellowing \"Water!!  Water!!\""
          "There are a few recent issues of \"Spelunker Today\" magazine here.")
 (new-obj 'OYSTER "Giant oyster >GROAN!<" #f 'limbo
          "There is an enormous oyster here with its shell tightly closed."
-         "Interesting.  There seems to be something written \
-on the underside of\nthe oyster.")
+         "Interesting.  There seems to be something written on the underside of
+the oyster.")
 (new-obj 'CLAM "Giant clam >GRUNT!<" #f 'shell
          "There is an enormous clam here with its shell tightly closed.")
 (new-obj 'TABLET #f 'TABLET 'droom
-         "A massive stone tablet embedded in the wall reads:\n\
+         "A massive stone tablet embedded in the wall reads:
 \"CONGRATULATIONS ON BRINGING LIGHT INTO THE DARK-ROOM!\"")
 (new-obj 'SNAKE #f 'SNAKE 'hmk
          "A huge green fierce snake bars the way!"

@@ -38,8 +38,8 @@
 (define dead-end "Dead end.")
 
 (define-location 'road
-  "You are standing at the end of a road before a small brick building.\n\
-Around you is a forest.  A small stream flows out of the building and\n\
+  "You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
 down a gully."
   "You're at end of road again."
   '(lighted liquid)
@@ -51,7 +51,7 @@ down a gully."
   )
 
 (define-location 'hill
-  "You have walked up a hill, still in the forest.  The road slopes back\n\
+  "You have walked up a hill, still in the forest.  The road slopes back
 down the other side of the hill.  There is a building in the distance."
   "You're at hill in road."
   '(lighted)
@@ -70,7 +70,7 @@ down the other side of the hill.  There is a building in the distance."
   )
 
 (define-location 'valley
-  "You are in a valley in the forest beside a stream tumbling along a\n\
+  "You are in a valley in the forest beside a stream tumbling along a
 rocky bed."
   "You're in valley."
   '(lighted liquid)
@@ -101,7 +101,7 @@ rocky bed."
 
 (define slit-rmk "You don't fit through a two-inch slit!")
 (define-location 'slit
-  "At your feet all the water of the stream splashes into a 2-inch slit\n\
+  "At your feet all the water of the stream splashes into a 2-inch slit
 in the rock.  Downstream the streambed is bare rock."
   "You're at slit in streambed."
   '(lighted liquid)
@@ -114,8 +114,8 @@ in the rock.  Downstream the streambed is bare rock."
 
 (define grate-rmk "You can't go through a locked steel grate!")
 (define-location 'outside
-  "You are in a 20-foot depression floored with bare dirt.  Set into the\n\
-dirt is a strong steel grate mounted in concrete.  A dry streambed\n\
+  "You are in a 20-foot depression floored with bare dirt.  Set into the
+dirt is a strong steel grate mounted in concrete.  A dry streambed
 leads into the depression."
   "You're outside grate."
   '(lighted cave-hint)
@@ -127,7 +127,7 @@ leads into the depression."
   )
 
 (define-location 'inside
-  "You are in a small chamber beneath a 3x3 steel grate to the surface.\n\
+  "You are in a small chamber beneath a 3x3 steel grate to the surface.
 A low crawl over cobbles leads inwards to the west."
   "You're below the grate."
   '(lighted)
@@ -139,7 +139,7 @@ A low crawl over cobbles leads inwards to the west."
   )
 
 (define-location 'cobbles
-  "You are crawling over cobbles in a low passage.  There is a dim light\n\
+  "You are crawling over cobbles in a low passage.  There is a dim light
 at the east end of the passage."
   "You're in cobble crawl."
   '(lighted)
@@ -149,9 +149,9 @@ at the east end of the passage."
   )
 
 (define-location 'debris
-  "You are in a debris room filled with stuff washed in from the surface.\n\
-A low wide passage with cobbles becomes plugged with mud and debris\n\
-here, but an awkward canyon leads upward and west.  A note on the wall\n\
+  "You are in a debris room filled with stuff washed in from the surface.
+A low wide passage with cobbles becomes plugged with mud and debris
+here, but an awkward canyon leads upward and west.  A note on the wall
 says \"MAGIC WORD XYZZY\"."
   "You're in debris room."
   '()
@@ -175,8 +175,8 @@ says \"MAGIC WORD XYZZY\"."
   )
 
 (define-location 'bird
-  "You are in a splendid chamber thirty feet high.  The walls are frozen\n\
-rivers of orange stone.  An awkward canyon and a good passage exit\n\
+  "You are in a splendid chamber thirty feet high.  The walls are frozen
+rivers of orange stone.  An awkward canyon and a good passage exit
 from east and west sides of the chamber."
   "You're in bird chamber."
   '(bird-hint)
@@ -188,7 +188,7 @@ from east and west sides of the chamber."
   )
 
 (define-location 'spit
-  "At your feet is a small pit breathing traces of white mist.  An east\n\
+  "At your feet is a small pit breathing traces of white mist.  An east
 passage ends here except for a small crack leading on."
   "You're at top of small pit."
   '()
@@ -202,10 +202,10 @@ passage ends here except for a small crack leading on."
   )
 
 (define-location 'emist
-  "You are at one end of a vast hall stretching forward out of sight to\n\
-the west.  There are openings to either side.  Nearby, a wide stone\n\
-staircase leads downward.  The hall is filled with wisps of white mist\n\
-swaying to and fro almost as if alive.  A cold wind blows up the\n\
+  "You are at one end of a vast hall stretching forward out of sight to
+the west.  There are openings to either side.  Nearby, a wide stone
+staircase leads downward.  The hall is filled with wisps of white mist
+swaying to and fro almost as if alive.  A cold wind blows up the
 staircase.  There is a passage at the top of a dome behind you."
   "You're in Hall of Mists."
   '()
@@ -218,7 +218,7 @@ staircase.  There is a passage at the top of a dome behind you."
   )
 
 (define-location 'nugget
-  "This is a low room with a crude note on the wall.  The note says,\n\
+  "This is a low room with a crude note on the wall.  The note says,
 \"You won't get it up the steps\"."
   "You're in nugget of gold room."
   '()
@@ -228,7 +228,7 @@ staircase.  There is a passage at the top of a dome behind you."
 (define bridge-rmk
   "I respectfully suggest you go across the bridge instead of jumping.")
 (define-location 'efiss
-  "You are on the east bank of a fissure slicing clear across the hall.\n\
+  "You are on the east bank of a fissure slicing clear across the hall.
 The mist is quite thick here, and the fissure is too wide to jump."
   "You're on east bank of fissure."
   '()
@@ -252,8 +252,8 @@ The mist is quite thick here, and the fissure is too wide to jump."
   )
 
 (define-location 'wmist
-  "You are at the west end of the Hall of Mists.  A low wide crawl\n\
-continues west and another goes north.  To the south is a little\n\
+  "You are at the west end of the Hall of Mists.  A low wide crawl
+continues west and another goes north.  To the south is a little
 passage 6 feet off the floor."
   "You're at west end of Hall of Mists."
   '()
@@ -356,8 +356,8 @@ passage 6 feet off the floor."
   )
 
 (define-location 'brink
-  "You are on the brink of a thirty-foot pit with a massive orange column\n\
-down one wall.  You could climb down here but you could not get back\n\
+  "You are on the brink of a thirty-foot pit with a massive orange column
+down one wall.  You could climb down here but you could not get back
 up.  The maze continues at this level."
   "You're at brink of pit."
   '()
@@ -369,8 +369,8 @@ up.  The maze continues at this level."
   )
 
 (define-location 'elong
-  "You are at the east end of a very long hall apparently without side\n\
-chambers.  To the east a low wide crawl slants up.  To the north a\n\
+  "You are at the east end of a very long hall apparently without side
+chambers.  To the east a low wide crawl slants up.  To the north a
 round two-foot hole slants down."
   "You're at east end of long hall."
   '()
@@ -380,7 +380,7 @@ round two-foot hole slants down."
   )
 
 (define-location 'wlong
-  "You are at the west end of a very long featureless hall.  The hall\n\
+  "You are at the west end of a very long featureless hall.  The hall
 joins up with a narrow north/south passage."
   "You're at west end of long hall."
   '()
@@ -450,7 +450,7 @@ joins up with a narrow north/south passage."
   )
 
 (define-location 'hmk
-  "You are in the Hall of the Mountain King, with passages off in all\n\
+  "You are in the Hall of the Mountain King, with passages off in all
 directions."
   "You're in Hall of Mt King."
   '(snake-hint)
@@ -465,7 +465,7 @@ directions."
   )
 
 (define-location 'west
-  "You are in the west side chamber of the Hall of the Mountain King.\n\
+  "You are in the west side chamber of the Hall of the Mountain King.
 A passage continues west and up here."
   "You're in west side chamber."
   '()
@@ -481,7 +481,7 @@ A passage continues west and up here."
   )
 
 (define-location 'ns
-  "You are in a low N/S passage at a hole in the floor.  The hole goes\n\
+  "You are in a low N/S passage at a hole in the floor.  The hole goes
 down to an E/W passage."
   "You're in N/S passage."
   '()
@@ -491,8 +491,8 @@ down to an E/W passage."
   )
 
 (define-location 'y2
-  "You are in a large room, with a passage to the south, a passage to the\n\
-west, and a wall of broken rock to the east.  There is a large \"Y2\" on\n\
+  "You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east.  There is a large \"Y2\" on
 a rock in the room's center."
   "You're at \"Y2\"."
   '()
@@ -513,12 +513,12 @@ a rock in the room's center."
   )
 
 (define-location 'windoe
-  "You're at a low window overlooking a huge pit, which extends up out of\n\
-sight.  A floor is indistinctly visible over 50 feet below.  Traces of\n\
-white mist cover the floor of the pit, becoming thicker to the right.\n\
-Marks in the dust around the window would seem to indicate that\n\
-someone has been here recently.  Directly across the pit from you and\n\
-25 feet away there is a similar window looking into a lighted room.\n\
+  "You're at a low window overlooking a huge pit, which extends up out of
+sight.  A floor is indistinctly visible over 50 feet below.  Traces of
+white mist cover the floor of the pit, becoming thicker to the right.
+Marks in the dust around the window would seem to indicate that
+someone has been here recently.  Directly across the pit from you and
+25 feet away there is a similar window looking into a lighted room.
 A shadowy figure can be seen there peering back at you."
   "You're at window on pit."
   '()
@@ -527,7 +527,7 @@ A shadowy figure can be seen there peering back at you."
   )
 
 (define-location 'dirty
-  "You are in a dirty broken passage.  To the east is a crawl.  To the\n\
+  "You are in a dirty broken passage.  To the east is a crawl.  To the
 west is a large passage.  Above you is a hole to another passage."
   "You're in dirty passage."
   '()
@@ -538,7 +538,7 @@ west is a large passage.  Above you is a hole to another passage."
   )
 
 (define-location 'clean
-  "You are on the brink of a small clean climbable pit.  A crawl leads\n\
+  "You are on the brink of a small clean climbable pit.  A crawl leads
 west."
   "You're by a clean pit."
   '()
@@ -547,7 +547,7 @@ west."
   )
 
 (define-location 'wet
-  "You are in the bottom of a small pit with a little stream, which\n\
+  "You are in the bottom of a small pit with a little stream, which
 enters and exits through tiny slits."
   "You're in pit by stream."
   '(liquid)
@@ -556,7 +556,7 @@ enters and exits through tiny slits."
   )
 
 (define-location 'dusty
-  "You are in a large room full of dusty rocks.  There is a big hole in\n\
+  "You are in a large room full of dusty rocks.  There is a big hole in
 the floor.  There are cracks everywhere, and a passage leading east."
   "You're in dusty rock room."
   '()
@@ -566,8 +566,8 @@ the floor.  There are cracks everywhere, and a passage leading east."
   )
 
 (define-location 'complex
-  "You are at a complex junction.  A low hands-and-knees passage from the\n\
-north joins a higher crawl from the east to make a walking passage\n\
+  "You are at a complex junction.  A low hands-and-knees passage from the
+north joins a higher crawl from the east to make a walking passage
 going west.  There is also a large room above.  The air is damp here."
   "You're at complex junction."
   '()
@@ -578,9 +578,9 @@ going west.  There is also a large room above.  The air is damp here."
   )
 
 (define-location 'shell
-  "You're in a large room carved out of sedimentary rock.  The floor\n\
-and walls are littered with bits of shells embedded in the stone.\n\
-A shallow passage proceeds downward, and a somewhat steeper one\n\
+  "You're in a large room carved out of sedimentary rock.  The floor
+and walls are littered with bits of shells embedded in the stone.
+A shallow passage proceeds downward, and a somewhat steeper one
 leads up.  A low hands-and-knees passage enters from the south."
   "You're in Shell Room."
   '()
@@ -592,7 +592,7 @@ leads up.  A low hands-and-knees passage enters from the south."
   )
 
 (define-location 'arch
-  "You are in an arched hall.  A coral passage once continued up and east\n\
+  "You are in an arched hall.  A coral passage once continued up and east
 from here, but is now blocked by debris.  The air smells of sea water."
   "You're in arched hall."
   '()
@@ -616,9 +616,9 @@ from here, but is now blocked by debris.  The air smells of sea water."
   )
 
 (define-location 'ante
-  "You are in an anteroom leading to a large passage to the east.  Small\n\
-passages go west and up.  The remnants of recent digging are evident.\n\
-A sign in midair here says \"CAVE UNDER CONSTRUCTION BEYOND THIS POINT.\n\
+  "You are in an anteroom leading to a large passage to the east.  Small
+passages go west and up.  The remnants of recent digging are evident.
+A sign in midair here says \"CAVE UNDER CONSTRUCTION BEYOND THIS POINT.
 PROCEED AT OWN RISK.  [WITT CONSTRUCTION COMPANY]\""
   "You're in anteroom."
   '()
@@ -628,7 +628,7 @@ PROCEED AT OWN RISK.  [WITT CONSTRUCTION COMPANY]\""
   )
 
 (define loop-rmk
-  "You have crawled around in some little holes and wound up back in the\n\
+  "You have crawled around in some little holes and wound up back in the
 main passage.")
 
 (define-location 'witt
@@ -637,12 +637,12 @@ main passage.")
   '(witt-hint)
   (make-inst loop-rmk 95 '(E N SOUTH NE SE SW NW U D))
   (make-inst 'ante 0 '(E))
-  (make-inst "You have crawled around in some little holes and found your way\n\
+  (make-inst "You have crawled around in some little holes and found your way
 blocked by a recent cave-in.  You are now back in the main passage." 0 '(W))
   )
 
 (define-location 'bedquilt
-  "You are in Bedquilt, a long east/west passage with holes everywhere.\n\
+  "You are in Bedquilt, a long east/west passage with holes everywhere.
 To explore at random select north, south, up, or down."
   "You're in Bedquilt."
   '()
@@ -661,8 +661,8 @@ To explore at random select north, south, up, or down."
   )
 
 (define-location 'cheese
-  "You are in a room whose walls resemble Swiss cheese.  Obvious passages\n\
-go west, east, NE, and NW.  Part of the room is occupied by a large\n\
+  "You are in a room whose walls resemble Swiss cheese.  Obvious passages
+go west, east, NE, and NW.  Part of the room is occupied by a large
 bedrock block."
   "You're in Swiss cheese room."
   '()
@@ -676,7 +676,7 @@ bedrock block."
   )
 
 (define-location 'soft
-  "You are in the Soft Room.  The walls are covered with heavy curtains,\n\
+  "You are in the Soft Room.  The walls are covered with heavy curtains,
 the floor with a thick pile carpet.  Moss covers the ceiling."
   "You're in Soft Room."
   '()
@@ -684,10 +684,10 @@ the floor with a thick pile carpet.  Moss covers the ceiling."
   )
 
 (define-location 'e2pit
-  "You are at the east end of the Twopit Room.  The floor here is\n\
-littered with thin rock slabs, which make it easy to descend the pits.\n\
-There is a path here bypassing the pits to connect passages from east\n\
-and west.  There are holes all over, but the only big one is on the\n\
+  "You are at the east end of the Twopit Room.  The floor here is
+littered with thin rock slabs, which make it easy to descend the pits.
+There is a path here bypassing the pits to connect passages from east
+and west.  There are holes all over, but the only big one is on the
 wall directly over the west pit where you can't get to it."
   "You're at east end of Twopit Room."
   '()
@@ -697,7 +697,7 @@ wall directly over the west pit where you can't get to it."
   )
 
 (define-location 'w2pit
-  "You are at the west end of the Twopit Room.  There is a large hole in\n\
+  "You are at the west end of the Twopit Room.  There is a large hole in
 the wall above the pit at this end of the room."
   "You're at west end of Twopit Room."
   '()
@@ -708,7 +708,7 @@ the wall above the pit at this end of the room."
   )
 
 (define-location 'epit
-  "You are at the bottom of the eastern pit in the Twopit Room.  There is\n\
+  "You are at the bottom of the eastern pit in the Twopit Room.  There is
 a small pool of oil in one corner of the pit."
   "You're in east pit."
   '(liquid oil)
@@ -716,7 +716,7 @@ a small pool of oil in one corner of the pit."
   )
 
 (define-location 'wpit
-  "You are at the bottom of the western pit in the Twopit Room.  There is\n\
+  "You are at the bottom of the western pit in the Twopit Room.  There is
 a large hole in the wall about 25 feet above you."
   "You're in west pit."
   '()
@@ -726,8 +726,8 @@ a large hole in the wall about 25 feet above you."
   )
 
 (define-location 'narrow
-  "You are in a long, narrow corridor stretching out of sight to the\n\
-west.  At the eastern end is a hole through which you can see a\n\
+  "You are in a long, narrow corridor stretching out of sight to the
+west.  At the eastern end is a hole through which you can see a
 profusion of leaves."
   "You're in narrow corridor."
   '()
@@ -737,8 +737,8 @@ profusion of leaves."
   )
 
 (define-location 'giant
-  "You are in the Giant Room.  The ceiling here is too high up for your\n\
-lamp to show it.  Cavernous passages lead east, north, and south.  On\n\
+  "You are in the Giant Room.  The ceiling here is too high up for your
+lamp to show it.  Cavernous passages lead east, north, and south.  On
 the west wall is scrawled the inscription, \"FEE FIE FOE FOO\" [sic]."
   "You're in Giant Room."
   '()
@@ -764,8 +764,8 @@ the west wall is scrawled the inscription, \"FEE FIE FOE FOO\" [sic]."
   )
 
 (define-location 'falls
-  "You are in a magnificent cavern with a rushing stream, which cascades\n\
-over a sparkling waterfall into a roaring whirlpool that disappears\n\
+  "You are in a magnificent cavern with a rushing stream, which cascades
+over a sparkling waterfall into a roaring whirlpool that disappears
 through a hole in the floor.  Passages exit to the south and west."
   "You're in cavern with waterfall."
   '(liquid)
@@ -775,8 +775,8 @@ through a hole in the floor.  Passages exit to the south and west."
   )
 
 (define-location 'steep
-  "You are at the top of a steep incline above a large room.  You could\n\
-climb down here, but you would not be able to climb up.  There is a\n\
+  "You are at the top of a steep incline above a large room.  You could
+climb down here, but you would not be able to climb up.  There is a
 passage leading back to the north."
   "You're at steep incline above large room."
   '()
@@ -794,8 +794,8 @@ passage leading back to the north."
   )
 
 (define-location 'sjunc
-  "You are in a secret canyon at a junction of three canyons, bearing\n\
-north, south, and SE.  The north one is as tall as the other two\n\
+  "You are in a secret canyon at a junction of three canyons, bearing
+north, south, and SE.  The north one is as tall as the other two
 combined."
   "You're at junction of three secret canyons."
   '()
@@ -805,8 +805,8 @@ combined."
   )
 
 (define-location 'tite
-  "A large stalactite extends from the roof and almost reaches the floor\n\
-below.  You could climb down it, and jump from it to the floor, but\n\
+  "A large stalactite extends from the roof and almost reaches the floor
+below.  You could climb down it, and jump from it to the floor, but
 having done so you would be unable to reach it to climb back up."
   "You're on top of stalactite."
   '()
@@ -834,12 +834,12 @@ having done so you would be unable to reach it to climb back up."
   )
 
 (define-location 'window
-  "You're at a low window overlooking a huge pit, which extends up out of\n\
-sight.  A floor is indistinctly visible over 50 feet below.  Traces of\n\
-white mist cover the floor of the pit, becoming thicker to the left.\n\
-Marks in the dust around the window would seem to indicate that\n\
-someone has been here recently.  Directly across the pit from you and\n\
-25 feet away there is a similar window looking into a lighted room.\n\
+  "You're at a low window overlooking a huge pit, which extends up out of
+sight.  A floor is indistinctly visible over 50 feet below.  Traces of
+white mist cover the floor of the pit, becoming thicker to the left.
+Marks in the dust around the window would seem to indicate that
+someone has been here recently.  Directly across the pit from you and
+25 feet away there is a similar window looking into a lighted room.
 A shadowy figure can be seen there peering back at you."
   "You're at window on pit."
   '()
@@ -848,8 +848,8 @@ A shadowy figure can be seen there peering back at you."
   )
 
 (define-location 'oriental
-  "This is the Oriental Room.  Ancient oriental cave drawings cover the\n\
-walls.  A gently sloping passage leads upward to the north, another\n\
+  "This is the Oriental Room.  Ancient oriental cave drawings cover the
+walls.  A gently sloping passage leads upward to the north, another
 passage leads SE, and a hands-and-knees crawl leads west."
   "You're in Oriental Room."
   '()
@@ -859,9 +859,9 @@ passage leads SE, and a hands-and-knees crawl leads west."
   )
 
 (define-location 'misty
-  "You are following a wide path around the outer edge of a large cavern.\n\
-Far below, through a heavy white mist, strange splashing noises can be\n\
-heard.  The mist rises up through a fissure in the ceiling.  The path\n\
+  "You are following a wide path around the outer edge of a large cavern.
+Far below, through a heavy white mist, strange splashing noises can be
+heard.  The mist rises up through a fissure in the ceiling.  The path
 exits to the south and west."
   "You're in misty cavern."
   '()
@@ -870,8 +870,8 @@ exits to the south and west."
   )
 
 (define-location 'alcove
-  "You are in an alcove.  A small NW path seems to widen after a short\n\
-distance.  An extremely tight tunnel leads east.  It looks like a very\n\
+  "You are in an alcove.  A small NW path seems to widen after a short
+distance.  An extremely tight tunnel leads east.  It looks like a very
 tight squeeze.  An eerie light can be seen at the other end."
   "You're in alcove."
   '(dark-hint)
@@ -881,7 +881,7 @@ tight squeeze.  An eerie light can be seen at the other end."
   )
 
 (define-location 'proom
-  "You're in a small chamber lit by an eerie green light.  An extremely\n\
+  "You're in a small chamber lit by an eerie green light.  An extremely
 narrow tunnel exits to the west.  A dark corridor leads NE."
   "You're in Plover Room."
   '(lighted dark-hint)
@@ -900,10 +900,10 @@ narrow tunnel exits to the west.  A dark corridor leads NE."
   )
 
 (define-location 'slab
-  "You are in a large low circular chamber whose floor is an immense slab\n\
-fallen from the ceiling (Slab Room).  There once were large passages\n\
-to the east and west, but they are now filled with boulders.  Low\n\
-small passages go north and south, and the south one quickly bends\n\
+  "You are in a large low circular chamber whose floor is an immense slab
+fallen from the ceiling (Slab Room).  There once were large passages
+to the east and west, but they are now filled with boulders.  Low
+small passages go north and south, and the south one quickly bends
 east around the boulders."
   "You're in Slab Room."
   '()
@@ -924,12 +924,12 @@ east around the boulders."
   )
 
 (define-location 'mirror
-  "You are in a north/south canyon about 25 feet across.  The floor is\n\
-covered by white mist seeping in from the north.  The walls extend\n\
-upward for well over 100 feet.  Suspended from some unseen point far\n\
-above you, an enormous two-sided mirror is hanging parallel to and\n\
-midway between the canyon walls.  (The mirror is obviously provided\n\
-for the use of the dwarves, who as you know are extremely vain.)\n\
+  "You are in a north/south canyon about 25 feet across.  The floor is
+covered by white mist seeping in from the north.  The walls extend
+upward for well over 100 feet.  Suspended from some unseen point far
+above you, an enormous two-sided mirror is hanging parallel to and
+midway between the canyon walls.  (The mirror is obviously provided
+for the use of the dwarves, who as you know are extremely vain.)
 A small window can be seen in either wall, some fifty feet up."
   "You're in mirror canyon."
   '()
@@ -938,10 +938,10 @@ A small window can be seen in either wall, some fifty feet up."
   )
 
 (define-location 'res
-  "You are at the edge of a large underground reservoir.  An opaque cloud\n\
-of white mist fills the room and rises rapidly upward.  The lake is\n\
-fed by a stream, which tumbles out of a hole in the wall about 10 feet\n\
-overhead and splashes noisily into the water somewhere within the\n\
+  "You are at the edge of a large underground reservoir.  An opaque cloud
+of white mist fills the room and rises rapidly upward.  The lake is
+fed by a stream, which tumbles out of a hole in the wall about 10 feet
+overhead and splashes noisily into the water somewhere within the
 mist.  The only passage goes back toward the south."
   "You're at reservoir."
   '(liquid)
@@ -973,8 +973,8 @@ mist.  The only passage goes back toward the south."
   )
 
 (define-location 'secret
-  "You are in a secret canyon, which here runs E/W.  It crosses over a\n\
-very tight canyon 15 feet below.  If you go down you may not be able\n\
+  "You are in a secret canyon, which here runs E/W.  It crosses over a
+very tight canyon 15 feet below.  If you go down you may not be able
 to get back up."
   "You're in secret E/W canyon above tight canyon."
   '()
@@ -1000,7 +1000,7 @@ to get back up."
   )
 
 (define-location 'tall
-  "You are in a tall E/W canyon.  A low tight crawl goes 3 feet north and\n\
+  "You are in a tall E/W canyon.  A low tight crawl goes 3 feet north and
 seems to open up."
   "You're in tall E/W canyon."
   '()
@@ -1017,7 +1017,7 @@ seems to open up."
   )
 
 (define-location 'scorr
-  "You are in a long winding corridor sloping out of sight in both\n\
+  "You are in a long winding corridor sloping out of sight in both
 directions."
   "You're in sloping corridor."
   '()
@@ -1026,8 +1026,8 @@ directions."
   )
 
 (define-location 'swside
-  "You are on one side of a large, deep chasm.  A heavy white mist rising\n\
-up from below obscures all view of the far side.  A SW path leads away\n\
+  "You are on one side of a large, deep chasm.  A heavy white mist rising
+up from below obscures all view of the far side.  A SW path leads away
 from the chasm into a winding corridor."
   "You're on SW side of chasm."
   '()
@@ -1077,7 +1077,7 @@ from the chasm into a winding corridor."
 
 
 (define-location 'neside
-  "You are on the far side of the chasm.  A NE path leads away from the\n\
+  "You are on the far side of the chasm.  A NE path leads away from the
 chasm on this side."
   "You're on NE side of chasm."
   '()
@@ -1091,7 +1091,7 @@ chasm on this side."
   )
 
 (define-location 'corr
-  "You're in a long east/west corridor.  A faint rumbling noise can be\n\
+  "You're in a long east/west corridor.  A faint rumbling noise can be
 heard in the distance."
   "You're in corridor."
   '()
@@ -1102,8 +1102,8 @@ heard in the distance."
   )
 
 (define-location 'fork
-  "The path forks here.  The left fork leads northeast.  A dull rumbling\n\
-seems to get louder in that direction.  The right fork leads southeast\n\
+  "The path forks here.  The left fork leads northeast.  A dull rumbling
+seems to get louder in that direction.  The right fork leads southeast
 down a gentle slope.  The main corridor enters from the west."
   "You're at fork in path."
   '()
@@ -1115,8 +1115,8 @@ down a gentle slope.  The main corridor enters from the west."
   )
 
 (define-location 'warm
-  "The walls are quite warm here.  From the north can be heard a steady\n\
-roar, so loud that the entire cave seems to be trembling.  Another\n\
+  "The walls are quite warm here.  From the north can be heard a steady
+roar, so loud that the entire cave seems to be trembling.  Another
 passage leads south, and a low crawl goes east."
   "You're at junction with warm walls."
   '()
@@ -1126,24 +1126,24 @@ passage leads south, and a low crawl goes east."
   )
 
 (define-location 'view
-  "You are on the edge of a breath-taking view.  Far below you is an\n\
-active volcano, from which great gouts of molten lava come surging\n\
-out, cascading back down into the depths.  The glowing rock fills the\n\
-farthest reaches of the cavern with a blood-red glare, giving every-\n\
-thing an eerie, macabre appearance.  The air is filled with flickering\n\
-sparks of ash and a heavy smell of brimstone.  The walls are hot to\n\
-the touch, and the thundering of the volcano drowns out all other\n\
-sounds.  Embedded in the jagged roof far overhead are myriad twisted\n\
-formations, composed of pure white alabaster, which scatter the murky\n\
-light into sinister apparitions upon the walls.  To one side is a deep\n\
-gorge, filled with a bizarre chaos of tortured rock that seems to have\n\
-been crafted by the Devil himself.  An immense river of fire crashes\n\
-out from the depths of the volcano, burns its way through the gorge,\n\
-and plummets into a bottomless pit far off to your left.  To the\n\
-right, an immense geyser of blistering steam erupts continuously\n\
-from a barren island in the center of a sulfurous lake, which bubbles\n\
-ominously.  The far right wall is aflame with an incandescence of its\n\
-own, which lends an additional infernal splendor to the already\n\
+  "You are on the edge of a breath-taking view.  Far below you is an
+active volcano, from which great gouts of molten lava come surging
+out, cascading back down into the depths.  The glowing rock fills the
+farthest reaches of the cavern with a blood-red glare, giving every-
+thing an eerie, macabre appearance.  The air is filled with flickering
+sparks of ash and a heavy smell of brimstone.  The walls are hot to
+the touch, and the thundering of the volcano drowns out all other
+sounds.  Embedded in the jagged roof far overhead are myriad twisted
+formations, composed of pure white alabaster, which scatter the murky
+light into sinister apparitions upon the walls.  To one side is a deep
+gorge, filled with a bizarre chaos of tortured rock that seems to have
+been crafted by the Devil himself.  An immense river of fire crashes
+out from the depths of the volcano, burns its way through the gorge,
+and plummets into a bottomless pit far off to your left.  To the
+right, an immense geyser of blistering steam erupts continuously
+from a barren island in the center of a sulfurous lake, which bubbles
+ominously.  The far right wall is aflame with an incandescence of its
+own, which lends an additional infernal splendor to the already
 hellish scene.  A dark, foreboding passage exits to the south."
   "You're at breath-taking view."
   '(lighted)
@@ -1153,9 +1153,9 @@ hellish scene.  A dark, foreboding passage exits to the south."
   )
 
 (define-location 'chamber
-  "You are in a small chamber filled with large boulders.  The walls are\n\
-very warm, causing the air in the room to be almost stifling from the\n\
-heat.  The only exit is a crawl heading west, through which a low\n\
+  "You are in a small chamber filled with large boulders.  The walls are
+very warm, causing the air in the room to be almost stifling from the
+heat.  The only exit is a crawl heading west, through which a low
 rumbling noise is coming."
   "You're in chamber of boulders."
   '()
@@ -1165,7 +1165,7 @@ rumbling noise is coming."
   )
 
 (define-location 'lime
-  "You are walking along a gently sloping north/south passage lined with\n\
+  "You are walking along a gently sloping north/south passage lined with
 oddly shaped limestone formations."
   "You're in limestone passage."
   '()
@@ -1175,7 +1175,7 @@ oddly shaped limestone formations."
   )
 
 (define-location 'fbarr
-  "You are standing at the entrance to a large, barren room.  A sign\n\
+  "You are standing at the entrance to a large, barren room.  A sign
 posted above the entrance reads:  \"CAUTION!  BEAR IN ROOM!\""
   "You're in front of barren room."
   '()
@@ -1186,8 +1186,8 @@ posted above the entrance reads:  \"CAUTION!  BEAR IN ROOM!\""
   )
 
 (define-location 'barr
-  "You are inside a barren room.  The center of the room is completely\n\
-empty except for some dust.  Marks in the dust lead away toward the\n\
+  "You are inside a barren room.  The center of the room is completely
+empty except for some dust.  Marks in the dust lead away toward the
 far end of the room.  The only exit is the way you came in."
   "You're in barren room."
   '()
@@ -1197,16 +1197,16 @@ far end of the room.  The only exit is the way you came in."
   )
 
 (define-location 'neend
-  "You are at the northeast end of an immense room, even larger than the\n\
-Giant Room.  It appears to be a repository for the \"Adventure\"\n\
-program.  Massive torches far overhead bathe the room with smoky\n\
-yellow light.  Scattered about you can be seen a pile of bottles (all\n\
-of them empty), a nursery of young beanstalks murmuring quietly, a bed\n\
-of oysters, a bundle of black rods with rusty stars on their ends, and\n\
-a collection of brass lanterns.  Off to one side a great many dwarves\n\
-are sleeping on the floor, snoring loudly.  A sign nearby reads:  \"DO\n\
-NOT DISTURB THE DWARVES!\"  An immense mirror is hanging against one\n\
-wall, and stretches to the other end of the room, where various other\n\
+  "You are at the northeast end of an immense room, even larger than the
+Giant Room.  It appears to be a repository for the \"Adventure\"
+program.  Massive torches far overhead bathe the room with smoky
+yellow light.  Scattered about you can be seen a pile of bottles (all
+of them empty), a nursery of young beanstalks murmuring quietly, a bed
+of oysters, a bundle of black rods with rusty stars on their ends, and
+a collection of brass lanterns.  Off to one side a great many dwarves
+are sleeping on the floor, snoring loudly.  A sign nearby reads:  \"DO
+NOT DISTURB THE DWARVES!\"  An immense mirror is hanging against one
+wall, and stretches to the other end of the room, where various other
 sundry objects can be glimpsed dimly in the distance."
   "You're at NE end."
   '(lighted)
@@ -1214,13 +1214,13 @@ sundry objects can be glimpsed dimly in the distance."
   )
 
 (define-location 'swend
-  "You are at the southwest end of the repository.  To one side is a pit\n\
-full of fierce green snakes.  On the other side is a row of small\n\
-wicker cages, each of which contains a little sulking bird.  In one\n\
-corner is a bundle of black rods with rusty marks on their ends.\n\
-A large number of velvet pillows are scattered about on the floor.\n\
-A vast mirror stretches off to the northeast.  At your feet is a\n\
-large steel grate, next to which is a sign that reads, \"TREASURE\n\
+  "You are at the southwest end of the repository.  To one side is a pit
+full of fierce green snakes.  On the other side is a row of small
+wicker cages, each of which contains a little sulking bird.  In one
+corner is a bundle of black rods with rusty marks on their ends.
+A large number of velvet pillows are scattered about on the floor.
+A vast mirror stretches off to the northeast.  At your feet is a
+large steel grate, next to which is a sign that reads, \"TREASURE
 VAULT.  KEYS IN MAIN OFFICE.\""
   "You're at SW end."
   '(lighted)
@@ -1272,7 +1272,7 @@ VAULT.  KEYS IN MAIN OFFICE.\""
   )
 
 (define-location 'thru
-  "You have crawled through a very low wide passage parallel to and north\n\
+  "You have crawled through a very low wide passage parallel to and north
 of the Hall of Mists."
   #f
   '()
@@ -1280,7 +1280,7 @@ of the Hall of Mists."
   )
 
 (define-location 'duck
-  "You have crawled through a very low wide passage parallel to and north\n\
+  "You have crawled through a very low wide passage parallel to and north
 of the Hall of Mists."
   #f
   '()
@@ -1288,7 +1288,7 @@ of the Hall of Mists."
   )
 
 (define-location 'sewer
-  "The stream flows out through a pair of 1-foot-diameter sewer pipes.\n\
+  "The stream flows out through a pair of 1-foot-diameter sewer pipes.
 It would be advisable to use the exit."
   #f
   '()
