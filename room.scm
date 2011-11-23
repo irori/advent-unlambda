@@ -1232,43 +1232,43 @@ VAULT.  KEYS IN MAIN OFFICE.\""
   "The crack is far too small for you to follow."
   #f
   '()
-  (make-inst 'spit 0 '())
+  (make-inst 'spit 0 'force)
   )
 
 (define-location 'neck
   "You are at the bottom of the pit with a broken neck."
   #f
   '()
-  (make-inst 'limbo 0 '())
+  (make-inst 'limbo 0 'force)
   )
 
 (define-location 'lose "You didn't make it." #f '()
-  (make-inst 'limbo 0 '()))
+  (make-inst 'limbo 0 'force))
 
 (define-location 'cant
   "The dome is unclimbable."
   #f
   '()
-  (make-inst 'emist 0 '())
+  (make-inst 'emist 0 'force)
   )
 
 (define-location 'climb
   "You clamber up the plant and scurry through the hole at the top."
   #f
   '()
-  (make-inst 'narrow 0 '())
+  (make-inst 'narrow 0 'force)
   )
 
 (define-location 'check #f #f '()
-  (make-inst 'upnout (cond-not 'PLANT 2) '())
-  (make-inst 'didit 0 '())
+  (make-inst 'upnout (cond-not 'PLANT 2) 'force)
+  (make-inst 'didit 0 'force)
   )
 
 (define-location 'snaked
   "You can't get by the snake."
   #f
   '()
-  (make-inst 'hmk 0 '())
+  (make-inst 'hmk 0 'force)
   )
 
 (define-location 'thru
@@ -1276,7 +1276,7 @@ VAULT.  KEYS IN MAIN OFFICE.\""
 of the Hall of Mists."
   #f
   '()
-  (make-inst 'wmist 0 '())
+  (make-inst 'wmist 0 'force)
   )
 
 (define-location 'duck
@@ -1284,7 +1284,7 @@ of the Hall of Mists."
 of the Hall of Mists."
   #f
   '()
-  (make-inst 'wfiss 0 '())
+  (make-inst 'wfiss 0 'force)
   )
 
 (define-location 'sewer
@@ -1292,21 +1292,21 @@ of the Hall of Mists."
 It would be advisable to use the exit."
   #f
   '()
-  (make-inst 'house 0 '())
+  (make-inst 'house 0 'force)
   )
 
 (define-location 'upnout
   "There is nothing here to climb.  Use \"up\" or \"out\" to leave the pit."
   #f
   '()
-  (make-inst 'wpit 0 '())
+  (make-inst 'wpit 0 'force)
   )
 
 (define-location 'didit
   "You have climbed up the plant and out of the pit."
   #f
   '()
-  (make-inst 'w2pit 0 '())
+  (make-inst 'w2pit 0 'force)
   )
 
 (add-unl-macro!
@@ -1330,7 +1330,7 @@ It would be advisable to use the exit."
             (compress-list (map motion-code insts)))))
 
 (define (compile-travel-matcher insts)
-  (if (null? (inst-words (car insts)))  ; forced move?
+  (if (eq? 'force (inst-words (car insts)))
       '(repeat c0)
       (let ((v (make-vector (+ 1 (lookup-enum 'NOWHERE)) 'V)))
         (for-each-with-index
