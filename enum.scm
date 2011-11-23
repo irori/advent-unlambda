@@ -1,7 +1,6 @@
 (use gauche.sequence)
 (require "unlc.scm")
 (require "lib.scm")
-(require "churchnum.scm")
 
 (define enum-table (make-hash-table))
 

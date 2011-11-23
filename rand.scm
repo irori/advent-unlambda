@@ -1,7 +1,6 @@
 #!/usr/local/bin/gosh -I.
 (require "unlc.scm")
 (require "lib.scm")
-(require "churchnum.scm")
 
 (defmacro (xor a b)
   (a (b (K I) K) b))

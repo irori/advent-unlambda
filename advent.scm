@@ -8,7 +8,6 @@
 
 (require "unlc.scm")
 (require "lib.scm")
-(require "churchnum.scm")
 
 (require "parser.scm")
 (require "rand.scm")
