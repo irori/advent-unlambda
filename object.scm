@@ -238,14 +238,12 @@ the oyster.")
 
 (defmacro (objects-here world)
   (let ((loc (location world)))
-    ((lambda (x) (x x))
-     (lambda (rec lst n)
-       (lst
-        (lambda (hd tl)
-          ((if (= hd loc) (cons n) I)
-           (rec rec tl (succ n))))))
-     (place world)
-     c0)))
+    (let loop ((lst (place world))
+               (n c0))
+      (lst
+       (lambda (hd tl)
+         ((*if* (= hd loc) (icons n) I)
+          (loop tl (succ n))))))))
 (defmacro $objects-here (objects-here world))
 
 (defmacro (objects-toting world)
@@ -253,7 +251,7 @@ the oyster.")
              (n c1))
     (lst
      (lambda (hd tl)
-       ((if (churchnum? hd) I (cons n))
+       ((*if* (churchnum? hd) I (icons n))
         (loop tl (succ n)))))))
 (defmacro $objects-toting (objects-toting world))
 
