@@ -190,7 +190,8 @@ the oyster.")
 (add-unl-macro!
  'initial-base '()
  (compress-list (map (lambda (x) (if (undefined? x) 'V (churchnum x)))
-		     object-base)))
+		     object-base)
+                #t))
 
 (add-unl-macro!
  'initial-prop '()
@@ -198,12 +199,14 @@ the oyster.")
 		       (if (or (undefined? x) (< x 0))
 			   'V
 			   (churchnum x)))
-		     object-prop)))
+		     object-prop)
+                #t))
 
 (add-unl-macro!
  'initial-place '()
  (compress-list (map (lambda (x) (if (undefined? x) 'V (churchnum x)))
-		     object-place)))
+		     object-place)
+                #t))
 
 (add-unl-macro!
  'objname '()

@@ -1341,8 +1341,7 @@ It would be advisable to use the exit."
                   (vector-set! v w (churchnum i))))
             (map lookup-enum (inst-words inst))))
          insts)
-        (compress-list (reverse (drop-while (pa$ eq? 'V)
-                                            (reverse (vector->list v))))))))
+        (compress-list (vector->list v)))))
 
 ;; env -> env
 (define (motion-code inst)

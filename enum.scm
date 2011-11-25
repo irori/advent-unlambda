@@ -98,13 +98,15 @@
 	 alist)
 	(compress-list (vector->list vec)))))
 
-(define (compress-list lst)
+(define (compress-list lst :optional (keep-trailing-Vs #f))
   (if (null? lst)
       'V
       (let ((e (car lst)))
-	(call-with-values (lambda () (span (lambda (x) (equal? x e)) lst))
-	  (lambda (head rest)
-	    (let ((n (length head)))
-	      (if (= n 1)
-		  `(icons ,e ,(compress-list rest))
-		  `(,(churchnum n) (icons ,e) ,(compress-list rest)))))))))
+        (receive (head rest) (span (lambda (x) (equal? x e)) lst)
+          (if (and (not keep-trailing-Vs) (eq? e 'V) (null? rest))
+              'V
+              (let ((n (length head))
+                    (r (compress-list rest keep-trailing-Vs)))
+                (if (= n 1)
+                    `(icons ,e ,r)
+                    `(,(churchnum n) (icons ,e) ,r))))))))
