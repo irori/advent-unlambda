@@ -15,7 +15,7 @@
 
 (define room-desc (make-vector (+ 1 max-loc) #f))
 (define loc-flags (make-vector (+ 1 max-loc)))
-(define travels (make-vector (+ 1 max-loc)))
+(define travels (make-vector (+ 1 max-loc) #f))
 
 (define-record-type inst #t #t
   dest cond words)
@@ -1323,11 +1323,11 @@ It would be advisable to use the exit."
 		      room-desc))))
 
 (define (compile-insts insts)
-  (if (undefined? insts)
-      'V
+  (if insts
       (list 'icons
             (compile-travel-matcher insts)
-            (compress-list (map motion-code insts)))))
+            (compress-list (map motion-code insts)))
+      'V))
 
 (define (compile-travel-matcher insts)
   (if (eq? 'force (inst-words (car insts)))
@@ -1416,7 +1416,7 @@ It would be advisable to use the exit."
 (define (print-back-table)
   (for-each-with-index
    (lambda (index insts)
-     (if (or (undefined? insts) (>= index min-forced-loc))
+     (if (or (not insts) (>= index min-forced-loc))
          #f
          (print (cons index (compile-back-table (make-back-table index insts))))))
    travels))
@@ -1427,13 +1427,13 @@ It would be advisable to use the exit."
   "backtbl.unlo"
   (compress-list (map-with-index
 		  (lambda (i insts)
-		    (if (or (undefined? insts) (>= i min-forced-loc))
+		    (if (or (not insts) (>= i min-forced-loc))
 			'V
 			(compile-back-table (make-back-table i insts))))
 		  travels))))
 
 (define (make-dwarf-moves here insts)
-  (if (or (undefined? insts) (< here min-lower-loc) (>= here min-forced-loc))
+  (if (or (not insts) (< here min-lower-loc) (>= here min-forced-loc))
       '()
       (fold
        (lambda (inst a)
@@ -1452,7 +1452,7 @@ It would be advisable to use the exit."
 (define (print-dwarf-moves)
   (for-each-with-index
    (lambda (index insts)
-     (if (or (undefined? insts) (>= index min-forced-loc))
+     (if (or (not insts) (>= index min-forced-loc))
          #f
          (print (cons index (make-dwarf-moves index insts)))))
    travels))

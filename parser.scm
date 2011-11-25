@@ -207,7 +207,7 @@
 (define-word 'action-type 'SCORE "score")
 (define-word 'action-type 'QUIT "quit")
 
-(define default-msg (make-vector 30))
+(define default-msg (make-vector 30 #f))
 
 (define (set-default-msg verb msg)
   (vector-set! default-msg (lookup-enum verb) msg))
@@ -251,7 +251,7 @@ things.  I cannot tell you where remote things are.")
 
 (add-unl-macro!
  'default-msg '()
- (compress-list (map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+ (compress-list (map (lambda (x) (if x (list 'string x) 'V))
 		     default-msg)))
 
 (define messages '())

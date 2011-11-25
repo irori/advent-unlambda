@@ -7,18 +7,16 @@
 (define max-obj (lookup-enum 'CHAIN))
 (defmacro max-obj CHAIN)
 
-(define object-base (make-vector (+ 2 max-obj)))
-(define object-prop (make-vector (+ 1 max-obj)))
-(define object-place (make-vector (+ 1 max-obj)))
-(define object-name (make-vector (+ 1 max-obj)))
-(define object-note (make-vector (+ 1 max-obj)))
+(define object-base (make-vector (+ 2 max-obj) #f))
+(define object-place (make-vector (+ 1 max-obj) #f))
+(define object-name (make-vector (+ 1 max-obj) #f))
+(define object-note (make-vector (+ 1 max-obj) #f))
 
 (define (new-obj obj name base loc . notes)
   (let ((n (lookup-enum obj)))
     (if name (vector-set! object-name n name))
     (vector-set! object-base n (if base (lookup-enum base) 0))
     (vector-set! object-note n notes)
-    (vector-set! object-prop n (if (treasure? obj) -1 0))
     (vector-set! object-place n (lookup-enum loc))))
 
 ;; two-part objects
@@ -189,28 +187,25 @@ the oyster.")
 
 (add-unl-macro!
  'initial-base '()
- (compress-list (map (lambda (x) (if (undefined? x) 'V (churchnum x)))
+ (compress-list (map (lambda (x) (if x (churchnum x) 'V))
 		     object-base)
                 #t))
 
 (add-unl-macro!
  'initial-prop '()
- (compress-list (map (lambda (x)
-		       (if (or (undefined? x) (< x 0))
-			   'V
-			   (churchnum x)))
-		     object-prop)
+ (compress-list (map (lambda (i) (if (>= i min-treasure) 'V 'c0))
+                     (iota (+ 1 max-obj)))
                 #t))
 
 (add-unl-macro!
  'initial-place '()
- (compress-list (map (lambda (x) (if (undefined? x) 'V (churchnum x)))
+ (compress-list (map (lambda (x) (if x (churchnum x) 'V))
 		     object-place)
                 #t))
 
 (add-unl-macro!
  'objname '()
- (compress-list (map (lambda (x) (if (undefined? x) 'V (list 'string x)))
+ (compress-list (map (lambda (x) (if x (list 'string x) 'V))
 		     object-name)))
 
 (add-unl-macro!
@@ -218,11 +213,11 @@ the oyster.")
  (compile-to-file
   "note.unlo"
   (compress-list (map (lambda (lst)
-			(if (undefined? lst)
-			    'V
+			(if lst
 			    (cons 'list
 				  (map (lambda (x) (if x (list 'string x) 'V))
-				       lst))))
+				       lst))
+			    'V))
 		      object-note))))
 
 (defmacro (toting? object world)
