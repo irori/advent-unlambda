@@ -8,7 +8,7 @@
 
 (require "unlc.scm")
 (require "lib.scm")
-
+(require "enum.scm")
 (require "parser.scm")
 (require "rand.scm")
 (require "variable.scm")
