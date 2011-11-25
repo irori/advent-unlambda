@@ -80,12 +80,12 @@
 	 (cs (string->list (substring s 0 (- len 1)))))
     `(delay ,(fold list lastc cs))))
 
-(defmacro (print s)
-  ((string s) I))
-
 (defsyntax (print$ s e)
   ; (print$ "abc" e) => (#\c (#\b (#\a e)))
   (fold list e (string->list s)))
+
+(defmacro (print s)
+  (print$ s I))
 
 ;; boolean functions
 (defmacro not
