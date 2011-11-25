@@ -477,29 +477,3 @@ unless you explicitly ask me to.")
             skip-until-newline
             (print " Please answer Yes or No.\n"))))))
      skip-until-newline))
-
-(defmacro parser-main
-  (call/cc
-   (lambda (q)
-     ((listen
-      (lambda (w1 w2)
-        ((print-digit (word-meaning w1) I)
-         (#\space I)
-         ((message-word? w1)
-          (nth (word-meaning w1) message) I
-          #\space I)
-         (if (word? w2)
-             (print-digit (word-meaning w2) I)
-           ((string "none") I))
-         (q I))))
-      ((string "what?") I)))))
-
-(defmacro yes-test
-  (if (yes (string "question") (string "yes") (string "no"))
-      (print "foo\n")
-      (print "bar\n"))
-  )
-
-(define (main args)
-  (print-as-unl 'yes-test)
-  0)

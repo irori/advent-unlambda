@@ -32,7 +32,7 @@
 	  (dbl (random (1-of-1 n) bs)))))
       ((car bits) c1 c0)))
 
-; Randomely select an element from lst
+; Randomly select an element from lst
 (defmacro (random-select lst bits)
   (let ((n (to-cons1 (random (to-cons1 c5) bits))))
     (let loop ((n n)
