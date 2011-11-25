@@ -10,46 +10,6 @@
 (define-macro (atom? x)
   `(not (pair? ,x)))
 
-(define (make-letrec-env bindings)
-  (let ((fs (map car bindings)))
-    (map (lambda (binding)
-	   (let ((f (car binding)))
-	     (cons f `((*env* (lambda ,fs ,f)) *env*))))
-	 bindings)))
-
-(define (eliminate-letrec-aux x env)
-  (cond
-   ((or (atom? x) (null? x))
-    (let ((a (assq x env)))
-      (if a
-	  (cdr a)
-	  x)))
-   ((eq? (car x) 'lambda)
-    (let ((vars (cadr x))
-	  (body (caddr x)))
-      `(lambda ,vars
-	 ,(eliminate-letrec-aux body (filter (lambda (x)
-					       (not (memq (car x) vars)))
-					     env)))))
-   ((eq? (car x) 'letrec)
-    (let ((bindings (cadr x))
-	  (body (caddr x)))
-      (let* ((fns (map car bindings))
-	     (new-env (append (make-letrec-env bindings) env)))
-	`((lambda (*env*)
-	    ,(eliminate-letrec-aux body new-env))
-	  (lambda (f)
-	    (f ,@(map (lambda (binding)
-			(let ((e (cadr binding)))
-			  `(lambda (*env*)
-			     ,(eliminate-letrec-aux e new-env))))
-		      bindings)))))))
-   (else
-    (map (lambda (x) (eliminate-letrec-aux x env)) x))))
-
-(define (eliminate-letrec x)
-  (eliminate-letrec-aux x '()))
-
 (define (eliminate-lambda-rec x)
   (match x
     (('lambda-rec name args body)
@@ -62,9 +22,6 @@
      (if (or (atom? x) (null? x))
 	 x
 	 (map eliminate-lambda-rec x)))))
-
-(define (eliminate-lets x)
-  (eliminate-letrec (eliminate-lambda-rec x)))
 
 (define (make-k arg)
   (if (eq? arg 'V)
@@ -228,7 +185,7 @@
 (define curried
   (compose optimize-curried
 	   curry
-	   eliminate-lets))
+	   eliminate-lambda-rec))
 
 (define compile
   (compose optimize-ski eliminate-lambda curried))
@@ -274,12 +231,6 @@
        `(lambda ,args ,(macroexpand (eliminate-names macros args) body)))
       (('lambda-rec name args body)
        `(lambda-rec ,name ,args ,(macroexpand (eliminate-names macros (cons name args)) body)))
-      (('letrec bindings body)
-       (let ((macros (eliminate-names macros (map car bindings))))
-	 `(letrec ,(map (lambda (binding)
-			  (list (car binding) (macroexpand macros (cadr binding))))
-			bindings)
-	   ,(macroexpand macros body))))
       ((func . args)
        (let ((macro (and (atom? func) (assq func macros))))
          (if macro
