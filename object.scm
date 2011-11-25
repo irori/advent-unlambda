@@ -10,7 +10,7 @@
 (define object-base (make-vector (+ 2 max-obj) #f))
 (define object-place (make-vector (+ 1 max-obj) #f))
 (define object-name (make-vector (+ 1 max-obj) #f))
-(define object-note (make-vector (+ 1 max-obj) #f))
+(define object-note (make-vector (+ 1 max-obj) '()))
 
 (define (new-obj obj name base loc . notes)
   (let ((n (lookup-enum obj)))
@@ -213,11 +213,9 @@ the oyster.")
  (compile-to-file
   "note.unlo"
   (compress-list (map (lambda (lst)
-			(if lst
-			    (cons 'list
-				  (map (lambda (x) (if x (list 'string x) 'V))
-				       lst))
-			    'V))
+                        (cons 'list
+                              (map (lambda (x) (if x (list 'string x) 'V))
+                                   lst)))
 		      object-note))))
 
 (defmacro (toting? object world)
