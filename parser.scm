@@ -2,8 +2,6 @@
 (use file.util)
 (require "enum.scm")
 
-(define ignore-case #t)
-
 (define parser-trie (make-tree-map char=? char<?))
 
 (define (trie-put! trie s k value)
@@ -34,8 +32,14 @@
         (words (if (string? (car rest)) rest (cdr rest))))
     (for-each
      (lambda (w)
-       (trie-put! parser-trie w 0 (list (lookup-enum type) m aux)))
+       (trie-put! parser-trie w 0 (compile-word (lookup-enum type) m aux)))
      words)))
+
+(define (compile-word type meaning aux)
+  `(lambda (f)
+     (f ,(churchnum type)
+        ,(churchnum meaning)
+        ,aux)))
 
 ;; motion vocabulary
 (define-word 'motion-type 'N "n" "north")
@@ -347,15 +351,6 @@ unless you explicitly ask me to.")
 
 (define-word 'special-type 0 "y" "yes")
 
-(define (defword word-data)
-  (let ((type (car word-data))
-        (meaning (cadr word-data))
-        (aux (caddr word-data)))
-    `(lambda (f)
-       (f ,(churchnum type)
-          ,(churchnum meaning)
-          ,aux))))
-
 (defmacro (reader-core cont)
   ((lambda (x) (x x))
    (lambda (rec p b)
@@ -377,13 +372,13 @@ unless you explicitly ask me to.")
          trie
          (lambda (ch t)
            (if (eq? ch #\null)
-               `((read-char=? #\space #\newline) reader V ,(defword t))
-               `(,(if (and ignore-case (char-alphabetic? ch))
+               `((read-char=? #\space #\newline) reader V ,t)
+               `(,(if (char-alphabetic? ch)
                       `(read-char=? ,(char-downcase ch) ,(char-upcase ch))
                       `(read-char=? ,ch))
                  ,@(if (is-a? t <tree-map>)
                        `(reader I ,(generate-parser-rec t))
-                       `(reader V ,(defword t)))))))
+                       `(reader V ,t))))))
       (reader V V))))
 
 (define (generate-parser)
