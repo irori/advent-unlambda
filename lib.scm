@@ -4,7 +4,6 @@
 (defmacro KI (K I))
 (defmacro (compose f g)
   (lambda (x) (f (g x))))
-(defmacro M (lambda (x) (x x)))
 (defmacro (T x y) (y x))
 
 ;; character predicates
@@ -126,7 +125,7 @@
 	`(icons ,(car args) ,(rec (cdr args))))))
 
 (defmacro (repeat x)
-  (M (lambda (rec) (icons x (rec rec)))))
+  (lambda-rec rec () (icons x rec)))
 
 (defmacro (cons1 x)
   (lambda (f) (f x)))
@@ -147,14 +146,14 @@
 
 ; (update-nth f n lst) replaces n-th value of lst with (f (nth n lst))
 (defmacro (update-nth f)
-  (M (lambda (_rec _n _lst)
-       (_lst
-        (*if* (cons1? _n)
-              (let ((next (_rec _rec (1-of-1 _n))))
-                (lambda (_hd _tl)
-                  (S (S I (K _hd)) (K (next _tl)))))
-              (lambda (_hd _tl)
-                ((snoc _tl) (f _hd))))))))
+  (lambda-rec _rec (_n _lst)
+    (_lst
+     (*if* (cons1? _n)
+           (let ((next (_rec (1-of-1 _n))))
+             (lambda (_hd _tl)
+               (S (S I (K _hd)) (K (next _tl)))))
+           (lambda (_hd _tl)
+             ((snoc _tl) (f _hd)))))))
 
 ;; Church number
 (require "./churchnum.tbl")
