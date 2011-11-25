@@ -437,7 +437,7 @@ unless you explicitly ask me to.")
    (lambda (return)
      ((lambda (x) (x x))
       (lambda (rec)
-        ((#\> I)
+        ((print "* ")
          (let ((words getin))
            (((pair? words) return words)
             (rec rec)))))))))
@@ -471,7 +471,7 @@ unless you explicitly ask me to.")
         ((call/cc I)
          (call/cc
           (begin
-            (q (string "\n>> ") @ I)
+            (q (string "\n** ") @ I)
             ((read-char=? #\y #\Y) y #\newline ret I)
             ((read-char=? #\n #\N) n #\newline ret V)
             skip-until-newline

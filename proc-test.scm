@@ -57,7 +57,7 @@
 		(display x))))
        lst))))
 
-(define yesno-prompt "\n>> ")
+(define yesno-prompt "\n** ")
 
 (defmacro (print-stars n)
   (#\{ n #\* #\} I))
