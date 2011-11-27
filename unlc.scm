@@ -23,11 +23,6 @@
 	 x
 	 (map eliminate-lambda-rec x)))))
 
-(define (make-k arg)
-  (if (eq? arg 'V)
-      'V
-      `(K ,arg)))
-
 (define (make-s arg1 arg2)
   (match (list arg1 arg2)
     ((('K gg) ('K hh)) (=> fail)
@@ -51,20 +46,20 @@
 	 'I)
 	((or (atom? body)
 	     (pass-through? body))
-	 (make-k body))
+	 (list 'K body))
 	((eq? (car body) 'lambda)
 	 (eliminate-abstruction var (eliminate-lambda body)))
 	((and (not (bound-in? var body))
 	      (not (contains-free-variables? body)))
 	 (let ((body (eliminate-lambda body)))
 	   (if (normalform? body)
-	       (make-k body)
-	       `(delay ,(make-k body)))))
+	       (list 'K body)
+	       `(delay (K ,body)))))
 	(else
 	 (let ((g (car body))
 	       (h (cadr body)))
 	   (if (eq? g 'delay)
-	       (make-k body)
+	       (list 'K body)
 	       (make-s (eliminate-abstruction var g)
 		       (eliminate-abstruction var h)))))))
 
@@ -121,14 +116,17 @@
   (if (pair? e)
       (let ((f (optimize-ski (car e)))
 	    (x (optimize-ski (cadr e))))
-	; (x (@ I)) => (@ x), (x (! I)) => (! x)
-	(if (and (not (eq? f 'delay))
-		 (pair? x)
-		 (or (eq? (car x) '@)
-		     (eq? (car x) '!))
-		 (eq? (cadr x) 'I))
-	    (list (car x) f)
-	    (list f x)))
+	(cond ((and (eq? f 'K)
+                    (eq? x 'V))
+               'V)  ; (K V) => V
+              ((and (not (eq? f 'delay))
+                    (pair? x)
+                    (or (eq? (car x) '@)
+                        (eq? (car x) '!))
+                    (eq? (cadr x) 'I))
+               (list (car x) f))  ; (x ([@!] I)) => ([@!] x)
+              (else
+               (list f x))))
       e))
 
 (define (unlambdify x)
