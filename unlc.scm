@@ -15,9 +15,10 @@
     (('lambda-rec name args body)
      `((lambda (x) (x x))
        (lambda (,name ,@args)
-	 ,(eliminate-lambda-rec (macroexpand (list (cons name (lambda (args)
-							     (append (list name name) args))))
-					  body)))))
+	 ,(eliminate-lambda-rec
+           (macroexpand (list (cons name (lambda (args)
+                                           (append (list name name) args))))
+                        body)))))
     (?-
      (if (or (atom? x) (null? x))
 	 x
@@ -282,11 +283,6 @@
 
 (define (print-as-unl expr :optional (port (current-output-port)))
   (write-tree (lambda->unlambda (macroexpand unl-macros expr)) port))
-
-(define (warn . objs)
-  (with-output-to-port (current-error-port)
-    (lambda ()
-      (apply print objs))))
 
 (define-macro (profiling expr)
   `(dynamic-wind
