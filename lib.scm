@@ -37,11 +37,12 @@
   ; (lambda (b) (call/cc (lambda (q) ((K (K I)) ((b q) K)))))
   ((S (K call/cc)) ((S (K (S (K (K (K I)))))) ((S S) (K (K K))))))
 
-(defsyntax (if condition consequent alternative)
-  `((*if*
-     ,condition
-     (lambda (**if-dummy**) ,consequent)
-     (lambda (**if-dummy**) ,alternative)) I))
+(defmacro (if condition consequent alternative)
+  ((*if*
+    condition
+    (lambda (**if-dummy**) consequent)
+    (lambda (**if-dummy**) alternative))
+   I))
 
 ; (cond (c1 b1) (c2 b2) ... (cn bn) [(else b)])
 (defsyntax (cond . clauses)
