@@ -193,8 +193,8 @@ the oyster.")
 
 (add-unl-macro!
  'initial-prop '()
- (compress-list (map (lambda (i) (if (>= i min-treasure) 'V 'c0))
-                     (iota (+ 1 max-obj)))
+ (compress-list (list-tabulate (+ 1 max-obj)
+                               (lambda (i) (if (>= i min-treasure) 'V 'c0)))
                 #t))
 
 (add-unl-macro!
