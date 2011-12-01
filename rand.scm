@@ -5,15 +5,6 @@
 (defmacro (xor a b)
   (a (b (K I) K) b))
 
-(defmacro (xor4 a b c d)
-  (xor (xor a b) (xor c d)))
-
-(defmacro rand-8
-  ((lambda-rec rec (b0 b1 b2 b3 b4 b5 b6 b7)
-     (icons b0
-            (rec b1 b2 b3 b4 b5 b6 b7 (xor4 b0 b2 b3 b4))))
-   K (K I) (K I) K K (K I) K (K I)))
-
 (defmacro rand-7
   ((lambda-rec rec (b0 b1 b2 b3 b4 b5 b6)
        (icons b0
@@ -39,18 +30,10 @@
             ((cons1? n) (loop (1-of-1 n) (cdr l)))
             (else (car l))))))
 
-(defmacro rand-main
-  (c100 (lambda (r)
-	  (begin
-	    (print-digit (rand (c5 cons1 V) r) I (#\newline I))
-	    (c6 cdr r)))
-        rand-8))
-
-(defmacro random-select-test
-  (c100 (lambda (bits)
-          (begin
-            ((random-select (list #\1 #\2 #\3 #\4 #\5) bits) I)
-            (c6 cdr bits)))
-        rand-7))
-
-;(print-as-unl 'random-select-test)
+(defsyntax (pct n world)
+  (let ((nn (round (/ (* n 64) 100))))
+    `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) I V)))
+(defsyntax (let-rand var n body)
+  `(let ((,var (pct ,n world))
+         (world (set-rand world (c6 cdr))))
+     ,body))

@@ -10,17 +10,8 @@
 (require "lib.scm")
 (require "enum.scm")
 (require "parser.scm")
-(require "rand.scm")
 (require "variable.scm")
-
-(defsyntax (pct n world)
-  (let ((nn (round (/ (* n 64) 100))))
-    `(if< (random (c5 cons1 V) (rand ,world)) ,(churchnum nn) I V)))
-(defsyntax (let-rand var n body)
-  `(let ((,var (pct ,n world))
-         (world (set-rand world (c6 cdr))))
-     ,body))
-
+(require "rand.scm")
 (require "object.scm")
 (require "room.scm")
 (require "dwarf.scm")
