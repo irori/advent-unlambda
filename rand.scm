@@ -16,6 +16,7 @@
 
 (defmacro initial-rand rand-7)
 
+; Generates a church number from head n-bits
 (defmacro (random n bits)
   (n
    (lambda (f bits)
@@ -36,9 +37,11 @@
             ((cons1? n) (loop (1-of-1 n) (cdr l)))
             (else (car l))))))
 
+; Returns true n% of the time.
 (defsyntax (pct n world)
   (let ((nn (round (/ (* n 64) 100))))
-    `(if< (random c5 (rand ,world)) ,(churchnum nn) I V)))
+    `(< (random c5 (rand ,world)) ,(churchnum nn))))
+
 (defsyntax (let-rand var n body)
   `(let ((,var (pct ,n world))
          (world (set-rand world (c6 cdr))))
