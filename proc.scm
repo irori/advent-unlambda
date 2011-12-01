@@ -25,7 +25,8 @@ For information on how to end your adventure, etc., type \"INFO\".
                         -  -  -
 The first adventure program was developed by Willie Crowther.
 Most of the features of the current program were added by Don Woods.
-This Unlambda version is a translation of Don Knuth's CWEB version."))
+This Unlambda version was done by Kunihiko Sakamoto (irorin@gmail.com).
+It is based on the CWEB version written by Don Knuth."))
 
 ; The entry point of the program
 (define-proc 'offer0
