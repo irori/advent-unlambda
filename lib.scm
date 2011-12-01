@@ -219,7 +219,7 @@
 (defmacro (>  m n) (if>  m n I V))
 (defmacro (<= m n) (if<= m n I V))
 (defmacro (>= m n) (if>= m n I V))
-(defmacro (= m n) ((m 1-of-1 (n cons1 KI)) V))
+(defmacro (= m n) ((m (T I) (n T KI)) V))
 
 (defmacro (div x y)
   (let rec ((xs (cons1 (x cons1 V))))
