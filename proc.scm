@@ -1521,7 +1521,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
 
 (defmacro kill-random-dwarf
   (lambda (world)
-    (let ((n (random (to-cons1 c3) $rand))
+    (let ((n (random c3 $rand))
           (world ($set-rand (c4 cdr))))
       (if (zero? n)
           world
@@ -1639,7 +1639,7 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
        (if (dseen dwf)
            (let-world (($set-nth-dwarf i (set-dloc $location)))
              (if (= (odloc dwf) $location)
-                 (let* ((n (random (to-cons1 c4) $rand))
+                 (let* ((n (random c4 $rand))
                         (next-stick
                          ((if< n (mul c3 (sub $dflag c2)) succ I) stick)))
                    (let-world (($set-knife-loc
