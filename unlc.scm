@@ -192,7 +192,7 @@
   (unlambdify (compile x)))
 
 (define (eliminate-names macros names)
-  (filter (lambda (macro) (not (member (car macro) names))) macros))
+  (filter (lambda (macro) (not (memq (car macro) names))) macros))
 
 (define (macroexpand-arg arg)
     (lambda (arg-args)
