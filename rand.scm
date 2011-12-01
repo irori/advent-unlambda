@@ -16,8 +16,8 @@
 
 (defmacro initial-rand rand-7)
 
-; Generates a church number from head n-bits
-(defmacro (random n bits)
+; (random n lst) generates a church number from head (n+1) bits of lst
+(defmacro (random n)
   (n
    (lambda (f bits)
      (bits
@@ -25,8 +25,7 @@
 	((b succ I)
 	 (dbl (f bs))))))
    (lambda (bits)
-     ((car bits) c1 c0))
-   bits))
+     ((car bits) c1 c0))))
 
 ; Randomly select an element from lst
 (defmacro (random-select lst bits)

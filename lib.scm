@@ -146,15 +146,14 @@
           (loop tl))))))
 
 ; (update-nth f n lst) replaces n-th value of lst with (f (nth n lst))
-(defmacro (update-nth f)
-  (lambda-rec _rec (_n _lst)
-    (_lst
-     (*if* (cons1? _n)
-           (let ((next (_rec (1-of-1 _n))))
-             (lambda (_hd _tl)
-               (S (S I (K _hd)) (K (next _tl)))))
-           (lambda (_hd _tl)
-             ((snoc _tl) (f _hd)))))))
+(defmacro (update-nth f n)
+  (n
+   (lambda (g lst)
+     (lst (lambda (hd tl)
+	    (S (S I (K hd)) (K (g tl))))))  ; (cons hd (g tl))
+   (lambda (_lst)
+     (_lst (lambda (_hd _tl)
+	    ((snoc _tl) (f _hd)))))))
 
 ;; Church number
 (require "./churchnum.tbl")
