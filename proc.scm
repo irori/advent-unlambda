@@ -2058,11 +2058,10 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
    (string "All of Adventuredom gives tribute to you, Adventure Grandmaster!")))
 
 (defmacro (rank-score score)
-  (let loop ((n c0)
-             (lst class-score))
+  (let loop ((lst class-score))
     (if (< score (car lst))
-        n
-        (loop (succ n) (cdr lst)))))
+        c0
+        (succ (loop (cdr lst))))))
 
 (define-proc 'quit
   `(lambda (world)
@@ -2083,12 +2082,13 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
              ((nth rank class-message) I)
              (print "\nTo achieve the next higher rating")
              (if (< rank highest-class)
-                 (begin
-                   (print ", you need ")
-                   ((itoa (sub (nth rank class-score) k)) I)
-                   (print " more point")
-                   ((if (= (succ k) (nth rank class-score)) I #\s) I)
-                   (print ".\n"))
+		 (let ((next-score (nth rank class-score)))
+		   (begin
+		     (print ", you need ")
+		     ((itoa (sub next-score k)) I)
+		     (print " more point")
+		     ((if (= (succ k) next-score) I #\s) I)
+		     (print ".\n")))
                  (print " would be a neat trick!\nCongratulations!!\n"))
              V))))))
 
