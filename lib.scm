@@ -83,10 +83,10 @@
   (define memo (make-hash-table))
   (define (check esize val chars)
     (let* ((ht (hash-table-get memo chars))
-           (size (hash-table-get ht val 99999))
-           (fsize (hash-table-get ht #f 99999)))
-      (if (or (<= size esize)
-              (and val (<= (+ fsize (chsize val)) esize)))
+           (size (hash-table-get ht val #f))
+           (fsize (hash-table-get ht #f #f)))
+      (if (or (and size (<= size esize))
+              (and val fsize (<= (+ fsize (chsize val)) esize)))
           #f
           (begin (hash-table-put! ht val esize)
                  #t))))
@@ -178,12 +178,13 @@
              (cs (string->list (substring s 0 (- len 1)))))
         `(delay ,(fold list lastc cs)))))
 
-(defsyntax (print$ s e)
-  ; (print$ "abc" e) => (#\c (#\b (#\a e)))
-  (fold list e (string->list s)))
+(defsyntax (print-and-return s e)
+  (if *compress-string*
+      (list (compress-string s) e)
+      (fold list e (string->list s))))
 
 (defmacro (print s)
-  (print$ s I))
+  (print-and-return s I))
 
 ;; boolean functions
 (defmacro not

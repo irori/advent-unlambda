@@ -429,7 +429,7 @@ unless you explicitly ask me to.")
              (skip-spaces
               ((?newline I) return (icons word1 word2))
               (skip-until-newline)
-              (return (print$ "Please stick to 1- and 2-word commands.\n" V)))))))))))
+              (return (print-and-return "Please stick to 1- and 2-word commands.\n" V)))))))))))
 
 (defmacro listen
   (call/cc
