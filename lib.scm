@@ -1,5 +1,5 @@
 ; -*- scheme-*-
-(define *compress-string* #f)
+(define *compress-string* #t)
 
 ;; utilities
 (defmacro KI (K I))

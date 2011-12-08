@@ -282,21 +282,6 @@
 (define (print-as-unl expr :optional (port (current-output-port)))
   (write-tree (lambda->unlambda (macroexpand unl-macros expr)) port))
 
-(define-macro (profiling expr)
-  `(dynamic-wind
-       profiler-start
-       (lambda () ,expr)
-       profiler-stop))
-
-(define (compile-profile expr :optional (port (current-output-port)))
-  (let* ((expr2 (time (macroexpand unl-macros expr)))
-         (expr3 (time (curried expr2)))
-         (expr4 (time (eliminate-lambda expr3)))
-         (expr5 (time (optimize-ski expr4)))
-         (expr6 (time (unlambdify expr5))))
-    (profiler-show)
-    (write-tree expr6 port)))
-
 (define (compile-to-string expr)
   (tree->string (lambda->unlambda (macroexpand unl-macros expr))))
 

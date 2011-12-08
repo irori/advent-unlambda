@@ -47,20 +47,13 @@
 (define (main args)
   (let-args (cdr args)
 	    ((outfile "o|outfile=s" "advent.unl")
-             (profile "p|profile")
-             (mexpand "m|macroexpand")
              (program-size "s|size")
              )
     (if program-size
 	(begin (print-program-table-sizes)
 	       (exit 0)))
-    (if mexpand
-        (begin (write (macroexpand unl-macros 'main))
-               (exit 0)))
     (call-with-output-file outfile
       (lambda (port)
 	(display "#!/usr/bin/env unlambda\n" port)
-        (if profile
-            (compile-profile 'main port)
-            (print-as-unl 'main port)))))
+        (print-as-unl 'main port))))
   0)
