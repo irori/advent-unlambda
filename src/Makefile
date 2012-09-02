@@ -3,3 +3,6 @@ advent.unl: *.scm
 
 test:
 	gosh test.scm
+
+clean:
+	rm -f *.unlo advent.unl
