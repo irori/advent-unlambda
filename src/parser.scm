@@ -473,5 +473,5 @@ unless you explicitly ask me to.")
 	   (q (string "\n** ") @ I)
 	   ((read-char=? #\y #\Y) skip y #\newline ret I)
 	   ((read-char=? #\n #\N) skip n #\newline ret V)
-	   (skip
-	    (print " Please answer Yes or No.\n")))))))))
+	   (skip V)
+	   (print " Please answer Yes or No.\n"))))))))
