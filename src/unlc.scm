@@ -76,8 +76,6 @@
 (define (eliminate-lambda x)
   (cond ((or (atom? x) (pass-through? x))
 	 x)
-	((eq? (car x) 'delay)
-	 x)
 	((eq? (car x) 'lambda)
 	 (eliminate-abstruction (caadr x) (caddr x)))
 	(else

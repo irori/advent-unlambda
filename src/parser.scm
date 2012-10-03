@@ -464,14 +464,14 @@ unless you explicitly ask me to.")
   (make-word action-type meaning str V))
 
 (defmacro (yes q y n)
-  (K (call/cc
-      (lambda (ret)
-        ((call/cc I)
-         (call/cc
-          (begin
-            (q (string "\n** ") @ I)
-            ((read-char=? #\y #\Y) y #\newline ret I)
-            ((read-char=? #\n #\N) n #\newline ret V)
-            skip-until-newline
-            (print " Please answer Yes or No.\n"))))))
-     skip-until-newline))
+  (call/cc
+   (lambda (ret)
+     ((call/cc I)
+      (call/cc
+       (let ((skip (delay (K I skip-until-newline))))
+	 (begin
+	   (q (string "\n** ") @ I)
+	   ((read-char=? #\y #\Y) skip y #\newline ret I)
+	   ((read-char=? #\n #\N) skip n #\newline ret V)
+	   (skip
+	    (print " Please answer Yes or No.\n")))))))))
