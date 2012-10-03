@@ -167,7 +167,7 @@
                    chars)
     (hash-table-put! memo '() (make-hash-table))
     (step 'hole -1 #f chars)
-    (do-fill #f result)))
+    (do-fill #f (car result))))
 
 ;; string constant. ((string "foo") x) prints "foo" and returns x
 (defsyntax (string s)
