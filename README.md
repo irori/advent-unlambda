@@ -17,7 +17,11 @@ You need an interpreter of Unlambda version 2. I recommend the
 c-refcnt interpreter included in the [Unlambda 2.0.0 distribution][Unlambda],
 or [the first one][Emil] written by Emil Jerabek.
 
+Or, you can play it on your web browser at inazz's
+[JavaScript Unlambda interperter][unlambda_js]!
+
  [Emil]: http://www.math.cas.cz/~jerabek/unlambda/unl.c
+ [unlambda_js]: http://inazz.jp/unlambda/
 
 How to Develop
 --------------
