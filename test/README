@@ -1,0 +1,10 @@
+!!! SPOILER WARNING !!!
+
+input-350pt.txt contains a sequence of commands that completes the game
+scoring 350 points (the maximum possible score). output-350pt.txt is the
+expected output of the game.
+
+These files can be used for regression testing -- the following command
+should give no output.
+
+$ unlambda ../advent.unl <input-350pt.txt |diff output-350pt.txt -

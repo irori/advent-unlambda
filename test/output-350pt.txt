@@ -1,0 +1,1144 @@
+Welcome to Adventure!!  Would you like instructions?
+** 
+You are standing at the end of a road before a small brick building.
+Around you is a forest.  A small stream flows out of the building and
+down a gully.
+* 
+You are inside a building, a well house for a large spring.
+There are some keys on the ground here.
+There is a shiny brass lamp nearby.
+There is food here.
+There is a bottle of water here.
+* OK.
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* 
+You are crawling over cobbles in a low passage.  There is a dim light
+at the east end of the passage.
+There is a small wicker cage discarded nearby.
+* OK.
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* OK.
+* Your lamp is now on.
+
+You are in a debris room filled with stuff washed in from the surface.
+A low wide passage with cobbles becomes plugged with mud and debris
+here, but an awkward canyon leads upward and west.  A note on the wall
+says "MAGIC WORD XYZZY".
+* 
+You are in an awkward sloping east/west canyon.
+* 
+You are in a splendid chamber thirty feet high.  The walls are frozen
+rivers of orange stone.  An awkward canyon and a good passage exit
+from east and west sides of the chamber.
+A cheerful little bird is sitting here singing.
+* OK.
+* OK.
+* OK.
+* 
+At your feet is a small pit breathing traces of white mist.  An east
+passage ends here except for a small crack leading on.
+Rough stone steps lead down the pit.
+* 
+You are at one end of a vast hall stretching forward out of sight to
+the west.  There are openings to either side.  Nearby, a wide stone
+staircase leads downward.  The hall is filled with wisps of white mist
+swaying to and fro almost as if alive.  A cold wind blows up the
+staircase.  There is a passage at the top of a dome behind you.
+Rough stone steps lead up the dome.
+* 
+This is a low room with a crude note on the wall.  The note says,
+"You won't get it up the steps".
+There is a large sparkling nugget of gold here!
+* OK.
+* 
+You're in Hall of Mists.
+* 
+You are on the east bank of a fissure slicing clear across the hall.
+The mist is quite thick here, and the fissure is too wide to jump.
+* A crystal bridge now spans the fissure.
+* 
+You are on the west side of the fissure in the Hall of Mists.
+A crystal bridge now spans the fissure.
+There are diamonds here!
+* OK.
+* 
+You are at the west end of the Hall of Mists.  A low wide crawl
+continues west and another goes north.  To the south is a little
+passage 6 feet off the floor.
+* 
+You are at the east end of a very long hall apparently without side
+chambers.  To the east a low wide crawl slants up.  To the north a
+round two-foot hole slants down.
+* 
+You are at a crossover of a high N/S passage and a low E/W one.
+* 
+You are in the west side chamber of the Hall of the Mountain King.
+A passage continues west and up here.
+There are many coins here!
+* OK.
+* 
+You are in the Hall of the Mountain King, with passages off in all
+directions.
+A huge green fierce snake bars the way!
+* The little bird attacks the green snake, and in an astounding flurry
+drives the snake away.
+* OK.
+* A little dwarf just walked around a corner, saw you, threw a little
+axe at you, cursed, and ran away.  (The axe missed.)
+
+You are in a secret canyon, which here runs E/W.  It crosses over a
+very tight canyon 15 feet below.  If you go down you may not be able
+to get back up.
+There is a little axe here.
+* OK.
+* 
+You are in a secret canyon that exits to the north and east.
+A huge green fierce dragon bars the way!
+The dragon is sprawled out on a Persian rug!!
+* With what?  Your bare hands?
+* Congratulations!  You have just vanquished a dragon with your bare
+hands! (Unbelievable, isn't it?)
+There is a threatening little dwarf in the room with you!
+
+You are in a secret canyon that exits to the north and east.
+The body of a huge green dead dragon is lying off to one side.
+There is a Persian rug spread out on the floor!
+* OK.
+* A little dwarf with a big knife blocks your way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You are in a secret canyon that exits to the north and east.
+The body of a huge green dead dragon is lying off to one side.
+* There are 2 threatening little dwarves in the room with you!
+
+You're in secret E/W canyon above tight canyon.
+* You killed a little dwarf.  The body vanishes in a cloud of greasy
+black smoke.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You're in secret E/W canyon above tight canyon.
+There is a little axe here.
+* OK.
+* You attack a little dwarf, but he dodges out of the way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You're in secret E/W canyon above tight canyon.
+There is a little axe here.
+* OK.
+* You killed a little dwarf.
+
+You're in secret E/W canyon above tight canyon.
+There is a little axe here.
+* OK.
+* 
+You're in Hall of Mt King.
+There is a small wicker cage discarded nearby.
+A cheerful little bird is sitting here singing.
+* 
+You are in the south side chamber.
+There is precious jewelry here!
+* You can't carry anything more.  You'll have to drop something first.
+* You are currently holding the following:
+ Brass lantern
+ Black rod
+ Dwarf's axe
+ Large gold nugget
+ Several diamonds
+ Rare coins
+ Persian rug
+* OK.
+* OK.
+* 
+You're in Hall of Mt King.
+There is a small wicker cage discarded nearby.
+A cheerful little bird is sitting here singing.
+* 
+You are in a low N/S passage at a hole in the floor.  The hole goes
+down to an E/W passage.
+There are bars of silver here!
+* 
+You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east.  There is a large "Y2" on
+a rock in the room's center.
+* 
+You're inside building.
+There are some keys on the ground here.
+There is food here.
+There is a bottle of water here.
+* Your lamp is now off.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+ Large gold nugget
+ Several diamonds
+ Precious jewelry
+ Rare coins
+ Persian rug
+* OK.
+* OK.
+* OK.
+* OK.
+* OK.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+A hollow voice says "PLUGH".
+* Your lamp is now on.
+
+You're at "Y2".
+* 
+You're in N/S passage.
+There are bars of silver here!
+* OK.
+* 
+You're at "Y2".
+* 
+You're inside building.
+There are some keys on the ground here.
+There is food here.
+There is a bottle of water here.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There is precious jewelry here!
+There are many coins here!
+There is a Persian rug spread out on the floor!
+* OK.
+* 
+You're at "Y2".
+* 
+You're inside building.
+There are some keys on the ground here.
+There is food here.
+There is a bottle of water here.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+There is a Persian rug spread out on the floor!
+* OK.
+* 
+You're at "Y2".
+A hollow voice says "PLUGH".
+* 
+You're in N/S passage.
+* 
+You're in Hall of Mt King.
+There is a small wicker cage discarded nearby.
+A cheerful little bird is sitting here singing.
+* 
+You are in a secret canyon, which here runs E/W.  It crosses over a
+very tight canyon 15 feet below.  If you go down you may not be able
+to get back up.
+* 
+You are at a wide place in a very tight N/S canyon.
+* 
+You are in a tall E/W canyon.  A low tight crawl goes 3 feet north and
+seems to open up.
+* 
+You are in a room whose walls resemble Swiss cheese.  Obvious passages
+go west, east, NE, and NW.  Part of the room is occupied by a large
+bedrock block.
+* 
+You are in the Soft Room.  The walls are covered with heavy curtains,
+the floor with a thick pile carpet.  Moss covers the ceiling.
+A small velvet pillow lies on the floor.
+* OK.
+* 
+You're in Swiss cheese room.
+* 
+You are at the east end of the Twopit Room.  The floor here is
+littered with thin rock slabs, which make it easy to descend the pits.
+There is a path here bypassing the pits to connect passages from east
+and west.  There are holes all over, but the only big one is on the
+wall directly over the west pit where you can't get to it.
+* 
+You are at the west end of the Twopit Room.  There is a large hole in
+the wall above the pit at this end of the room.
+* 
+You are at the bottom of the western pit in the Twopit Room.  There is
+a large hole in the wall about 25 feet above you.
+There is a tiny little plant in the pit, murmuring "Water, water, ..."
+* The plant spurts into furious growth for a few seconds.
+
+You're in west pit.
+There is a 12-foot-tall beanstalk stretching up out of the pit,
+bellowing "Water!!  Water!!"
+* 
+You're at west end of Twopit Room.
+The top of a 12-foot-tall beanstalk is poking out of the west pit.
+* 
+You are in a large low circular chamber whose floor is an immense slab
+fallen from the ceiling (Slab Room).  There once were large passages
+to the east and west, but they are now filled with boulders.  Low
+small passages go north and south, and the south one quickly bends
+east around the boulders.
+* There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You are in a secret N/S canyon above a large room.
+* You killed a little dwarf.
+
+You are in a secret N/S canyon above a large room.
+There is a little axe here.
+* OK.
+* 
+You are in a north/south canyon about 25 feet across.  The floor is
+covered by white mist seeping in from the north.  The walls extend
+upward for well over 100 feet.  Suspended from some unseen point far
+above you, an enormous two-sided mirror is hanging parallel to and
+midway between the canyon walls.  (The mirror is obviously provided
+for the use of the dwarves, who as you know are extremely vain.)
+A small window can be seen in either wall, some fifty feet up.
+* 
+You are at the edge of a large underground reservoir.  An opaque cloud
+of white mist fills the room and rises rapidly upward.  The lake is
+fed by a stream, which tumbles out of a hole in the wall about 10 feet
+overhead and splashes noisily into the water somewhere within the
+mist.  The only passage goes back toward the south.
+* Your bottle is now full of water.
+* 
+You're in mirror canyon.
+* 
+You are in a secret N/S canyon above a large room.
+* 
+You're in Slab Room.
+* 
+You're at west end of Twopit Room.
+The top of a 12-foot-tall beanstalk is poking out of the west pit.
+* 
+You're in west pit.
+There is a 12-foot-tall beanstalk stretching up out of the pit,
+bellowing "Water!!  Water!!"
+* The plant grows explosively, almost filling the bottom of the pit.
+
+You're in west pit.
+There is a gigantic beanstalk stretching all the way up to the hole.
+* 
+You're at west end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* 
+You're at east end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* 
+You are at the bottom of the eastern pit in the Twopit Room.  There is
+a small pool of oil in one corner of the pit.
+* Your bottle is now full of oil.
+* 
+You're at east end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* 
+You're at west end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* 
+You're in west pit.
+There is a gigantic beanstalk stretching all the way up to the hole.
+* 
+You clamber up the plant and scurry through the hole at the top.
+
+You are in a long, narrow corridor stretching out of sight to the
+west.  At the eastern end is a hole through which you can see a
+profusion of leaves.
+* 
+You are in the Giant Room.  The ceiling here is too high up for your
+lamp to show it.  Cavernous passages lead east, north, and south.  On
+the west wall is scrawled the inscription, "FEE FIE FOE FOO" [sic].
+There is a large nest here, full of golden eggs!
+* OK.
+* 
+You are at one end of an immense north/south passage.
+The way north is barred by a massive, rusty, iron door.
+* The oil has freed up the hinges so that the door will now open.
+* OK.
+* 
+You are in a magnificent cavern with a rushing stream, which cascades
+over a sparkling waterfall into a roaring whirlpool that disappears
+through a hole in the floor.  Passages exit to the south and west.
+There is a jewel-encrusted trident here!
+* OK.
+* 
+You are at the top of a steep incline above a large room.  You could
+climb down here, but you would not be able to climb up.  There is a
+passage leading back to the north.
+* 
+You are in a large low room.  Crawls lead north, SE, and SW.
+* 
+You are in a long winding corridor sloping out of sight in both
+directions.
+* 
+You are on one side of a large, deep chasm.  A heavy white mist rising
+up from below obscures all view of the far side.  A SW path leads away
+from the chasm into a winding corridor.
+A rickety wooden bridge extends across the chasm, vanishing into the
+mist.  A sign posted on the bridge reads, "STOP!  PAY TROLL!"
+A burly troll stands by the bridge and insists you throw him a
+treasure before you may cross.
+* The troll catches your treasure and scurries away out of sight.
+* 
+You're in sloping corridor.
+* 
+You are in a large low room.  Crawls lead north, SE, and SW.
+* Out from the shadows behind you pounces a bearded pirate!  "Har, har,"
+he chortles, "I'll just take all this booty and hide it away with me
+chest deep in the maze!"  He snatches your treasure and vanishes into
+the gloom.
+
+This is the Oriental Room.  Ancient oriental cave drawings cover the
+walls.  A gently sloping passage leads upward to the north, another
+passage leads SE, and a hands-and-knees crawl leads west.
+* 
+You are following a wide path around the outer edge of a large cavern.
+Far below, through a heavy white mist, strange splashing noises can be
+heard.  The mist rises up through a fissure in the ceiling.  The path
+exits to the south and west.
+* 
+You are in an alcove.  A small NW path seems to widen after a short
+distance.  An extremely tight tunnel leads east.  It looks like a very
+tight squeeze.  An eerie light can be seen at the other end.
+* You are currently holding the following:
+ Brass lantern
+ Velvet pillow
+ Dwarf's axe
+* OK.
+* OK.
+* OK.
+* 
+You're in a small chamber lit by an eerie green light.  An extremely
+narrow tunnel exits to the west.  A dark corridor leads NE.
+There is an emerald here the size of a plover's egg!
+* OK.
+* 
+You're in alcove.
+There is a lamp shining nearby.
+A small velvet pillow lies on the floor.
+There is a little axe here.
+* OK.
+* OK.
+* OK.
+*  Tell me to do something.
+* Sorry, but I am not allowed to give more detail.  I will repeat the
+long description of your location.
+
+You are in an alcove.  A small NW path seems to widen after a short
+distance.  An extremely tight tunnel leads east.  It looks like a very
+tight squeeze.  An eerie light can be seen at the other end.
+* 
+You're in misty cavern.
+* 
+You're in Oriental Room.
+* 
+You're in Swiss cheese room.
+* 
+You are in Bedquilt, a long east/west passage with holes everywhere.
+To explore at random select north, south, up, or down.
+* 
+You are at a complex junction.  A low hands-and-knees passage from the
+north joins a higher crawl from the east to make a walking passage
+going west.  There is also a large room above.  The air is damp here.
+* 
+You are in a large room full of dusty rocks.  There is a big hole in
+the floor.  There are cracks everywhere, and a passage leading east.
+* 
+You are in a dirty broken passage.  To the east is a crawl.  To the
+west is a large passage.  Above you is a hole to another passage.
+* 
+You're in N/S passage.
+* 
+You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east.  There is a large "Y2" on
+a rock in the room's center.
+* 
+You're inside building.
+There are some keys on the ground here.
+There is food here.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+There is a Persian rug spread out on the floor!
+* Your lamp is now off.
+* You are currently holding the following:
+ Brass lantern
+ Velvet pillow
+ Dwarf's axe
+ Egg-sized emerald
+* OK.
+* OK.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* Your lamp is now on.
+
+You're at "Y2".
+* 
+You're in N/S passage.
+* 
+You're in Hall of Mt King.
+There is a small wicker cage discarded nearby.
+A cheerful little bird is sitting here singing.
+* 
+You're in west side chamber.
+* 
+You are at a crossover of a high N/S passage and a low E/W one.
+* 
+You're at east end of long hall.
+* 
+You're at west end of Hall of Mists.
+* There is a threatening little dwarf in the room with you!
+
+You are in a maze of twisty little passages, all alike.
+* You attack a little dwarf, but he dodges out of the way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You are in a maze of twisty little passages, all alike.
+There is a little axe here.
+* OK.
+* You attack a little dwarf, but he dodges out of the way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You are in a maze of twisty little passages, all alike.
+There is a little axe here.
+* OK.
+* You attack a little dwarf, but he dodges out of the way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You are in a maze of twisty little passages, all alike.
+There is a little axe here.
+* OK.
+* You attack a little dwarf, but he dodges out of the way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You are in a maze of twisty little passages, all alike.
+There is a little axe here.
+* OK.
+* You killed a little dwarf.
+
+You are in a maze of twisty little passages, all alike.
+There is a little axe here.
+* OK.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are on the brink of a thirty-foot pit with a massive orange column
+down one wall.  You could climb down here but you could not get back
+up.  The maze continues at this level.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+Dead end.
+The pirate's treasure chest is here!
+There is a jewel-encrusted trident here!
+There is a delicate, precious, Ming vase here!
+* OK.
+* OK.
+* OK.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+ Treasure chest
+ Jeweled trident
+ Ming vase
+* Sorry, but I am not allowed to give more detail.  I will repeat the
+long description of your location.
+
+Dead end.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You're at brink of pit.
+* 
+You're in bird chamber.
+* 
+You are in an awkward sloping east/west canyon.
+* 
+You're in debris room.
+* 
+You are inside a building, a well house for a large spring.
+There are some keys on the ground here.
+A small velvet pillow lies on the floor.
+There is food here.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+There is an emerald here the size of a plover's egg!
+There is a Persian rug spread out on the floor!
+* Your lamp is now off.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+ Treasure chest
+ Jeweled trident
+ Ming vase
+* OK.
+* The vase is now resting, delicately, on a velvet pillow.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+ Jeweled trident
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* Your lamp is now on.
+
+You're at "Y2".
+* Your lamp is now off.
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* 
+You're inside building.
+There are some keys on the ground here.
+A small velvet pillow lies on the floor.
+There is food here.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+The pirate's treasure chest is here!
+There is a delicate, precious, Ming vase here!
+There is an emerald here the size of a plover's egg!
+There is a Persian rug spread out on the floor!
+* OK.
+* OK.
+* You are currently holding the following:
+ Set of keys
+ Brass lantern
+ Tasty food
+ Dwarf's axe
+ Jeweled trident
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* Your lamp is now on.
+
+You're at "Y2".
+* 
+You are in a low N/S passage at a hole in the floor.  The hole goes
+down to an E/W passage.
+* 
+You're in dirty passage.
+* 
+You're in dusty rock room.
+* 
+You're at complex junction.
+* 
+You are in an anteroom leading to a large passage to the east.  Small
+passages go west and up.  The remnants of recent digging are evident.
+A sign in midair here says "CAVE UNDER CONSTRUCTION BEYOND THIS POINT.
+PROCEED AT OWN RISK.  [WITT CONSTRUCTION COMPANY]"
+There are a few recent issues of "Spelunker Today" magazine here.
+* OK.
+* 
+You are at Witt's End.  Passages lead off in "all" directions.
+* OK.
+* You have crawled around in some little holes and wound up back in the
+main passage.
+
+You're at Witt's End.
+There are a few recent issues of "Spelunker Today" magazine here.
+* You have crawled around in some little holes and wound up back in the
+main passage.
+
+You're at Witt's End.
+There are a few recent issues of "Spelunker Today" magazine here.
+* 
+You're in anteroom.
+* 
+You're at complex junction.
+* 
+You're in a large room carved out of sedimentary rock.  The floor
+and walls are littered with bits of shells embedded in the stone.
+A shallow passage proceeds downward, and a somewhat steeper one
+leads up.  A low hands-and-knees passage enters from the south.
+There is an enormous clam here with its shell tightly closed.
+* A glistening pearl falls out of the clam and rolls away.  Goodness,
+this must really be an oyster.  (I never was very good at identifying
+bivalves.)  Whatever it is, it has now snapped shut again.
+* 
+You are in a long sloping corridor with ragged sharp walls.
+* 
+You are in a cul-de-sac about eight feet across.
+Off to one side lies a glistening pearl!
+* OK.
+* 
+You are in a long sloping corridor with ragged sharp walls.
+* 
+You're in Shell Room.
+There is an enormous oyster here with its shell tightly closed.
+* 
+You're at complex junction.
+* 
+You're in Bedquilt.
+* 
+You are in a large low room.  Crawls lead north, SE, and SW.
+* 
+You're in sloping corridor.
+* 
+You're on SW side of chasm.
+A rickety wooden bridge extends across the chasm, vanishing into the
+mist.  A sign posted on the bridge reads, "STOP!  PAY TROLL!"
+The troll is nowhere to be seen.
+* 
+You are on the far side of the chasm.  A NE path leads away from the
+chasm on this side.
+A rickety wooden bridge extends across the chasm, vanishing into the
+mist.  A sign posted on the bridge reads, "STOP!  PAY TROLL!"
+The troll is nowhere to be seen.
+* 
+You're in a long east/west corridor.  A faint rumbling noise can be
+heard in the distance.
+* 
+The path forks here.  The left fork leads northeast.  A dull rumbling
+seems to get louder in that direction.  The right fork leads southeast
+down a gentle slope.  The main corridor enters from the west.
+* 
+You are walking along a gently sloping north/south passage lined with
+oddly shaped limestone formations.
+* 
+You are standing at the entrance to a large, barren room.  A sign
+posted above the entrance reads:  "CAUTION!  BEAR IN ROOM!"
+* 
+You are inside a barren room.  The center of the room is completely
+empty except for some dust.  Marks in the dust lead away toward the
+far end of the room.  The only exit is the way you came in.
+There is a ferocious cave bear eying you from the far end of the room!
+The bear is locked to the wall with a golden chain!
+* The bear eagerly wolfs down your food, after which he seems to calm
+down considerably and even becomes rather friendly.
+* The chain is now unlocked.
+* OK.
+* OK.
+* You are currently holding the following:
+ Set of keys
+ Brass lantern
+ Dwarf's axe
+ Jeweled trident
+ Glistening pearl
+ Golden chain
+You are being followed by a very large, tame bear.
+* OK.
+* You are being followed by a very large, tame bear.
+
+You're in front of barren room.
+* There is no way to go in that direction.
+You are being followed by a very large, tame bear.
+
+You're in front of barren room.
+* You are being followed by a very large, tame bear.
+
+You're in limestone passage.
+* You are being followed by a very large, tame bear.
+
+You're at fork in path.
+* You are being followed by a very large, tame bear.
+
+The walls are quite warm here.  From the north can be heard a steady
+roar, so loud that the entire cave seems to be trembling.  Another
+passage leads south, and a low crawl goes east.
+* You are being followed by a very large, tame bear.
+
+You are in a small chamber filled with large boulders.  The walls are
+very warm, causing the air in the room to be almost stifling from the
+heat.  The only exit is a crawl heading west, through which a low
+rumbling noise is coming.
+There are rare spices here!
+* OK.
+* You are being followed by a very large, tame bear.
+
+You're at junction with warm walls.
+* You are being followed by a very large, tame bear.
+
+You're at fork in path.
+* You are being followed by a very large, tame bear.
+
+You're in corridor.
+* You are being followed by a very large, tame bear.
+
+You're on NE side of chasm.
+A rickety wooden bridge extends across the chasm, vanishing into the
+mist.  A sign posted on the bridge reads, "STOP!  PAY TROLL!"
+The troll is nowhere to be seen.
+* The troll steps out from beneath the bridge and blocks your way.
+You are being followed by a very large, tame bear.
+
+You're on NE side of chasm.
+A rickety wooden bridge extends across the chasm, vanishing into the
+mist.  A sign posted on the bridge reads, "STOP!  PAY TROLL!"
+A burly troll stands by the bridge and insists you throw him a
+treasure before you may cross.
+* The bear lumbers toward the troll, who lets out a startled shriek and
+scurries away.  The bear soon gives up the pursuit and wanders back.
+* 
+You're on SW side of chasm.
+A rickety wooden bridge extends across the chasm, vanishing into the
+mist.  A sign posted on the bridge reads, "STOP!  PAY TROLL!"
+The troll is nowhere to be seen.
+* 
+You're in sloping corridor.
+* 
+You are in a large low room.  Crawls lead north, SE, and SW.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+ Jeweled trident
+ Glistening pearl
+ Rare spices
+ Golden chain
+* 
+You're in Oriental Room.
+* There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You're in Swiss cheese room.
+* There is a threatening little dwarf in the room with you!
+
+You're at east end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* You attack a little dwarf, but he dodges out of the way.
+There is a threatening little dwarf in the room with you!
+One sharp nasty knife is thrown at you --- it misses!
+
+You're at east end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+There is a little axe here.
+* OK.
+* You killed a little dwarf.
+
+You are at the east end of the Twopit Room.  The floor here is
+littered with thin rock slabs, which make it easy to descend the pits.
+There is a path here bypassing the pits to connect passages from east
+and west.  There are holes all over, but the only big one is on the
+wall directly over the west pit where you can't get to it.
+There is a huge beanstalk growing out of the west pit up to the hole.
+There is a little axe here.
+* OK.
+* 
+You are at the west end of the Twopit Room.  There is a large hole in
+the wall above the pit at this end of the room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* 
+You are at the bottom of the western pit in the Twopit Room.  There is
+a large hole in the wall about 25 feet above you.
+There is a gigantic beanstalk stretching all the way up to the hole.
+* 
+You clamber up the plant and scurry through the hole at the top.
+
+You're in narrow corridor.
+* 
+You're in Giant Room.
+* OK.
+* OK.
+* OK.
+* There is a large nest here, full of golden eggs!
+* OK.
+* 
+You're in narrow corridor.
+* 
+You're in west pit.
+There is a gigantic beanstalk stretching all the way up to the hole.
+* 
+You're at west end of Twopit Room.
+There is a huge beanstalk growing out of the west pit up to the hole.
+* 
+You're in Slab Room.
+* 
+You are in a secret N/S canyon above a large room.
+* 
+You are in a secret canyon that exits to the north and east.
+The body of a huge green dead dragon is lying off to one side.
+* 
+You're in secret E/W canyon above tight canyon.
+* 
+You are in the Hall of the Mountain King, with passages off in all
+directions.
+There is a small wicker cage discarded nearby.
+A cheerful little bird is sitting here singing.
+* 
+You're in N/S passage.
+* 
+You're at "Y2".
+* 
+You're inside building.
+A small velvet pillow lies on the floor.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+The pirate's treasure chest is here!
+There is a delicate, precious, Ming vase here!
+There is an emerald here the size of a plover's egg!
+There is a Persian rug spread out on the floor!
+* Your lamp is now off.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+ Golden eggs
+ Jeweled trident
+ Glistening pearl
+ Rare spices
+ Golden chain
+* OK.
+* OK.
+* OK.
+* OK.
+* OK.
+* If you were to quit now, you would score 260
+out of a possible 350.
+Do you indeed wish to quit now?
+** OK.
+* You are currently holding the following:
+ Brass lantern
+ Dwarf's axe
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* Your lamp is now on.
+
+You are in a large room, with a passage to the south, a passage to the
+west, and a wall of broken rock to the east.  There is a large "Y2" on
+a rock in the room's center.
+* 
+You're in Plover Room.
+* 
+You're in the Dark-Room.  A corridor leading south is the only exit.
+A massive stone tablet embedded in the wall reads:
+"CONGRATULATIONS ON BRINGING LIGHT INTO THE DARK-ROOM!"
+There is a platinum pyramid here, 8 inches on a side!
+* OK.
+* 
+You're in Plover Room.
+* 
+You're at "Y2".
+* 
+You're inside building.
+A small velvet pillow lies on the floor.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+The pirate's treasure chest is here!
+There is a large nest here, full of golden eggs!
+There is a jewel-encrusted trident here!
+There is a delicate, precious, Ming vase here!
+There is an emerald here the size of a plover's egg!
+Off to one side lies a glistening pearl!
+There is a Persian rug spread out on the floor!
+There are rare spices here!
+There is a golden chain lying in a heap on the floor!
+* Your lamp is now off.
+* OK.
+* Sorry, but I am not allowed to give more detail.  I will repeat the
+long description of your location.
+
+You are inside a building, a well house for a large spring.
+A small velvet pillow lies on the floor.
+There is a large sparkling nugget of gold here!
+There are diamonds here!
+There are bars of silver here!
+There is precious jewelry here!
+There are many coins here!
+The pirate's treasure chest is here!
+There is a large nest here, full of golden eggs!
+There is a jewel-encrusted trident here!
+There is a delicate, precious, Ming vase here!
+There is an emerald here the size of a plover's egg!
+There is a platinum pyramid here, 8 inches on a side!
+Off to one side lies a glistening pearl!
+There is a Persian rug spread out on the floor!
+There are rare spices here!
+There is a golden chain lying in a heap on the floor!
+* If you were to quit now, you would score 276
+out of a possible 350.
+Do you indeed wish to quit now?
+** OK.
+* 
+It is now pitch dark.  If you proceed you will most likely fall into a pit.
+* Your lamp is now on.
+
+You're at "Y2".
+* 
+You're at a low window overlooking a huge pit, which extends up out of
+sight.  A floor is indistinctly visible over 50 feet below.  Traces of
+white mist cover the floor of the pit, becoming thicker to the right.
+Marks in the dust around the window would seem to indicate that
+someone has been here recently.  Directly across the pit from you and
+25 feet away there is a similar window looking into a lighted room.
+A shadowy figure can be seen there peering back at you.
+The shadowy figure seems to be trying to attract your attention.
+* 
+You're at "Y2".
+* 
+You're in N/S passage.
+* There is no way to go in that direction.
+
+You're in N/S passage.
+* 
+You're in dirty passage.
+* 
+You're in dusty rock room.
+* 
+You're at complex junction.
+* 
+You're in Bedquilt.
+* You have crawled around in some little holes and wound up back in the
+main passage.
+
+You're in Bedquilt.
+* You have crawled around in some little holes and wound up back in the
+main passage.
+
+You're in Bedquilt.
+* 
+You are in a secret canyon at a junction of three canyons, bearing
+north, south, and SE.  The north one is as tall as the other two
+combined.
+* 
+You're at a low window overlooking a huge pit, which extends up out of
+sight.  A floor is indistinctly visible over 50 feet below.  Traces of
+white mist cover the floor of the pit, becoming thicker to the left.
+Marks in the dust around the window would seem to indicate that
+someone has been here recently.  Directly across the pit from you and
+25 feet away there is a similar window looking into a lighted room.
+A shadowy figure can be seen there peering back at you.
+The shadowy figure seems to be trying to attract your attention.
+* There is no way to go in that direction.
+
+You're at window on pit.
+The shadowy figure seems to be trying to attract your attention.
+* A sepulchral voice, reverberating through the cave, says, "Cave
+closing soon.  All adventurers exit immediately through main office."
+
+You're at junction of three secret canyons.
+* 
+You are in a secret N/S canyon above a sizable passage.
+* 
+A large stalactite extends from the roof and almost reaches the floor
+below.  You could climb down it, and jump from it to the floor, but
+having done so you would be unable to reach it to climb back up.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* There is no way to go in that direction.
+
+You are in a maze of twisty little passages, all alike.
+* There is no way to go in that direction.
+
+You are in a maze of twisty little passages, all alike.
+* 
+Dead end.
+* There is no way to go in that direction.
+
+Dead end.
+* Sorry, but I no longer seem to remember how you got here.
+
+Dead end.
+* There is no way to go in that direction.
+
+Dead end.
+* There is no way to go in that direction.
+
+Dead end.
+* There is no way to go in that direction.
+
+Dead end.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* 
+You are in a maze of twisty little passages, all alike.
+* The sepulchral voice intones, "The cave is now closed."  As the echoes
+fade, there is a blinding flash of light (and a small puff of orange
+smoke). . . .    Then your eyes refocus; you look around and find...
+
+You are at the northeast end of an immense room, even larger than the
+Giant Room.  It appears to be a repository for the "Adventure"
+program.  Massive torches far overhead bathe the room with smoky
+yellow light.  Scattered about you can be seen a pile of bottles (all
+of them empty), a nursery of young beanstalks murmuring quietly, a bed
+of oysters, a bundle of black rods with rusty stars on their ends, and
+a collection of brass lanterns.  Off to one side a great many dwarves
+are sleeping on the floor, snoring loudly.  A sign nearby reads:  "DO
+NOT DISTURB THE DWARVES!"  An immense mirror is hanging against one
+wall, and stretches to the other end of the room, where various other
+sundry objects can be glimpsed dimly in the distance.
+* If you were to quit now, you would score 311
+out of a possible 350.
+Do you indeed wish to quit now?
+** OK.
+* 
+You are at the southwest end of the repository.  To one side is a pit
+full of fierce green snakes.  On the other side is a row of small
+wicker cages, each of which contains a little sulking bird.  In one
+corner is a bundle of black rods with rusty marks on their ends.
+A large number of velvet pillows are scattered about on the floor.
+A vast mirror stretches off to the northeast.  At your feet is a
+large steel grate, next to which is a sign that reads, "TREASURE
+VAULT.  KEYS IN MAIN OFFICE."
+The grate is locked.
+* OK.
+* 
+You're at NE end.
+* OK.
+* 
+You're at SW end.
+The grate is locked.
+* There is a loud explosion, and a twenty-foot hole appears in the far
+wall, burying the dwarves in the rubble.  You march through the hole
+and find yourself in the main office, where a cheering band of
+friendly elves carry the conquering adventurer off into the sunset.
+You scored 350 points out of a possible 350, using 356 turns.
+All of Adventuredom gives tribute to you, Adventure Grandmaster!
+To achieve the next higher rating would be a neat trick!
+Congratulations!!

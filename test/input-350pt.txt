@@ -1,0 +1,362 @@
+no
+enter
+get lamp
+xyzzy
+e
+get cage
+w
+get rod
+on
+w
+w
+drop rod
+get bird
+get rod
+w
+d
+s
+get gold
+back
+w
+wave rod
+w
+get diamonds
+w
+w
+n
+e
+get coins
+e
+drop bird
+drop cage
+sw
+get axe
+w
+attack
+yes
+get rug
+e
+e
+throw axe
+get axe
+throw axe
+get axe
+throw axe
+get axe
+e
+s
+get jewel
+i
+drop rod
+get jewel
+n
+n
+n
+plugh
+off
+i
+drop gold
+drop diamonds
+drop jewel
+drop coins
+drop rug
+i
+plugh
+on
+s
+get silver
+n
+plugh
+drop silver
+plugh
+plugh
+get bottle
+plugh
+s
+s
+sw
+d
+n
+n
+e
+get pillow
+w
+w
+w
+d
+water plant
+back
+w
+up
+throw axe
+get axe
+n
+n
+fill
+back
+s
+d
+s
+d
+water plant
+back
+e
+d
+fill
+back
+w
+d
+climb
+w
+get eggs
+n
+oil door
+drop bottle
+n
+get trident
+w
+d
+sw
+up
+throw eggs
+back
+d
+se
+n
+w
+i
+drop lamp
+drop pillow
+drop axe
+e
+get emerald
+back
+get lamp
+get pillow
+get axe
+
+l
+nw
+s
+se
+ne
+e
+up
+e
+up
+n
+plugh
+off
+i
+drop pillow
+drop emerald
+i
+plugh
+on
+s
+s
+w
+w
+w
+e
+s
+throw axe
+get axe
+throw axe
+get axe
+throw axe
+get axe
+throw axe
+get axe
+throw axe
+get axe
+e
+s
+s
+s
+n
+e
+e
+nw
+get trident
+get vase
+get chest
+i
+l
+back
+n
+d
+e
+e
+xyzzy
+off
+i
+drop chest
+drop vase
+i
+plugh
+on
+off
+plugh
+get keys
+get food
+i
+plugh
+on
+s
+d
+w
+d
+e
+get magazine
+e
+drop magazine
+n
+n
+n
+up
+n
+open clam
+d
+d
+get pearl
+up
+up
+s
+w
+n
+sw
+up
+over
+ne
+e
+se
+s
+e
+feed bear
+open chain
+get chain
+get bear
+i
+drop keys
+w
+n
+w
+n
+ne
+e
+get spices
+w
+s
+w
+w
+over
+drop bear
+over
+sw
+d
+i
+se
+se
+w
+throw axe
+get axe
+throw axe
+get axe
+w
+d
+climb
+w
+fee
+fie
+foe
+foo
+get eggs
+s
+e
+up
+w
+up
+s
+e
+e
+n
+n
+plugh
+off
+i
+drop eggs
+drop trident
+drop pearl
+drop spices
+drop chain
+score
+no
+i
+plugh
+on
+plover
+ne
+get pyramid
+back
+plover
+plugh
+off
+drop pyramid
+l
+score
+no
+plugh
+on
+w
+back
+s
+e
+d
+w
+d
+w
+n
+n
+n
+n
+s
+w
+s
+s
+d
+w
+e
+e
+e
+s
+e
+s
+e
+e
+s
+n
+back
+e
+n
+s
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+w
+score
+no
+sw
+get rod
+ne
+drop rod
+back
+blast
