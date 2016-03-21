@@ -1,4 +1,13 @@
-; -*- scheme-*-
+;; Library macros & syntaxes
+
+(define-module lib
+  (use unlc)
+  (use util.match)
+  (use srfi-1)
+  (export churchnum)
+  )
+(select-module lib)
+
 (define *compress-string* #t)
 
 ;; utilities
@@ -170,18 +179,20 @@
     (do-fill #f (car result))))
 
 ;; string constant. ((string "foo") x) prints "foo" and returns x
-(defsyntax (string s)
-  (if *compress-string*
-      `(delay ,(compress-string s))
-      (let* ((len (string-length s))
-             (lastc (string-ref s (- len 1)))
-             (cs (string->list (substring s 0 (- len 1)))))
-        `(delay ,(fold list lastc cs)))))
+(add-unl-syntax! 'string
+  (lambda (s)
+    (if *compress-string*
+	`(delay ,(compress-string s))
+	(let* ((len (string-length s))
+	       (lastc (string-ref s (- len 1)))
+	       (cs (string->list (substring s 0 (- len 1)))))
+	  `(delay ,(fold list lastc cs))))))
 
-(defsyntax (print-and-return s e)
-  (if *compress-string*
-      (list (compress-string s) e)
-      (fold list e (string->list s))))
+(add-unl-syntax! 'print-and-return
+  (lambda (s e)
+    (if *compress-string*
+	(list (compress-string s) e)
+	(fold list e (string->list s)))))
 
 (defmacro (print s)
   (print-and-return s I))
@@ -255,7 +266,7 @@
 	    ((snoc _tl) (f _hd)))))))
 
 ;; Church number
-(require "./churchnum.tbl")
+(load "./churchnum.tbl")
 
 (define (churchnum n)
   (if (< n 0)

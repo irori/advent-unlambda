@@ -1,6 +1,10 @@
-#!/usr/bin/env gosh
-(use file.util)
-(require "enum.scm")
+(define-module parser
+  (use gauche.collection)
+  (use unlc)
+  (use lib)
+  (use enum)
+  )
+(select-module parser)
 
 (define parser-trie (make-tree-map char=? char<?))
 

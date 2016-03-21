@@ -1,10 +1,15 @@
-#!/usr/local/bin/gosh
-(use srfi-1)
-(use file.util)
-(use util.match)
-(use text.tree)
-(use gauche.collection)
-(use gauche.parseopt)
+;; Unlambda code generator
+
+(define-module unlc
+  (use srfi-1)
+  (use file.util)
+  (use util.match)
+  (use text.tree)
+  (export defmacro defrecmacro add-unl-macro!
+	  defsyntax add-unl-syntax!
+	  print-as-unl compile-to-string compile-to-file)
+  )
+(select-module unlc)
 
 (define-macro (atom? x)
   `(not (pair? ,x)))
@@ -254,6 +259,15 @@
         (acons name
                (macroexpand-application args body unl-macros)
                unl-macros)))
+
+(define (add-unl-syntax! name f)
+  (if (assq name unl-macros)
+      (error "redefined " name))
+  (set!
+   unl-macros
+   (acons name
+          (lambda (args) (macroexpand unl-macros (apply f args)))
+          unl-macros)))
 
 (define-macro (defmacro name-args body)
   (let ((name (if (pair? name-args) (car name-args) name-args))

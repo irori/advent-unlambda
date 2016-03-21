@@ -1,6 +1,9 @@
-#!/usr/local/bin/gosh -I.
-(require "unlc.scm")
-(require "lib.scm")
+(define-module rand
+  (use unlc)
+  (use lib)
+  (use variable)
+  )
+(select-module rand)
 
 ; K is bit 1 and (K I) is bit 0
 (defmacro (xor a b)
@@ -37,9 +40,10 @@
             (else (car l))))))
 
 ; Returns true n% of the time.
-(defsyntax (pct n world)
-  (let ((nn (round (/ (* n 64) 100))))
-    `(< (random c5 (rand ,world)) ,(churchnum nn))))
+(add-unl-syntax! 'pct
+  (lambda (n world)
+    (let ((nn (round (/ (* n 64) 100))))
+      `(< (random c5 (rand ,world)) ,(churchnum nn)))))
 
 (defsyntax (let-rand var n body)
   `(let ((,var (pct ,n world))

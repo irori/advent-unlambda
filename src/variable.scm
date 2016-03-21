@@ -1,3 +1,10 @@
+(define-module variable
+  (use unlc)
+  (use lib)
+  (export memory-map make-initial-map)
+  )
+(select-module variable)
+
 (define (extend-memory-map tree lst)
   (cond ((null? lst) '())
         ((pair? (car tree))

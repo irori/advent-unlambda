@@ -1,6 +1,13 @@
-#!/usr/bin/env gosh
-(use gauche.record)
-(require "enum.scm")
+(define-module room
+  (use gauche.sequence)
+  (use gauche.record)
+  (use unlc)
+  (use lib)
+  (use enum)
+  (use rand)
+  (use object)
+  )
+(select-module room)
 
 (defmacro max-loc didit)
 (defmacro min-in-cave inside)

@@ -1,3 +1,9 @@
+(define-module dwarf
+  (use unlc)
+  (use lib)
+  )
+(select-module dwarf)
+
 (defmacro (make-dwarf loc oloc seen)
   (lambda (f) (f loc oloc seen)))
 (defmacro (dloc dwarf) (dwarf (lambda (x _ _) x)))

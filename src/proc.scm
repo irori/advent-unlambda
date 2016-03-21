@@ -1,5 +1,16 @@
-#!/usr/bin/env gosh
-(require "enum.scm")
+(define-module proc
+  (use unlc)
+  (use lib)
+  (use enum)
+  (use parser)
+  (use variable)
+  (use dwarf)
+  (use room)
+  (export program-table)
+  )
+(select-module proc)
+
+(define *debug-print-dwarf* #f)
 
 (defmacro goto cons)
 (defmacro ($goto label)
@@ -379,8 +390,9 @@ It is based on the CWEB version written by Don Knuth."))
         ($set-knife-loc (K limbo))
         world)))
 
-(defsyntax (prop-after-close obj)
-  `(if (nth ,obj ,(make-boolean-list '(BOTTLE SNAKE BIRD))) c1 c0))
+(add-unl-syntax! 'prop-after-close
+  (lambda (obj)
+    `(if (nth ,obj ,(make-boolean-list '(BOTTLE SNAKE BIRD))) c1 c0)))
 
 ; 182 Make special adjustments before looking at new input
 (defmacro adjust-props-after-closed
@@ -664,9 +676,10 @@ It is based on the CWEB version written by Don Knuth."))
            (else
             ($goto report-default)))))
 
-(defsyntax (eat-special? x)
-  `(nth ,x ,(make-boolean-list
-             '(BIRD SNAKE CLAM OYSTER DWARF DRAGON TROLL BEAR))))
+(add-unl-syntax! 'eat-special?
+  (lambda (x)
+    `(nth ,x ,(make-boolean-list
+	       '(BIRD SNAKE CLAM OYSTER DWARF DRAGON TROLL BEAR)))))
 
 ; 99 case WAVE:
 (define-proc 'transitive-wave
@@ -1552,12 +1565,13 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
             loop tl))))
       (#\newline I))))
 
-(defsyntax (debug-print-dwarf world e)
-  (if *debug-print-dwarf*
-      `(begin
-         (print-dwarf-locations ,world)
-         ,e)
-      e))
+(add-unl-syntax! 'debug-print-dwarf
+  (lambda (world e)
+    (if *debug-print-dwarf*
+	`(begin
+	   (print-dwarf-locations ,world)
+	   ,e)
+	e)))
 
 ; 164 Move dwarves and the pirate
 (define-proc 'move-dwarves-and-the-pirate

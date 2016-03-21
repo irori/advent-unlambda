@@ -1,21 +1,20 @@
 #!/usr/local/bin/gosh
 (define *debug-print-label* #f)
-(define *debug-print-dwarf* #f)
 
 (add-load-path ".")
 
 (use gauche.parseopt)
 
-(require "unlc.scm")
-(require "lib.scm")
-(require "enum.scm")
-(require "parser.scm")
-(require "variable.scm")
-(require "rand.scm")
-(require "object.scm")
-(require "room.scm")
-(require "dwarf.scm")
-(require "proc.scm")
+(use unlc)
+(use lib)
+(use enum)
+(use parser)
+(use variable)
+(use rand)
+(use object)
+(use room)
+(use dwarf)
+(use proc)
 
 ;; initial environment
 (add-unl-macro!

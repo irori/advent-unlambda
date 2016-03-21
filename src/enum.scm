@@ -1,6 +1,11 @@
-(use gauche.sequence)
-(require "unlc.scm")
-(require "lib.scm")
+(define-module enum
+  (use gauche.sequence)
+  (use srfi-1)
+  (use unlc)
+  (use lib)
+  (export define-enum lookup-enum make-boolean-list make-lookup-table compress-list)
+  )
+(select-module enum)
 
 (define enum-table (make-hash-table))
 

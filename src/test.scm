@@ -1,5 +1,5 @@
 (use gauche.process)
-(require "./advent.scm")
+(load "./advent.scm")
 
 (define (read-process-output process input)
   (display input (process-input process))

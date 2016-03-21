@@ -1,4 +1,11 @@
-(require "enum.scm")
+(define-module object
+  (use gauche.collection)
+  (use srfi-1)
+  (use unlc)
+  (use lib)
+  (use enum)
+  )
+(select-module object)
 
 (define min-treasure (lookup-enum 'GOLD))
 (defmacro min-treasure GOLD)
