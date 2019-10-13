@@ -1,8 +1,8 @@
 (define-module enum
   (use gauche.sequence)
   (use srfi-1)
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (export define-enum lookup-enum make-boolean-list make-lookup-table compress-list)
   )
 (select-module enum)

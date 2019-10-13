@@ -1,6 +1,6 @@
 (define-module variable
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (export memory-map make-initial-map)
   )
 (select-module variable)

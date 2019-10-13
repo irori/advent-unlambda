@@ -1,8 +1,8 @@
 (define-module object
   (use gauche.collection)
   (use srfi-1)
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (use enum)
   )
 (select-module object)

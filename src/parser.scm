@@ -1,7 +1,7 @@
 (define-module parser
   (use gauche.collection)
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (use enum)
   )
 (select-module parser)

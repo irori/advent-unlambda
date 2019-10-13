@@ -5,8 +5,9 @@
 
 (use gauche.parseopt)
 
-(use unlc)
-(use lib)
+(use unlambda.compiler)
+(use unlambda.prelude)
+(set! *compress-string* #t)
 (use enum)
 (use parser)
 (use variable)

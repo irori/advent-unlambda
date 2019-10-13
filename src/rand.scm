@@ -1,6 +1,6 @@
 (define-module rand
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (use variable)
   )
 (select-module rand)

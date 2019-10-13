@@ -1,6 +1,6 @@
 (define-module proc
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (use enum)
   (use parser)
   (use variable)

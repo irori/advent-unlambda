@@ -1,8 +1,8 @@
 (define-module room
   (use gauche.sequence)
   (use gauche.record)
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   (use enum)
   (use rand)
   (use object)

@@ -1,6 +1,6 @@
 (define-module dwarf
-  (use unlc)
-  (use lib)
+  (use unlambda.compiler)
+  (use unlambda.prelude)
   )
 (select-module dwarf)
 
