@@ -2,6 +2,7 @@
   (use gauche.collection)
   (use unlambda.compiler)
   (use unlambda.prelude)
+  (use util)
   (use enum)
   )
 (select-module parser)

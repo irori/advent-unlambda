@@ -3,6 +3,7 @@
   (use gauche.record)
   (use unlambda.compiler)
   (use unlambda.prelude)
+  (use util)
   (use enum)
   (use rand)
   (use object)

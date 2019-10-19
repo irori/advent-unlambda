@@ -8,6 +8,7 @@
 (use unlambda.compiler)
 (use unlambda.prelude)
 (set! *compress-string* #t)
+(use util)
 (use enum)
 (use parser)
 (use variable)
@@ -52,8 +53,8 @@
     (if program-size
 	(begin (print-program-table-sizes)
 	       (exit 0)))
-    (call-with-output-file outfile
-      (lambda (port)
-	(display "#!/usr/bin/env unlambda\n" port)
-        (print-as-unl 'main port))))
+    (with-output-to-file outfile
+      (lambda ()
+	(display "#!/usr/bin/env unlambda\n")
+        (print-as-unl 'main))))
   0)

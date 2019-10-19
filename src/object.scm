@@ -3,6 +3,7 @@
   (use srfi-1)
   (use unlambda.compiler)
   (use unlambda.prelude)
+  (use util)
   (use enum)
   )
 (select-module object)
