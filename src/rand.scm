@@ -36,7 +36,7 @@
     (let loop ((n n)
                (l lst))
       (cond ((null? l) (loop n lst))
-            ((cons1? n) (loop (1-of-1 n) (cdr l)))
+            ((cons1? n) (loop (cdr1 n) (cdr l)))
             (else (car l))))))
 
 ; Returns true n% of the time.
