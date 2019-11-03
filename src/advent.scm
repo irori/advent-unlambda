@@ -25,12 +25,16 @@
   "world.unlo"
   (make-initial-map memory-map)))
 
-(defsyntax (debug-print-label label e)
-  (if *debug-print-label*
-      `(begin
-         ((nth ,label label-names) #\newline I)
-         ,e)
-      e))
+(add-unl-syntax! 'debug-print-label
+  (lambda (form rename compare)
+    (let ((label (cadr form))
+	  (e (caddr form)))
+      (if *debug-print-label*
+	  (quasirename rename
+	    `(begin
+              ((nth ,label label-names) #\newline I)
+              ,e))
+	  e))))
 
 ;; trampoline driver
 (defrecmacro (trampoline label world)

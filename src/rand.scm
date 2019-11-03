@@ -41,11 +41,19 @@
 
 ; Returns true n% of the time.
 (add-unl-syntax! 'pct
-  (lambda (n world)
-    (let ((nn (round (/ (* n 64) 100))))
-      `(< (random c5 (rand ,world)) ,(churchnum nn)))))
+  (lambda (form rename compare)
+    (let* ((n (cadr form))
+	   (world (caddr form))
+	   (nn (round (/ (* n 64) 100))))
+      (quasirename rename
+        `(< (random c5 (rand ,world)) ,(churchnum nn))))))
 
-(defsyntax (let-rand var n body)
-  `(let ((,var (pct ,n world))
-         (world (set-rand world (c6 cdr))))
-     ,body))
+(add-unl-syntax! 'let-rand
+  (lambda (form rename compare)
+    (let ((var (cadr form))
+	  (n (caddr form))
+	  (body (cadddr form)))
+      (quasirename rename
+        `(let ((,var (pct ,n ,'world))
+	       (,'world (set-rand ,'world (c6 cdr))))
+	   ,body)))))

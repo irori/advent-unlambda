@@ -5,6 +5,8 @@
   )
 (select-module variable)
 
+(set! *unl-rename-exemptions* '(world))
+
 (define (extend-memory-map tree lst)
   (cond ((null? lst) '())
         ((pair? (car tree))
@@ -110,9 +112,13 @@
 ;               :
 ;           (world mn))
 ;      body)
-(defsyntax (let-world modifiers body)
-  `(let* ,(map (lambda (m) (list 'world m)) modifiers)
-     ,body))
+(add-unl-syntax! 'let-world
+  (lambda (form rename compare)
+    (let ((modifiers (cadr form))
+	  (body (caddr form)))
+      (quasirename rename
+        `(let* ,(map (lambda (m) (list 'world m)) modifiers)
+	  ,body)))))
 
 (defmacro (set-nth world setter n modifier)
   (setter world (update-nth modifier n)))

@@ -391,8 +391,10 @@ It is based on the CWEB version written by Don Knuth."))
         world)))
 
 (add-unl-syntax! 'prop-after-close
-  (lambda (obj)
-    `(if (nth ,obj ,(make-boolean-list '(BOTTLE SNAKE BIRD))) c1 c0)))
+  (lambda (form rename compare)
+    (let ((obj (cadr form)))
+      (quasirename rename
+        `(if (nth ,obj ,(make-boolean-list '(BOTTLE SNAKE BIRD))) c1 c0)))))
 
 ; 182 Make special adjustments before looking at new input
 (defmacro adjust-props-after-closed
@@ -677,9 +679,11 @@ It is based on the CWEB version written by Don Knuth."))
             ($goto report-default)))))
 
 (add-unl-syntax! 'eat-special?
-  (lambda (x)
-    `(nth ,x ,(make-boolean-list
-	       '(BIRD SNAKE CLAM OYSTER DWARF DRAGON TROLL BEAR)))))
+  (lambda (form rename compare)
+    (let ((x (cadr form)))
+      (quasirename rename
+        `(nth ,x ,(make-boolean-list
+		   '(BIRD SNAKE CLAM OYSTER DWARF DRAGON TROLL BEAR)))))))
 
 ; 99 case WAVE:
 (define-proc 'transitive-wave
@@ -1566,12 +1570,15 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
       (#\newline I))))
 
 (add-unl-syntax! 'debug-print-dwarf
-  (lambda (world e)
-    (if *debug-print-dwarf*
-	`(begin
-	   (print-dwarf-locations ,world)
-	   ,e)
-	e)))
+  (lambda (form rename compare)
+    (let ((world (cadr form))
+	  (e (caddr form)))
+      (if *debug-print-dwarf*
+	  (quasirename rename
+	    `(begin
+	      (print-dwarf-locations ,world)
+	      ,e))
+	  e))))
 
 ; 164 Move dwarves and the pirate
 (define-proc 'move-dwarves-and-the-pirate
