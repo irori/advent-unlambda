@@ -1317,10 +1317,7 @@ It would be advisable to use the exit."
   (make-inst 'w2pit 0 'force)
   )
 
-(add-unl-macro!
- 'room-desc '()
- (compile-to-file
-  "roomdesc.unlo"
+(unl-module 'room-desc
   (compress-list (map (lambda (desc)
 			(cond ((not desc) 'V)
 			      ((cdr desc) `(icons (string ,(car desc))
@@ -1328,7 +1325,7 @@ It would be advisable to use the exit."
 			      ((car desc) `(lambda (x)
 					     (string ,(car desc))))
 			      (else 'V)))
-		      room-desc))))
+		      room-desc)))
 
 (define (compile-insts insts)
   (if insts
@@ -1384,11 +1381,8 @@ It would be advisable to use the exit."
              `(lambda (world)
                 (if ,condition ,result V)))))))
 
-(add-unl-macro!
- 'travels '()
- (compile-to-file
-  "travels.unlo"
-  (compress-list (map compile-insts travels))))
+(unl-module 'travels
+  (compress-list (map compile-insts travels)))
 
 (define (make-back-table here insts)
   (let ((lst '())
@@ -1429,16 +1423,13 @@ It would be advisable to use the exit."
          (print (cons index (compile-back-table (make-back-table index insts))))))
    travels))
 
-(add-unl-macro!
- 'back-table '()
- (compile-to-file
-  "backtbl.unlo"
+(unl-module 'back-table
   (compress-list (map-with-index
 		  (lambda (i insts)
 		    (if (or (not insts) (>= i min-forced-loc))
 			'V
 			(compile-back-table (make-back-table i insts))))
-		  travels))))
+		  travels)))
 
 (define (make-dwarf-moves here insts)
   (if (or (not insts) (< here min-lower-loc) (>= here min-forced-loc))
@@ -1465,14 +1456,11 @@ It would be advisable to use the exit."
          (print (cons index (make-dwarf-moves index insts)))))
    travels))
 
-(add-unl-macro!
- 'dwarf-moves '()
- (compile-to-file
-  "dmoves.unlo"
+(unl-module 'dwarf-moves
   (compress-list (map-with-index
                   (lambda (i insts)
                     (cons 'list (make-dwarf-moves i insts)))
-                  travels))))
+                  travels)))
 
 (add-unl-macro!
  'lighted-rooms '()

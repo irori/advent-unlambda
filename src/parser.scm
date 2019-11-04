@@ -388,12 +388,9 @@ unless you explicitly ask me to.")
 (define (generate-parser)
   (generate-parser-rec parser-trie))
 
-(add-unl-macro!
- 'generated-parser '()
- (compile-to-file
-  "parser.unlo"
+(unl-module 'generated-parser
   `(lambda (cont)
-     (,(generate-parser) (reader-core cont)))))
+     (,(generate-parser) (reader-core cont))))
 
 ;;; parser macros
 

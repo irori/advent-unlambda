@@ -20,7 +20,7 @@
 	  `((call/cc
 	     (lambda (ret)
 	       (let ((world (set-return initial-world (K ret)))
-		     (proc ,(cdar (drop program-table (lookup-enum proc-id)))))
+		     (proc ,(force (cdar (drop program-table (lookup-enum proc-id))))))
 		 (let-world ,setups
 		    (proc world)))))
 	    (lambda (cont world)
@@ -4358,6 +4358,7 @@ walls of the room.\n"
         "Congratulations!!\n"))
 
 (define (main args)
+  (compile-modules)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each
      (lambda (testcase)

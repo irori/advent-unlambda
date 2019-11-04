@@ -19,11 +19,8 @@
 (use proc)
 
 ;; initial environment
-(add-unl-macro!
- 'initial-world '()
- (compile-to-file
-  "world.unlo"
-  (make-initial-map memory-map)))
+(unl-module 'initial-world
+	    (make-initial-map memory-map))
 
 (add-unl-syntax! 'debug-print-label
   (lambda (form rename compare)
@@ -54,9 +51,11 @@
 	    ((outfile "o|outfile=s" "advent.unl")
              (program-size "s|size")
              )
+    (compile-modules)
     (if program-size
 	(begin (print-program-table-sizes)
 	       (exit 0)))
+    (compile-program-table)
     (with-output-to-file outfile
       (lambda ()
 	(display "#!/usr/bin/env unlambda\n")

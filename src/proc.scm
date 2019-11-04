@@ -6,7 +6,7 @@
   (use variable)
   (use dwarf)
   (use room)
-  (export program-table)
+  (export program-table compile-program-table print-program-table-sizes)
   )
 (select-module proc)
 
@@ -2114,24 +2114,25 @@ friendly elves carry the conquering adventurer off into the sunset.\n"))
              V))))))
 
 (define program-table
-  (map (lambda (x) (cons (car x) (compile-to-string (cdr x))))
+  (map (lambda (x) (cons (car x) (delay (compile-to-string (cdr x)))))
        (reverse procedures)))
 
 (define (print-program-table-sizes)
-  (let* ((lst (map (lambda (x) (cons (car x) (string-length (cdr x))))
+  (let* ((lst (map (lambda (x) (cons (car x) (string-length (force (cdr x)))))
 		   program-table))
 	 (lst (sort-by lst cdr)))
     (for-each (lambda (p)
 		(print (cdr p) "\t" (car p)))
 	      lst)))
 
-(add-unl-macro!
- 'program-table '() `(list ,@(map cdr program-table)))
+(define (compile-program-table)
+  (add-unl-macro!
+   'program-table '() `(list ,@(map (lambda (x) (force (cdr x))) program-table))))
 
 (add-unl-macro!
  'label-names '()
  (cons 'list
        (map (lambda (x) `(string ,(symbol->string (car x))))
-            program-table)))
+	    program-table)))
 
 (defmacro initial-label offer0)

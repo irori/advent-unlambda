@@ -216,15 +216,12 @@ the oyster.")
  (compress-list (map (lambda (x) (if x (list 'string x) 'V))
 		     object-name)))
 
-(add-unl-macro!
- 'initial-note '()
- (compile-to-file
-  "note.unlo"
+(unl-module 'initial-note
   (compress-list (map (lambda (lst)
                         (cons 'list
                               (map (lambda (x) (if x (list 'string x) 'V))
                                    lst)))
-		      object-note))))
+		      object-note)))
 
 (defmacro (toting? object world)
   (not (churchnum? (nth object (place world)))))
