@@ -7,7 +7,7 @@
 
 (use unlambda.compiler)
 (use unlambda.prelude)
-(set! *compress-string* #t)
+(use string)
 (use util)
 (use enum)
 (use parser)
