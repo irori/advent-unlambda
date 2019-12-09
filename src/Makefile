@@ -5,4 +5,4 @@ test:
 	gosh test.scm
 
 clean:
-	rm -f *.unlo advent.unl
+	rm -f string-cache advent.unl
