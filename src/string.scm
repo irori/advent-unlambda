@@ -1,4 +1,5 @@
 (define-library (string)
+  (export save-string-cache load-string-cache)
   (import (scheme base))
   (import (scheme comparator))
   (import (scheme cxr))
@@ -6,9 +7,21 @@
   (import (unlambda compiler))
   (import (chibi match))
   (import (srfi 1))
+  (import (gauche base))
+  (import (file util))
   (import (only (unlambda er-macro) quasirename))
 
   (begin
+
+(define cache (make-hash-table (make-default-comparator)))
+
+(define (save-string-cache fname)
+  (sexp-list->file fname (hash-table->alist cache)))
+
+(define (load-string-cache fname)
+  (let ((alist (file->sexp-list fname :if-does-not-exist #f)))
+    (if alist
+	(set! cache (alist->hash-table alist (make-default-comparator))))))
 
 ;; TODO: rename result
 (define (compress-string str)
@@ -98,13 +111,20 @@
 	   (map (lambda (ee) (do-fill x ee)) e)
 	   e))))
 
-  (let ((chars (string->list str)))
-    (pair-for-each (lambda (lst)
-		     (hash-table-set! memo lst (make-hash-table (make-default-comparator))))
-                   chars)
-    (hash-table-set! memo '() (make-hash-table (make-default-comparator)))
-    (step 'hole -1 #f chars)
-    (do-fill #f (car result))))
+  (define (compress str)
+    (let ((chars (string->list str)))
+      (pair-for-each (lambda (lst)
+		       (hash-table-set! memo lst (make-hash-table (make-default-comparator))))
+                     chars)
+      (hash-table-set! memo '() (make-hash-table (make-default-comparator)))
+      (step 'hole -1 #f chars)
+      (do-fill #f (car result))))
+
+  (let ((cached (hash-table-ref/default cache str #f)))
+    (or cached
+	(let ((compressed (compress str)))
+	  (hash-table-set! cache str compressed)
+	  compressed))))
 
 ;; Replaces the string macro in prelude.
 (add-unl-syntax! 'string

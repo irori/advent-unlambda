@@ -51,6 +51,7 @@
 	    ((outfile "o|outfile=s" "advent.unl")
              (program-size "s|size")
              )
+    (load-string-cache "string-cache")
     (compile-modules)
     (if program-size
 	(begin (print-program-table-sizes)
@@ -60,4 +61,5 @@
       (lambda ()
 	(display "#!/usr/bin/env unlambda\n")
         (print-as-unl 'main))))
+    (save-string-cache "string-cache")
   0)

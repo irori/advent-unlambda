@@ -4358,6 +4358,7 @@ walls of the room.\n"
         "Congratulations!!\n"))
 
 (define (main args)
+  (load-string-cache "string-cache")
   (compile-modules)
   (let ((testname (if (null? (cdr args)) #f (string->symbol (cadr args)))))
     (for-each
@@ -4365,4 +4366,5 @@ walls of the room.\n"
        (if (or (not testname) (eq? testname (car testcase)))
            (apply test-proc testcase)))
      (reverse tests)))
+  (save-string-cache "string-cache")
   0)
